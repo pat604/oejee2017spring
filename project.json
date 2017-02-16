@@ -1,0 +1,27 @@
+{
+	"period": "2016-2017/1",
+	"projects": [
+		{
+			"name": "sample",
+			"description": "Sample project",
+			"platform": "weblogic",
+			"members": [
+				{
+					"name": "Bedők Dávid",
+					"neptun": "Q59R7A",
+					"github": "davidbedok"
+				}
+			],
+			"interfaces": [
+				{
+					"tpye": "restful",
+					"goal": "handle crud operations"
+				},
+				{
+					"type": "jms",
+					"goal": "bulk upload data"
+				}
+			]
+		}
+	]
+}
