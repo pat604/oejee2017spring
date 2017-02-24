@@ -23,5 +23,36 @@
 				}
 			]
 		}
+		
+		{
+			"name": "instruments",
+			"description": "Instrument shop for guitars",
+			"platform": "jboss",
+			"members": [
+				{
+					"name": "Mitró Tamás",
+					"neptun": "LDMZR0",
+					"github": "blacktom73"
+				}
+			],
+			"interfaces": [
+				{
+					"tpye": "rest",
+					"goal": "handle crud operations"
+				},
+				{
+					"tpye": "web",
+					"goal": "web gui for the users"
+				},
+				{
+					"tpye": "jmx",
+					"goal": "remote management of application"
+				},
+				{
+					"type": "jms",
+					"goal": "bulk upload data"
+				}
+			]
+		}
 	]
 }
