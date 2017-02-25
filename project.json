@@ -70,6 +70,7 @@
 			]
 		}
 
+		{
 			"name": "donation",
 			"description": "restaurants' food wastage reduction through donation",
 			"platform": "",
