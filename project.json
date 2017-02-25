@@ -84,5 +84,21 @@
 			"interfaces": [		
 			]
 		}
+
+		{
+			"name": "pizza",
+			"description": "online pizza ordering manager",
+			"platform": "",
+			"members": [
+				{
+					"name": "Skomilski Péter",
+					"neptun": "I54TT9",
+					"github": "SkomPeti"
+				}
+			],
+			"interfaces": [
+				
+			]
+		}
 	]
 }
