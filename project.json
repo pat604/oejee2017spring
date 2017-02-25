@@ -54,5 +54,20 @@
 				}
 			]
 		}
+		{
+			"name": "pharmacy",
+			"description": "pharmacy orders",
+			"platform": "",
+			"members": [
+				{
+					"name": "Kádár Vivien",
+					"neptun": "H2NL36",
+					"github": "vivy93"
+				}
+			],
+			"interfaces": [
+				
+			]
+		}
 	]
 }
