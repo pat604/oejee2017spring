@@ -69,5 +69,19 @@
 				
 			]
 		}
+
+			"name": "donation",
+			"description": "restaurants' food wastage reduction through donation",
+			"platform": "",
+			"members": [
+				{
+					"name": "Tóth Bianka Patrícia",
+					"neptun": "A6R2C2",
+					"github": "pat604"
+				}
+			],
+			"interfaces": [		
+			]
+		}
 	]
 }
