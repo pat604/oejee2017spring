@@ -118,6 +118,28 @@
 					"goal": "handle crud operations"
 				}
 			]
+		},
+		{
+			"name": "Angler registry",
+			"description": "Management registry for angler associations",
+			"platform": "jboss",
+			"members": [
+				{
+					"name": "Gyigor Péter",
+					"neptun": "EZW6K1",
+					"github": "petergyigor"
+				}
+			],
+			"interfaces": [
+				{
+					"type": "restful",
+					"goal": "Create reports for users, and CRUD operations on diary for anglers"
+				},
+				{
+					"type": "web",
+					"goal": "Web interface for managers to do CRUD operations on all data"
+				}
+			]
 		}
 	]
 }
