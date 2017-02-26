@@ -100,5 +100,24 @@
 				
 			]
 		}
+
+                {
+			"name": "stratagem",
+			"description": "online project workflow management system",
+			"platform": "jboss",
+			"members": [
+				{
+					"name": "Kovács Tamás Pál",
+					"neptun": "O7QUE5",
+					"github": "kovta"
+				}
+			],
+			"interfaces": [
+				{
+					"tpye": "restful",
+					"goal": "handle crud operations"
+				}
+			]
+		}
 	]
 }
