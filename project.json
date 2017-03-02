@@ -25,8 +25,8 @@
 		}
 		
 		{
-			"name": "instruments",
-			"description": "Instrument exhibition for guitar players",
+			"name": "showyourguitar",
+			"description": "Guitar exhibition of guitar players",
 			"platform": "jboss",
 			"members": [
 				{
