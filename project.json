@@ -192,6 +192,32 @@
 					"goal": "Web interface for users"
 				}
 			]
+		},
+		{
+			"name": "fwrules",
+			"description": "Firewall rule management",
+			"platform": "jboss",
+			"members": [
+				{
+					"name": "Owczarek Artur",
+					"neptun": "MMR3KL",
+					"github": "aowczarek"
+				}
+			],
+			"interfaces": [
+				{
+					"tpye": "restful",
+					"goal": "handle crud operations"
+				},
+				{
+					"type": "jms",
+					"goal": "bulk upload data"
+				},
+				{
+					"type": "web",
+					"goal": "Web interface for users"
+				}
+			]
 		}
 	]
 }
