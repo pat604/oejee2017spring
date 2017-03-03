@@ -116,6 +116,10 @@
 				{
 					"tpye": "restful",
 					"goal": "handle crud operations"
+				},
+				{
+					"tpye": "web",
+					"goal": "Interface for all user based operations"
 				}
 			]
 		},
