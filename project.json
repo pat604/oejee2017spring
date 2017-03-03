@@ -22,7 +22,7 @@
 					"goal": "bulk upload data"
 				}
 			]
-		}
+		},
 		
 		{
 			"name": "showyourguitar",
@@ -53,7 +53,7 @@
 					"goal": "bulk upload data"
 				}
 			]
-		}
+		},
 		{
 			"name": "pharmacy",
 			"description": "pharmacy orders",
@@ -68,7 +68,7 @@
 			"interfaces": [
 				
 			]
-		}
+		},
 
 		{
 			"name": "donation",
@@ -83,7 +83,7 @@
 			],
 			"interfaces": [		
 			]
-		}
+		},
 
 		{
 			"name": "pizza",
@@ -99,7 +99,7 @@
 			"interfaces": [
 				
 			]
-		}
+		},
 
                 {
 			"name": "stratagem",
@@ -161,6 +161,32 @@
 					"tpye": "rest",
 					"goal": "handle crud operations"
 				},
+				{
+					"type": "web",
+					"goal": "Web interface for users"
+				}
+			]
+		},
+		{
+			"name": "Ticket handling",
+			"description": "Ticket handling system for a software support team",
+			"platform": "jboss",
+			"members": [
+				{
+					"name": "Vékony Péter",
+					"neptun": "B9E1HC",
+					"github": "vekonydoktor"
+				}
+			],
+			"interfaces": [
+				{
+					"type": "restful",
+					"goal": "handle crud operations"
+				},
+				{
+					"type": "jms",
+					"goal": "bulk upload data"
+				}
 				{
 					"type": "web",
 					"goal": "Web interface for users"
