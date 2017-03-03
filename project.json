@@ -144,6 +144,28 @@
 					"goal": "Web interface for managers to do CRUD operations on all data"
 				}
 			]
+		},
+		{
+			"name": "Football score tracker",
+			"description": "Live tracker for football scores and standings.",
+			"platform": "jboss",
+			"members": [
+				{
+					"name": "Varga Balázs",
+					"neptun": "LHO9M3",
+					"github": "balzska"
+				}
+			],
+			"interfaces": [
+				{
+					"tpye": "rest",
+					"goal": "handle crud operations"
+				},
+				{
+					"type": "web",
+					"goal": "Web interface for users"
+				}
+			]
 		}
 	]
 }
