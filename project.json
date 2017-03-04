@@ -218,6 +218,21 @@
 					"goal": "Web interface for users"
 				}
 			]
+		},
+		{
+			"name": "lasertag",
+			"description": "",
+			"platform": "",
+			"members": [
+				{
+					"name": "Bogdányi Judit",
+					"neptun": "N78KI1",
+					"github": "bogdanyijudit"
+				}
+			],
+			"interfaces": [
+				
+			]
 		}
 	]
 }
