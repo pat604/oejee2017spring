@@ -1,0 +1,3 @@
+include 'smm-ejbservice'
+include 'smm-weblayer'
+

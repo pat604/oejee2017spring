@@ -1,0 +1,16 @@
+group 'skipthemiddleman'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'idea'
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+jar { archiveName 'smm-ejbservice.jar' } //ez az alapértelmezett, ezért elhagyható lenne
+
+dependencies {
+    compile group: 'javax', name:'javaee-api', version:'6.0' //minden java ee6-os interfacet felrak a classpathra
+    testCompile 'junit:junit:4.10'
+}

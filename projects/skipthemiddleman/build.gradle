@@ -1,0 +1,15 @@
+group 'skipthemiddleman'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'idea'
+apply plugin: 'ear'
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    deploy project('smm-ejbservice')
+    deploy project(path: 'smm-weblayer', configuration: 'archives')
+}
