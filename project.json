@@ -233,6 +233,21 @@
 			"interfaces": [
 				
 			]
+		},
+		{
+			"name": "Todo",
+			"description": "Creating and managing todos",
+			"platform": "jboss",
+			"members": [
+				{
+					"name": "Gelencsér Lajos",
+					"neptun": "ILRLZW",
+					"github": "laligelencser"
+				}
+			],
+			"interfaces": [
+				
+			]
 		}
 	]
 }
