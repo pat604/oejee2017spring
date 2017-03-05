@@ -248,6 +248,21 @@
 			"interfaces": [
 				
 			]
+		},
+		{
+			"name": "CD management",
+			"description": "Managing CDs",
+			"platform": "jboss",
+			"members": [
+				{
+					"name": "Daróczi Kristóf",
+					"neptun": "I2YHF0",
+					"github": "kristof-daroczi"
+				}
+			],
+			"interfaces": [
+				
+			]
 		}
 	]
 }
