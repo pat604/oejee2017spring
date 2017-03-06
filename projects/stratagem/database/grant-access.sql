@@ -1,0 +1,1 @@
+GRANT SELECT, INSERT, UPDATE, DELETE ON projects, tasks TO stratagem_std_user;
