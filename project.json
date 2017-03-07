@@ -71,8 +71,8 @@
 		},
 
 		{
-			"name": "donation",
-			"description": "restaurants' food wastage reduction through donation",
+			"name": "dog school",
+			"description": "managing the infrastructure of a company operating dog schools",
 			"platform": "",
 			"members": [
 				{
@@ -82,6 +82,14 @@
 				}
 			],
 			"interfaces": [		
+				{
+					"type": "web",
+					"goal": "web gui for the employees"
+				},
+				{
+					"type": "rest api",
+					"goal": "to access database"
+				}
 			]
 		},
 
