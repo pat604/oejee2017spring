@@ -1,0 +1,489 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.6.2
+-- Dumped by pg_dump version 9.6.2
+
+-- Started on 2017-03-08 10:24:35
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 1 (class 3079 OID 12387)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2211 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- TOC entry 197 (class 1259 OID 16481)
+-- Name: answers_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE answers_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE answers_seq OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 198 (class 1259 OID 16483)
+-- Name: answers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE answers (
+    id integer DEFAULT nextval('answers_seq'::regclass) NOT NULL,
+    questionid integer NOT NULL,
+    answertext text,
+    testinstance_id integer,
+    correct boolean
+);
+
+
+ALTER TABLE answers OWNER TO postgres;
+
+--
+-- TOC entry 185 (class 1259 OID 16394)
+-- Name: possibleanswers_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE possibleanswers_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE possibleanswers_seq OWNER TO postgres;
+
+--
+-- TOC entry 186 (class 1259 OID 16396)
+-- Name: possibleanswers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE possibleanswers (
+    id integer DEFAULT nextval('possibleanswers_seq'::regclass) NOT NULL,
+    questionid integer NOT NULL,
+    testinstanceid integer NOT NULL,
+    optiontext text
+);
+
+
+ALTER TABLE possibleanswers OWNER TO postgres;
+
+--
+-- TOC entry 187 (class 1259 OID 16404)
+-- Name: questions_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE questions_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE questions_seq OWNER TO postgres;
+
+--
+-- TOC entry 188 (class 1259 OID 16406)
+-- Name: questions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE questions (
+    id integer DEFAULT nextval('questions_seq'::regclass) NOT NULL,
+    questiontext text,
+    type integer NOT NULL,
+    test_id integer
+);
+
+
+ALTER TABLE questions OWNER TO postgres;
+
+--
+-- TOC entry 195 (class 1259 OID 16443)
+-- Name: students_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE students_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE students_seq OWNER TO postgres;
+
+--
+-- TOC entry 196 (class 1259 OID 16445)
+-- Name: students; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE students (
+    id integer DEFAULT nextval('students_seq'::regclass) NOT NULL
+);
+
+
+ALTER TABLE students OWNER TO postgres;
+
+--
+-- TOC entry 191 (class 1259 OID 16425)
+-- Name: teachers_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE teachers_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE teachers_seq OWNER TO postgres;
+
+--
+-- TOC entry 192 (class 1259 OID 16427)
+-- Name: teachers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE teachers (
+    id integer DEFAULT nextval('teachers_seq'::regclass) NOT NULL
+);
+
+
+ALTER TABLE teachers OWNER TO postgres;
+
+--
+-- TOC entry 193 (class 1259 OID 16433)
+-- Name: testinstances_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE testinstances_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE testinstances_seq OWNER TO postgres;
+
+--
+-- TOC entry 194 (class 1259 OID 16435)
+-- Name: testinstances; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE testinstances (
+    id integer DEFAULT nextval('testinstances_seq'::regclass) NOT NULL,
+    testid integer NOT NULL,
+    studentid integer NOT NULL,
+    starttime timestamp(3) without time zone NOT NULL
+);
+
+
+ALTER TABLE testinstances OWNER TO postgres;
+
+--
+-- TOC entry 189 (class 1259 OID 16416)
+-- Name: tests_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE tests_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tests_seq OWNER TO postgres;
+
+--
+-- TOC entry 190 (class 1259 OID 16418)
+-- Name: tests; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE tests (
+    id integer DEFAULT nextval('tests_seq'::regclass) NOT NULL,
+    teacherid integer NOT NULL,
+    duration integer NOT NULL,
+    name text
+);
+
+
+ALTER TABLE tests OWNER TO postgres;
+
+--
+-- TOC entry 199 (class 1259 OID 16503)
+-- Name: users_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE users_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE users_seq OWNER TO postgres;
+
+--
+-- TOC entry 200 (class 1259 OID 16505)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE users (
+    id integer DEFAULT nextval('users_seq'::regclass) NOT NULL,
+    name text,
+    permission integer NOT NULL
+);
+
+
+ALTER TABLE users OWNER TO postgres;
+
+--
+-- TOC entry 2077 (class 2606 OID 16491)
+-- Name: answers pk_answers; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY answers
+    ADD CONSTRAINT pk_answers PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2059 (class 2606 OID 16401)
+-- Name: possibleanswers pk_possibleanswers; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY possibleanswers
+    ADD CONSTRAINT pk_possibleanswers PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2062 (class 2606 OID 16414)
+-- Name: questions pk_questions; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY questions
+    ADD CONSTRAINT pk_questions PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2074 (class 2606 OID 16450)
+-- Name: students pk_students; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students
+    ADD CONSTRAINT pk_students PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2068 (class 2606 OID 16432)
+-- Name: teachers pk_teachers; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY teachers
+    ADD CONSTRAINT pk_teachers PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2072 (class 2606 OID 16440)
+-- Name: testinstances pk_testinstances; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY testinstances
+    ADD CONSTRAINT pk_testinstances PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2066 (class 2606 OID 16423)
+-- Name: tests pk_tests; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tests
+    ADD CONSTRAINT pk_tests PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2079 (class 2606 OID 16513)
+-- Name: users pk_users; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT pk_users PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2063 (class 1259 OID 16517)
+-- Name: ix_name; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_name ON tests USING btree (name);
+
+
+--
+-- TOC entry 2056 (class 1259 OID 16402)
+-- Name: ix_questionid; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_questionid ON possibleanswers USING btree (questionid);
+
+
+--
+-- TOC entry 2069 (class 1259 OID 16442)
+-- Name: ix_studentid; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_studentid ON testinstances USING btree (studentid);
+
+
+--
+-- TOC entry 2064 (class 1259 OID 16424)
+-- Name: ix_teacherid; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_teacherid ON tests USING btree (teacherid);
+
+
+--
+-- TOC entry 2060 (class 1259 OID 16415)
+-- Name: ix_test_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_test_id ON questions USING btree (test_id);
+
+
+--
+-- TOC entry 2070 (class 1259 OID 16441)
+-- Name: ix_testid; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_testid ON testinstances USING btree (testid);
+
+
+--
+-- TOC entry 2075 (class 1259 OID 16492)
+-- Name: ix_testinstance_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_testinstance_id ON answers USING btree (testinstance_id);
+
+
+--
+-- TOC entry 2057 (class 1259 OID 16403)
+-- Name: ix_testinstanceid; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_testinstanceid ON possibleanswers USING btree (testinstanceid);
+
+
+--
+-- TOC entry 2087 (class 2606 OID 16498)
+-- Name: answers fk_answers_questions_questionid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY answers
+    ADD CONSTRAINT fk_answers_questions_questionid FOREIGN KEY (questionid) REFERENCES questions(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2086 (class 2606 OID 16493)
+-- Name: answers fk_answers_testinstances_testinstance_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY answers
+    ADD CONSTRAINT fk_answers_testinstances_testinstance_id FOREIGN KEY (testinstance_id) REFERENCES testinstances(id);
+
+
+--
+-- TOC entry 2080 (class 2606 OID 16451)
+-- Name: possibleanswers fk_possibleanswers_questions_questionid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY possibleanswers
+    ADD CONSTRAINT fk_possibleanswers_questions_questionid FOREIGN KEY (questionid) REFERENCES questions(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2081 (class 2606 OID 16456)
+-- Name: possibleanswers fk_possibleanswers_testinstances_testinstanceid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY possibleanswers
+    ADD CONSTRAINT fk_possibleanswers_testinstances_testinstanceid FOREIGN KEY (testinstanceid) REFERENCES testinstances(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2082 (class 2606 OID 16461)
+-- Name: questions fk_questions_tests_test_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY questions
+    ADD CONSTRAINT fk_questions_tests_test_id FOREIGN KEY (test_id) REFERENCES tests(id);
+
+
+--
+-- TOC entry 2084 (class 2606 OID 16471)
+-- Name: testinstances fk_testinstances_students_studentid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY testinstances
+    ADD CONSTRAINT fk_testinstances_students_studentid FOREIGN KEY (studentid) REFERENCES students(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2085 (class 2606 OID 16476)
+-- Name: testinstances fk_testinstances_tests_testid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY testinstances
+    ADD CONSTRAINT fk_testinstances_tests_testid FOREIGN KEY (testid) REFERENCES tests(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2083 (class 2606 OID 16466)
+-- Name: tests fk_tests_teachers_teacherid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tests
+    ADD CONSTRAINT fk_tests_teachers_teacherid FOREIGN KEY (teacherid) REFERENCES teachers(id) ON DELETE CASCADE;
+
+
+-- Completed on 2017-03-08 10:24:40
+
+--
+-- PostgreSQL database dump complete
+--
+
