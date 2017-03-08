@@ -1,8 +1,18 @@
+CREATE TABLE project_statuses (
+	status_id INTEGER NOT NULL,
+	status_name CHARACTER VARYING(100) NOT NULL,
+	CONSTRAINT PK_PROJECT_ID PRIMARY KEY (project_id)
+);
+
+ALTER TABLE project_statuses OWNER TO postgres;
+
 CREATE TABLE projects (
 	project_id INTEGER NOT NULL,
 	project_name CHARACTER VARYING(100) NOT NULL,
-	project_status CHARACTER VARYING(100) NOT NULL,
-	CONSTRAINT PK_PROJECT_ID PRIMARY KEY (project_id)
+	project_status_id INTEGER NOT NULL,
+	CONSTRAINT PK_PROJECT_ID PRIMARY KEY (project_id),
+	CONSTRAINT FK_PROJECT_STATUS_ID FOREIGN KEY (project_status_id)
+	  REFERENCES project_statuses (status_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 ALTER TABLE projects OWNER TO postgres;
