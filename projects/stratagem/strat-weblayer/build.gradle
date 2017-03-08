@@ -1,0 +1,8 @@
+apply plugin: 'war'
+
+war { archiveName 'strat-weblayer.war' }
+
+dependencies {
+	providedCompile project(':strat-ejbservice')
+	providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: servletapiVersion
+}

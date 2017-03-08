@@ -1,0 +1,5 @@
+jar { archiveName 'strat-ejbservice.jar' }
+
+dependencies {
+	compile project(':strat-persistence')
+}

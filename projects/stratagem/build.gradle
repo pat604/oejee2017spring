@@ -1,0 +1,33 @@
+apply plugin: 'eclipse'
+apply plugin: 'ear'
+
+ext {
+	log4jVersion = '1.2.17'
+	jeeVersion = '6.0'  
+	servletapiVersion = '3.0.1'
+	hibernateVersion = '4.3.10.Final'
+	jstlVersion = '1.2'
+}
+
+allprojects {
+	repositories { 
+		mavenCentral() 
+		maven { url "http://repository.pentaho.org/artifactory/repo" }
+	}
+}
+
+subprojects {
+	apply plugin: 'eclipse'
+	apply plugin: 'java'
+
+	dependencies {
+		compile group: 'log4j', name: 'log4j', version: log4jVersion
+		compile group: 'javax', name: 'javaee-api', version: jeeVersion
+	}
+}
+
+dependencies {
+	deploy project('strat-ejbservice')
+	deploy project('strat-persistence')
+	deploy project(path: 'strat-weblayer', configuration: 'archives')
+}

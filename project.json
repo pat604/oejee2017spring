@@ -71,8 +71,8 @@
 		},
 
 		{
-			"name": "donation",
-			"description": "restaurants' food wastage reduction through donation",
+			"name": "dog school",
+			"description": "managing the infrastructure of a company operating dog schools",
 			"platform": "",
 			"members": [
 				{
@@ -82,6 +82,14 @@
 				}
 			],
 			"interfaces": [		
+				{
+					"type": "web",
+					"goal": "web gui for the employees"
+				},
+				{
+					"type": "rest api",
+					"goal": "to access database"
+				}
 			]
 		},
 
@@ -186,7 +194,7 @@
 				{
 					"type": "jms",
 					"goal": "bulk upload data"
-				}
+				},
 				{
 					"type": "web",
 					"goal": "Web interface for users"
@@ -247,6 +255,47 @@
 			],
 			"interfaces": [
 				
+			]
+		},
+		{
+			"name": "CD management",
+			"description": "Managing CDs",
+			"platform": "jboss",
+			"members": [
+				{
+					"name": "Daróczi Kristóf",
+					"neptun": "I2YHF0",
+					"github": "kristof-daroczi"
+				}
+			],
+			"interfaces": [
+				
+			]
+		},
+		{
+			"name": "OEMax",
+			"description": "Online examination system",
+			"platform": "jboss",
+			"members": [
+				{
+					"name": "Kecskés Ádám",
+					"neptun": "XISEOY",
+					"github": "madkind"
+				}
+			],
+			"interfaces": [
+				{
+					"type": "web",
+					"goal": "Web interface for users"
+				},
+				{
+					"tpye": "soap ws",
+					"goal": "upload exams"
+				},
+				{
+					"type": "jms",
+					"goal": "bulk upload data (users)"
+				}
 			]
 		}
 	]
