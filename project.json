@@ -194,7 +194,7 @@
 				{
 					"type": "jms",
 					"goal": "bulk upload data"
-				}
+				},
 				{
 					"type": "web",
 					"goal": "Web interface for users"
@@ -270,6 +270,32 @@
 			],
 			"interfaces": [
 				
+			]
+		},
+		{
+			"name": "OEMax",
+			"description": "Online examination system",
+			"platform": "jboss",
+			"members": [
+				{
+					"name": "Kecskés Ádám",
+					"neptun": "XISEOY",
+					"github": "madkind"
+				}
+			],
+			"interfaces": [
+				{
+					"type": "web",
+					"goal": "Web interface for users"
+				},
+				{
+					"tpye": "soap ws",
+					"goal": "upload exams"
+				},
+				{
+					"type": "jms",
+					"goal": "bulk upload data (users)"
+				}
 			]
 		}
 	]
