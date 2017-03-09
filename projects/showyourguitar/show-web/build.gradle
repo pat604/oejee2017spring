@@ -4,7 +4,7 @@ apply plugin: 'war'
 
 repositories { mavenCentral() }
 
-war { archiveName 'showyourguitar-web.war'}
+war { archiveName 'show-web.war'}
 
 dependencies {
 	providedCompile project(':show-ejb')
