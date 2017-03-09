@@ -1,0 +1,8 @@
+apply plugin: 'eclipse'
+apply plugin: 'ear'
+
+
+dependencies {
+	deploy project('show-ejb')
+	deploy project(path: 'show-web', configuration: 'archives')
+}

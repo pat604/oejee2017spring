@@ -1,0 +1,12 @@
+apply plugin: 'eclipse'
+apply plugin: 'java'
+apply plugin: 'war'
+
+repositories { mavenCentral() }
+
+war { archiveName 'showyourguitar-web.war'}
+
+dependencies {
+	providedCompile project(':show-ejb')
+	providedCompile group: 'javax', name:'javaee-api', version:'6.0'
+}
