@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title><ui:insert name="title">Management registry for angler associations</ui:insert></title>
+	<ui:insert name="head_content"></ui:insert>
+</h:head>
+<h:body>
+	<div id="header" style="width: 100%;">
+		<h1>Management registry for angler associations</h1>
+	</div>
+	<div id="menu">
+		<p:menubar id="mainMenu">
+			<p:menuitem value="Hal" url="fish.xhtml" update="@all" />
+
+			<p:menuitem value="Horgász" url="angler.xhtml" update="@all" />
+
+			<p:menuitem value="Tó" url="lake.xhtml" update="@all" />
+
+			<p:menuitem value="Engedély" url="license.xhtml" update="@all" />
+
+			<p:menuitem value="Telepítés" url="settlement.xhtml" update="@all" />
+
+			<p:menuitem value="Fogási naplók" url="diary.xhtml" update="@all" />
+		</p:menubar>
+	</div>
+	<p:separator></p:separator>
+	<div id="content">
+		<ui:insert name="content"></ui:insert>
+	</div>
+	<div id="footer"></div>
+</h:body>
+</html>

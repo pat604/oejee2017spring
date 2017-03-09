@@ -1,0 +1,194 @@
+<ui:composition template="WEB-INF/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<ui:define name="content">
+		<h:form id="anglerTableForm">
+			<p:fieldset legend="Horgász">
+				<h:panelGrid columns="6" cellpadding="5">
+					<h:panelGrid id="anglerMenu" columns="4" cellpadding="2">
+						<p:commandButton value="Hozzáadás" id="cb_adddangler"
+							onclick="PF('addanglerDialogWidget').show()" />
+					</h:panelGrid>
+
+				</h:panelGrid>
+
+				<p:dataTable var="angler" value="#{anglerBean.anglerList}"
+					style="margin-bottom:40px" rowKey="#{angler.id}"
+					selection="#{reportBean.selectedMaps}" editable="true">
+
+					<p:ajax event="rowSelect" listener="#{anglerBean.onRowSelect}"
+						update=":anglerTableForm" />
+					<p:ajax event="rowUnselect" listener="#{anglerBean.onRowUnselect}"
+						update=":anglerTableForm" />
+
+					<p:ajax event="rowEdit" listener="#{anglerBean.onRowEdit}"
+						update=":anglerTableForm" />
+					<p:ajax event="rowEditCancel" update=":anglerTableForm" />
+
+					
+					<p:column style="width:32px">
+			           <p:rowEditor />
+			    	</p:column>
+					
+					<p:column>
+						<p:commandButton value="Törlés" action=#{anglerBean.onDelete(angler)} />
+					</p:column>
+
+					<p:column headerText="Név" sortBy="#{angler.name}">
+						<h:outputText value="#{angler.name}" />
+					</p:column>
+
+					<p:column headerText="Anyja neve" sortBy="#{angler.mothersName}">
+						<h:outputText value="#{angler.mothersName}" />
+					</p:column>
+
+					<p:column headerText="Születési idő" sortBy="#{angler.birthDay}">
+						<h:outputText value="#{angler.birthDay}" />
+					</p:column>
+
+					<p:column headerText="Születési hely" sortBy="#{angler.birthPlace}">
+						<h:outputText value="#{angler.birthPlace}" />
+					</p:column>
+
+					<p:column headerText="Irsz" sortBy="#{angler.zipCode}">
+						<h:outputText value="#{angler.zipCode}" />
+					</p:column>
+
+					<p:column headerText="Város" sortBy="#{angler.city}">
+						<h:outputText value="#{angler.city}" />
+					</p:column>
+
+					<p:column headerText="Cím" sortBy="#{angler.address}">
+						<h:outputText value="#{angler.address}" />
+					</p:column>
+
+					<p:column headerText="Társadalmi munka"
+						sortBy="#{angler.socialWork}">
+						<h:outputText value="#{angler.socialWork}" />
+					</p:column>
+
+					<p:column headerText="Eltiltás" sortBy="#{angler.banTime}">
+						<h:outputText value="#{angler.banTime}" />
+					</p:column>
+
+					<p:column headerText="Tag-e" sortBy="#{angler.isMember}">
+						<h:outputText value="#{angler.isMember}" />
+					</p:column>
+				</p:dataTable>
+			</p:fieldset>
+		</h:form>
+
+		<p:dialog id="addAnglerDialog" widgetVar="addAnglerDialogWidget"
+			modal="true" resizable="false" header="Horgász hozzáadása"
+			closable="true">
+			<h:form id="addAnglerForm">
+				<p:messages id="addAnglerMessages" autoUpdate="true" />
+				<p:panelGrid columns="2" rows="4" cellpadding="5">
+					<p:outputLabel for="addAngler_name" value="Név:" />
+					<p:inputText id="addAngler_name" value="#{angler.name}"
+						required="true" update="addAnglerMessages" />
+
+					<p:outputLabel for="addAngler_mothersName" value="Anyja neve" />
+					<p:inputText id="addAngler_mothersName"
+						value="#{angler.mothersName}" required="true"
+						update="addAnglerMessages" />
+
+					<p:outputLabel for="addAngler_birthDay" value="Születési idő" />
+					<p:inputText id="addAngler_birthDay" value="#{angler.birthDay}"
+						required="true" update="addAnglerMessages" />
+
+					<p:outputLabel for="addAngler_birthPlacee" value="Születési hely:" />
+					<p:inputText id="addAngler_birthPlacee"
+						value="#{angler.birthPlace}" required="true"
+						update="addAnglerMessages" />
+
+					<p:outputLabel for="addAngler_zipCode" value="Irsz:" />
+					<p:inputText id="addAngler_zipCode" value="#{angler.zipCode}"
+						required="true" update="addAnglerMessages" />
+
+					<p:outputLabel for="addAngler_city" value="Város:" />
+					<p:inputText id="addAngler_city" value="#{angler.city}"
+						required="true" update="addAnglerMessages" />
+
+					<p:outputLabel for="addAngler_address" value="Cím:" />
+					<p:inputText id="addAngler_address" value="#{angler.address}"
+						required="true" update="addAnglerMessages" />
+
+					<p:outputLabel for="addAngler_socialWork" value="Társadalmi munka:" />
+					<p:inputText id="addAngler_socialWork" value="#{angler.socialWork}"
+						required="true" update="addAnglerMessages" />
+
+					<p:outputLabel for="addAngler_banTime" value="Eltiltás:" />
+					<p:inputText id="addAngler_banTime" value="#{angler.banTime}"
+						required="true" update="addAnglerMessages" />
+
+					<p:outputLabel for="addAngler_isMember" value="Tag-e:" />
+					<p:selectBooleanCheckbox id="addAngler_isMember"
+						value="#{angler.isMember}" required="true"
+						update="addAnglerMessages" />
+
+
+					<p:commandButton value="Hozzáad"
+						update="anglerTableForm addAnglerForm"
+						actionListener="#{reportBean.addAnglerAction}" />
+
+					<p:commandButton value="Mégse"
+						actionListener="#{reportBean.cancelAddAnglerAction}"
+						oncomplete="PF('addMediaDialogWidget').hide()"
+						update="addAnglerForm" />
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+
+
+		<!-- 	<p:dialog id="editAnglerDialog" widgetVar="editMediaDialogWidget" -->
+		<!-- 		modal="true" resizable="false" header="Összerendelés szerkesztése" -->
+		<!-- 		closable="true"> -->
+		<!-- 		<h:form id="editAnglerForm"> -->
+		<!-- 		<p:messages id="editAnglerMessages" autoUpdate="true" /> -->
+		<!-- 			<p:panelGrid columns="2" rows="4" cellpadding="5"> -->
+		<!-- 				<p:outputLabel for="addAngler_name" value="Név:" /> -->
+		<!-- 				<p:inputText id="addAngler_name" value="#{angler.name}" required="true" update="addAnglerMessages" /> -->
+
+		<!-- 				<p:outputLabel for="addAngler_mothersName" value="Anyja neve" /> -->
+		<!-- 				<p:inputText id="addAngler_mothersName" value="#{angler.mothersName}" required="true" update="addAnglerMessages" /> -->
+
+		<!-- 				<p:outputLabel for="addAngler_birthDay" value="Születési idő" /> -->
+		<!-- 				<p:inputText id="addAngler_birthDay" value="#{angler.birthDay}" required="true" update="addAnglerMessages" /> -->
+
+		<!-- 				<p:outputLabel for="addAngler_birthPlacee" value="Születési hely:" /> -->
+		<!-- 				<p:inputText id="addAngler_birthPlacee" value="#{angler.birthPlace}" required="true" update="addAnglerMessages" /> -->
+
+		<!-- 				<p:outputLabel for="addAngler_zipCode" value="Irsz:" /> -->
+		<!-- 				<p:inputText id="addAngler_zipCode" value="#{angler.zipCode}" required="true" update="addAnglerMessages" /> -->
+
+		<!-- 				<p:outputLabel for="addAngler_city" value="Város:" /> -->
+		<!-- 				<p:inputText id="addAngler_city" value="#{angler.city}" required="true" update="addAnglerMessages" /> -->
+
+		<!-- 				<p:outputLabel for="addAngler_address" value="Cím:" /> -->
+		<!-- 				<p:inputText id="addAngler_address" value="#{angler.address}" required="true" update="addAnglerMessages" /> -->
+
+		<!-- 				<p:outputLabel for="addAngler_socialWork" value="Társadalmi munka:" /> -->
+		<!-- 				<p:inputText id="addAngler_socialWork" value="#{angler.socialWork}" required="true" update="addAnglerMessages" /> -->
+
+		<!-- 				<p:outputLabel for="addAngler_banTime" value="Eltiltás:" /> -->
+		<!-- 				<p:inputText id="addAngler_banTime" value="#{angler.banTime}" required="true" update="addAnglerMessages" /> -->
+
+		<!-- 				<p:outputLabel for="addAngler_isMember" value="Tag-e:" /> -->
+		<!-- 				<p:selectBooleanCheckbox id="addAngler_isMember" value="#{angler.isMember}" required="true" update="addAnglerMessages" /> -->
+
+
+		<!-- 				<p:commandButton value="Módosít" update="anglerTableForm editAnglerForm" -->
+		<!-- 					actionListener="#{reportBean.editAnglerAction}" /> -->
+		<!-- 				<p:commandButton value="Mégse" -->
+		<!-- 					actionListener="#{reportBean.cancelEditAnglerAction}" -->
+		<!-- 					oncomplete="PF('editMediaDialogWidget').hide()" update="editAnglerForm" /> -->
+		<!-- 			</p:panelGrid> -->
+		<!-- 		</h:form> -->
+		<!-- 	</p:dialog> -->
+
+	</ui:define>
+</ui:composition>
