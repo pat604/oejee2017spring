@@ -1,0 +1,7 @@
+apply plugin: 'idea'
+apply plugin: 'ear'
+
+dependencies {
+	deploy project('ds-ejbservice')
+	deploy project(path: 'ds-weblayer', configuration: 'archives')
+}
