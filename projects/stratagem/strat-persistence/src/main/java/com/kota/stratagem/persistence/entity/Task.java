@@ -41,7 +41,7 @@ public class Task implements Serializable {
 	@JoinColumn(name = "task_project_id", referencedColumnName = "project_id", nullable = false)
 	private Project project;
 	
-	@Column(name = "task_completion", nullable = false)
+	@Column(name = "task_completion_percentage", nullable = false)
 	private double completion;
 
 	public Task() {
