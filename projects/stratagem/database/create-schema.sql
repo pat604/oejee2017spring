@@ -1,7 +1,7 @@
 CREATE TABLE project_statuses (
 	status_id INTEGER NOT NULL,
 	status_name CHARACTER VARYING(100) NOT NULL,
-	CONSTRAINT PK_PROJECT_ID PRIMARY KEY (project_id)
+	CONSTRAINT PK_STATUS_ID PRIMARY KEY (status_id)
 );
 
 ALTER TABLE project_statuses OWNER TO postgres;
