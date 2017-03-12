@@ -296,6 +296,21 @@
 					"goal": "bulk upload data (users)"
 				}
 			]
+		},
+		{
+			"name": "Skip the middle man",
+			"description": "Community money sharing",
+			"platform": "jboss",
+			"members": [
+				{
+					"name": "Sebestyén Miklós",
+					"neptun": "UA93WK",
+					"github": "SebestyenMiklos"
+				}
+			],
+			"interfaces": [
+
+			]
 		}
 	]
 }
