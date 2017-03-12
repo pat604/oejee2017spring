@@ -1,10 +1,7 @@
 group 'hu.smiklos.stmm'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
 apply plugin: 'ear'
-
-sourceCompatibility = 1.6
 
 ear {
     archiveName 'stmm.ear'
@@ -20,20 +17,19 @@ ext {
 }
 
 allprojects {
-    repositories {
-        mavenCentral()
-        maven { url "http://repository.pentaho.org/artifactory/repo" }
-    }
-}
-
-subprojects {
     apply plugin: 'idea'
     apply plugin: 'java'
     sourceCompatibility = 1.6
 
+    repositories {
+        mavenCentral()
+        maven { url "http://repository.pentaho.org/artifactory/repo" }
+    }
+
     dependencies {
         compile group: 'log4j', name: 'log4j', version: log4jVersion
         compile group: 'javax', name: 'javaee-api', version: jeeVersion
+        compile groups: 'hibernate', name:'hibernate', version: hibernateVersion
         testCompile group: 'junit', name: 'junit', version: junitVersion
     }
 }
@@ -42,5 +38,4 @@ dependencies {
     deploy project('stmm-ejb')
     deploy project('stmm-pers')
     deploy project(path: 'stmm-web', configuration: 'archives')
-    testCompile group: 'junit', name: 'junit', version: junitVersion
 }

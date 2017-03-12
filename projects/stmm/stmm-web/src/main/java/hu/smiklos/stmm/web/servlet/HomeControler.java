@@ -1,5 +1,7 @@
 package hu.smiklos.stmm.web.servlet;
 
+import hu.smiklos.stmm.web.common.Page;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,9 +19,7 @@ public class HomeControler extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        //final RequestDispatcher view = request.getRequestDispatcher(Page.HOME.getJspName());
-        PrintWriter out = response.getWriter();
-        out.println("<h1> doGet!!! </h1>");
-        out.close();
+
+        request.getRequestDispatcher(Page.HOME.getJspName()).forward(request, response);
     }
 }
