@@ -1,0 +1,13 @@
+group 'hu.smiklos.stmm'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'war'
+
+war {
+    archiveName 'stmm-web.war'
+}
+
+dependencies {
+    providedCompile project(':stmm-ejb')
+    providedCompile group: 'javax.servlet', name:'javax.servlet-api', version: servletapiVersion
+}

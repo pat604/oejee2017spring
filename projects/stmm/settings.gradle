@@ -1,0 +1,5 @@
+rootProject.name = 'Stmm'
+include 'stmm-web'
+include 'stmm-ejb'
+include 'stmm-pers'
+
