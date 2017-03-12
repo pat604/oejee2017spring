@@ -1,5 +1,0 @@
-jar { archiveName 'smm-ejbservice.jar' } //ez az alapértelmezett, ezért elhagyható lenne
-
-dependencies {
-    compile project(':smm-persistence')
-}
