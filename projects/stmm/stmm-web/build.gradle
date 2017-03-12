@@ -9,5 +9,6 @@ war {
 
 dependencies {
     providedCompile project(':stmm-ejb')
+    providedRuntime project(':stmm-ejb')
     providedCompile group: 'javax.servlet', name:'javax.servlet-api', version: servletapiVersion
 }
