@@ -23,4 +23,12 @@ public class AppUserStub {
     public String getWalletId() {
         return walletId;
     }
+
+    @Override
+    public String toString() {
+        return "AppUserStub{" +
+                "appuserId='" + appuserId + '\'' +
+                ", walletId='" + walletId + '\'' +
+                '}';
+    }
 }
