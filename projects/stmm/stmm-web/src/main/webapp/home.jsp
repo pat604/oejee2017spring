@@ -1,10 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="hu.smiklos.stmm.ejb.domain.AppUserStub" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: SebestyenMiklos
   Date: 2017. 03. 12.
   Time: 12:12
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -33,7 +35,7 @@
 </head>
 
 <body>
-
+<jsp:useBean id="user" class="hu.smiklos.stmm.ejb.domain.AppUserStub" scope="request" />
 <div class="container">
 
     <!-- The justified navigation menu is meant for single line per list item.
@@ -57,6 +59,12 @@
         <h1>Marketing stuff!</h1>
         <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.</p>
         <p><a class="btn btn-lg btn-success" href="#" role="button">Get started today</a></p>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p>id = <%= user.getAppuserId() %></p>
+            <p>wallet id = <%= user.getWalletId() %></p>
+        </div>
     </div>
 
     <!-- Example row of columns -->
@@ -84,9 +92,5 @@
     </footer>
 
 </div> <!-- /container -->
-
-
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

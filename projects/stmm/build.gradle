@@ -29,13 +29,14 @@ allprojects {
     dependencies {
         compile group: 'log4j', name: 'log4j', version: log4jVersion
         compile group: 'javax', name: 'javaee-api', version: jeeVersion
-        compile groups: 'hibernate', name:'hibernate', version: hibernateVersion
         testCompile group: 'junit', name: 'junit', version: junitVersion
     }
 }
 
 dependencies {
     deploy project('stmm-ejb')
-    deploy project('stmm-pers')
     deploy project(path: 'stmm-web', configuration: 'archives')
+    deploy project(path: 'stmm-webadmin', configuration: 'archives')
+    deploy project('stmm-pers')
+
 }

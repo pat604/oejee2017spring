@@ -1,0 +1,8 @@
+apply plugin: 'war'
+
+war { archiveName 'ft-weblayer.war' }
+
+dependencies {
+	providedCompile project(':ft-ejbservice')
+	providedCompile group: 'javax', name:'javaee-api', version:'6.0'
+}
