@@ -242,7 +242,7 @@
 			]
 		},
 		{
-			"name": "Todo",
+			"name": "todomanager",
 			"description": "Creating and managing todos",
 			"platform": "jboss",
 			"members": [
@@ -253,7 +253,18 @@
 				}
 			],
 			"interfaces": [
-				
+				{
+					"tpye": "restful",
+					"goal": "handle crud operations"
+				},
+				{
+					"type": "jms",
+					"goal": "bulk upload data"
+				},
+				{
+					"type": "web",
+					"goal": "Web interface for users"
+				}
 			]
 		},
 		{
