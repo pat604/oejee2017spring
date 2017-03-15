@@ -37,13 +37,13 @@ CREATE TABLE employee (
 
 CREATE TABLE priority (
 	prio_id INTEGER NOT NULL,
-	prio_description CHARACTER VARYING(15) NOT NULL,
+	prio_description CHARACTER VARYING(20) NOT NULL,
 	CONSTRAINT PK_PRIORITY_ID PRIMARY KEY (prio_id)
 );
 
 CREATE TABLE status (
 	stat_id INTEGER NOT NULL,
-	stat_description CHARACTER VARYING(15) NOT NULL,
+	stat_description CHARACTER VARYING(20) NOT NULL,
 	CONSTRAINT PK_STATUS_ID PRIMARY KEY (stat_id)
 );
 
