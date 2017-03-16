@@ -13,10 +13,9 @@ import hu.qwaevisz.tickethandling.persistence.query.TicketQuery;
 @Entity
 @Table(name = "ticket")
 @NamedQueries(value = { //
-		@NamedQuery(name = TicketQuery.COUNT_BY_PRIO, query = "SELECT COUNT(t) FROM ticket t WHERE t.tic_priority=:" + TicketParameter.PRIORITY),
 		@NamedQuery(name = TicketQuery.GET_BY_ID, query = "SELECT t FROM ticket t WHERE t.tic_id=:" + TicketParameter.ID),
+		@NamedQuery(name = TicketQuery.GET_BY_SYSTEM, query = "SELECT t FROM ticket t WHERE t.tic_sys_id=:" + TicketParameter.SYSTEM),
 		@NamedQuery(name = TicketQuery.GET_ALL, query = "SELECT t FROM ticket t ORDER BY t.tic_id"),
-		@NamedQuery(name = TicketQuery.GET_ALL_BY_STATUS, query = "SELECT t FROM ticket t WHERE t.tic_status=:" + TicketParameter.STATUS + " ORDER BY t.tic_id"),
 		@NamedQuery(name = TicketQuery.REMOVE_BY_ID, query = "DELETE FROM ticket t WHERE t.id=:" + TicketParameter.ID)
 		//
 })

@@ -1,4 +1,4 @@
-package hu.qwaevisz.bookstore.weblayer.servlet;
+package hu.qwaevisz.tickethandling.weblayer.servlet;
 
 import java.io.IOException;
 
@@ -12,30 +12,31 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import hu.qwaevisz.bookstore.ejbservice.domain.BookCategoryStub;
-import hu.qwaevisz.bookstore.ejbservice.domain.BookStub;
-import hu.qwaevisz.bookstore.ejbservice.exception.FacadeException;
-import hu.qwaevisz.bookstore.ejbservice.facade.BookFacade;
-import hu.qwaevisz.bookstore.weblayer.common.BookAttribute;
-import hu.qwaevisz.bookstore.weblayer.common.BookParameter;
-import hu.qwaevisz.bookstore.weblayer.common.Page;
+import hu.qwaevisz.tickethandling.ejbservice.domain.StatusStub;
+import hu.qwaevisz.tickethandling.ejbservice.domain.PriorityStub;
+import hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub;
+import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
+import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
+import hu.qwaevisz.tickethandling.weblayer.common.TicketAttribute;
+import hu.qwaevisz.tickethandling.weblayer.common.TicketParameter;
+import hu.qwaevisz.tickethandling.weblayer.common.Page;
 
-@WebServlet("/Book")
-public class BookController extends HttpServlet implements BookParameter, BookAttribute {
+@WebServlet("/Ticket")
+public class TicketController extends HttpServlet implements TicketParameter, TicketAttribute {
 
 	private static final long serialVersionUID = -4068275526750462197L;
 
-	private static final Logger LOGGER = Logger.getLogger(BookController.class);
+	private static final Logger LOGGER = Logger.getLogger(TicketController.class);
 
 	private static final String TRUE_VALUE = "1";
-	private static final String NEW_BOOK_ISBN_FLAG = "-1";
+	private static final String NEW_TICKET_ID_FLAG = "-1";
 
 	@EJB
-	private BookFacade facade;
+	private TicketFacade facade;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		final String isbn = request.getParameter(ISBN);
+		final String id = request.getParameter(id);
 		LOGGER.info("Get Book by ISBN (" + isbn + ")");
 		if (isbn == null || "".equals(isbn)) {
 			response.sendRedirect(Page.LIST.getUrl());

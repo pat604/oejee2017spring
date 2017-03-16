@@ -1,10 +1,10 @@
-package hu.qwaevisz.bookstore.weblayer.common;
+package hu.qwaevisz.tickethandling.weblayer.common;
 
 public enum Page {
 
-	LIST("list.jsp", "BookList"),
-	BOOK_VIEW("book.jsp", "Book"),
-	BOOK_EDIT("book-edit.jsp", "Book");
+	LIST("list.jsp", "TicketList"),
+	TICKET_VIEW("ticket.jsp", "Ticket"),
+	TICKET_EDIT("ticket-edit.jsp", "Ticket");
 
 	private final String jspName;
 	private final String url;

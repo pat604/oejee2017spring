@@ -1,4 +1,4 @@
-package hu.qwaevisz.bookstore.weblayer.servlet;
+package hu.qwaevisz.tickethandling.weblayer.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,28 +12,28 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import hu.qwaevisz.bookstore.ejbservice.domain.BookStub;
-import hu.qwaevisz.bookstore.ejbservice.exception.FacadeException;
-import hu.qwaevisz.bookstore.ejbservice.facade.BookFacade;
+import hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub;
+import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
+import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
 
-@WebServlet("/BookPing")
-public class BookPingServlet extends HttpServlet {
+@WebServlet("/TicketPing")
+public class TicketPingServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -7058255202709402208L;
 
-	private static final Logger LOGGER = Logger.getLogger(BookPingServlet.class);
+	private static final Logger LOGGER = Logger.getLogger(TicketPingServlet.class);
 
 	@EJB
-	private BookFacade facade;
+	private TicketFacade facade;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LOGGER.info("Get Book by user");
+		LOGGER.info("Get Ticket by user");
 		response.setCharacterEncoding("UTF-8");
 		final PrintWriter out = response.getWriter();
 		try {
-			final BookStub book = this.facade.getBook("978-0441172719");
-			out.println(book.toString());
+			final TicketStub ticket = this.facade.getTicket((long) 0);
+			out.println(ticket.toString());
 		} catch (final FacadeException e) {
 			LOGGER.error(e, e);
 			out.println(e.getLocalizedMessage());
