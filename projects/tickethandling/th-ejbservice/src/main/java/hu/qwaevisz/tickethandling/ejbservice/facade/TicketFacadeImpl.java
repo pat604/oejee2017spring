@@ -1,6 +1,6 @@
 package hu.qwaevisz.tickethandling.ejbservice.facade;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class TicketFacadeImpl implements TicketFacade {
 	private TicketConverter converter;
 
 	@Override
-	public TicketStub getTicket(Long id) throws FacadeException {
+	public TicketStub getTicket(String id) throws FacadeException {
 		try {
 			final TicketStub stub = this.converter.to(this.service.read(id));
 			if (LOGGER.isDebugEnabled()) {
@@ -52,10 +52,10 @@ public class TicketFacadeImpl implements TicketFacade {
 		try {
 			List<Ticket> tickets = null;
 			/*
-			if (criteria.getCategory() == null) {
-				books = this.service.readAll();
+			if (criteria.getSystem() == null) {
+				tickets = this.service.readAll();
 			} else {
-				books = this.service.read(BookCategory.valueOf(criteria.getCategory().name()));
+				tickets = this.service.read(BCategory.valueOf(criteria.getCategory().name()));
 			}
 			*/
 			stubs = this.converter.to(tickets);
@@ -70,13 +70,13 @@ public class TicketFacadeImpl implements TicketFacade {
 	}
 
 	@Override
-	public TicketStub saveTicket(Long id, String system, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep, Date creationdate, Integer level, String processor, StatusStub status,Date lastchanged) throws FacadeException {
+	public TicketStub saveTicket(String id, String system, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep, Date creationdate, Integer level, String processor, StatusStub status,Date lastchanged) throws FacadeException {
 		try {
 			Ticket ticket = null;
 			if (this.service.exists(id)) {
 				ticket = this.service.update(id, system,sender_name, Priority.valueOf(priority.name()), business_impact, steps_to_rep, creationdate, level, processor, Status.valueOf(status.name()), lastchanged);
 			} else {
-				ticket = this.service.create(system,sender_name, Priority.valueOf(priority.name()), business_impact, steps_to_rep, creationdate, level, processor, Status.valueOf(status.name()), lastchanged);
+				ticket = this.service.create(id, system,sender_name, Priority.valueOf(priority.name()), business_impact, steps_to_rep, creationdate, level, processor, Status.valueOf(status.name()), lastchanged);
 			}
 			return this.converter.to(ticket);
 		} catch (final PersistenceServiceException e) {
@@ -86,7 +86,7 @@ public class TicketFacadeImpl implements TicketFacade {
 	}
 
 	@Override
-	public void removeTicket(Long id) throws FacadeException {
+	public void removeTicket(String id) throws FacadeException {
 		try {
 			this.service.delete(id);
 		} catch (final PersistenceServiceException e) {

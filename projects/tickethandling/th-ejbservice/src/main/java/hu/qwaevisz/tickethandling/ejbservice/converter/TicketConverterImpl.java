@@ -17,7 +17,7 @@ public class TicketConverterImpl implements TicketConverter {
 	public TicketStub to(Ticket ticket) {
 		final StatusStub status = StatusStub.valueOf(ticket.getStatus().toString());
 		final PriorityStub priority = PriorityStub.valueOf(ticket.getPriority().toString());
-		return new TicketStub(ticket.getSystem(), ticket.getSender_name(), priority, ticket.getBusiness_impact(), ticket.getSteps_to_rep(), ticket.getCreationdate(), ticket.getLevel(), ticket.getProcessor(), status, ticket.getLastchanged());
+		return new TicketStub(ticket.getId(), ticket.getSystem(), ticket.getSender_name(), priority, ticket.getBusiness_impact(), ticket.getSteps_to_rep(), ticket.getCreationdate(), ticket.getLevel(), ticket.getProcessor(), status, ticket.getLastchanged());
 	}
 
 	@Override

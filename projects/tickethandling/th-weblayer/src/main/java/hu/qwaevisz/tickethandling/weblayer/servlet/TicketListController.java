@@ -51,20 +51,20 @@ public class TicketListController extends HttpServlet implements ListAttribute, 
 		final String systemName = request.getParameter(SYSTEM);
 		final TicketCriteria criteria = new TicketCriteria();
 		if (!systemName.equals(FILTER_ALL_SYSTEM)) {
-			criteria.setSystem(BookCategoryStub.valueOf(categoryName));
+			criteria.setSystem(systemName);
 		}
-		this.forward(request, response, criteria, categoryName);
+		this.forward(request, response, criteria, systemName);
 	}
 
-	private void forward(final HttpServletRequest request, final HttpServletResponse response, BookCriteria criteria, String categoryValue)
+	private void forward(final HttpServletRequest request, final HttpServletResponse response, TicketCriteria criteria, String systemValue)
 			throws ServletException, IOException {
 		try {
-			final List<BookStub> books = this.facade.getBooks(criteria);
-			request.setAttribute(ATTR_BOOKS, books);
+			final List<TicketStub> tickets = this.facade.getTickets(criteria);
+			request.setAttribute(ATTR_TICKETS, tickets);
 		} catch (final FacadeException e) {
 			LOGGER.error(e, e);
 		}
-		request.setAttribute(ATTR_CATEGORY, categoryValue);
+		request.setAttribute(ATTR_SYSTEM, systemValue);
 		final RequestDispatcher view = request.getRequestDispatcher(Page.LIST.getJspName());
 		view.forward(request, response);
 	}

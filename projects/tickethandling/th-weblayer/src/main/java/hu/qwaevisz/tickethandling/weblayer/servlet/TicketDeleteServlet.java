@@ -29,9 +29,9 @@ public class TicketDeleteServlet extends HttpServlet implements TicketParameter 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		final String id = request.getParameter(ID);
-		LOGGER.info("Delete Book by id (" + id + ")");
+		LOGGER.info("Delete Ticket by id (" + id + ")");
 		try {
-			this.facade.removeTicket(Long.parseLong(id));
+			this.facade.removeTicket(id);
 		} catch (final FacadeException e) {
 			LOGGER.error(e, e);
 		}

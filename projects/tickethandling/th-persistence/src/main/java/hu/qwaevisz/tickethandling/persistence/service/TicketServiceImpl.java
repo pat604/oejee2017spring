@@ -1,6 +1,6 @@
 package hu.qwaevisz.tickethandling.persistence.service;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -20,18 +20,18 @@ import hu.qwaevisz.tickethandling.persistence.exception.PersistenceServiceExcept
 import hu.qwaevisz.tickethandling.persistence.parameter.TicketParameter;
 import hu.qwaevisz.tickethandling.persistence.query.TicketQuery;
 
-@Stateless(mappedName = "ejb/bookService")
+@Stateless(mappedName = "ejb/ticketService")
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class TicketServiceImpl implements TicketService {
 
 	private static final Logger LOGGER = Logger.getLogger(TicketServiceImpl.class);
 
-	@PersistenceContext(unitName = "bs-persistence-unit")
+	@PersistenceContext(unitName = "th-persistence-unit")
 	private EntityManager entityManager;
 
 	@Override
-	public boolean exists(Long id) throws PersistenceServiceException {
+	public boolean exists(String id) throws PersistenceServiceException {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Check Ticket by ID (" + id + ")");
 		}
@@ -43,21 +43,21 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public Ticket create(String system, String sender_name, Priority priority, String business_impact, String steps_to_rep, Date creationdate, Integer level, String processor, Status status, Date lastchanged) throws PersistenceServiceException {
+	public Ticket create(String id, String system, String sender_name, Priority priority, String business_impact, String steps_to_rep, Date creationdate, Integer level, String processor, Status status, Date lastchanged) throws PersistenceServiceException {
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Create Ticket for system (" + system + ")");
+			LOGGER.debug("Create Ticket with id (" + id + ")");
 		}
 		try {
-			final Ticket ticket = new Ticket(system, sender_name, priority, business_impact, steps_to_rep, creationdate, level, processor, status, lastchanged);
+			final Ticket ticket = new Ticket(id, system, sender_name, priority, business_impact, steps_to_rep, creationdate, level, processor, status, lastchanged);
 			this.entityManager.persist(ticket);
 			return ticket;
 		} catch (final Exception e) {
-			throw new PersistenceServiceException("Unknown error during persisting Ticket for system (" + system + ")! " + e.getLocalizedMessage(), e);
+			throw new PersistenceServiceException("Unknown error during persisting Ticket with id (" + id + ")! " + e.getLocalizedMessage(), e);
 		}
 	}
 
 	@Override
-	public Ticket read(Long id) throws PersistenceServiceException {
+	public Ticket read(String id) throws PersistenceServiceException {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Get Ticket by id (" + id + ")");
 		}
@@ -85,7 +85,7 @@ public class TicketServiceImpl implements TicketService {
 	}
 	
 	@Override
-	public List<Ticket> read(String system) throws PersistenceServiceException {
+	public List<Ticket> readBySystem(String system) throws PersistenceServiceException {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Get Ticket by system (" + system  + ")");
 		}
@@ -99,12 +99,13 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public Ticket update(Long id, String system, String sender_name, Priority priority, String business_impact, String steps_to_rep, Date creationdate, Integer level, String processor, Status status, Date lastchanged) throws PersistenceServiceException {
+	public Ticket update(String id, String system, String sender_name, Priority priority, String business_impact, String steps_to_rep, Date creationdate, Integer level, String processor, Status status, Date lastchanged) throws PersistenceServiceException {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Update Ticket");
 		}
 		try {
 			final Ticket ticket = this.read(id);
+			ticket.setId(id);
 			ticket.setSystem(system);
 			ticket.setSender_name(sender_name);
 			ticket.setPriority(priority);
@@ -123,7 +124,7 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public void delete(Long id) throws PersistenceServiceException {
+	public void delete(String id) throws PersistenceServiceException {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Remove Ticket by id (" + id + ")");
 		}

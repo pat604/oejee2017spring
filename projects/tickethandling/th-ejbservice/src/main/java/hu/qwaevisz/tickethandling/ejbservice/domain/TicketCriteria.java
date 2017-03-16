@@ -2,17 +2,32 @@ package hu.qwaevisz.tickethandling.ejbservice.domain;
 
 public class TicketCriteria {
 
+	private String id;
     private String system;
 
     public TicketCriteria() {
     }
 
+    
    
 
-    public String getSystem() {
-		return system;
+    public String getId() {
+		return id;
 	}
 
+
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+
+
+	public String getSystem() {
+		return system;
+	}
 
 
 	public void setSystem(String system) {
@@ -22,7 +37,7 @@ public class TicketCriteria {
 
 	@Override
     public String toString() {
-        return "TicketCriteria [system=" + system + "]";
+        return "TicketCriteria [id=" + id + ", system=" + system + "]";
     }
 
 }

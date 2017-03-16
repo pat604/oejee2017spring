@@ -1,6 +1,6 @@
 package hu.qwaevisz.tickethandling.ejbservice.facade;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -14,12 +14,12 @@ import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 @Local
 public interface TicketFacade {
 
-	TicketStub getTicket(Long id) throws FacadeException;
+	TicketStub getTicket(String id) throws FacadeException;
 
 	List<TicketStub> getTickets(TicketCriteria criteria) throws FacadeException;
 
-	TicketStub saveTicket(Long id, String system, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep, Date creationdate, Integer level, String processor, StatusStub status, Date lastchanged) throws FacadeException;
+	TicketStub saveTicket(String id, String system, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep, Date creationdate, Integer level, String processor, StatusStub status, Date lastchanged) throws FacadeException;
 
-	void removeTicket(Long id) throws FacadeException;
+	void removeTicket(String id) throws FacadeException;
 
 }

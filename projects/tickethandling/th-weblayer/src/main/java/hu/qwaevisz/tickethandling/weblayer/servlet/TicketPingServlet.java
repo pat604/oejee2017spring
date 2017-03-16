@@ -32,7 +32,7 @@ public class TicketPingServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		final PrintWriter out = response.getWriter();
 		try {
-			final TicketStub ticket = this.facade.getTicket((long) 0);
+			final TicketStub ticket = this.facade.getTicket("AES-324-201703160515");
 			out.println(ticket.toString());
 		} catch (final FacadeException e) {
 			LOGGER.error(e, e);

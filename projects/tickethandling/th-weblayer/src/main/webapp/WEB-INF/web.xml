@@ -4,8 +4,8 @@
 
     <jsp-config>
         <taglib>
-            <taglib-uri>http://qwaevisz.hu/jsp/tlds/booktag</taglib-uri>
-            <taglib-location>/WEB-INF/bookstore.tld</taglib-location>
+            <taglib-uri>http://qwaevisz.hu/jsp/tlds/tickettag</taglib-uri>
+            <taglib-location>/WEB-INF/tickathandling.tld</taglib-location>
         </taglib>
     </jsp-config>
     

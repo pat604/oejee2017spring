@@ -2,6 +2,7 @@ package hu.qwaevisz.tickethandling.weblayer.common;
 
 public interface TicketParameter {
 
+	public static final String ID = "id";
     public static final String SYSTEM = "system";
     public static final String SENDER_NAME = "sender name";
     public static final String PRIORITY = "priority";

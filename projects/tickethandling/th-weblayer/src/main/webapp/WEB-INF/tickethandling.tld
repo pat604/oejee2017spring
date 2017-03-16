@@ -9,12 +9,12 @@
     <uri>http://qwaevisz.hu/jsp/tlds/tickettag</uri>
     <tag>
         <name>header</name>
-        <tag-class>hu.qwaevisz.bookstore.weblayer.tag.HeaderTag</tag-class>
+        <tag-class>hu.qwaevisz.tickethandling.weblayer.tag.HeaderTag</tag-class>
         <body-content>scriptless</body-content>
     </tag>
     <tag>
         <name>formatPrice</name>
-        <tag-class>hu.qwaevisz.bookstore.weblayer.tag.PriceFormatterTag</tag-class>
+        <tag-class>hu.qwaevisz.tickethandling.weblayer.tag.PriceFormatterTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>value</name>

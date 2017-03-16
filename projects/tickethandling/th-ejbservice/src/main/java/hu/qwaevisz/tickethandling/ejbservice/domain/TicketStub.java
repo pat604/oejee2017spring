@@ -1,16 +1,10 @@
 package hu.qwaevisz.tickethandling.ejbservice.domain;
 
-import java.sql.Date;
-
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
-import hu.qwaevisz.tickethandling.persistence.entity.trunk.Priority;
-import hu.qwaevisz.tickethandling.persistence.entity.trunk.Status;
+import java.util.Date;
 
 public class TicketStub {
    
+	private String id;
     private String system;
 	private String sender_name;
 	private PriorityStub priority;
@@ -22,8 +16,9 @@ public class TicketStub {
 	private StatusStub status;
 	private Date lastchanged;
 
-    public TicketStub(String system, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep, Date creationdate, Integer level, String processor, StatusStub status, Date lastchanged) {
+    public TicketStub(String id, String system, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep, Date creationdate, Integer level, String processor, StatusStub status, Date lastchanged) {
     	super();
+    	this.id = id;
     	this.system = system;
 		this.sender_name = sender_name;
 		this.priority = priority;
@@ -39,7 +34,21 @@ public class TicketStub {
     
 
 
-    public String getSystem() {
+    public String getId() {
+		return id;
+	}
+
+
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+
+
+	public String getSystem() {
 		return system;
 	}
 
@@ -181,7 +190,7 @@ public class TicketStub {
 
 	@Override
     public String toString() {
-        return "BookStub [system=" + system + ", ...]";
+        return "TicketStub [id=" + id + ", system=" + system + ", ...]";
     }
 
 }

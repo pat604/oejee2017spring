@@ -1,7 +1,7 @@
 package hu.qwaevisz.tickethandling.persistence.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -13,10 +13,10 @@ import hu.qwaevisz.tickethandling.persistence.query.TicketQuery;
 @Entity
 @Table(name = "ticket")
 @NamedQueries(value = { //
-		@NamedQuery(name = TicketQuery.GET_BY_ID, query = "SELECT t FROM ticket t WHERE t.tic_id=:" + TicketParameter.ID),
-		@NamedQuery(name = TicketQuery.GET_BY_SYSTEM, query = "SELECT t FROM ticket t WHERE t.tic_sys_id=:" + TicketParameter.SYSTEM),
-		@NamedQuery(name = TicketQuery.GET_ALL, query = "SELECT t FROM ticket t ORDER BY t.tic_id"),
-		@NamedQuery(name = TicketQuery.REMOVE_BY_ID, query = "DELETE FROM ticket t WHERE t.id=:" + TicketParameter.ID)
+		@NamedQuery(name = TicketQuery.GET_BY_ID, query = "SELECT t FROM Ticket t WHERE t.id=:" + TicketParameter.ID),
+		@NamedQuery(name = TicketQuery.GET_BY_SYSTEM, query = "SELECT t FROM Ticket t WHERE t.system=:" + TicketParameter.SYSTEM),
+		@NamedQuery(name = TicketQuery.GET_ALL, query = "SELECT t FROM Ticket t ORDER BY t.id"),
+		@NamedQuery(name = TicketQuery.REMOVE_BY_ID, query = "DELETE FROM Ticket t WHERE t.id=:" + TicketParameter.ID)
 		//
 })
 public class Ticket implements Serializable {
@@ -24,10 +24,8 @@ public class Ticket implements Serializable {
 	private static final long serialVersionUID = 1525352421414297015L;
 
 	@Id
-	@SequenceGenerator(name = "generatorTicket", sequenceName = "ticket_tic_id_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generatorTicket")
 	@Column(name = "tic_id", nullable = false)
-	private Long id;
+	private String id;
 
 	@Column(name = "tic_sys_id", nullable = false)
 	private String system;
@@ -45,6 +43,7 @@ public class Ticket implements Serializable {
 	@Column(name = "tic_steps_to_rep", nullable = false)
 	private String steps_to_rep;
 	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "tic_creationdate", nullable = false)
 	private Date creationdate;
 	
@@ -58,11 +57,13 @@ public class Ticket implements Serializable {
 	@Column(name = "tic_status", nullable = false)
 	private Status status;
 	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "tic_lastchanged", nullable = false)
 	private Date lastchanged;
 
 
-	public Ticket(String system, String sender_name, Priority priority, String business_impact, String steps_to_rep, Date creationdate, Integer level, String processor, Status status, Date lastchanged) {
+	public Ticket(String id, String system, String sender_name, Priority priority, String business_impact, String steps_to_rep, Date creationdate, Integer level, String processor, Status status, Date lastchanged) {
+		this.id = id;
 		this.system = system;
 		this.sender_name = sender_name;
 		this.priority = priority;
@@ -77,13 +78,13 @@ public class Ticket implements Serializable {
 
 	
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
 
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

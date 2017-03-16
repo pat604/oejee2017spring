@@ -3,26 +3,28 @@
 <%@ page import="java.util.List" %>
 <%@ page import="hu.qwaevisz.tickethandling.weblayer.common.ListAttribute" %>
 <%@ page import="hu.qwaevisz.tickethandling.weblayer.common.FormValue" %>
-<%@ page import="hu.qwaevisz.tickethandling.ejbservice.domain.BookStub" %>
-<%@ page import="hu.qwaevisz.tickethandling.ejbservice.domain.BookCategoryStub" %>
+<%@ page import="hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub" %>
+<%@ page import="hu.qwaevisz.tickethandling.ejbservice.domain.PriorityStub" %>
+<%@ page import="hu.qwaevisz.tickethandling.ejbservice.domain.StatusStub" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://qwaevisz.hu/jsp/tlds/booktag" prefix="bt"%>
+<%@ taglib uri="http://qwaevisz.hu/jsp/tlds/tickettag" prefix="bt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="style/page.css" />
-<title>:: Books ::</title>
+<title>:: Tickets ::</title>
 </head>
 <body>
-    <bt:header>List of Books</bt:header>
-	<form method="post" action="BookList">
+<!--
+    <bt:header>List of Tickets</bt:header>
+	<form method="post" action="TicketList">
 		<div>
 			<label for="category">Category: </label>
 			<select name="category" id="category">
-			    <% String categoryName = (String) request.getAttribute(ListAttribute.ATTR_CATEGORY); %>
-				<option value="-1" <% out.print( FormValue.FILTER_ALL_CATEGORY.equals(categoryName) ? "selected=\"selected\"" : "" ); %>>-</option>
-			    <c:set var="categoryValues" value="<%= BookCategoryStub.values() %>"/>
+			    < String categoryName = (String) request.getAttribute(ListAttribute.ATTR_CATEGORY); %>
+				<option value="-1" < out.print( FormValue.FILTER_ALL_CATEGORY.equals(categoryName) ? "selected=\"selected\"" : "" ); %>>-</option>
+			    <c:set var="categoryValues" value="<= PriorityStub.values() %>"/>
 				<c:forEach items="${categoryValues}" var="category">
 					<option value="${category.name}" ${category.name eq requestScope.category ? "selected=\"selected\"" : ""}>${category.label}</option>
 				</c:forEach>
@@ -67,6 +69,6 @@
 	<br/><br/>
 	<div>
 	    <a href="Book?isbn=-1&edit=1">Create</a> a brand new book.
-	</div>
+	</div-->
 </body>
 </html>
