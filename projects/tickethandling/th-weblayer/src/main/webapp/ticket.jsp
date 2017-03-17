@@ -9,7 +9,7 @@
 <title>:: Ticket ::</title>
 </head>
 <body>
-<!--
+
     <jsp:useBean id="ticket" class="hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub" scope="request" />
     <h1><jsp:getProperty name="ticket" property="id" /></h1>
     <div><label>ID: </label><span><jsp:getProperty name="ticket" property="id" /></span></div>
@@ -19,6 +19,6 @@
     <div>
         <a href="TicketList">back</a>
         <a href="Ticket?id=< out.print(ticket.getId()); %>&edit=1">edit</a>
-    </div-->
+    </div>
 </body>
 </html>

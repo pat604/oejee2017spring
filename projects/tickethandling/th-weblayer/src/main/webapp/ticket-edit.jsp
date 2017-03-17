@@ -13,7 +13,7 @@
 <title>:: Ticket ::</title>
 </head>
 <body>
-	<!--div class="frame">
+	<div class="frame">
 		<form method="post" action="Ticket">
 			<div>
 				<input class="inputheader" type="text" name="id" value="< out.print(ticket.getId()); %>" />:
@@ -50,6 +50,6 @@
 				<a href="Ticket?id=< out.print(ticket.getId()); %>">cancel</a>
 			</div>
 		</form>
-	</div-->
+	</div>
 </body>
 </html>

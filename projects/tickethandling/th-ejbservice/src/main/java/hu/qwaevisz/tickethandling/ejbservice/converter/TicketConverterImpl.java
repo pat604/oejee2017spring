@@ -22,7 +22,7 @@ public class TicketConverterImpl implements TicketConverter {
 
 	@Override
 	public List<TicketStub> to(List<Ticket> tickets) {
-		final List<TicketStub> result = new ArrayList<>();
+		final List<TicketStub> result = new ArrayList<TicketStub>();
 		for (final Ticket ticket : tickets) {
 			result.add(this.to(ticket));
 		}

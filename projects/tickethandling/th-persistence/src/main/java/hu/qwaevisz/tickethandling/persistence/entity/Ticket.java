@@ -1,7 +1,11 @@
 package hu.qwaevisz.tickethandling.persistence.entity;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.*;
 
@@ -60,6 +64,12 @@ public class Ticket implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "tic_lastchanged", nullable = false)
 	private Date lastchanged;
+	
+	public static DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+	
+	public Ticket() throws ParseException {
+		this("", "", "", Priority.HIGH, "", "", format.parse("2017-03-11"), 2, "Me", Status.NEW, format.parse("2017-03-11"));
+	}
 
 
 	public Ticket(String id, String system, String sender_name, Priority priority, String business_impact, String steps_to_rep, Date creationdate, Integer level, String processor, Status status, Date lastchanged) {

@@ -1,6 +1,9 @@
 package hu.qwaevisz.tickethandling.ejbservice.domain;
 
+import java.text.ParseException;
 import java.util.Date;
+
+import hu.qwaevisz.tickethandling.persistence.entity.Ticket;
 
 public class TicketStub {
    
@@ -15,6 +18,11 @@ public class TicketStub {
 	private String processor;
 	private StatusStub status;
 	private Date lastchanged;
+	
+	public TicketStub() throws ParseException{
+		this("", "", "", null, "", "", Ticket.format.parse("2017-03-06"), 2, "", null, Ticket.format.parse("2017-03-06"));
+	}
+
 
     public TicketStub(String id, String system, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep, Date creationdate, Integer level, String processor, StatusStub status, Date lastchanged) {
     	super();
@@ -190,7 +198,7 @@ public class TicketStub {
 
 	@Override
     public String toString() {
-        return "TicketStub [id=" + id + ", system=" + system + ", ...]";
+        return "TicketStub [id=" + id + ", system=" + system + ", sender=" + sender_name + ", priority=" + priority + ", status=" + status + "]";
     }
 
 }

@@ -16,59 +16,45 @@
 <title>:: Tickets ::</title>
 </head>
 <body>
-<!--
-    <bt:header>List of Tickets</bt:header>
-	<form method="post" action="TicketList">
-		<div>
-			<label for="category">Category: </label>
-			<select name="category" id="category">
-			    < String categoryName = (String) request.getAttribute(ListAttribute.ATTR_CATEGORY); %>
-				<option value="-1" < out.print( FormValue.FILTER_ALL_CATEGORY.equals(categoryName) ? "selected=\"selected\"" : "" ); %>>-</option>
-			    <c:set var="categoryValues" value="<= PriorityStub.values() %>"/>
-				<c:forEach items="${categoryValues}" var="category">
-					<option value="${category.name}" ${category.name eq requestScope.category ? "selected=\"selected\"" : ""}>${category.label}</option>
-				</c:forEach>
-			</select>
-			<input type="submit" value="Filter" />
-		</div>
-	</form>
+    <bt:header>List of Books</bt:header>
 	<br/><br/><br/>
 	<c:choose>
-	    <c:when test="${requestScope.books.isEmpty()}">
-            <span>Book list is <strong>empty</strong>.</span>
+	    <c:when test="${requestScope.tickets.isEmpty()}">
+            <span>Ticket list is <strong>empty</strong>.</span>
         </c:when>
         <c:otherwise>
             <table class="bookstable">
                 <thead>
                     <tr>
-                        <th>Author</th>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Number of pages</th>
+                        <th>ID</th>
+                        <th>System</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Sender</th>
+                        <th>Last changed on</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${requestScope.books}" var="book">
+                    <c:forEach items="${requestScope.tickets}" var="ticket">
                         <tr>
-                            <td><c:out value="${book.author}" /></td>
-                            <td><a href="Book?isbn=<c:out value="${book.isbn}" />"><c:out value="${book.title}" /></a></td>
-                            <td><c:out value="${book.category.label}" /></td>
-                            <td><bt:formatPrice value="${book.price}"/></td>
-                            <td><c:out value="${book.numberOfPages}" /></td>
-                            <td><a href="BookDelete?isbn=<c:out value="${book.isbn}" />">delete</a></td>
+                            <td><a href="Ticket?id=<c:out value="${ticket.id}" />"><c:out value="${ticket.id}" /></a></td>                         
+                            <td><c:out value="${ticket.system}" /></td>
+                            <td><c:out value="${ticket.priority.label}" /></td>
+                            <td><c:out value="${ticket.status.label}" /></td>
+                            <td><c:out value="${ticket.sender_name}" /></td>
+                            <td><c:out value="${ticket.lastchanged}" /></td>
+                            <td><a href="TicketDelete?id=<c:out value="${ticket.id}" />">delete</a></td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
             <br/>
-            <i>Hint: Price of the first book is <bt:formatPrice value="${requestScope.books[0].price}"/>.</i>
         </c:otherwise>
 	</c:choose>
 	<br/><br/>
 	<div>
-	    <a href="Book?isbn=-1&edit=1">Create</a> a brand new book.
-	</div-->
+	    <a href="Ticket?id=-1&edit=1">Create</a> a brand new ticket.
+	</div>
 </body>
 </html>

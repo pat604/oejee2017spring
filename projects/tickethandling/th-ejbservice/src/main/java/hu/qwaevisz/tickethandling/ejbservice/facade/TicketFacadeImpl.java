@@ -51,13 +51,11 @@ public class TicketFacadeImpl implements TicketFacade {
 		List<TicketStub> stubs = new ArrayList<TicketStub>();
 		try {
 			List<Ticket> tickets = null;
-			/*
 			if (criteria.getSystem() == null) {
 				tickets = this.service.readAll();
 			} else {
-				tickets = this.service.read(BCategory.valueOf(criteria.getCategory().name()));
+				tickets = this.service.readBySystem(criteria.getSystem());
 			}
-			*/
 			stubs = this.converter.to(tickets);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Get Tickets by criteria (" + criteria + ") --> " + stubs.size() + " ticket(s)");
