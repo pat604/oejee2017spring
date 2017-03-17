@@ -1,1 +1,5 @@
 jar { archiveName 'show-ejb.jar' }
+
+dependencies {
+	compile project(':show-persistence')
+}

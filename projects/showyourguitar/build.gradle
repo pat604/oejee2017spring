@@ -22,5 +22,6 @@ subprojects {
 
 dependencies {
 	deploy project('show-ejb')
+	deploy project('show-persistence')
 	deploy project(path: 'show-web', configuration: 'archives')
 }
