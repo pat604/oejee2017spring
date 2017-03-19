@@ -3,6 +3,7 @@ package hu.smiklos.stmm.web.servlet;
 import hu.smiklos.stmm.ejb.domain.AppUserStub;
 import hu.smiklos.stmm.ejb.exception.FacadeException;
 import hu.smiklos.stmm.ejb.facade.AppUserFacadeInterface;
+import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.web.common.Page;
 
 import javax.ejb.EJB;
@@ -31,6 +32,8 @@ public class HomeControler extends HttpServlet {
         try {
             user = facade.getAppUser("2017-02-13-0000001");
         } catch (FacadeException e) {
+            e.printStackTrace();
+        } catch (PersistenceServiceException e) {
             e.printStackTrace();
         }
         request.setAttribute("user", user);

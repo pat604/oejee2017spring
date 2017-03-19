@@ -1,11 +1,10 @@
 package hu.smiklos.stmm.pers.entity;
 
-import hu.smiklos.stmm.pers.entity.enums.UserType;
+import com.sun.xml.internal.bind.v2.runtime.Name;
+import hu.smiklos.stmm.pers.parameter.AppUserParameter;
+import hu.smiklos.stmm.pers.query.AppUserQuery;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -13,6 +12,10 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "appuser")
+@NamedQueries(value = { //
+        @NamedQuery(name = AppUserQuery.GET_ALL, query = "SELECT a FROM AppUser a"),
+        @NamedQuery(name = AppUserQuery.GET_BY_ID, query = "SELECT a FROM AppUser a WHERE a.userId=:"+ AppUserParameter.ID)
+})
 public class AppUser implements Serializable {
 
     private String userId;
@@ -25,6 +28,9 @@ public class AppUser implements Serializable {
         this.walletId = walletId;
         this.password = password;
         this.userType = userType;
+    }
+
+    public AppUser() {
     }
 
     @Id
@@ -57,7 +63,8 @@ public class AppUser implements Serializable {
         this.password = password;
     }
 
-    @Column(name = "usertype", nullable = false)
+    @OneToOne
+    @JoinColumn(name="appuser_usertype_id")
     public UserType getUserType() {
         return userType;
     }

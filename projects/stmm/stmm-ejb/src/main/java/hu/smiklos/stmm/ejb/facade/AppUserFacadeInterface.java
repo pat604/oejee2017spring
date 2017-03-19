@@ -3,6 +3,7 @@ package hu.smiklos.stmm.ejb.facade;
 import hu.smiklos.stmm.ejb.domain.AppUserStub;
 import hu.smiklos.stmm.ejb.exception.FacadeException;
 import hu.smiklos.stmm.pers.entity.AppUser;
+import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 
 import javax.ejb.Local;
 
@@ -12,5 +13,5 @@ import javax.ejb.Local;
 @Local
 public interface AppUserFacadeInterface {
 
-    public AppUserStub getAppUser(String userId) throws FacadeException;
+    public AppUserStub getAppUser(String userId) throws FacadeException, PersistenceServiceException;
 }

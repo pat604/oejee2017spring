@@ -4,6 +4,7 @@ package hu.smiklos.stmm.webadmin.servlet;
 import hu.smiklos.stmm.ejb.domain.AppUserStub;
 import hu.smiklos.stmm.ejb.exception.FacadeException;
 import hu.smiklos.stmm.ejb.facade.AppUserFacadeInterface;
+import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.webadmin.common.Page;
 
 import javax.ejb.EJB;
@@ -36,6 +37,8 @@ public class AdminHomeController extends HttpServlet {
         } catch (FacadeException e) {
             e.printStackTrace();
             out.println(e.getLocalizedMessage());
+        } catch (PersistenceServiceException e) {
+            e.printStackTrace();
         }
 
         //request.setAttribute("user", user);
