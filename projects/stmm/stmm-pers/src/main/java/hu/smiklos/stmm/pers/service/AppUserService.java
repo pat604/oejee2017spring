@@ -15,14 +15,14 @@ import java.util.List;
 /**
  * Created by SebestyenMiklos on 2017. 03. 16..
  */
-@Stateless(mappedName = "pers/appUserService")
+@Stateless(mappedName = "ejb/appUserService")
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class AppUserService implements AppUserServiceInterface {
 
     private static final Logger LOGGER = Logger.getLogger(AppUserService.class);
 
-    @PersistenceContext(unitName = UnitName.UNIT_NAME)
+    @PersistenceContext(unitName = "stmmdb-persistence-unit")
     private EntityManager entityManager;
 
 

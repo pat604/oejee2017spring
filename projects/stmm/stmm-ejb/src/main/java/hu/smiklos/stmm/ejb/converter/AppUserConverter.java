@@ -13,7 +13,7 @@ public class AppUserConverter implements AppUserConverterInterface {
 
     @Override
     public AppUserStub toAppUserStub(AppUser user) {
-        AppUserStub userStub = new AppUserStub(user.getUserId(),user.getWalletId(),user.getFirst_name(),user.getLast_name());
+        AppUserStub userStub = new AppUserStub(user.getUserId(),user.getWalletId());
         return userStub;
     }
 
