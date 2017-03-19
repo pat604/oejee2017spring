@@ -275,7 +275,8 @@
                         <!-- /input-group -->
                     </li>
                     <li>
-                        <a href="/stmm-webadmin/AdminHome"><i class="fa fa-dashboard fa-fw"></i> Home</a>
+                        <a href="/stmm-webadmin/AdminHome"><i class="fa fa-dashboard fa-fw"></i>Admin Home</a>
+                        <a href="/stmm-web/Home"><i class="fa fa-dashboard fa-fw"></i>User Home</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
@@ -299,7 +300,7 @@
                         <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#">Panels and Wells</a>
+                                <a href="/stmm-web/User">Go to user page</a>
                             </li>
                             <li>
                                 <a href=#>Buttons</a>
