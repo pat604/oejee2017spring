@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -10,22 +11,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import domain.BookStub;
-import facade.BookFacade;
+import domain.GuitarBrandStub;
+import domain.GuitarStub;
+import facade.GuitarFacade;
 
-@WebServlet("/BookPing")
-public class BookPingServlet extends HttpServlet {
+@WebServlet("/GuitarPing")
+public class GuitarPingServlet extends HttpServlet {
 
 	@EJB
-	private BookFacade facade;
+	private GuitarFacade facade;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		BookStub book = this.facade.getBook("978-0441172719");
+		List<GuitarStub> guitar = this.facade.getGuitars(GuitarBrandStub.GIBSON);
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
-		out.println(book.toString());
+		out.println(guitar.toString());
 		out.close();
 	}
 

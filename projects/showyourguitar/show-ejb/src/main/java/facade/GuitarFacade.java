@@ -4,14 +4,15 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import domain.BookCriteria;
-import domain.BookStub;
+import domain.GuitarBrandStub;
+import domain.GuitarOwnerStub;
+import domain.GuitarStub;
 
 @Local
-public interface BookFacade {
+public interface GuitarFacade {
 
-	BookStub getBook(String isbn);
+	List<GuitarStub> getGuitars(GuitarOwnerStub owner);
 
-	List<BookStub> getBooks(BookCriteria criteria);
+	List<GuitarStub> getGuitars(GuitarBrandStub brand);
 
 }

@@ -5,25 +5,31 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 
-import domain.BookCategoryStub;
-import domain.BookCriteria;
-import domain.BookStub;
+import domain.GuitarBrandStub;
+import domain.GuitarOwnerStub;
+import domain.GuitarStub;
 
 @Stateless
-public class BookFacadeImpl implements BookFacade {
+public class GuitarFacadeImpl implements GuitarFacade {
 
 	@Override
-	public BookStub getBook(String isbn) {
-		return new BookStub("978-0441172719", "Frank Herbert", "Dune", BookCategoryStub.SCIFI,
-				3500.0, 896);
+	public List<GuitarStub> getGuitars(GuitarOwnerStub owner) {
+		List<GuitarStub> guitars = new ArrayList<GuitarStub>();
+		GuitarOwnerStub guitarOwner = new GuitarOwnerStub(1L, "tamas.mitro", "blacktom73@gmail.com",
+				"tamas1234");
+		guitars.add(new GuitarStub(1L, GuitarBrandStub.GIBSON, "Les Paul Standard", "Ebony", 1990,
+				550000.0, guitarOwner));
+		return guitars;
 	}
 
 	@Override
-	public List<BookStub> getBooks(BookCriteria criteria) {
-		List<BookStub> stubs = new ArrayList<>();
-		stubs.add(new BookStub("978-0441172719", "Frank Herbert", "Dune", BookCategoryStub.SCIFI,
-				3500.0, 896));
-		return stubs;
+	public List<GuitarStub> getGuitars(GuitarBrandStub brand) {
+		List<GuitarStub> guitars = new ArrayList<GuitarStub>();
+		GuitarOwnerStub guitarOwner = new GuitarOwnerStub(1L, "tamas.mitro", "blacktom73@gmail.com",
+				"tamas1234");
+		guitars.add(new GuitarStub(1L, GuitarBrandStub.GIBSON, "Les Paul Standard", "Ebony", 1990,
+				550000.0, guitarOwner));
+		return guitars;
 	}
 
 }

@@ -1,58 +1,65 @@
 package domain;
 
-public class BookStub {
+public class GuitarStub {
 
-	private String isbn;
-	private String author;
-	private String title;
-	private BookCategoryStub category;
+	private Long guitarId;
+	private GuitarBrandStub guitarbrand;
+	private String guitarType;
+	private String color;
+	private int vintage;
 	private double price;
-	private int numberOfPages;
+	private GuitarOwnerStub owner;
 
-	public BookStub() {
-	}
-
-	public BookStub(String isbn, String author, String title, BookCategoryStub category,
-			double price, int numberOfPages) {
+	public GuitarStub(Long guitarId, GuitarBrandStub guitarbrand, String guitarType, String color,
+			int vintage, double price, GuitarOwnerStub owner) {
 		super();
-		this.isbn = isbn;
-		this.author = author;
-		this.title = title;
-		this.category = category;
+		this.guitarId = guitarId;
+		this.guitarbrand = guitarbrand;
+		this.guitarType = guitarType;
+		this.color = color;
+		this.vintage = vintage;
 		this.price = price;
-		this.numberOfPages = numberOfPages;
+		this.owner = owner;
 	}
 
-	public String getIsbn() {
-		return this.isbn;
+	public Long getGuitarId() {
+		return this.guitarId;
 	}
 
-	public void setIsbn(String isbn) {
-		this.isbn = isbn;
+	public void setGuitarId(Long guitarId) {
+		this.guitarId = guitarId;
 	}
 
-	public String getAuthor() {
-		return this.author;
+	public GuitarBrandStub getGuitarbrand() {
+		return this.guitarbrand;
 	}
 
-	public void setAuthor(String author) {
-		this.author = author;
+	public void setGuitarbrand(GuitarBrandStub guitarbrand) {
+		this.guitarbrand = guitarbrand;
 	}
 
-	public String getTitle() {
-		return this.title;
+	public String getGuitarType() {
+		return this.guitarType;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setGuitarType(String guitarType) {
+		this.guitarType = guitarType;
 	}
 
-	public BookCategoryStub getCategory() {
-		return this.category;
+	public String getColor() {
+		return this.color;
 	}
 
-	public void setCategory(BookCategoryStub category) {
-		this.category = category;
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public int getVintage() {
+		return this.vintage;
+	}
+
+	public void setVintage(int vintage) {
+		this.vintage = vintage;
 	}
 
 	public double getPrice() {
@@ -63,19 +70,19 @@ public class BookStub {
 		this.price = price;
 	}
 
-	public int getNumberOfPages() {
-		return this.numberOfPages;
+	public GuitarOwnerStub getOwner() {
+		return this.owner;
 	}
 
-	public void setNumberOfPages(int numberOfPages) {
-		this.numberOfPages = numberOfPages;
+	public void setOwner(GuitarOwnerStub owner) {
+		this.owner = owner;
 	}
 
 	@Override
 	public String toString() {
-		return "BookStub [isbn=" + this.isbn + ", author=" + this.author + ", title=" + this.title
-				+ ", category=" + this.category + ", price=" + this.price + ", numberOfPages="
-				+ this.numberOfPages + "]";
+		return "GuitarStub [guitarId=" + this.guitarId + ", guitarbrand=" + this.guitarbrand
+				+ ", guitarType=" + this.guitarType + ", color=" + this.color + ", vintage="
+				+ this.vintage + ", price=" + this.price + ", owner=" + this.owner + "]";
 	}
 
 }

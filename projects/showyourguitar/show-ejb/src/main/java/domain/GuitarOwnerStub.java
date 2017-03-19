@@ -1,71 +1,56 @@
 package domain;
 
-public class BookCriteria {
+public class GuitarOwnerStub {
 
-	private String author;
-	private String title;
-	private BookCategoryStub category;
-	private int minimumPrice;
-	private int maximumPrice;
+	private Long ownerId;
+	private String username;
+	private String email;
+	private String password;
 
-	public BookCriteria() {
-	}
-
-	public BookCriteria(String author, String title, BookCategoryStub category, int minimumPrice,
-			int maximumPrice) {
+	public GuitarOwnerStub(Long ownerId, String username, String email, String password) {
 		super();
-		this.author = author;
-		this.title = title;
-		this.category = category;
-		this.minimumPrice = minimumPrice;
-		this.maximumPrice = maximumPrice;
+		this.ownerId = ownerId;
+		this.username = username;
+		this.email = email;
+		this.password = password;
 	}
 
-	public String getAuthor() {
-		return this.author;
+	public Long getOwnerId() {
+		return this.ownerId;
 	}
 
-	public void setAuthor(String author) {
-		this.author = author;
+	public void setOwnerId(Long ownerId) {
+		this.ownerId = ownerId;
 	}
 
-	public String getTitle() {
-		return this.title;
+	public String getUsername() {
+		return this.username;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public BookCategoryStub getCategory() {
-		return this.category;
+	public String getEmail() {
+		return this.email;
 	}
 
-	public void setCategory(BookCategoryStub category) {
-		this.category = category;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public int getMinimumPrice() {
-		return this.minimumPrice;
+	public String getPassword() {
+		return this.password;
 	}
 
-	public void setMinimumPrice(int minimumPrice) {
-		this.minimumPrice = minimumPrice;
-	}
-
-	public int getMaximumPrice() {
-		return this.maximumPrice;
-	}
-
-	public void setMaximumPrice(int maximumPrice) {
-		this.maximumPrice = maximumPrice;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override
 	public String toString() {
-		return "BookCriteria [author=" + this.author + ", title=" + this.title + ", category="
-				+ this.category + ", minimumPrice=" + this.minimumPrice + ", maximumPrice="
-				+ this.maximumPrice + "]";
+		return "GuitarOwnerStub [ownerId=" + this.ownerId + ", username=" + this.username
+				+ ", email=" + this.email + ", password=" + this.password + "]";
 	}
 
 }
