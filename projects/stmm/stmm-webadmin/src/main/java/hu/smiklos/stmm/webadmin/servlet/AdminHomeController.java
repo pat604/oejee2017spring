@@ -5,7 +5,7 @@ import hu.smiklos.stmm.ejb.domain.AppUserStub;
 import hu.smiklos.stmm.ejb.exception.FacadeException;
 import hu.smiklos.stmm.ejb.facade.AppUserFacadeInterface;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
-import hu.smiklos.stmm.webadmin.common.Page;
+import hu.smiklos.stmm.webadmin.common.AdminPages;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -42,7 +42,7 @@ public class AdminHomeController extends HttpServlet {
         }
 
         //request.setAttribute("user", user);
-        request.getRequestDispatcher(Page.AdminHome.getJspName()).forward(request, response);
+        request.getRequestDispatcher(AdminPages.AdminHome.getJspName()).forward(request, response);
 
     }
 }
