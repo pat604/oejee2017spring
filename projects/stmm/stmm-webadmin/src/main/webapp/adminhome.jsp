@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="hu.smiklos.stmm.webadmin.common.AdminPages" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,7 +30,14 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
     <![endif]-->
+
+    <script language="JavaScript">
+        function changeContent(route) {
+            $("#content").load(route);
+        }
+    </script>
 
 </head>
 
@@ -46,7 +54,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/stmm-webadmin/AdminHome">MoneyBook - Admin</a>
+            <a class="navbar-brand" href="/stmm-webadmin/AdminHome">moneybook - Admin</a>
         </div>
         <!-- /.navbar-header -->
 
@@ -115,7 +123,8 @@
                                     <span class="pull-right text-muted">40% Complete</span>
                                 </p>
                                 <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+                                         aria-valuemin="0" aria-valuemax="100" style="width: 40%">
                                         <span class="sr-only">40% Complete (success)</span>
                                     </div>
                                 </div>
@@ -131,7 +140,8 @@
                                     <span class="pull-right text-muted">20% Complete</span>
                                 </p>
                                 <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20"
+                                         aria-valuemin="0" aria-valuemax="100" style="width: 20%">
                                         <span class="sr-only">20% Complete</span>
                                     </div>
                                 </div>
@@ -147,7 +157,8 @@
                                     <span class="pull-right text-muted">60% Complete</span>
                                 </p>
                                 <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60"
+                                         aria-valuemin="0" aria-valuemax="100" style="width: 60%">
                                         <span class="sr-only">60% Complete (warning)</span>
                                     </div>
                                 </div>
@@ -163,7 +174,8 @@
                                     <span class="pull-right text-muted">80% Complete</span>
                                 </p>
                                 <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80"
+                                         aria-valuemin="0" aria-valuemax="100" style="width: 80%">
                                         <span class="sr-only">80% Complete (danger)</span>
                                     </div>
                                 </div>
@@ -279,13 +291,13 @@
                         <a href="<%= AdminPages.UserHome.getUrl()%>"><i class="fa fa-dashboard fa-fw"></i>User Home</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-table fa-fw"></i> Tables <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href=#>Flot Charts</a>
+                                <a href="#" onclick="changeContent('<%= AdminPages.AppUsers.getUrl()%>')">Application users</a>
                             </li>
                             <li>
-                                <a href="#" onclick="changeContent('<%= UriBuilder.getUrl(AdminPages.UserTypes.getUrl(),AdminActions.ListUserTypesAction.getAction())%>')">User types</a>
+                                <a href="#" onclick="changeContent('<%= AdminPages.UserTypes.getUrl()%>')">User types</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
@@ -332,14 +344,6 @@
 <!-- Custom Theme JavaScript -->
 <script src="libraries/dist/js/sb-admin-2.js"></script>
 
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script>
-    $(document).ready(function() {
-        $('#usersTables').DataTable({
-            responsive: true
-        });
-    });
-</script>
 
 </body>
 
