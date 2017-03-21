@@ -3,8 +3,11 @@ package hu.smiklos.stmm.webadmin.common;
 /**
  * Created by SebestyenMiklos on 2017. 03. 13..
  */
-public enum Page {
-    AdminHome("adminhome.jsp", "AdminHome");
+public enum AdminPages {
+    AdminHome("adminhome.jsp", "/stmm-webadmin/AdminHome"),
+    AppUsers("appusers.jsp", "/stmm-webadmin/AppUser"),
+    UserTypes("usertypes.jsp", "/stmm-webadmin/UserType"),
+    UserHome("", "/stmm-web/Home");
 
 
     private final String jspName;
@@ -18,7 +21,7 @@ public enum Page {
         return this.url;
     }
 
-    private Page(final String jspName, final String url) {
+    private AdminPages(final String jspName, final String url) {
         this.jspName = jspName;
         this.url = url;
     }

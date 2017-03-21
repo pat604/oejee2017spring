@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="hu.smiklos.stmm.ejb.domain.AppUserStub" %>
+<jsp:useBean id="user" class="hu.smiklos.stmm.ejb.domain.AppUserStub" scope="request" />
 
 <%--
   Created by IntelliJ IDEA.
@@ -35,7 +36,6 @@
 </head>
 
 <body>
-<jsp:useBean id="user" class="hu.smiklos.stmm.ejb.domain.AppUserStub" scope="request" />
 <div class="container">
 
     <!-- The justified navigation menu is meant for single line per list item.
