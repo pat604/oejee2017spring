@@ -13,10 +13,11 @@ import java.io.Serializable;
 @Entity
 @Table(name = "appuser")
 @NamedQueries(value = { //
-        @NamedQuery(name = AppUserQuery.GET_ALL, query = "SELECT a FROM AppUser a"),
+        @NamedQuery(name = AppUserQuery.GET_ALL, query = "SELECT a FROM AppUser a ORDER BY a.userId"),
         @NamedQuery(name = AppUserQuery.GET_BY_ID, query = "SELECT a FROM AppUser a WHERE a.userId=:"+ AppUserParameter.ID)
 })
 public class AppUser implements Serializable {
+
 
     private String userId;
     private String walletId;
@@ -72,4 +73,6 @@ public class AppUser implements Serializable {
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
+
+
 }
