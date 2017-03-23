@@ -10,7 +10,7 @@ ALTER TABLE usertype OWNER TO postgres;
 
 
 
-CREATE SEQUENCE appuser_record_id_seq START 1;
+CREATE SEQUENCE appuser_record_id_seq START 111;
 CREATE TABLE appuser (
   appuser_record_id NUMERIC DEFAULT nextval('appuser_record_id_seq'),
   appuser_id CHARACTER VARYING(100) NOT NULL,
@@ -31,17 +31,17 @@ CREATE SEQUENCE wallet_record_id_seq START 1;
 CREATE TABLE wallet (
   wallet_record_id NUMERIC DEFAULT nextval('wallet_record_id_seq'),
   wallet_id CHARACTER VARYING(100) NOT NULL,
-  amount NUMERIC,
-  CONSTRAINT PK_WALLET_ID PRIMARY KEY (wallet_id)
+  appuser_id CHARACTER VARYING(100) NOT NULL,
+  amount NUMERIC(2),
+  CONSTRAINT PK_WALLET_ID PRIMARY KEY (wallet_id),
+  CONSTRAINT FK_APPUSER_IN_WALLET FOREIGN KEY (appuser_id)
+    REFERENCES appuser (appuser_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 ALTER TABLE wallet OWNER TO postgres;
 
-ALTER TABLE appuser ADD CONSTRAINT FK_WALLET_IN_APPUSER FOREIGN KEY (wallet_id)
-  REFERENCES wallet(wallet_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
-
 CREATE SEQUENCE moneytransfer_state_record_id_seq START 1;
 CREATE TABLE money_transfer_state (
-  money_transfer_state_record_id INT DEFAULT nextval('moneytransfer_state_record_id_seq'),
+  money_transfer_state_record_id INT DEFAULT nextval(moneytransfer_state_record_id_seq),
   money_transfer_state_id CHARACTER VARYING(100),
   money_transfer_state_name CHARACTER VARYING(100),
   CONSTRAINT PK_MONEYTRANSFER_STATE PRIMARY KEY (money_transfer_state_id),
@@ -55,16 +55,16 @@ CREATE SEQUENCE money_transfer_record_id_seq START 1;
 CREATE TABLE money_transfer (
   money_transfer_record_id NUMERIC DEFAULT nextval('money_transfer_record_id_seq'),
   moneytransfer_id CHARACTER VARYING(100) NOT NULL,
-  wallet_from CHARACTER VARYING(100) NOT NULL,
-  wallet_to CHARACTER VARYING(100) NOT NULL,
-  transferDate DATE,
-  returnDate DATE,
+  from CHARACTER VARYING(100) NOT NULL,
+  to CHARACTER VARYING(100) NOT NULL,
+  transferDate DATE NOT NULL,
+  returnDate DATE NOT NULL,
   number_of_payments INT DEFAULT 1,
   money_transfer_state_id CHARACTER VARYING(30),
   CONSTRAINT PK_MONEY_TRANSFER PRIMARY KEY (moneytransfer_id),
-  CONSTRAINT FK_MONEY_TRANSFER_FROM_WALLET FOREIGN KEY (wallet_from)
+  CONSTRAINT FK_MONEY_TRANSFER_FROM_WALLET FOREIGN KEY (from)
     REFERENCES wallet(wallet_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
-  CONSTRAINT FK_MONEY_TRANSFER_TO_WALLET FOREIGN KEY (wallet_to)
+  CONSTRAINT FK_MONEY_TRANSFER_TO_WALLET FOREIGN KEY (to)
     REFERENCES wallet(wallet_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 ALTER TABLE money_transfer OWNER TO postgres;

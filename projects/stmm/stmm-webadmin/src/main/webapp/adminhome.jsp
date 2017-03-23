@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="hu.smiklos.stmm.webadmin.common.AdminPages" %>
+<%@ page import="hu.smiklos.stmm.webadmin.common.AdminActions" %>
+<%@ page import="hu.smiklos.stmm.ejb.uribuilder.UriBuilder" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -294,7 +296,7 @@
                         <a href="#"><i class="fa fa-table fa-fw"></i> Tables <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#" onclick="changeContent('<%= AdminPages.AppUsers.getUrl()%>')">Application users</a>
+                                <a href="#" onclick="changeContent('<%= UriBuilder.getUrl(AdminPages.AppUsers.getUrl(),AdminActions.ListUserAction.getAction())%>')">Application users</a>
                             </li>
                             <li>
                                 <a href="#" onclick="changeContent('<%= AdminPages.UserTypes.getUrl()%>')">User types</a>

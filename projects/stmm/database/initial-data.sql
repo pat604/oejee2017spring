@@ -1,7 +1,7 @@
 INSERT INTO usertype (usertype_id, usertype) VALUES ('REGISTERED', 'REGISTERED'); 
 INSERT INTO usertype (usertype_id, usertype) VALUES ('RELIABLE', 'RELIABLE'); 
 INSERT INTO usertype (usertype_id, usertype) VALUES ('SUSPICIOUS', 'SUSPICIOUS'); 
-INSERT INTO usertype (usertype_id, usertype) VALUES ('OWING', 'OWING');
+INSERT INTO usertype (usertype_id, usertype) VALUES ('OWING', 'OWING'); 
 
 INSERT INTO wallet (wallet_id, amount)
             VALUES ('HU-11111111', 12000.22);

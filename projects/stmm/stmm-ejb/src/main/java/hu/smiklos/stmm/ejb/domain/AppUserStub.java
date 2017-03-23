@@ -7,32 +7,21 @@ import javax.validation.constraints.NotNull;
  */
 public class AppUserStub {
 
+    @NotNull
     private String appuserId;
 
+    @NotNull
     private String walletId;
-
-    private String firstName;
-
-    private String lastName;
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
 
     public AppUserStub() {
 
     }
 
-    public AppUserStub(String appuserId, String walletId, String firstName, String lastName) {
+    public AppUserStub(String appuserId, String walletId) {
         this.appuserId = appuserId;
         this.walletId = walletId;
-        this.firstName = firstName;
-        this.lastName = lastName;
     }
+
 
     public String getAppuserId() {
         return appuserId;
