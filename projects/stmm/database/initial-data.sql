@@ -1,7 +1,19 @@
 INSERT INTO usertype (usertype_id, usertype) VALUES ('REGISTERED', 'REGISTERED'); 
 INSERT INTO usertype (usertype_id, usertype) VALUES ('RELIABLE', 'RELIABLE'); 
 INSERT INTO usertype (usertype_id, usertype) VALUES ('SUSPICIOUS', 'SUSPICIOUS'); 
-INSERT INTO usertype (usertype_id, usertype) VALUES ('OWING', 'OWING'); 
+INSERT INTO usertype (usertype_id, usertype) VALUES ('OWING', 'OWING');
+
+INSERT INTO wallet (wallet_id, amount)
+            VALUES ('HU-11111111', 12000.22);
+
+INSERT INTO wallet (wallet_id, amount)
+            VALUES ('HU-11111112', 99000.11);
+
+INSERT INTO wallet (wallet_id, amount)
+            VALUES ('UK-11111111', 99011.44);
+
+INSERT INTO wallet (wallet_id, amount)
+            VALUES ('US-11111111', 11111.55);
 
 INSERT INTO wallet (wallet_id, amount)
             VALUES ('HU-11111111', 12000.22);
