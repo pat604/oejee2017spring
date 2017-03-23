@@ -1,10 +1,16 @@
 package hu.smiklos.stmm.ejb.domain;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by SebestyenMiklos on 2017. 03. 12..
  */
 public class AppUserStub {
+
+    @NotNull
     private String appuserId;
+
+    @NotNull
     private String walletId;
 
     public AppUserStub() {
@@ -15,6 +21,7 @@ public class AppUserStub {
         this.appuserId = appuserId;
         this.walletId = walletId;
     }
+
 
     public String getAppuserId() {
         return appuserId;
