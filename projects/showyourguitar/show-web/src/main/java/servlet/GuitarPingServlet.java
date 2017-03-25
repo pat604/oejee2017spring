@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import domain.GuitarBrandStub;
-import domain.GuitarStub;
-import facade.GuitarFacade;
+import hu.mitro.domain.GuitarBrandStub;
+import hu.mitro.domain.GuitarStub;
+import hu.mitro.facade.GuitarFacade;
 
 @WebServlet("/GuitarPing")
 public class GuitarPingServlet extends HttpServlet {

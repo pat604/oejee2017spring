@@ -1,6 +1,6 @@
-package hu.mitro.domain;
+package hu.mitro.entity;
 
-public enum GuitarBrandStub {
+public enum GuitarBrand {
 
 	GIBSON,
 	FENDER,

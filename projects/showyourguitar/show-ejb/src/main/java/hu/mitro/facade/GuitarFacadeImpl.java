@@ -1,13 +1,13 @@
-package facade;
+package hu.mitro.facade;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 
-import domain.GuitarBrandStub;
-import domain.GuitarOwnerStub;
-import domain.GuitarStub;
+import hu.mitro.domain.GuitarBrandStub;
+import hu.mitro.domain.GuitarOwnerStub;
+import hu.mitro.domain.GuitarStub;
 
 @Stateless
 public class GuitarFacadeImpl implements GuitarFacade {

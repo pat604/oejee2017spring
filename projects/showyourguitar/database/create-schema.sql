@@ -18,6 +18,7 @@ ALTER TABLE guitarowner OWNER TO postgres;
 
 CREATE TABLE guitar (
 	guitar_id SERIAL NOT NULL,
+	guitar_serialnumber CHARACTER VARYING(100) NOT NULL,
 	guitar_guitarbrand_id INTEGER NOT NULL,
 	guitar_type CHARACTER VARYING(100) NOT NULL,
 	guitar_color CHARACTER VARYING(100) NOT NULL,
@@ -33,4 +34,4 @@ CREATE TABLE guitar (
 
 ALTER TABLE guitar OWNER TO postgres;
 
-CREATE UNIQUE INDEX UI_GUITAR_TYPE ON guitar USING btree (guitar_type);
+CREATE UNIQUE INDEX UI_GUITAR_SERIALNUMBER ON guitar USING btree (guitar_serialnumber);

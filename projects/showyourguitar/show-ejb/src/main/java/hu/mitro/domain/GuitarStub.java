@@ -1,4 +1,4 @@
-package domain;
+package hu.mitro.domain;
 
 public class GuitarStub {
 
