@@ -8,7 +8,8 @@ public enum AdminPages {
     AppUsers("appusers.jsp", "/stmm-webadmin/AppUser"),
     UserTypes("usertypes.jsp", "/stmm-webadmin/UserType"),
     UserHome("", "/stmm-web/Home"),
-    EditUser("edituser.jsp", "/stmm-webadmin/AppUser");
+    EditUser("edituser.jsp", "/stmm-webadmin/AppUser"),
+    DeleteUser("","#" ), EditUserType("editusertype.jsp","/stmm-webadmin/UserType" ), DeleteUserType("","");
 
     private final String jspName;
     private final String url;

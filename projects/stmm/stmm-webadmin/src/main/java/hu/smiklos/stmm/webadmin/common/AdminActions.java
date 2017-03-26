@@ -5,7 +5,9 @@ package hu.smiklos.stmm.webadmin.common;
  */
 public enum AdminActions {
     ListUserAction("listuser"),
-    EditUser("edituser");
+    EditUser("edituser"),
+    DeleteUser("#"),
+    ListUserTypesAction("listusertypes"), EditUserType("editusertype"), DeleteUserType("deleteusertype");
 
     String action;
 

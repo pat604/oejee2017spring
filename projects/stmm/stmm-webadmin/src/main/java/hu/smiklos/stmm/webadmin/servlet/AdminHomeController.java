@@ -29,10 +29,6 @@ public class AdminHomeController extends HttpServlet {
     private HttpServletResponse response;
     private AdminActions action;
 
-    @EJB
-    private AppUserFacadeInterface facade;
-
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");

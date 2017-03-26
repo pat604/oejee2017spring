@@ -12,10 +12,13 @@ public class AppUserStubTest {
     AppUserStub user;
     private final String appuserId = "EMEA-HU-12345";
     private final String walletId = "HU-123456798";
+    private final String firstName = "First";
+    private final String secondName = "Second";
+
 
     @Before
     public void createUserStub() {
-        user = new AppUserStub(appuserId,walletId);
+        user = new AppUserStub(appuserId,walletId,firstName,secondName);
     }
 
 
