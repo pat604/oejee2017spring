@@ -35,7 +35,7 @@ public class AppUserController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         this.request = request;
         this.response = response;
-        this.action = AdminActions.ListUserAction.getAction(request.getParameter(WebParameterName.Action.getName()));
+        this.action = AdminActions.getAction(request.getParameter(WebParameterName.Action.getName()));
         try {
             this.handleGet();
         } catch (FacadeException e) {
