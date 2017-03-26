@@ -39,10 +39,7 @@ public class UserTypeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.request = request;
         this.response = response;
-        this.action = AdminActions.ListUserTypesAction.getAction(request.getParameter(WebParameterName.Action.getName()));
-        if(this.action == null){
-            this.action = AdminActions.ListUserTypesAction;
-        }
+        this.action = AdminActions.getAction(request.getParameter(WebParameterName.Action.getName()));
         try {
             this.handleGet();
         } catch (FacadeException e) {
