@@ -1,0 +1,22 @@
+package com.kota.stratagem.ejbservice.domain;
+
+public enum ProjectStatusRepresentor {
+
+	PROPOSED,
+	PENDING,
+	INITIATED,
+	UNDER_ANALYSIS,
+	IN_DESIGN,
+	IN_DEVELOPMENT,
+	CANCELED,
+	TESTING,
+	VALIDATING,
+	DEPLOYING,
+	IMPLEMENTING,
+	INTEGRATING,
+	LIVE,
+	MAINTAINED_BY_OPERATIONS,
+	UPGRADING,
+	DISPOSED
+
+}

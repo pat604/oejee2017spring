@@ -1,8 +1,0 @@
-apply plugin: 'war'
-
-war { archiveName 'smm-weblayer.war' } //ez az alapértelmezett, ezért elhagyható lenne
-
-dependencies {
-    providedCompile project(':smm-ejbservice')
-    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: servletapiVersion
-}

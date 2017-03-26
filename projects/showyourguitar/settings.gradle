@@ -1,0 +1,3 @@
+include 'show-ejb'
+include 'show-web'
+include 'show-persistence'

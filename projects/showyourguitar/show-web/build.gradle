@@ -1,0 +1,8 @@
+apply plugin: 'war'
+
+war { archiveName 'show-web.war'}
+
+dependencies {
+	providedCompile project(':show-ejb')
+	providedCompile group: 'javax', name: 'javaee-api', version: jeeVersion
+}
