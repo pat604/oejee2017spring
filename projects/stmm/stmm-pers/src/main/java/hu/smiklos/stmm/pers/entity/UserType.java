@@ -1,16 +1,26 @@
 package hu.smiklos.stmm.pers.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import hu.smiklos.stmm.pers.query.UsertypesQuery;
+
+import javax.persistence.*;
 
 /**
  * Created by SebestyenMiklos on 2017. 03. 19..
  */
 @Entity
 @Table(name = "usertype")
+@NamedQueries( value = {
+        @NamedQuery(name = UsertypesQuery.GET_ALL, query = "SELECT a FROM UserType a ORDER BY a.usertype"),
+})
 public class UserType {
+
+    public UserType() {
+    }
+
+    public UserType(String id, String usertype) {
+        this.id = id;
+        this.usertype = usertype;
+    }
 
     private String id;
 

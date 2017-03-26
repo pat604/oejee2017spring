@@ -1,6 +1,5 @@
 package hu.smiklos.stmm.pers.entity;
 
-import com.sun.xml.internal.bind.v2.runtime.Name;
 import hu.smiklos.stmm.pers.parameter.AppUserParameter;
 import hu.smiklos.stmm.pers.query.AppUserQuery;
 
@@ -21,12 +20,16 @@ public class AppUser implements Serializable {
 
     private String userId;
     private String walletId;
+    private String first_name;
+    private String last_name;
     private String password;
     private UserType userType;
 
-    public AppUser(String userId, String walletId, String password, UserType userType) {
+    public AppUser(String userId, String walletId, String first_name, String last_name, String password, UserType userType) {
         this.userId = userId;
         this.walletId = walletId;
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.password = password;
         this.userType = userType;
     }
@@ -37,13 +40,29 @@ public class AppUser implements Serializable {
     @Id
     @Column(name = "appuser_id", nullable = false)
     public String getUserId() {
-
         return userId;
     }
 
-
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    @Column(name = "first_name", nullable = false)
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    @Column(name = "last_name", nullable = false)
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     @Column(name = "wallet_id", nullable = true)
