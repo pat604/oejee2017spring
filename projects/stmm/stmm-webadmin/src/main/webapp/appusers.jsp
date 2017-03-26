@@ -26,10 +26,11 @@
                     out.write("<tr>");
                     out.write("<td>" + user.getAppuserId() + "</td>");
                     out.write("<td>" + user.getWalletId() + "</td>");
+                    out.write("<td><a href='" + UriBuilder.getUrl(AdminPages.EditUser.getUrl(),AdminActions.EditUser.getAction()) + "'> edit </a>" +
+                            "<a href='" + UriBuilder.getUrl(AdminPages.DeleteUser.getUrl(),AdminActions.DeleteUser.getAction()) + "'> delete </a></td>");
                     out.write("</tr>");
                 }
             %>
-            <td><a><% out.write("edit");%></a><a onclick="changeContent('<%= UriBuilder.getUrl(AdminPages.EditUser.getUrl(), AdminActions.EditUser.getAction()) %>')"><% out.write("delete"); %> </a></td>
             </tbody>
         </table>
     </div>

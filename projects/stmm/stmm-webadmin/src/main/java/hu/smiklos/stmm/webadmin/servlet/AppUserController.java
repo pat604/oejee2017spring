@@ -50,6 +50,7 @@ public class AppUserController extends HttpServlet {
         switch(this.action){
             case ListUserAction:
                 ListUsersAction();
+                break;
             case EditUser:
                 EditUserAction();
                 break;

@@ -299,7 +299,7 @@
                                 <a href="#" onclick="changeContent('<%= UriBuilder.getUrl(AdminPages.AppUsers.getUrl(),AdminActions.ListUserAction.getAction())%>')">Application users</a>
                             </li>
                             <li>
-                                <a href="#" onclick="changeContent('<%= AdminPages.UserTypes.getUrl()%>')">User types</a>
+                                <a href="#" onclick="changeContent('<%= UriBuilder.getUrl(AdminPages.UserTypes.getUrl(),AdminActions.ListUserTypesAction.getAction())%>')">User types</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
