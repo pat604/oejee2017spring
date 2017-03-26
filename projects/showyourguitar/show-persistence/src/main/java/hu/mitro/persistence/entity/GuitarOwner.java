@@ -1,4 +1,4 @@
-package hu.mitro.entity;
+package hu.mitro.persistence.entity;
 
 import java.io.Serializable;
 

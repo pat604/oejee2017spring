@@ -6,6 +6,7 @@ ext {
 	testngVersion = '6.9.+'
 	jeeVersion = '6.0'
 	servletapiVersion = '3.0.1'
+	log4jVersion = '1.2.17'
 }
 
 subprojects {
@@ -16,12 +17,13 @@ subprojects {
 	
 	dependencies {
 		compile group: 'javax', name: 'javaee-api', version: jeeVersion
+		compile group: 'log4j', name: 'log4j', version: log4jVersion
 		testCompile group: 'org.testng', name: 'testng', version: testngVersion
 	}
 }
 
 dependencies {
-	deploy project('show-ejb')
 	deploy project('show-persistence')
+	deploy project('show-ejb')	
 	deploy project(path: 'show-web', configuration: 'archives')
 }

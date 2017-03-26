@@ -1,4 +1,4 @@
-package servlet;
+package hu.mitro.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,9 +21,13 @@ public class GuitarPingServlet extends HttpServlet {
 	@EJB
 	private GuitarFacade facade;
 
+	// private static final Logger LOGGER = Logger.getLogger(GuitarPingServlet.class);
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// LOGGER.info("Get Guitar by user");
+
 		List<GuitarStub> guitar = this.facade.getGuitars(GuitarBrandStub.GIBSON);
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();

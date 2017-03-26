@@ -1,4 +1,4 @@
-package hu.mitro.entity;
+package hu.mitro.persistence.entity;
 
 import java.io.Serializable;
 
@@ -9,11 +9,23 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import hu.mitro.persistence.parameter.GuitarParameter;
+import hu.mitro.persistence.query.GuitarQuery;
+
 @Entity
 @Table(name = "guitar")
+@NamedQueries(value = { //
+		@NamedQuery(name = GuitarQuery.GET_BY_ID, query = "SELECT g FROM Guitar g WHERE g.id=:"
+				+ GuitarParameter.ID),
+		@NamedQuery(name = GuitarQuery.GET_BY_SERIALNUMBER, query = "SELECT g FROM Guitar g WHERE g.guitarSerialNumber=:"
+				+ GuitarParameter.SERIALNUMBER),
+		@NamedQuery(name = GuitarQuery.GET_ALL, query = "SELECT g FROM Guitar g ORDER BY g.guitarBrand") //
+})
 public class Guitar implements Serializable {
 
 	@Id
