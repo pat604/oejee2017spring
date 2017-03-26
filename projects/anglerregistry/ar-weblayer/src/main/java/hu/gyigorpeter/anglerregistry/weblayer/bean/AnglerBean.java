@@ -2,6 +2,7 @@ package hu.gyigorpeter.anglerregistry.weblayer.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.jboss.logging.Logger;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
@@ -41,7 +43,7 @@ public class AnglerBean implements Serializable {
 	private String banTime = "";
 	private boolean isMember = false;
 
-	private Angler selectedAngler;
+	private Angler selectedAngler = null;
 
 	@PostConstruct
 	public void init() {
@@ -51,6 +53,32 @@ public class AnglerBean implements Serializable {
 			LOGGER.error(e);
 		}
 
+	}
+
+	public void addAnglerAction() {
+		try {
+			this.anglerFacade.addAngler(new Angler(this.name, this.mothersName, new Date(this.birthDay), this.birthPlace, this.zipCode, this.city, this.address,
+					this.socialWork, new Date(this.banTime), this.isMember));
+		} catch (FacadeException e) {
+			LOGGER.error(e.getMessage());
+		}
+	}
+
+	public void cancelAddAnglerAction() {
+		this.name = "";
+		this.mothersName = "";
+		this.birthDay = "";
+		this.birthPlace = "";
+		this.zipCode = 0;
+		this.city = "";
+		this.address = "";
+		this.socialWork = 0;
+		this.banTime = "";
+		this.isMember = false;
+
+		this.selectedAngler = null;
+
+		RequestContext.getCurrentInstance().execute("PF('addMediaDialogWidget').hide()");
 	}
 
 	public void onRowSelect(SelectEvent event) {
@@ -181,6 +209,14 @@ public class AnglerBean implements Serializable {
 
 	public void setIsMember(boolean isMember) {
 		this.isMember = isMember;
+	}
+
+	public Angler getSelectedAngler() {
+		return this.selectedAngler;
+	}
+
+	public void setSelectedAngler(Angler selectedAngler) {
+		this.selectedAngler = selectedAngler;
 	}
 
 }

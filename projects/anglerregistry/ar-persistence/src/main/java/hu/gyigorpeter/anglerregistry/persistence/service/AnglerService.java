@@ -10,6 +10,8 @@ import hu.gyigorpeter.anglerregistry.persistence.exception.PersistenceServiceExc
 @Local
 public interface AnglerService {
 
+	void addAngler(AnglerEntity anglerEntity) throws PersistenceServiceException;
+
 	AnglerEntity readById(long id) throws PersistenceServiceException;
 
 	AnglerEntity readByNationalTicketId(long id) throws PersistenceServiceException;

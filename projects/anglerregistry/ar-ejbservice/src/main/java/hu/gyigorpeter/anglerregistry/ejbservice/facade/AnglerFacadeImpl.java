@@ -57,4 +57,14 @@ public class AnglerFacadeImpl implements AnglerFacade {
 
 	}
 
+	@Override
+	public void addAngler(Angler angler) throws FacadeException {
+		try {
+			this.anglerService.addAngler((this.anglerConverter.to(angler)));
+		} catch (PersistenceServiceException e) {
+			LOGGER.error(e);
+			throw new FacadeException(e.getLocalizedMessage());
+		}
+	}
+
 }

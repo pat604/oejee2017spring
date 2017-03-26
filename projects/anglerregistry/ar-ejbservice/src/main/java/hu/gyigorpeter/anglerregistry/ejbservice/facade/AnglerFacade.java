@@ -10,6 +10,8 @@ import hu.gyigorpeter.anglerregistry.ejbservice.pojo.Angler;
 @Local
 public interface AnglerFacade {
 
+	void addAngler(Angler angler) throws FacadeException;
+
 	Angler getAnglerById(long id) throws FacadeException;
 
 	Angler getAnglerByNationalTicket(long nationalTicketId) throws FacadeException;

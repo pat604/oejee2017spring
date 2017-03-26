@@ -1,5 +1,5 @@
+include 'ar-persistence'
 include 'ar-ejbservice'
 include 'ar-weblayer'
-//include 'ar-webservice'
-include 'ar-persistence'
+include 'ar-webservice'
 //include 'ar-restclient'

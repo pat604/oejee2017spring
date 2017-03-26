@@ -115,4 +115,18 @@ public class Angler {
 		this.isMember = isMember;
 	}
 
+	public Angler(String name, String mothersName, Date birthDay, String birthPlace, int zipCode, String city, String address, int socialWork, Date banTime,
+			boolean isMember) {
+		this.name = name;
+		this.mothersName = mothersName;
+		this.birthDay = birthDay;
+		this.birthPlace = birthPlace;
+		this.zipCode = zipCode;
+		this.city = city;
+		this.address = address;
+		this.socialWork = socialWork;
+		this.banTime = banTime;
+		this.isMember = isMember;
+	}
+
 }
