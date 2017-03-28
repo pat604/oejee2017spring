@@ -11,8 +11,6 @@ import com.kota.stratagem.persistence.exception.PersistenceServiceException;
 @Local
 public interface TaskService {
 
-	boolean exists(Long id) throws PersistenceServiceException;
-
 	Task create(Long id, String description, Project project, double completion) throws PersistenceServiceException;
 
 	List<Task> readAll() throws PersistenceServiceException;
@@ -22,5 +20,7 @@ public interface TaskService {
 	Task update(Long id, String description, Project project, double completion) throws PersistenceServiceException;
 
 	void delete(Long id) throws PersistenceServiceException;
+
+	boolean exists(Long id) throws PersistenceServiceException;
 
 }

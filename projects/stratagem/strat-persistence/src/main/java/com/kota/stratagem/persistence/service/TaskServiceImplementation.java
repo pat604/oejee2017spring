@@ -2,7 +2,6 @@ package com.kota.stratagem.persistence.service;
 
 import java.util.List;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -29,9 +28,6 @@ public class TaskServiceImplementation implements TaskService {
 	@PersistenceContext(unitName = "strat-persistence-unit")
 	private EntityManager entityManager;
 
-	@EJB
-	private TaskService taskService;
-
 	@Override
 	public Task create(Long id, String description, Project project, double completion) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
@@ -50,7 +46,7 @@ public class TaskServiceImplementation implements TaskService {
 	@Override
 	public Task read(Long id) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Get Student by id (" + id + ")");
+			LOGGER.debug("Get Task by id (" + id + ")");
 		}
 		Task result = null;
 		try {
@@ -112,7 +108,7 @@ public class TaskServiceImplementation implements TaskService {
 		try {
 			return this.entityManager.createNamedQuery(TaskQuery.COUNT_BY_ID, Long.class).setParameter(TaskParameter.ID, id).getSingleResult() == 1;
 		} catch(final Exception e) {
-			throw new PersistenceServiceException("Unknown error during counting Tasks by neptun (" + id + ")! " + e.getLocalizedMessage(), e);
+			throw new PersistenceServiceException("Unknown error during counting Tasks by id (" + id + ")! " + e.getLocalizedMessage(), e);
 		}
 	}
 

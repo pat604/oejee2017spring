@@ -55,7 +55,6 @@ CREATE TABLE tasks (
 	  REFERENCES projects (project_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 ALTER TABLE tasks OWNER TO postgres;
-CREATE UNIQUE INDEX UI_TASK_COMPLETION ON tasks USING btree (task_completion_percentage);
 
 CREATE TABLE project_status_alterations (
 	alteration_id INTEGER NOT NULL,

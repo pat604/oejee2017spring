@@ -26,6 +26,7 @@ import com.kota.stratagem.persistence.query.ProjectQuery;
 @Entity
 @Table(name = "projects")
 @NamedQueries(value = { //
+		@NamedQuery(name = ProjectQuery.COUNT_BY_ID, query = "SELECT COUNT(p) FROM Project p WHERE p.id=:" + ProjectParameter.ID),
 		@NamedQuery(name = ProjectQuery.GET_ALL_PROJECTS, query = "SELECT p FROM Project p ORDER BY p.name"),
 		@NamedQuery(name = ProjectQuery.GET_BY_ID, query = "SELECT p FROM Project p WHERE p.id=:" + ProjectParameter.ID),
 		@NamedQuery(name = ProjectQuery.REMOVE_BY_ID, query = "DELETE FROM Project p WHERE p.id=:" + ProjectParameter.ID)
@@ -51,15 +52,19 @@ public class Project implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class, mappedBy = "project")
 	private Set<Task> tasks;
 
+	@Column(name = "project_visibility", nullable = false)
+	private Boolean visible;
+
 	public Project() {
 		this.tasks = new HashSet<>();
 	}
 
-	public Project(Long id, String name, ProjectStatus status, Set<Task> tasks) {
+	public Project(Long id, String name, ProjectStatus status, Set<Task> tasks, Boolean visible) {
 		this.id = id;
 		this.name = name;
 		this.status = status;
 		this.tasks = tasks;
+		this.visible = visible;
 	}
 
 	public Long getId() {
@@ -94,9 +99,17 @@ public class Project implements Serializable {
 		this.tasks = tasks;
 	}
 
+	public Boolean getVisible() {
+		return visible;
+	}
+
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
+	}
+
 	@Override
 	public String toString() {
-		return "Project [id=" + id + ", name=" + name + ", status=" + status + ", tasks=" + tasks + "]";
+		return "Project [id=" + id + ", name=" + name + ", status=" + status + ", tasks=" + tasks + ", visible=" + visible + "]";
 	}
 
 }
