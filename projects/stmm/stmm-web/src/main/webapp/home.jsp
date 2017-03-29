@@ -1,14 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="hu.smiklos.stmm.ejb.domain.AppUserStub" %>
-<jsp:useBean id="user" class="hu.smiklos.stmm.ejb.domain.AppUserStub" scope="request" />
-
-<%--
-  Created by IntelliJ IDEA.
-  User: SebestyenMiklos
-  Date: 2017. 03. 12.
-  Time: 12:12
---%>
-<html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="hu.smiklos.stmm.ejb.uribuilder.UriBuilder" %>
+<%@ page import="hu.smiklos.stmm.web.common.Page" %>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>STMM - Home</title>
+    <title>moneybook</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -36,61 +29,67 @@
 </head>
 
 <body>
-<div class="container">
 
-    <!-- The justified navigation menu is meant for single line per list item.
-         Multiple lines will require custom code not provided by Bootstrap. -->
-    <div class="masthead">
-        <h3 class="text-muted">moneybook</h3>
-        <nav>
-            <ul class="nav nav-justified">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="/stmm-webadmin/AdminHome">goToAdmin</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Downloads</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-    </div>
-
-    <!-- Jumbotron -->
-    <div class="jumbotron">
-        <h1>Marketing stuff!</h1>
-        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.</p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Get started today</a></p>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <p>id = <%= user.getAppuserId() %></p>
-            <p>wallet id = <%= user.getWalletId() %></p>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">moneybook</a>
         </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <form class="navbar-form navbar-right" action="<%= UriBuilder.getUrl(Page.SIGN_IN.getUrl(),"") %>">
+                <div class="form-group">
+                    <input type="text" placeholder="Email" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success">Sign in</button>
+            </form>
+        </div><!--/.navbar-collapse -->
     </div>
+</nav>
 
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+    <div class="container">
+        <h1>Wellcome world!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Register &raquo;</a></p>
+    </div>
+</div>
+
+<div class="container">
     <!-- Example row of columns -->
     <div class="row">
-        <div class="col-lg-4">
-            <h2>Heading</h2>
+        <div class="col-md-6">
+            <h2>Invest</h2>
             <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
+            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
-        <div class="col-lg-4">
-            <h2>Heading</h2>
+        <div class="col-md-6">
+            <h2>Borrow</h2>
             <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-lg-4">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
-            <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
+            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
     </div>
 
-    <!-- Site footer -->
-    <footer class="footer">
+    <hr>
+
+    <footer>
         <p>&copy; 2016 Company, Inc.</p>
     </footer>
-
 </div> <!-- /container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </body>
 </html>
