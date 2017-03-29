@@ -15,7 +15,7 @@ public interface TaskProtocol {
 
 	List<TaskRepresentor> getAllTasks() throws AdaptorException;
 
-	TaskRepresentor saveTask(Long id, String description, double completion, ProjectRepresentor project) throws AdaptorException;
+	TaskRepresentor saveTask(Long id, String description, ProjectRepresentor project, double completion) throws AdaptorException;
 
 	void removeTask(Long id) throws AdaptorException;
 

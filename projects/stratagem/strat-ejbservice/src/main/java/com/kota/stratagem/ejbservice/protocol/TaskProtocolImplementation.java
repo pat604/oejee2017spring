@@ -12,7 +12,11 @@ import com.kota.stratagem.ejbservice.converter.TaskConverter;
 import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
 import com.kota.stratagem.ejbservice.domain.TaskRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
+import com.kota.stratagem.ejbservice.util.ApplicationError;
+import com.kota.stratagem.persistence.entity.Task;
+import com.kota.stratagem.persistence.exception.CoherentPersistenceServiceException;
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
+import com.kota.stratagem.persistence.service.ProjectService;
 import com.kota.stratagem.persistence.service.TaskService;
 
 @Stateless(mappedName = "ejb/taskProtocol")
@@ -24,12 +28,23 @@ public class TaskProtocolImplementation implements TaskProtocol {
 	private TaskService taskService;
 
 	@EJB
+	private ProjectService projectService;
+
+	@EJB
 	private TaskConverter converter;
 
 	@Override
 	public TaskRepresentor getTask(Long id) throws AdaptorException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			final TaskRepresentor representor = this.converter.to(this.taskService.read(id));
+			if(LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Get Task (id: " + id + ") --> " + representor);
+			}
+			return representor;
+		} catch(final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
+		}
 	}
 
 	@Override
@@ -47,15 +62,32 @@ public class TaskProtocolImplementation implements TaskProtocol {
 	}
 
 	@Override
-	public TaskRepresentor saveTask(Long id, String description, double completion, ProjectRepresentor project) throws AdaptorException {
-		// TODO Auto-generated method stub
-		return null;
+	public TaskRepresentor saveTask(Long id, String description, ProjectRepresentor project, double completion) throws AdaptorException {
+		try {
+			Task task = null;
+			if(this.taskService.exists(id)) {
+				task = this.taskService.update(id, description, this.projectService.read(project.getId()), completion);
+			} else {
+				task = this.taskService.create(id, description, this.projectService.read(project.getId()), completion);
+			}
+			return this.converter.to(task);
+		} catch(final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
+		}
 	}
 
 	@Override
 	public void removeTask(Long id) throws AdaptorException {
-		// TODO Auto-generated method stub
-
+		try {
+			this.taskService.delete(id);
+		} catch(final CoherentPersistenceServiceException e) {
+			final ApplicationError error = ApplicationError.valueOf(e.getError().name());
+			throw new AdaptorException(error, e.getLocalizedMessage(), e.getField());
+		} catch(final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
+		}
 	}
 
 }

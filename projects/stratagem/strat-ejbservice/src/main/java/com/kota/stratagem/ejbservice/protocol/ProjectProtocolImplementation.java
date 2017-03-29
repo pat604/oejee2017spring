@@ -51,6 +51,7 @@ public class ProjectProtocolImplementation implements ProjectProtocol {
 		}
 	}
 
+	//Criteria
 	@Override
 	public List<ProjectRepresentor> getAllProjects() {
 		List<ProjectRepresentor> representors = new ArrayList<>();

@@ -108,7 +108,7 @@ public class ProjectServiceImplementation implements ProjectService {
 					throw new PersistenceServiceException("Unknown error when removing Project by id (" + id + ")! " + e.getLocalizedMessage(), e);
 				}
 			} else {
-				throw new CoherentPersistenceServiceException(PersistenceApplicationError.HAS_DEPENDENCY, "Project has undeleted task(s)", id.toString());
+				throw new CoherentPersistenceServiceException(PersistenceApplicationError.HAS_DEPENDENCY, "Project has undeleted dependency(s)", id.toString());
 			}
 		} else {
 			throw new CoherentPersistenceServiceException(PersistenceApplicationError.NON_EXISTANT, "Project doesn't exist", id.toString());
