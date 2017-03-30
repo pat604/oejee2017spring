@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.kota.stratagem.ejbservice.domain.ProjectCriteria;
 import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
+import com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
 import com.kota.stratagem.ejbservice.protocol.ProjectProtocol;
 import com.kota.stratagem.weblayer.common.FormValue;
@@ -21,7 +23,7 @@ import com.kota.stratagem.weblayer.common.Page;
 import com.kota.stratagem.weblayer.common.ProjectListAttribute;
 import com.kota.stratagem.weblayer.common.ProjectListParameter;
 
-@WebServlet("/MagazineList")
+@WebServlet("/ProjectList")
 public class ProjectListController extends HttpServlet implements ProjectListAttribute, ProjectListParameter, FormValue {
 
 	private static final long serialVersionUID = -7360081024797943969L;
@@ -35,17 +37,27 @@ public class ProjectListController extends HttpServlet implements ProjectListAtt
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LOGGER.info("Get All Projects");
 		try {
-			final List<ProjectRepresentor> projects = this.protocol.getAllProjects();
+			final List<ProjectRepresentor> projects = this.protocol.getAllProjects(new ProjectCriteria());
 			request.setAttribute(ATTR_PROJECTS, projects);
 		} catch(final AdaptorException e) {
 			LOGGER.error(e, e);
 		}
-		this.forward(request, response, FILTER_ALL_CATEGORY);
+		this.forward(request, response, new ProjectCriteria(), FILTER_ALL_CATEGORY);
+	}
+	
+	@Override
+	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+		final String statusName = request.getParameter(STATUS);
+		final ProjectCriteria criteria = new ProjectCriteria();
+		if (!statusName.equals(FILTER_ALL_CATEGORY)) {
+			criteria.setStatus(ProjectStatusRepresentor.valueOf(statusName));
+		}
+		this.forward(request, response, criteria, statusName);
 	}
 
-	private void forward(final HttpServletRequest request, final HttpServletResponse response, String categoryValue) throws ServletException, IOException {
+	private void forward(final HttpServletRequest request, final HttpServletResponse response, ProjectCriteria criteria, String categoryValue) throws ServletException, IOException {
 		try {
-			final List<ProjectRepresentor> projects = this.protocol.getAllProjects();
+			final List<ProjectRepresentor> projects = this.protocol.getAllProjects(criteria);
 			request.setAttribute(ATTR_PROJECTS, projects);
 		} catch(final AdaptorException e) {
 			LOGGER.error(e, e);

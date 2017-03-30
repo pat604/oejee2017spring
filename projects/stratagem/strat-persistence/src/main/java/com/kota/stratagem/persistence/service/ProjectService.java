@@ -18,6 +18,8 @@ public interface ProjectService {
 	List<Project> readAll() throws PersistenceServiceException;
 
 	Project read(Long id) throws PersistenceServiceException;
+	
+	List<Project> read(ProjectStatus status) throws PersistenceServiceException;
 
 	Project update(Long id, String name, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException;
 

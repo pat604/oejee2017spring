@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.kota.stratagem.ejbservice.domain.ProjectCriteria;
 import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
 import com.kota.stratagem.ejbservice.protocol.ProjectProtocol;
 
@@ -32,7 +33,7 @@ public class ProjectPingServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		final PrintWriter out = response.getWriter();
 		try {
-			final List<ProjectRepresentor> projects = this.protocol.getAllProjects();
+			final List<ProjectRepresentor> projects = this.protocol.getAllProjects(null);
 			for(ProjectRepresentor representor : projects) {
 				out.println(representor.toString());
 			}

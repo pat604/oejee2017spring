@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import com.kota.stratagem.ejbservice.converter.ProjectConverter;
+import com.kota.stratagem.ejbservice.domain.ProjectCriteria;
 import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
 import com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
@@ -53,12 +54,18 @@ public class ProjectProtocolImplementation implements ProjectProtocol {
 
 	//Criteria
 	@Override
-	public List<ProjectRepresentor> getAllProjects() {
-		List<ProjectRepresentor> representors = new ArrayList<>();
+	public List<ProjectRepresentor> getAllProjects(final ProjectCriteria criteria) {
+		List<ProjectRepresentor> representors = new ArrayList<ProjectRepresentor>();
 		try {
-			representors = this.converter.to(this.projectService.readAll());
+			List<Project> projects = null;
+			if(criteria.getStatus() == null) {
+				projects = this.projectService.readAll();
+			} else {
+				projects = this.projectService.read(ProjectStatus.valueOf(criteria.getStatus().name()));
+			}
+			representors = this.converter.to(projects);
 			if(LOGGER.isDebugEnabled()) {
-				LOGGER.debug("Fetch all projects --> " + representors.size() + " item(s)");
+				LOGGER.debug("Fetch all projects by criteria (" + criteria + ") --> " + representors.size() + " projects(s)");
 			}
 		} catch(final PersistenceServiceException e) {
 			LOGGER.error(e, e);

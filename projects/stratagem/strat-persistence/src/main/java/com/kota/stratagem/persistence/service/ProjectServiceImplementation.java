@@ -80,6 +80,20 @@ public class ProjectServiceImplementation implements ProjectService {
 	}
 
 	@Override
+	public List<Project> read(ProjectStatus status) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Get Projects by Status");
+		}
+		List<Project> result = null;
+		try {
+			result = this.entityManager.createNamedQuery(ProjectQuery.GET_ALL_BY_STATUS, Project.class).setParameter(ProjectParameter.STATUS, status).getResultList();
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when fetching Projects! " + e.getLocalizedMessage(), e);
+		}
+		return result;
+	}
+
+	@Override
 	public Project update(Long id, String name, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Update Project (id: " + id + ", name: " + name + ", status: " + status + ", tasks: " + tasks + ", visible: " + visible + ")");
