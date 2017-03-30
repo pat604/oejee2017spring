@@ -23,7 +23,7 @@ import hu.qwaevisz.tickethandling.persistence.parameter.CompInSystemParameter;
 import hu.qwaevisz.tickethandling.persistence.query.CompInSystemQuery;
 
 @Entity
-@Table(name = "CompInSystem")
+@Table(name = "comp_in_system")
 @NamedQueries(value = { //
 		@NamedQuery(name = CompInSystemQuery.COUNT_BY_ID, query = "SELECT COUNT(c) FROM CompInSystem c WHERE c.id=:" + CompInSystemParameter.ID),
 		@NamedQuery(name = CompInSystemQuery.GET_BY_ID, query = "SELECT c FROM CompInSystem c WHERE c.id=:" + CompInSystemParameter.ID),

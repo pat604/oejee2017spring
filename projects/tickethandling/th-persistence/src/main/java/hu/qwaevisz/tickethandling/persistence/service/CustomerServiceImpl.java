@@ -27,6 +27,14 @@ public class CustomerServiceImpl implements CustomerService {
 	@PersistenceContext(unitName = "th-persistence-unit")
 	private EntityManager entityManager;
 
+	public EntityManager getEntityManager() {
+		return this.entityManager;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
 	@Override
 	public boolean exists(String id) throws PersistenceServiceException {
 		if (LOGGER.isDebugEnabled()) {

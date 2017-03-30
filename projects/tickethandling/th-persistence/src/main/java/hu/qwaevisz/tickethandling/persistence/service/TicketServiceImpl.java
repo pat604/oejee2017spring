@@ -31,6 +31,14 @@ public class TicketServiceImpl implements TicketService {
 	@PersistenceContext(unitName = "th-persistence-unit")
 	private EntityManager entityManager;
 
+	public EntityManager getEntityManager() {
+		return this.entityManager;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
 	@EJB
 	private CustomerService customerService;
 

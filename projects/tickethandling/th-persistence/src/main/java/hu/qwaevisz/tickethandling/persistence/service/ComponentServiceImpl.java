@@ -1,5 +1,6 @@
 package hu.qwaevisz.tickethandling.persistence.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -26,6 +27,14 @@ public class ComponentServiceImpl implements ComponentService {
 
 	@PersistenceContext(unitName = "th-persistence-unit")
 	private EntityManager entityManager;
+
+	public EntityManager getEntityManager() {
+		return this.entityManager;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 
 	@Override
 	public boolean exists(String id) throws PersistenceServiceException {
@@ -69,6 +78,32 @@ public class ComponentServiceImpl implements ComponentService {
 			throw new PersistenceServiceException("Unknown error when fetching Components! " + e.getLocalizedMessage(), e);
 		}
 		return result;
+	}
+
+	@Override
+	public Component create(String id, String description, Date creationdate) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Create Component with id (" + id + ")");
+		}
+		try {
+			final Component comp = new Component(id, description, creationdate);
+			this.entityManager.persist(comp);
+			return comp;
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error during persisting Component with id (" + id + ")! " + e.getLocalizedMessage(), e);
+		}
+	}
+
+	@Override
+	public void delete(String id) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Remove Component by id (" + id + ")");
+		}
+		try {
+			this.entityManager.createNamedQuery(ComponentQuery.REMOVE_BY_ID).setParameter(ComponentParameter.ID, id).executeUpdate();
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when removing Component by id (" + id + ")! " + e.getLocalizedMessage(), e);
+		}
 	}
 
 }

@@ -1,5 +1,6 @@
 package hu.qwaevisz.tickethandling.persistence.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -15,4 +16,8 @@ public interface ComponentService {
 	Component read(String id) throws PersistenceServiceException;
 
 	List<Component> readAll() throws PersistenceServiceException;
+
+	Component create(String id, String description, Date creationdate) throws PersistenceServiceException;
+
+	void delete(String id) throws PersistenceServiceException;
 }
