@@ -1,11 +1,10 @@
 package hu.qwaevisz.tickethandling.weblayer.servlet;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.Locale;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -14,18 +13,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.crypto.Data;
 
 import org.apache.log4j.Logger;
 
-import hu.qwaevisz.tickethandling.ejbservice.domain.StatusStub;
 import hu.qwaevisz.tickethandling.ejbservice.domain.PriorityStub;
+import hu.qwaevisz.tickethandling.ejbservice.domain.StatusStub;
 import hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
+import hu.qwaevisz.tickethandling.weblayer.common.Page;
 import hu.qwaevisz.tickethandling.weblayer.common.TicketAttribute;
 import hu.qwaevisz.tickethandling.weblayer.common.TicketParameter;
-import hu.qwaevisz.tickethandling.weblayer.common.Page;
 
 @WebServlet("/Ticket")
 public class TicketController extends HttpServlet implements TicketParameter, TicketAttribute {
@@ -44,15 +42,17 @@ public class TicketController extends HttpServlet implements TicketParameter, Ti
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		final String id = request.getParameter(ID);
 		LOGGER.info("Get Ticket by ID (" + id + ")");
-		if (id == null || "".equals(id)) {
+
+		if ("".equals(id)) {
 			response.sendRedirect(Page.LIST.getUrl());
 		} else {
+
 			final boolean editFlag = TRUE_VALUE.equals(request.getParameter(EDIT_FLAG));
 			TicketStub ticket = null;
 			boolean isNew = false;
 			if (NEW_TICKET_ID_FLAG.equals(id)) {
-				//ticket = new TicketStub("", "", "", BCategoryStub.SCIFI, 1000, 10);
-				//isNew = true;
+				ticket = new TicketStub();
+				isNew = true;
 			} else {
 				try {
 					ticket = this.facade.getTicket(id);
@@ -74,39 +74,59 @@ public class TicketController extends HttpServlet implements TicketParameter, Ti
 
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		try {		
-		DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
-		
-		final String id = request.getParameter(ID);
+
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 		final String system = request.getParameter(SYSTEM);
 		final String sender_name = request.getParameter(SENDER_NAME);
 		final PriorityStub priority = PriorityStub.valueOf(request.getParameter(PRIORITY));
 		final String business_impact = request.getParameter(BUSINESS_IMPACT);
 		final String steps_to_rep = request.getParameter(STEPS_TO_REP);
-		final Date creationdate = format.parse(request.getParameter(CREATION_DATE));
-		final Integer level = Integer.parseInt(request.getParameter(LEVEL));
-		final String processor = request.getParameter(PROCESSOR); 
-		final StatusStub status = StatusStub.valueOf(request.getParameter(STATUS));
-		final Date lastchanged = format.parse(request.getParameter(LAST_CHANGED));	
-		
-		if (id == null || "".equals(id)) {
-			final TicketStub ticket = new TicketStub(id, system, sender_name, priority, business_impact, steps_to_rep, creationdate, level, processor, status, lastchanged);
-			this.forward(request, response, true, ticket, true);
-		} else {
-			TicketStub ticket = null;
-			try {
-				ticket = this.facade.saveTicket(id, system, sender_name, priority, business_impact, steps_to_rep, creationdate, level, processor, status, lastchanged);
-			} catch (final FacadeException e) {
-				LOGGER.error(e, e);
+		Date creationdate = new Date();
+
+		try {
+			final String par_creationdate = request.getParameter(CREATION_DATE);
+			if (par_creationdate != null) {
+				creationdate = format.parse(par_creationdate);
 			}
-			this.forward(request, response, false, ticket, false);
+		} catch (final ParseException e) {
+			LOGGER.error(e, e);
 		}
-		
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+
+		final Integer level = Integer.parseInt(request.getParameter(LEVEL));
+		final String processor = request.getParameter(PROCESSOR);
+		final StatusStub status = StatusStub.valueOf(request.getParameter(STATUS));
+		Date lastchanged = new Date();
+
+		try {
+			final String par_lastchanged = request.getParameter(LAST_CHANGED);
+			if (par_lastchanged != null) {
+				lastchanged = format.parse(par_lastchanged);
+			}
+		} catch (final ParseException e) {
+			LOGGER.error(e, e);
+		}
+		String id = request.getParameter(ID);
+		if ("".equals(id)) {
+			String newId = system + format.format(creationdate);
+			id = newId.replace("-", "").replace(":", "").replace(" ", "");
+			LOGGER.info(id);
+		}
+
+		try {
+			final TicketStub ticket = new TicketStub(id, system, sender_name, priority, business_impact, steps_to_rep, creationdate, level, processor, status,
+					lastchanged);
+
+			LOGGER.info("Saving new ticket: " + ticket.toString());
+
+			this.facade.saveTicket(id, system, sender_name, priority, business_impact, steps_to_rep, creationdate, level, processor, status, lastchanged);
+
+			LOGGER.info("Ticket saved!");
+
+			this.forward(request, response, false, ticket, true);
+
+		} catch (FacadeException e) {
+			LOGGER.error(e, e);
 		}
 	}
 

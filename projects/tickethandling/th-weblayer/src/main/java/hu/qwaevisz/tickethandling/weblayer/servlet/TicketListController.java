@@ -1,4 +1,4 @@
-package hu.qwaevisz.tickethandling.weblayer.servlet;
+ package hu.qwaevisz.tickethandling.weblayer.servlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,20 +43,33 @@ public class TicketListController extends HttpServlet implements ListAttribute, 
 		} catch (final FacadeException e) {
 			LOGGER.error(e, e);
 		}
-		this.forward(request, response, new TicketCriteria(), FILTER_ALL_SYSTEM);
+		this.forward(request, response, new TicketCriteria(), FILTER_ALL_PRIORITY, FILTER_ALL_STATUS);
 	}
 
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		final String systemName = request.getParameter(SYSTEM);
+		final String priorityName = request.getParameter(PRIORITY);
+		final String statusName = request.getParameter(STATUS);
+		
 		final TicketCriteria criteria = new TicketCriteria();
-		if (!systemName.equals(FILTER_ALL_SYSTEM)) {
-			criteria.setSystem(systemName);
+		//
+		// If priority is set filter by priority
+		//
+		if (!priorityName.equals(FILTER_ALL_PRIORITY)) {
+			criteria.setPriority(PriorityStub.valueOf(priorityName));
 		}
-		this.forward(request, response, criteria, systemName);
+		//
+		// If status is set filter by status
+		//
+		if (!statusName.equals(FILTER_ALL_STATUS)) {
+			criteria.setStatus(StatusStub.valueOf(statusName));
+		}
+		// Both can be set at the same time
+		
+		this.forward(request, response, criteria, priorityName, statusName);
 	}
 
-	private void forward(final HttpServletRequest request, final HttpServletResponse response, TicketCriteria criteria, String systemValue)
+	private void forward(final HttpServletRequest request, final HttpServletResponse response, TicketCriteria criteria, String priorityValue, String statusValue)
 			throws ServletException, IOException {
 		try {
 			final List<TicketStub> tickets = this.facade.getTickets(criteria);
@@ -64,7 +77,8 @@ public class TicketListController extends HttpServlet implements ListAttribute, 
 		} catch (final FacadeException e) {
 			LOGGER.error(e, e);
 		}
-		request.setAttribute(ATTR_SYSTEM, systemValue);
+		request.setAttribute(ATTR_PRIORITY, priorityValue);
+		request.setAttribute(ATTR_STATUS, statusValue);
 		final RequestDispatcher view = request.getRequestDispatcher(Page.LIST.getJspName());
 		view.forward(request, response);
 	}

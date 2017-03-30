@@ -4,6 +4,8 @@ public class TicketCriteria {
 
 	private String id;
     private String system;
+    private PriorityStub priority;
+    private StatusStub status;
 
     public TicketCriteria() {
     }
@@ -35,9 +37,36 @@ public class TicketCriteria {
 	}
 
 
+	public PriorityStub getPriority() {
+		return priority;
+	}
+
+
+	public void setPriority(PriorityStub priority) {
+		this.priority = priority;
+	}
+	
+
+
+
+	public StatusStub getStatus() {
+		return status;
+	}
+
+
+
+
+	public void setStatus(StatusStub status) {
+		this.status = status;
+	}
+
 	@Override
     public String toString() {
         return "TicketCriteria [id=" + id + ", system=" + system + "]";
     }
+
+
+
+
 
 }
