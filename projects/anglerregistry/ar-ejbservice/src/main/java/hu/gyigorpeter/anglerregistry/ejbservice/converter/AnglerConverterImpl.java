@@ -35,4 +35,14 @@ public class AnglerConverterImpl implements AnglerConverter {
 		return anglerList;
 	}
 
+	@Override
+	public AnglerEntity to(Angler angler) {
+		AnglerEntity anglerEntity = null;
+		if (angler != null) {
+			anglerEntity = new AnglerEntity(angler.getName(), angler.getMothersName(), angler.getBirthDay(), angler.getBirthPlace(), angler.getZipCode(),
+					angler.getCity(), angler.getAddress(), angler.getSocialWork(), angler.getBanTime(), angler.isIsMember());
+		}
+		return anglerEntity;
+	}
+
 }

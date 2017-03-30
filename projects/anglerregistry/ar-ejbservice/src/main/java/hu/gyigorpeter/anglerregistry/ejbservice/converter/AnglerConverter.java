@@ -14,4 +14,6 @@ public interface AnglerConverter {
 
 	List<Angler> to(List<AnglerEntity> anglerEntityList);
 
+	AnglerEntity to(Angler angler);
+
 }

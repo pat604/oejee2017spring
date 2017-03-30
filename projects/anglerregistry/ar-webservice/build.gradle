@@ -1,0 +1,10 @@
+apply plugin: 'war'
+
+war { archiveName 'ar-webservice.war' }
+
+dependencies {
+	//testCompile 'junit:junit:4.12'
+	providedCompile project(':ar-ejbservice')
+	providedCompile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: jaxrsVersion	
+	providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: servletapiVersion
+}

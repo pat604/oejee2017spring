@@ -49,4 +49,17 @@ public class AnglerServiceImpl implements AnglerService {
 
 	}
 
+	@Override
+	public void addAngler(AnglerEntity anglerEntity) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Adding new angler entry...");
+		}
+		try {
+			this.entityManager.merge(anglerEntity);
+		} catch (Exception e) {
+			LOGGER.error(e);
+			throw new PersistenceServiceException("Error when adding new angler to DB..." + e.getLocalizedMessage(), e);
+		}
+	}
+
 }

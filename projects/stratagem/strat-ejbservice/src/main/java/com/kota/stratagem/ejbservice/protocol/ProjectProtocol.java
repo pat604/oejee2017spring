@@ -5,10 +5,18 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
+import com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor;
+import com.kota.stratagem.ejbservice.exception.AdaptorException;
 
 @Local
 public interface ProjectProtocol {
-	
-	List<ProjectRepresentor> getAllProjects();
-	
+
+	ProjectRepresentor getProject(Long id) throws AdaptorException;
+
+	List<ProjectRepresentor> getAllProjects() throws AdaptorException;
+
+	ProjectRepresentor saveProject(Long id, String name, ProjectStatusRepresentor status, Boolean visible) throws AdaptorException;
+
+	void removeProject(Long id) throws AdaptorException;
+
 }
