@@ -1,19 +1,21 @@
 package hu.qwaevisz.tickethandling.ejbservice.domain;
 
-import java.util.Set;
+import java.util.List;
 
 public class SystemStub {
 
 	private String id;
-	private Set<ComponentStub> components;
+	private String company_name;
+	private List<ComponentStub> components;
 
 	public SystemStub() {
-		this("", null);
+		this("", "", null);
 	}
 
-	public SystemStub(String id, Set<ComponentStub> components) {
+	public SystemStub(String id, String company_name, List<ComponentStub> components) {
 		super();
 		this.id = id;
+		this.company_name = company_name;
 		this.components = components;
 	}
 
@@ -25,11 +27,19 @@ public class SystemStub {
 		this.id = id;
 	}
 
-	public Set<ComponentStub> getComponents() {
+	public String getCompany_name() {
+		return this.company_name;
+	}
+
+	public void setCompany_name(String company_name) {
+		this.company_name = company_name;
+	}
+
+	public List<ComponentStub> getComponents() {
 		return this.components;
 	}
 
-	public void setComponents(Set<ComponentStub> components) {
+	public void setComponents(List<ComponentStub> components) {
 		this.components = components;
 	}
 

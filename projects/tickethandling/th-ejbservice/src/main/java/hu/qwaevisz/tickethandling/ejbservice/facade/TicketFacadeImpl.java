@@ -1,3 +1,4 @@
+
 package hu.qwaevisz.tickethandling.ejbservice.facade;
 
 import java.util.ArrayList;
@@ -9,6 +10,8 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 
+import hu.qwaevisz.tickethandling.ejbservice.converter.CustomerConverter;
+import hu.qwaevisz.tickethandling.ejbservice.converter.EmployeeConverter;
 import hu.qwaevisz.tickethandling.ejbservice.converter.TicketConverter;
 import hu.qwaevisz.tickethandling.ejbservice.domain.EmployeeStub;
 import hu.qwaevisz.tickethandling.ejbservice.domain.PriorityStub;
@@ -21,6 +24,8 @@ import hu.qwaevisz.tickethandling.persistence.entity.Ticket;
 import hu.qwaevisz.tickethandling.persistence.entity.trunk.Priority;
 import hu.qwaevisz.tickethandling.persistence.entity.trunk.Status;
 import hu.qwaevisz.tickethandling.persistence.exception.PersistenceServiceException;
+import hu.qwaevisz.tickethandling.persistence.service.CustomerService;
+import hu.qwaevisz.tickethandling.persistence.service.EmployeeService;
 import hu.qwaevisz.tickethandling.persistence.service.TicketService;
 
 @Stateless(mappedName = "ejb/tikcetFacade")
@@ -117,6 +122,78 @@ public class TicketFacadeImpl implements TicketFacade {
 	public void removeTicket(String id) throws FacadeException {
 		try {
 			this.service.delete(id);
+		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		}
+	}
+
+	//
+	// Place to another file later
+	//
+
+	@EJB
+	private CustomerService custService;
+
+	@EJB
+	private CustomerConverter custConverter;
+
+	@EJB
+	private EmployeeService empService;
+
+	@EJB
+	private EmployeeConverter empConverter;
+
+	@Override
+	public SystemStub getSystem(String id) throws FacadeException {
+		try {
+			final SystemStub stub = this.custConverter.to(this.custService.read(id));
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Get System by id (" + id + ") --> " + stub);
+			}
+			return stub;
+		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		}
+	}
+
+	@Override
+	public List<SystemStub> getSystems() throws FacadeException {
+		try {
+			List<SystemStub> stubs = this.custConverter.to(this.custService.readAll());
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Get Systems");
+			}
+			return stubs;
+		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		}
+	}
+
+	@Override
+	public EmployeeStub getEmployee(String id) throws FacadeException {
+		try {
+			final EmployeeStub stub = this.empConverter.to(this.empService.read(id));
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Get Employee by id (" + id + ") --> " + stub);
+			}
+			return stub;
+		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		}
+	}
+
+	@Override
+	public List<EmployeeStub> getEmployees() throws FacadeException {
+		try {
+			List<EmployeeStub> stubs = this.empConverter.to(this.empService.readAll());
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Get Employees");
+			}
+			return stubs;
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());

@@ -16,8 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import hu.qwaevisz.tickethandling.ejbservice.domain.EmployeeStub;
 import hu.qwaevisz.tickethandling.ejbservice.domain.PriorityStub;
 import hu.qwaevisz.tickethandling.ejbservice.domain.StatusStub;
+import hu.qwaevisz.tickethandling.ejbservice.domain.SystemStub;
 import hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
@@ -75,45 +77,44 @@ public class TicketController extends HttpServlet implements TicketParameter, Ti
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-		final String system = request.getParameter(SYSTEM);
-		final String sender_name = request.getParameter(SENDER_NAME);
-		final PriorityStub priority = PriorityStub.valueOf(request.getParameter(PRIORITY));
-		final String business_impact = request.getParameter(BUSINESS_IMPACT);
-		final String steps_to_rep = request.getParameter(STEPS_TO_REP);
-		Date creationdate = new Date();
-
 		try {
+
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+			SystemStub system;
+			EmployeeStub processor;
+
+			system = this.facade.getSystem(request.getParameter(SYSTEM));
+			processor = this.facade.getEmployee(request.getParameter(PROCESSOR));
+
+			final String sender_name = request.getParameter(SENDER_NAME);
+			final PriorityStub priority = PriorityStub.valueOf(request.getParameter(PRIORITY));
+			final String business_impact = request.getParameter(BUSINESS_IMPACT);
+			final String steps_to_rep = request.getParameter(STEPS_TO_REP);
+			Date creationdate = new Date();
+
 			final String par_creationdate = request.getParameter(CREATION_DATE);
 			if (par_creationdate != null) {
 				creationdate = format.parse(par_creationdate);
 			}
-		} catch (final ParseException e) {
-			LOGGER.error(e, e);
-		}
 
-		final Integer level = Integer.parseInt(request.getParameter(LEVEL));
-		final String processor = request.getParameter(PROCESSOR);
-		final StatusStub status = StatusStub.valueOf(request.getParameter(STATUS));
-		Date lastchanged = new Date();
+			final Integer level = Integer.parseInt(request.getParameter(LEVEL));
 
-		try {
+			final StatusStub status = StatusStub.valueOf(request.getParameter(STATUS));
+			Date lastchanged = new Date();
+
 			final String par_lastchanged = request.getParameter(LAST_CHANGED);
 			if (par_lastchanged != null) {
 				lastchanged = format.parse(par_lastchanged);
 			}
-		} catch (final ParseException e) {
-			LOGGER.error(e, e);
-		}
-		String id = request.getParameter(ID);
-		if ("".equals(id)) {
-			String newId = system + format.format(creationdate);
-			id = newId.replace("-", "").replace(":", "").replace(" ", "");
-			LOGGER.info(id);
-		}
 
-		try {
+			String id = request.getParameter(ID);
+			if ("".equals(id)) {
+				String newId = system + format.format(creationdate);
+				id = newId.replace("-", "").replace(":", "").replace(" ", "");
+				LOGGER.info(id);
+			}
+
 			final TicketStub ticket = new TicketStub(id, system, sender_name, priority, business_impact, steps_to_rep, creationdate, level, processor, status,
 					lastchanged);
 
@@ -127,7 +128,10 @@ public class TicketController extends HttpServlet implements TicketParameter, Ti
 
 		} catch (FacadeException e) {
 			LOGGER.error(e, e);
+		} catch (ParseException e) {
+			LOGGER.error(e, e);
 		}
+
 	}
 
 }

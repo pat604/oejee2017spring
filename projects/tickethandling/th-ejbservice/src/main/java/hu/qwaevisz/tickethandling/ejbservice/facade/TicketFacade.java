@@ -25,4 +25,15 @@ public interface TicketFacade {
 
 	void removeTicket(String id) throws FacadeException;
 
+	//
+	// Place to another file later
+	//
+
+	SystemStub getSystem(String id) throws FacadeException;
+
+	List<SystemStub> getSystems() throws FacadeException;
+
+	EmployeeStub getEmployee(String id) throws FacadeException;
+
+	List<EmployeeStub> getEmployees() throws FacadeException;
 }
