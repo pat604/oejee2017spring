@@ -1,26 +1,16 @@
-package hu.mitro.domain;
+package hu.mitro.ejbservice.domain;
 
 public class GuitarOwnerStub {
 
-	private Long ownerId;
 	private String username;
 	private String email;
 	private String password;
 
-	public GuitarOwnerStub(Long ownerId, String username, String email, String password) {
+	public GuitarOwnerStub(String username, String email, String password) {
 		super();
-		this.ownerId = ownerId;
 		this.username = username;
 		this.email = email;
 		this.password = password;
-	}
-
-	public Long getOwnerId() {
-		return this.ownerId;
-	}
-
-	public void setOwnerId(Long ownerId) {
-		this.ownerId = ownerId;
 	}
 
 	public String getUsername() {
@@ -39,6 +29,7 @@ public class GuitarOwnerStub {
 		this.email = email;
 	}
 
+	// El kell érnünk a password mezõ tartalmát?
 	public String getPassword() {
 		return this.password;
 	}
@@ -49,8 +40,7 @@ public class GuitarOwnerStub {
 
 	@Override
 	public String toString() {
-		return "GuitarOwnerStub [ownerId=" + this.ownerId + ", username=" + this.username
-				+ ", email=" + this.email + ", password=" + this.password + "]";
+		return "GuitarOwnerStub [usename=" + this.username + ", email=" + this.email + "]";
 	}
 
 }

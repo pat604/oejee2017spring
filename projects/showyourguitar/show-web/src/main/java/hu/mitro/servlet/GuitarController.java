@@ -1,38 +1,39 @@
 package hu.mitro.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import hu.mitro.ejbservice.domain.GuitarBrandStub;
 import hu.mitro.ejbservice.domain.GuitarStub;
 import hu.mitro.ejbservice.facade.GuitarFacade;
 
-@WebServlet("/GuitarPing")
-public class GuitarPingServlet extends HttpServlet {
+@WebServlet("/Guitar")
+public class GuitarController extends HttpServlet {
 
 	@EJB
 	private GuitarFacade facade;
 
-	// private static final Logger LOGGER = Logger.getLogger(GuitarPingServlet.class);
-
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// LOGGER.info("Get Guitar by user");
+		super.doGet(request, response);
 
-		List<GuitarStub> guitar = this.facade.getGuitars(GuitarBrandStub.GIBSON);
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		out.println(guitar.toString());
-		out.close();
+		Long id = Long.valueOf(request.getParameter("id"));
+		try {
+			GuitarStub guitar = this.facade.getGuitar(id);
+			request.setAttribute("guitar", guitar);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		RequestDispatcher view = request.getRequestDispatcher("guitar.jsp");
+		view.forward(request, response);
 	}
 
 }

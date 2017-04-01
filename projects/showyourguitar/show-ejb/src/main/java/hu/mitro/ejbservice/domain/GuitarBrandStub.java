@@ -1,4 +1,4 @@
-package hu.mitro.domain;
+package hu.mitro.ejbservice.domain;
 
 public enum GuitarBrandStub {
 

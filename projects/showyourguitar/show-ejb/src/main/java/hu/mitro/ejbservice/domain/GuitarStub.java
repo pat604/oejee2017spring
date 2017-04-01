@@ -1,8 +1,7 @@
-package hu.mitro.domain;
+package hu.mitro.ejbservice.domain;
 
 public class GuitarStub {
 
-	private Long guitarId;
 	private GuitarBrandStub guitarbrand;
 	private String guitarType;
 	private String color;
@@ -10,24 +9,15 @@ public class GuitarStub {
 	private double price;
 	private GuitarOwnerStub owner;
 
-	public GuitarStub(Long guitarId, GuitarBrandStub guitarbrand, String guitarType, String color,
-			int vintage, double price, GuitarOwnerStub owner) {
+	public GuitarStub(GuitarBrandStub guitarbrand, String guitarType, String color, int vintage,
+			double price, GuitarOwnerStub owner) {
 		super();
-		this.guitarId = guitarId;
 		this.guitarbrand = guitarbrand;
 		this.guitarType = guitarType;
 		this.color = color;
 		this.vintage = vintage;
 		this.price = price;
 		this.owner = owner;
-	}
-
-	public Long getGuitarId() {
-		return this.guitarId;
-	}
-
-	public void setGuitarId(Long guitarId) {
-		this.guitarId = guitarId;
 	}
 
 	public GuitarBrandStub getGuitarbrand() {
@@ -80,9 +70,9 @@ public class GuitarStub {
 
 	@Override
 	public String toString() {
-		return "GuitarStub [guitarId=" + this.guitarId + ", guitarbrand=" + this.guitarbrand
-				+ ", guitarType=" + this.guitarType + ", color=" + this.color + ", vintage="
-				+ this.vintage + ", price=" + this.price + ", owner=" + this.owner + "]";
+		return "GuitarStub [guitarbrand=" + this.guitarbrand + ", guitarType=" + this.guitarType
+				+ ", color=" + this.color + ", vintage=" + this.vintage + ", price=" + this.price
+				+ ", owner=" + this.owner + "]";
 	}
 
 }
