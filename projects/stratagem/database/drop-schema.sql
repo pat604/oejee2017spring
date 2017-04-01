@@ -1,5 +1,6 @@
 DROP TABLE project_status_alterations;
 DROP TABLE objective_status_alterations;
+DROP TABLE objective_appointments;
 
 DROP TABLE authorizations;
 DROP TABLE app_users;
