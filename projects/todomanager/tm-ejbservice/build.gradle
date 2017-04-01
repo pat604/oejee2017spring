@@ -1,0 +1,5 @@
+jar { archiveName 'tm-ejbservice.jar' }
+
+dependencies {
+	compile project(':tm-persistence')
+}

@@ -8,8 +8,6 @@ CREATE TABLE usertype (
 );
 ALTER TABLE usertype OWNER TO postgres;
 
-
-
 CREATE SEQUENCE appuser_record_id_seq START 1;
 CREATE TABLE appuser (
   appuser_record_id NUMERIC DEFAULT nextval('appuser_record_id_seq'),

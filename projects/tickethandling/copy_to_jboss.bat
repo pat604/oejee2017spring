@@ -1,0 +1,1 @@
+copy /Y build\libs\tickethandling.ear C:\JBoss\standalone\deployments;
