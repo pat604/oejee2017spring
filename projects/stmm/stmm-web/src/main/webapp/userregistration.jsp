@@ -1,15 +1,49 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="hu.smiklos.stmm.ejb.uribuilder.UriBuilder" %>
 <%@ page import="hu.smiklos.stmm.web.common.Page" %>
 <%@ page import="hu.smiklos.stmm.ejb.domain.UserRegistrationStub" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="hu.smiklos.stmm.ejb.common.Errors" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.Map" %>
+<%
+    Errors errors = new Errors();
+    if(request.getAttribute("errors") != null) {
+         errors = (Errors) request.getAttribute("errors");
+    }
+%>
 <html lang="en">
 <jsp:include page="/reusablejsp/head_tag.jsp"></jsp:include>
 <body>
 <jsp:include page="/reusablejsp/navbar_registration.jsp"></jsp:include>
 
 <div class="container">
+    <div class="vcenter">
+    <% if(errors.hasError()) {%>
     <div class="row">
         <div class="col-md-6 col-md-offset-3 vcenter">
+            <div id="error-panel" class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Registration error!</h3>
+                </div>
+                <div class="panel-body">
+                    <%
+                        Iterator it = errors.getErrorList().entrySet().iterator();
+                        out.println("<ul>");
+                        while (it.hasNext()) {
+                            Map.Entry pair = (Map.Entry)it.next();
+                            out.println("<li><a href='#"+ pair.getKey()+"'>"+pair.getValue()+"</a></li>");
+                            it.remove(); // avoids a ConcurrentModificationException
+                        }
+                        out.println("</ul>");
+
+                    %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
             <div id="form-panel" class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Registration form</h3>
@@ -43,6 +77,7 @@
         </div>
     </div>
 </div>
+</div>
 
 <jsp:include page="/reusablejsp/jquery_before_body_close.jsp"></jsp:include>
 <style>
@@ -52,7 +87,7 @@
                 default is 50px */
     }
     .vcenter {
-        padding-top: 10%;
+        padding-top: 5%;
     }
 
 </style>
