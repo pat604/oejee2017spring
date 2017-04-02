@@ -11,13 +11,13 @@ import java.util.Date;
 public class DateConverter {
 
     public static String getDateAsContinouesString(Date date) {
-            DateFormat sdf = new SimpleDateFormat("yyyymmdd");
+            DateFormat sdf = new SimpleDateFormat("yyyyMMdd");
             String dateString = sdf.format(date);
             return dateString;
     }
 
     public static String getDateHyphenSeparated(Date date) {
-        DateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = sdf.format(date);
         return dateString;
     }

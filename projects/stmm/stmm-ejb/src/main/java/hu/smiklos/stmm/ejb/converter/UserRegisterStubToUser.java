@@ -17,6 +17,7 @@ public class UserRegisterStubToUser implements UserRegisterStubToUserInterface {
         user.setFirst_name(stub.getFirst_name());
         user.setLast_name(stub.getLast_name());
         user.setUserId(stub.getUserId());
+        user.setUsername(stub.getUsername());
         return user;
     }
 }
