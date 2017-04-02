@@ -2,5 +2,6 @@ group 'hu.smiklos.stmm'
 version '1.0-SNAPSHOT'
 
 dependencies {
+    compile group: 'org.mindrot', name: 'jbcrypt', version: '0.3m'
     compile project(':stmm-pers')
 }

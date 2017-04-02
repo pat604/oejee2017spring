@@ -23,7 +23,7 @@ allprojects {
 
     repositories {
         mavenCentral()
-        maven { url "http://repository.pentaho.org/artifactory/repo" }
+        maven { url "http://central.maven.org/maven2/" }
     }
 
     dependencies {
