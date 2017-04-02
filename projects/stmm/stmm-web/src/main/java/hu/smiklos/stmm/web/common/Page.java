@@ -4,7 +4,9 @@ package hu.smiklos.stmm.web.common;
  * Created by SebestyenMiklos on 2017. 03. 12..
  */
 public enum Page {
-    HOME("home.jsp", "Home"),SIGN_IN("startpage.jsp", "Start");
+    HOME("home.jsp", "Home"),
+    SIGN_IN("startpage.jsp", "Start"),
+    USER_REGISTRATION("userregistration.jsp", "Registration");
 
 
     public static String SignIn;

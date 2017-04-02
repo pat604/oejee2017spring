@@ -23,6 +23,7 @@ public class AppUser implements Serializable {
     private String first_name;
     private String last_name;
     private String password;
+    private String username;
     private UserType userType;
 
     public AppUser(String userId, String walletId, String first_name, String last_name, String password, UserType userType) {
@@ -93,5 +94,12 @@ public class AppUser implements Serializable {
         this.userType = userType;
     }
 
+    @Column(name = "username", nullable = false)
+    public String getUsername() {
+        return username;
+    }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }
