@@ -1,5 +1,9 @@
 package hu.smiklos.stmm.ejb.domain;
 
+import hu.smiklos.stmm.ejb.common.Errors;
+
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by SebestyenMiklos on 2017. 03. 30..
  */
@@ -13,15 +17,20 @@ public class UserRegistrationStub {
 
     private String first_name;
 
+
     private String last_name;
+
 
     private String username;
 
     private String password;
 
+
     private String password_again;
 
     private String userId;
+
+    private Errors errors;
 
     public String getFirst_name() {
         return first_name;
@@ -68,6 +77,29 @@ public class UserRegistrationStub {
     }
 
     public boolean isValid() {
-        return false;
+        errors = new Errors();
+        if(first_name.isEmpty()){
+            errors.add(FIRST_NAME, "First name empty");
+        }
+        if(last_name.isEmpty()){
+            errors.add(LAST_NAME, "Last name is empty");
+        }
+        if(password.isEmpty()){
+            errors.add(PASSWORD, "Password is empty");
+        }
+        if(password_again.isEmpty()) {
+            errors.add(PASSWORD_AGAIN, "Repeat password");
+        }
+        if(!password.equals(password_again)){
+            errors.add("password_mismatch", "Password missmatch");
+        }
+        if(username.isEmpty()){
+            errors.add(USERNAME, "Username empty");
+        }
+        return !errors.hasError();
+    }
+
+    public Errors getErrors() {
+        return errors;
     }
 }

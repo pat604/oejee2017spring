@@ -1,6 +1,7 @@
 package hu.smiklos.stmm.ejb.facade;
 
 import hu.smiklos.stmm.ejb.domain.UserRegistrationStub;
+import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 
 import javax.ejb.Local;
 
@@ -10,7 +11,8 @@ import javax.ejb.Local;
 @Local
 public interface UserRegistrationFacadeInterface {
 
-    public UserRegistrationStub getUserRegistrationForm();
+    UserRegistrationStub getUserRegistrationStub();
 
+    void createUser(UserRegistrationStub stub) throws PersistenceServiceException;
 
 }

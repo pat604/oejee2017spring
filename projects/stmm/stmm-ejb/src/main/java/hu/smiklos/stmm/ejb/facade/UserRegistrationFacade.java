@@ -2,6 +2,7 @@ package hu.smiklos.stmm.ejb.facade;
 
 import hu.smiklos.stmm.ejb.converter.UserRegisterStubToUserInterface;
 import hu.smiklos.stmm.ejb.domain.UserRegistrationStub;
+import hu.smiklos.stmm.pers.entity.AppUser;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.pers.service.AppUserServiceInterface;
 
@@ -23,16 +24,17 @@ public class UserRegistrationFacade implements UserRegistrationFacadeInterface {
     private UserRegistrationStub userRegistrationStub;
 
     @Override
-    public UserRegistrationStub getUserRegistrationForm() {
+    public UserRegistrationStub getUserRegistrationStub() {
         if(userRegistrationStub == null){
             userRegistrationStub = new UserRegistrationStub();
         }
         return userRegistrationStub;
     }
 
-    public void registerUser() throws PersistenceServiceException {
-        if(userRegistrationStub.isValid()){
-            service.create(converter.formToAppUser(userRegistrationStub));
-        }
+    @Override
+    public void createUser(UserRegistrationStub stub) throws PersistenceServiceException {
+        AppUser user= converter.formToAppUser(stub);
+        service.create(user);
     }
+
 }
