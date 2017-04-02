@@ -4,6 +4,7 @@ CREATE TABLE usertype (
   usertype_record_id INT DEFAULT nextval('usertype_record_id_seq'),
 	usertype_id CHARACTER VARYING(100) NOT NULL,
 	usertype CHARACTER VARYING(100) NOT NULL,
+  state INT NOT NULL UNIQUE ,
 	CONSTRAINT PK_USERTYPE_ID PRIMARY KEY (usertype_id)
 );
 ALTER TABLE usertype OWNER TO postgres;
@@ -115,6 +116,12 @@ CREATE TABLE deadline (
     REFERENCES money_transfer(moneytransfer_id)
 );
 ALTER TABLE deadline OWNER TO postgres;
+
+CREATE TABLE registration_per_day(
+    day CHARACTER VARYING(8) PRIMARY KEY ,
+    count BIGINT
+);
+ALTER TABLE  registration_per_day OWNER TO postgres;
 
 
 
