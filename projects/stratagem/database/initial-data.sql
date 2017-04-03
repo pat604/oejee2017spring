@@ -142,20 +142,20 @@ INSERT INTO project_status_alterations (alteration_id, alteration_project_id, al
 -- ###########################################################################################
 
 INSERT INTO tasks (task_id, task_name, task_description, task_completion_percentage) VALUES 
-(16738267, 'Use-case test tool', 'Creating tool for efficient use-case testing', 30),
-(16098764, 'Print matching', 'Matching watermark prints', 85),
-(17896372, 'Extraction planning', 'Planning extraction approach', 60),
-(16906732, 'Backup system allocation', 'Allocating backup systems for overload evasion', 100),
-(17021230, 'Incident wrap up', 'Closing all end-to-end test incidents', 0);
+(0, 'Use-case test tool', 'Creating tool for efficient use-case testing', 30),
+(1, 'Print matching', 'Matching watermark prints', 85),
+(2, 'Extraction planning', 'Planning extraction approach', 60),
+(3, 'Backup system allocation', 'Allocating backup systems for overload evasion', 100),
+(4, 'Incident wrap up', 'Closing all end-to-end test incidents', 0);
 
 INSERT INTO project_tasks(project_task_id, project_task_project_id, project_task_task_id) VALUES
-(0, 1, 16738267),
-(1, 0, 16098764),
-(2, 2, 17896372),
-(3, 1, 17021230);
+(0, 1, 0),
+(1, 0, 1),
+(2, 2, 2),
+(3, 1, 4);
 
 INSERT INTO objective_tasks(objective_task_id, objective_task_objective_id, objective_task_task_id) VALUES
-(0, 1, 16906732);
+(0, 1, 3);
 
 -- ###########################################################################################
 
@@ -178,7 +178,17 @@ INSERT INTO project_impediments (project_impediment_id, project_impediment_proje
 (1, 1, 1);
 
 INSERT INTO task_impediments (task_impediment_id, task_impediment_task_id, task_impediment_impediment_id) VALUES
-(0, 17021230, 2);
+(0, 4, 2);
 
 INSERT INTO remedies (remedy_id, remedy_description, remedy_impediment_id, remedy_submission_date, remedy_provider) VALUES
 (0, 'Use service control tool to generate project structure from existing endpoint meta data', 1, '2015/12/13 14:20:00', 1); 
+
+-- ###########################################################################################
+
+INSERT INTO project_deadlines (deadline_id, deadline_project_id, deadline_date) VALUES
+(0, 0, '2015/11/30 00:00:00'),
+(1, 3, '2017/05/26 00:00:00');
+
+INSERT INTO task_deadlines (deadline_id, deadline_task_id, deadline_date) VALUES
+(0, 1, '2016/08/14 00:00:00'),
+(1, 3, '2016/09/10 00:00:00');

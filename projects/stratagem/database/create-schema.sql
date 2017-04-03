@@ -212,6 +212,25 @@ CREATE TABLE remedies (
 );
 	
 -- ###########################################################################################
+	
+CREATE TABLE project_deadlines (
+	deadline_id SERIAL NOT NULL,
+	deadline_project_id INTEGER NOT NULL,
+	deadline_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+	CONSTRAINT PK_PROJECT_DEADLINE_ID PRIMARY KEY (deadline_id),
+	CONSTRAINT FK_PROJECT_DEADLINE_PROJECT_ID FOREIGN KEY (deadline_project_id)
+	  REFERENCES projects (project_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+CREATE TABLE task_deadlines (
+	deadline_id SERIAL NOT NULL,
+	deadline_task_id INTEGER NOT NULL,
+	deadline_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+	CONSTRAINT PK_TASK_DEADLINE_ID PRIMARY KEY (deadline_id),
+	CONSTRAINT FK_TASK_DEADLINE_TASK_ID FOREIGN KEY (deadline_task_id)
+	  REFERENCES tasks (task_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+	
+-- ###########################################################################################
 
 ALTER TABLE priorities OWNER TO postgres;
 ALTER TABLE roles OWNER TO postgres;
@@ -235,3 +254,5 @@ ALTER TABLE project_impediments OWNER TO postgres;
 ALTER TABLE task_impediments OWNER TO postgres;
 ALTER TABLE remedies OWNER TO postgres;
 ALTER TABLE project_managers OWNER TO postgres;
+ALTER TABLE project_deadlines OWNER TO postgres;
+ALTER TABLE task_deadlines OWNER TO postgres;
