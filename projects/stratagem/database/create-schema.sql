@@ -119,12 +119,31 @@ CREATE TABLE tasks (
 	task_id SERIAL NOT NULL,
 	task_name CHARACTER VARYING(100) NOT NULL,
 	task_description CHARACTER VARYING(500) NULL,
-	task_project_id INTEGER NOT NULL,
 	task_completion_percentage INTEGER NOT NULL,
-	CONSTRAINT PK_TASK_ID PRIMARY KEY (task_id),
-	CONSTRAINT FK_TASK_PROJECT FOREIGN KEY (task_project_id)
-	  REFERENCES projects (project_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+	CONSTRAINT PK_TASK_ID PRIMARY KEY (task_id)
 );
+CREATE TABLE project_tasks (
+	project_task_id SERIAL NOT NULL,
+	project_task_project_id INTEGER NOT NULL,
+	project_task_task_id INTEGER NOT NULL,
+	CONSTRAINT PK_PROJECT_TASK_ID PRIMARY KEY (project_task_id),
+	CONSTRAINT FK_PROJECT_TASK_PROJECT FOREIGN KEY (project_task_project_id)
+	  REFERENCES projects (project_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_PROJECT_TASK_TASK FOREIGN KEY (project_task_task_id)
+	  REFERENCES tasks (task_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+CREATE TABLE objective_tasks (
+	objective_task_id SERIAL NOT NULL,
+	objective_task_objective_id INTEGER NOT NULL,
+	objective_task_task_id INTEGER NOT NULL,
+	CONSTRAINT PK_OBJECTIVE_TASK_ID PRIMARY KEY (objective_task_id),
+	CONSTRAINT FK_PROJECT_TASK_PROJECT FOREIGN KEY (objective_task_objective_id)
+	  REFERENCES objectives (objective_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_PROJECT_TASK_TASK FOREIGN KEY (objective_task_task_id)
+	  REFERENCES tasks (task_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+
+-- ###########################################################################################
 
 CREATE TABLE impediment_statuses (
 	status_id SERIAL NOT NULL,
@@ -162,7 +181,6 @@ CREATE TABLE task_impediments (
 	CONSTRAINT FK_TASK_IMPEDIMENT_IMPEDIMENT_ID FOREIGN KEY (task_impediment_impediment_id)
 	  REFERENCES impediments (impediment_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
-
 	
 -- ###########################################################################################
 
@@ -180,6 +198,8 @@ ALTER TABLE project_statuses OWNER TO postgres;
 ALTER TABLE projects OWNER TO postgres;
 ALTER TABLE project_status_alterations OWNER TO postgres;
 ALTER TABLE tasks OWNER TO postgres;
+ALTER TABLE project_tasks OWNER TO postgres;
+ALTER TABLE objective_tasks OWNER TO postgres;
 ALTER TABLE impediment_statuses OWNER TO postgres;
 ALTER TABLE impediments OWNER TO postgres;
 ALTER TABLE project_impediments OWNER TO postgres;

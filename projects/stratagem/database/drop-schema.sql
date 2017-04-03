@@ -12,6 +12,9 @@ DROP TABLE project_impediments;
 DROP TABLE task_impediments;
 DROP TABLE impediment_statuses;
 DROP TABLE impediments;
+
+DROP TABLE project_tasks;
+DROP TABLE objective_tasks;
 DROP TABLE tasks;
 
 DROP TABLE projects;

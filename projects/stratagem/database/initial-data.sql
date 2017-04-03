@@ -130,12 +130,23 @@ INSERT INTO project_status_alterations (alteration_id, alteration_project_id, al
 
 -- ###########################################################################################
 
-INSERT INTO tasks (task_id, task_name, task_description, task_project_id, task_completion_percentage) VALUES 
-(16738267, 'Use-case test tool', 'Creating tool for efficient use-case testing', 1, 30),
-(16098764, 'Print matching', 'Matching watermark prints', 0, 85),
-(17896372, 'Extraction planning', 'Planning extraction approach', 2, 60),
-(16906732, 'Backup system allocation', 'Allocating backup systems for overload evasion', 0, 100),
-(17021230, 'Incident wrap up', 'Closing all end-to-end test incidents', 1, 0);
+INSERT INTO tasks (task_id, task_name, task_description, task_completion_percentage) VALUES 
+(16738267, 'Use-case test tool', 'Creating tool for efficient use-case testing', 30),
+(16098764, 'Print matching', 'Matching watermark prints', 85),
+(17896372, 'Extraction planning', 'Planning extraction approach', 60),
+(16906732, 'Backup system allocation', 'Allocating backup systems for overload evasion', 100),
+(17021230, 'Incident wrap up', 'Closing all end-to-end test incidents', 0);
+
+INSERT INTO project_tasks(project_task_id, project_task_project_id, project_task_task_id) VALUES
+(0, 1, 16738267),
+(1, 0, 16098764),
+(2, 2, 17896372),
+(3, 1, 17021230);
+
+INSERT INTO objective_tasks(objective_task_id, objective_task_objective_id, objective_task_task_id) VALUES
+(0, 1, 16906732);
+
+-- ###########################################################################################
 
 INSERT INTO impediment_statuses (status_id, status_name) VALUES
 (0, 'OPEN'),
