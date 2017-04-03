@@ -1,35 +1,46 @@
-INSERT INTO roles (role_id, role_name) VALUES (0, 'pristine_user');
-INSERT INTO roles (role_id, role_name) VALUES (1, 'general_user');
-INSERT INTO roles (role_id, role_name) VALUES (2, 'general_manager');
-INSERT INTO roles (role_id, role_name) VALUES (3, 'department_manager');
-INSERT INTO roles (role_id, role_name) VALUES (4, 'central_manager');
-INSERT INTO roles (role_id, role_name) VALUES (5, 'system_administrator');
+INSERT INTO priorities (priority_id, priority_name) VALUES
+(0, 'LOW'),
+(1, 'MEDIUM'),
+(2, 'HIGH'),
+(3, 'VERY_HIGH');
+
+-- ###########################################################################################
+
+INSERT INTO roles (role_id, role_name) VALUES 
+(0, 'pristine_user'),
+(1, 'general_user'),
+(2, 'general_manager'),
+(3, 'department_manager'),
+(4, 'central_manager'),
+(5, 'system_administrator');
 SELECT SETVAL('roles_role_id_seq', COALESCE(MAX(role_id), 1) ) FROM roles;
 
-INSERT INTO app_users (user_id, user_name, user_password) VALUES (0, 'adam', 'a123');
-INSERT INTO app_users (user_id, user_name, user_password) VALUES (1, 'brent', 'b123');
-INSERT INTO app_users (user_id, user_name, user_password) VALUES (2, 'chris', 'c123');
-INSERT INTO app_users (user_id, user_name, user_password) VALUES (3, 'dennis', 'd123');
-INSERT INTO app_users (user_id, user_name, user_password) VALUES (4, 'ellie', 'e123');
-INSERT INTO app_users (user_id, user_name, user_password) VALUES (5, 'frank', 'f123');
-INSERT INTO app_users (user_id, user_name, user_password) VALUES (6, 'gabrille', 'g123');
-INSERT INTO app_users (user_id, user_name, user_password) VALUES (7, 'holly', 'h123');
-INSERT INTO app_users (user_id, user_name, user_password) VALUES (8, 'ike', 'i123');
-INSERT INTO app_users (user_id, user_name, user_password) VALUES (9, 'jenny', 'j123');
+INSERT INTO app_users (user_id, user_name, user_password) VALUES 
+(0, 'adam', 'a123'),
+(1, 'brent', 'b123'),
+(2, 'chris', 'c123'),
+(3, 'dennis', 'd123'),
+(4, 'ellie', 'e123'),
+(5, 'frank', 'f123'),
+(6, 'gabrille', 'g123'),
+(7, 'holly', 'h123'),
+(8, 'ike', 'i123'),
+(9, 'jenny', 'j123');
 SELECT SETVAL('app_users_user_id_seq', COALESCE(MAX(user_id), 1) ) FROM app_users;
 
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (0, 1);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (0, 3);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (1, 1);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (1, 3);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (2, 1);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (3, 1);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (4, 1);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (5, 1);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (6, 1);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (7, 1);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (8, 1);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (9, 1);
+INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES 
+(0, 1),
+(0, 3),
+(1, 1),
+(1, 3),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1),
+(8, 1),
+(9, 1);
 
 INSERT INTO teams (team_id, team_name) VALUES
 (0, 'Management'),
@@ -54,11 +65,12 @@ INSERT INTO team_members (team_member_id, team_member_team_id, team_member_user_
 
 -- ###########################################################################################
 
-INSERT INTO objective_statuses(status_id, status_name) VALUES (0, 'PLANNED');
-INSERT INTO objective_statuses(status_id, status_name) VALUES (1, 'DESIGNATED');
-INSERT INTO objective_statuses(status_id, status_name) VALUES (2, 'CONTINUOUS');
-INSERT INTO objective_statuses(status_id, status_name) VALUES (3, 'DISCUNTINUED');
-INSERT INTO objective_statuses(status_id, status_name) VALUES (4, 'COMPLETED');
+INSERT INTO objective_statuses(status_id, status_name) VALUES 
+(0, 'PLANNED'),
+(1, 'DESIGNATED'),
+(2, 'CONTINUOUS'),
+(3, 'DISCONTINUED'),
+(4, 'COMPLETED');
 
 INSERT INTO objectives (objective_id, objective_name, objective_description, objective_priority, objective_status_id) VALUES 
 (0, 'Integration with augmented reality', '', 2, 1),
@@ -75,23 +87,24 @@ INSERT INTO objective_appointments(appointment_id, appointment_user_id, appointm
 
 -- ###########################################################################################
 
-INSERT INTO project_statuses (status_id, status_name) VALUES (0, 'PROPOSED');
-INSERT INTO project_statuses (status_id, status_name) VALUES (1, 'PENDING');
-INSERT INTO project_statuses (status_id, status_name) VALUES (2, 'INITIATED');
-INSERT INTO project_statuses (status_id, status_name) VALUES (3, 'UNDER_ANALYSIS');
-INSERT INTO project_statuses (status_id, status_name) VALUES (4, 'IN_DESIGN');
-INSERT INTO project_statuses (status_id, status_name) VALUES (5, 'IN_DEVELOPMENT');
-INSERT INTO project_statuses (status_id, status_name) VALUES (6, 'CANCELED');
-INSERT INTO project_statuses (status_id, status_name) VALUES (7, 'TESTING');
-INSERT INTO project_statuses (status_id, status_name) VALUES (8, 'IN_CORRECTION');
-INSERT INTO project_statuses (status_id, status_name) VALUES (9, 'VALIDATING');
-INSERT INTO project_statuses (status_id, status_name) VALUES (10, 'DEPLOYING');
-INSERT INTO project_statuses (status_id, status_name) VALUES (11, 'IMPLEMENTING');
-INSERT INTO project_statuses (status_id, status_name) VALUES (12, 'INTEGRATING');
-INSERT INTO project_statuses (status_id, status_name) VALUES (13, 'LIVE');
-INSERT INTO project_statuses (status_id, status_name) VALUES (14, 'MAINTAINED_BY_OPERATIONS');
-INSERT INTO project_statuses (status_id, status_name) VALUES (15, 'UPGRADING');
-INSERT INTO project_statuses (status_id, status_name) VALUES (16, 'DISPOSED');
+INSERT INTO project_statuses (status_id, status_name) VALUES 
+(0, 'PROPOSED'),
+(1, 'PENDING'),
+(2, 'INITIATED'),
+(3, 'UNDER_ANALYSIS'),
+(4, 'IN_DESIGN'),
+(5, 'IN_DEVELOPMENT'),
+(6, 'CANCELED'),
+(7, 'TESTING'),
+(8, 'IN_CORRECTION'),
+(9, 'VALIDATING'),
+(10, 'DEPLOYING'),
+(11, 'IMPLEMENTING'),
+(12, 'INTEGRATING'),
+(13, 'LIVE'),
+(14, 'MAINTAINED_BY_OPERATIONS'),
+(15, 'UPGRADING'),
+(16, 'DISPOSED');
 
 INSERT INTO projects (project_id, project_name, project_description, project_visibility) VALUES 
 (0, 'Ceraphis data deployment', 'Deployment of Ceraphis Solutions buisness data to data warehouse in India', TRUE),
@@ -107,7 +120,7 @@ INSERT INTO project_status_alterations (alteration_id, alteration_project_id, al
 (4, 0, 7, 1, '2015/06/25 11:15:00'),
 (5, 0, 9, 1, '2015/07/02 09:15:00'),
 (6, 0, 10, 3, '2015/07/15 10:15:00'),
-(7, 1, 5, 5, '015/08/07 17:15:00'),
+(7, 1, 5, 5, '2015/08/07 17:15:00'),
 (8, 1, 7, 1, '2016/10/23 15:15:00'),
 (9, 2, 0, 4, '2016/11/26 10:15:00'),
 (10, 3, 2, 2, '2016/09/18 09:15:00'),
@@ -117,9 +130,30 @@ INSERT INTO project_status_alterations (alteration_id, alteration_project_id, al
 
 -- ###########################################################################################
 
-INSERT INTO tasks (task_id, task_description, task_project_id, task_completion_percentage) VALUES 
-(16738267, 'Creating tool for efficient use-case testing', 1, 30),
-(16098764, 'Matching watermark prints', 0, 85),
-(17896372, 'Planning extraction approach', 2, 60),
-(16906732, 'Allocating backup systems for overload evasion', 0, 100),
-(17021230, 'Closing all end-to-end test incidents', 1, 0);
+INSERT INTO tasks (task_id, task_name, task_description, task_project_id, task_completion_percentage) VALUES 
+(16738267, 'Use-case test tool', 'Creating tool for efficient use-case testing', 1, 30),
+(16098764, 'Print matching', 'Matching watermark prints', 0, 85),
+(17896372, 'Extraction planning', 'Planning extraction approach', 2, 60),
+(16906732, 'Backup system allocation', 'Allocating backup systems for overload evasion', 0, 100),
+(17021230, 'Incident wrap up', 'Closing all end-to-end test incidents', 1, 0);
+
+INSERT INTO impediment_statuses (status_id, status_name) VALUES
+(0, 'OPEN'),
+(1, 'ADRESSED'),
+(2, 'BEING_PROCESSED'),
+(3, 'SOLUTION_PROVIDED'),
+(4, 'DUPLICATE'),
+(5, 'DISMISSED'),
+(6, 'CONFIRMED');
+
+INSERT INTO impediments (impediment_id, impediment_name, impediment_description, impediment_priority_id, impediment_status_id, impediment_creation_date) VALUES
+(0, 'Insufficient tools', 'ARPA SDK would serve as a huge advantage with development', 2, 1, '2016/10/25 14:45:00'),
+(1, 'Data connection', 'Unable to establish connection with service endpoint with OData componenet', 3, 6, '2015/12/11 16:10:00'),
+(2, 'Lingering numpad', 'A High level incident is not recreatable with our build, and transition at this point is not possible', 0, 2, '2016/09/03 10:40:00');
+
+INSERT INTO project_impediments (project_impediment_id, project_impediment_project_id, project_impediment_impediment_id) VALUES
+(0, 3, 0),
+(1, 1, 1);
+
+INSERT INTO task_impediments (task_impediment_id, task_impediment_task_id, task_impediment_impediment_id) VALUES
+(0, 17021230, 2);

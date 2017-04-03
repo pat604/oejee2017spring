@@ -1,3 +1,11 @@
+CREATE TABLE priorities (
+	priority_id SERIAL NOT NULL,
+	priority_name CHARACTER VARYING(100) NOT NULL,
+	CONSTRAINT PK_PRIORITY_ID PRIMARY KEY (priority_id) 
+);
+
+-- ###########################################################################################
+
 CREATE TABLE roles (
 	role_id SERIAL NOT NULL,
 	role_name CHARACTER VARYING(100) NOT NULL,
@@ -109,7 +117,8 @@ CREATE TABLE project_status_alterations (
 
 CREATE TABLE tasks (
 	task_id SERIAL NOT NULL,
-	task_description CHARACTER VARYING(100) NOT NULL,
+	task_name CHARACTER VARYING(100) NOT NULL,
+	task_description CHARACTER VARYING(500) NULL,
 	task_project_id INTEGER NOT NULL,
 	task_completion_percentage INTEGER NOT NULL,
 	CONSTRAINT PK_TASK_ID PRIMARY KEY (task_id),
@@ -117,8 +126,47 @@ CREATE TABLE tasks (
 	  REFERENCES projects (project_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
+CREATE TABLE impediment_statuses (
+	status_id SERIAL NOT NULL,
+	status_name CHARACTER VARYING(100),
+	CONSTRAINT PK_IMPEDIMENT_STATUS_ID PRIMARY KEY (status_id)
+);
+CREATE TABLE impediments (
+	impediment_id SERIAL NOT NULL,
+	impediment_name CHARACTER VARYING(100) NOT NULL,
+	impediment_description CHARACTER VARYING(500) NULL,
+	impediment_priority_id INTEGER NOT NULL,
+	impediment_status_id INTEGER NOT NULL,
+	impediment_creation_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+	CONSTRAINT PK_IMPEDIMENT_ID PRIMARY KEY (impediment_id),
+	CONSTRAINT FK_IMPEDIMENT_PRIORITY_ID FOREIGN KEY (impediment_priority_id)
+	  REFERENCES priorities (priority_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+CREATE TABLE project_impediments (
+	project_impediment_id SERIAL NOT NULL,
+	project_impediment_project_id INTEGER NOT NULL,
+	project_impediment_impediment_id INTEGER NOT NULL,
+	CONSTRAINT PK_PROJECT_IMPEDIMENT_ID PRIMARY KEY (project_impediment_id),
+	CONSTRAINT FK_PROJECT_IMPEDIMENT_PROJECT_ID FOREIGN KEY (project_impediment_project_id)
+	  REFERENCES projects (project_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_PROJECT_IMPEDIMENT_IMPEDIMENT_ID FOREIGN KEY (project_impediment_impediment_id)
+	  REFERENCES impediments (impediment_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+CREATE TABLE task_impediments (
+	task_impediment_id SERIAL NOT NULL,
+	task_impediment_task_id INTEGER NOT NULL,
+	task_impediment_impediment_id INTEGER NOT NULL,
+	CONSTRAINT PK_TASK_IMPEDIMENT_ID PRIMARY KEY (task_impediment_id),
+	CONSTRAINT FK_TASK_IMPEDIMENT_TASK_ID FOREIGN KEY (task_impediment_task_id)
+	  REFERENCES tasks (task_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_TASK_IMPEDIMENT_IMPEDIMENT_ID FOREIGN KEY (task_impediment_impediment_id)
+	  REFERENCES impediments (impediment_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+
+	
 -- ###########################################################################################
 
+ALTER TABLE priorities OWNER TO postgres;
 ALTER TABLE roles OWNER TO postgres;
 ALTER TABLE app_users OWNER TO postgres;
 ALTER TABLE authorizations OWNER TO postgres;
@@ -132,3 +180,7 @@ ALTER TABLE project_statuses OWNER TO postgres;
 ALTER TABLE projects OWNER TO postgres;
 ALTER TABLE project_status_alterations OWNER TO postgres;
 ALTER TABLE tasks OWNER TO postgres;
+ALTER TABLE impediment_statuses OWNER TO postgres;
+ALTER TABLE impediments OWNER TO postgres;
+ALTER TABLE project_impediments OWNER TO postgres;
+ALTER TABLE task_impediments OWNER TO postgres;
