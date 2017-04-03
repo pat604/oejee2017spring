@@ -4,6 +4,13 @@ INSERT INTO priorities (priority_id, priority_name) VALUES
 (2, 'HIGH'),
 (3, 'VERY_HIGH');
 
+INSERT INTO mission_stages (stage_id, stage_name) VALUES
+(0, 'OPEN'),
+(1, 'ADRESSED'),
+(2, 'IN_PROGRESS'),
+(3, 'DISCARDED'),
+(4, 'ACCOMPLISHED');
+
 -- ###########################################################################################
 
 INSERT INTO roles (role_id, role_name) VALUES 
@@ -78,6 +85,8 @@ INSERT INTO objectives (objective_id, objective_name, objective_description, obj
 (0, 'Integration with augmented reality', '', 2, 1),
 (1, 'Increase influence in market', 'Completing projects for our esteemed contacts', 1, 1);
 
+--INSERT INTO objective_missions
+
 INSERT INTO objective_status_alterations (alteration_id, alteration_objective_id, alteration_status_id, alteration_date) VALUES
 (0, 0, 0, '2016/03/20 15:45:00'),
 (1, 0, 1, '2016/06/05 11:50:00'),
@@ -113,6 +122,8 @@ INSERT INTO projects (project_id, project_name, project_description, project_vis
 (1, 'QuickExtract app', 'Develop mobile app for QuickExtract', TRUE),
 (2, 'Grove BI outsourcing', '', TRUE),
 (3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', FALSE);
+
+--INSERT INTO project_missions
 
 INSERT INTO project_managers (project_manager_id, project_manager_project_id, project_manager_user_id, project_manager_owner) VALUES
 (0, 0, 0, TRUE),
@@ -196,3 +207,5 @@ INSERT INTO task_deadlines (deadline_id, deadline_task_id, deadline_date) VALUES
 
 INSERT INTO task_dependencies (dependency_id, dependency_dependent, dependency_maintainer, dependency_value) VALUES
 (0, 5, 4, 100);
+
+-- INSERT INTO task_estimations

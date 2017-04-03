@@ -8,6 +8,7 @@ DROP TABLE team_objective_assignments;
 DROP TABLE team_project_assignments;
 DROP TABLE team_task_assignments;
 
+DROP TABLE task_estimations;
 DROP TABLE task_dependencies;
 DROP TABLE project_deadlines;
 DROP TABLE task_deadlines;
@@ -24,15 +25,18 @@ DROP TABLE tasks;
 
 DROP TABLE project_status_alterations;
 DROP TABLE project_managers;
+DROP TABLE project_missions;
 DROP TABLE projects;
 DROP TABLE project_statuses;
 
 DROP TABLE objective_status_alterations;
 DROP TABLE objective_appointments;
+DROP TABLE objective_missions;
 DROP TABLE objectives;
 DROP TABLE objective_statuses;
 
 DROP TABLE priorities;
+DROP TABLE mission_stages;
 
 DROP TABLE team_members;
 DROP TABLE authorizations;

@@ -3,6 +3,11 @@ CREATE TABLE priorities (
 	priority_name CHARACTER VARYING(100) NOT NULL,
 	CONSTRAINT PK_PRIORITY_ID PRIMARY KEY (priority_id) 
 );
+CREATE TABLE mission_stages (
+	stage_id SERIAL NOT NULL,
+	stage_name CHARACTER VARYING(100) NOT NULL,
+	CONSTRAINT PK_MISSION_STAGE_ID PRIMARY KEY (stage_id)
+);
 
 -- ###########################################################################################
 
@@ -65,6 +70,18 @@ CREATE TABLE objectives (
 	CONSTRAINT FK_OBJECTIVE_STATUS_ID FOREIGN KEY (objective_status_id)
 	  REFERENCES objective_statuses (status_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
+CREATE TABLE objective_missions (
+	mission_id SERIAL NOT NULL,
+	mission_name CHARACTER VARYING(100) NOT NULL,
+	mission_description CHARACTER VARYING(2000) NULL,
+	mission_objective INTEGER NOT NULL,
+	mission_stage_id INTEGER NOT NULL,
+	CONSTRAINT PK_OBJECTIVE_MISSION_ID PRIMARY KEY (mission_id),
+	CONSTRAINT FK_OBJECTIVE_MISSION_OBJECTIVE FOREIGN KEY (mission_objective)
+	  REFERENCES objectives (objective_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_OBJECTIVE_MISSION_STAGE FOREIGN KEY (mission_stage_id)
+	  REFERENCES mission_stages (stage_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
 CREATE TABLE objective_status_alterations (
 	alteration_id SERIAL NOT NULL,
 	alteration_objective_id INTEGER NOT NULL,
@@ -100,6 +117,18 @@ CREATE TABLE projects (
 	project_description CHARACTER VARYING(1000) NULL,
 	project_visibility BOOLEAN NOT NULL,
 	CONSTRAINT PK_PROJECT_ID PRIMARY KEY (project_id)
+);
+CREATE TABLE project_missions (
+	mission_id SERIAL NOT NULL,
+	mission_name CHARACTER VARYING(100) NOT NULL,
+	mission_description CHARACTER VARYING(2000) NULL,
+	mission_project INTEGER NOT NULL,
+	mission_stage_id INTEGER NOT NULL,
+	CONSTRAINT PK_PROJECT_MISSION_ID PRIMARY KEY (mission_id),
+	CONSTRAINT FK_PROJECT_MISSION_OBJECTIVE FOREIGN KEY (mission_project)
+	  REFERENCES projects (project_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_PROJECT_MISSION_STAGE FOREIGN KEY (mission_stage_id)
+	  REFERENCES mission_stages (stage_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 CREATE TABLE project_managers (
 	project_manager_id SERIAL NOT NULL,
@@ -203,7 +232,7 @@ CREATE TABLE task_impediments (
 );
 CREATE TABLE remedies (
 	remedy_id SERIAL NOT NULL,
-	remedy_description CHARACTER VARYING(2000),
+	remedy_description CHARACTER VARYING(2000) NULL,
 	remedy_impediment_id INTEGER NOT NULL,
 	remedy_submission_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 	remedy_provider INTEGER NOT NULL,
@@ -241,6 +270,16 @@ CREATE TABLE task_dependencies (
 	CONSTRAINT FK_TASK_DEPENDENCY_DEPENDENT FOREIGN KEY (dependency_dependent)
 	  REFERENCES tasks (task_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
 	CONSTRAINT FK_TASK_DEPENDENCY_MAINTAINER FOREIGN KEY (dependency_maintainer)
+	  REFERENCES tasks (task_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+CREATE TABLE task_estimations (
+	estimation_id SERIAL NOT NULL,
+	estimation_task INTEGER NOT NULL,
+	estimation_pessimist INTERVAL NOT NULL,
+	estimation_realist INTERVAL NOT NULL,
+	estimation_optimist INTERVAL NOT NULL,
+	CONSTRAINT PK_TASK_ESTIMATION_ID PRIMARY KEY (estimation_id),
+	CONSTRAINT FK_TASK_ESTIMATION_TASK FOREIGN KEY (estimation_task)
 	  REFERENCES tasks (task_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 	
@@ -329,8 +368,8 @@ CREATE TABLE user_task_assignments (
 
 CREATE TABLE reviews (
 	review_id SERIAL NOT NULL,
-	review_name CHARACTER VARYING(100),
-	review_description CHARACTER VARYING(2000),
+	review_name CHARACTER VARYING(100) NOT NULL,
+	review_description CHARACTER VARYING(2000) NULL,
 	review_organizer INTEGER NOT NULL,
 	review_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 	CONSTRAINT PK_REVIEW_ID PRIMARY KEY (review_id),
@@ -351,6 +390,7 @@ CREATE TABLE review_invitations (
 -- ###########################################################################################
 
 ALTER TABLE priorities OWNER TO postgres;
+ALTER TABLE mission_stages OWNER TO postgres;
 ALTER TABLE roles OWNER TO postgres;
 ALTER TABLE app_users OWNER TO postgres;
 ALTER TABLE authorizations OWNER TO postgres;
@@ -358,10 +398,12 @@ ALTER TABLE teams OWNER TO postgres;
 ALTER TABLE team_members OWNER TO postgres;
 ALTER TABLE objective_statuses OWNER TO postgres;
 ALTER TABLE objectives OWNER TO postgres;
+ALTER TABLE objective_missions OWNER TO postgres;
 ALTER TABLE objective_status_alterations OWNER TO postgres;
 ALTER TABLE objective_appointments OWNER TO postgres;
 ALTER TABLE project_statuses OWNER TO postgres;
 ALTER TABLE projects OWNER TO postgres;
+ALTER TABLE project_missions OWNER TO postgres;
 ALTER TABLE project_status_alterations OWNER TO postgres;
 ALTER TABLE tasks OWNER TO postgres;
 ALTER TABLE project_tasks OWNER TO postgres;
@@ -375,6 +417,7 @@ ALTER TABLE project_managers OWNER TO postgres;
 ALTER TABLE project_deadlines OWNER TO postgres;
 ALTER TABLE task_deadlines OWNER TO postgres;
 ALTER TABLE task_dependencies OWNER TO postgres;
+ALTER TABLE task_estimations OWNER TO postgres;
 ALTER TABLE user_objective_assignments OWNER TO postgres;
 ALTER TABLE user_project_assignments OWNER TO postgres;
 ALTER TABLE user_task_assignments OWNER TO postgres;
