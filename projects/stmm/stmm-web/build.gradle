@@ -10,4 +10,5 @@ war {
 dependencies {
     providedCompile project(':stmm-ejb')
     providedCompile group: 'javax.servlet', name:'javax.servlet-api', version: servletapiVersion
+    providedCompile group: 'org.mindrot', name: 'jbcrypt', version: '0.3m', ext: 'jar'
 }

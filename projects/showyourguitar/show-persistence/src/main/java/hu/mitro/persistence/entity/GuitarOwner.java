@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,17 +25,22 @@ public class GuitarOwner implements Serializable {
 	@Column(name = "guitarowner_password", nullable = false)
 	private String ownerPassword;
 
+	@OneToOne
+	@Column(name = "guitarowner_guitar", nullable = true)
+	private Guitar guitar;
+
 	public GuitarOwner() {
 		super();
 	}
 
-	public GuitarOwner(Long ownerId, String ownerUsername, String ownerEmail,
-			String ownerPassword) {
+	public GuitarOwner(Long ownerId, String ownerUsername, String ownerEmail, String ownerPassword,
+			Guitar guitar) {
 		super();
 		this.ownerId = ownerId;
 		this.ownerUsername = ownerUsername;
 		this.ownerEmail = ownerEmail;
 		this.ownerPassword = ownerPassword;
+		this.guitar = guitar;
 	}
 
 	public Long getOwnerId() {
@@ -69,10 +75,18 @@ public class GuitarOwner implements Serializable {
 		this.ownerPassword = ownerPassword;
 	}
 
+	public Guitar getGuitar() {
+		return this.guitar;
+	}
+
+	public void setGuitar(Guitar guitar) {
+		this.guitar = guitar;
+	}
+
 	@Override
 	public String toString() {
 		return "GuitarOwner [ownerId=" + this.ownerId + ", ownerUsername=" + this.ownerUsername
-				+ ", ownerEmail=" + this.ownerEmail + "]";
+				+ ", ownerEmail=" + this.ownerEmail + ", guitar=" + this.guitar + "]";
 	}
 
 }
