@@ -25,7 +25,8 @@ INSERT INTO app_users (user_id, user_name, user_password) VALUES
 (6, 'gabrille', 'g123'),
 (7, 'holly', 'h123'),
 (8, 'ike', 'i123'),
-(9, 'jenny', 'j123');
+(9, 'jenny', 'j123'),
+(10, 'Kevin', 'k123');
 SELECT SETVAL('app_users_user_id_seq', COALESCE(MAX(user_id), 1) ) FROM app_users;
 
 INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES 
@@ -40,7 +41,8 @@ INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES
 (6, 1),
 (7, 1),
 (8, 1),
-(9, 1);
+(9, 1),
+(10, 2);
 
 INSERT INTO teams (team_id, team_name) VALUES
 (0, 'Management'),
@@ -110,7 +112,16 @@ INSERT INTO projects (project_id, project_name, project_description, project_vis
 (0, 'Ceraphis data deployment', 'Deployment of Ceraphis Solutions buisness data to data warehouse in India', TRUE),
 (1, 'QuickExtract app', 'Develop mobile app for QuickExtract', TRUE),
 (2, 'Grove BI outsourcing', '', TRUE),
-(3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', FALSE); 
+(3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', FALSE);
+
+INSERT INTO project_managers (project_manager_id, project_manager_project_id, project_manager_user_id, project_manager_owner) VALUES
+(0, 0, 0, TRUE),
+(1, 1, 1, FALSE),
+(2, 2, 2, FALSE),
+(3, 2, 3, FALSE),
+(4, 3, 0, FALSE),
+(5, 3, 10, TRUE),
+(6, 1, 0, TRUE);
 
 INSERT INTO project_status_alterations (alteration_id, alteration_project_id, alteration_status_id, alteration_user_id, alteration_date) VALUES 
 (0, 0, 1, 2, '2015/06/03 10:15:00'),
@@ -157,10 +168,10 @@ INSERT INTO impediment_statuses (status_id, status_name) VALUES
 (5, 'DISMISSED'),
 (6, 'CONFIRMED');
 
-INSERT INTO impediments (impediment_id, impediment_name, impediment_description, impediment_priority_id, impediment_status_id, impediment_creation_date) VALUES
-(0, 'Insufficient tools', 'ARPA SDK would serve as a huge advantage with development', 2, 1, '2016/10/25 14:45:00'),
-(1, 'Data connection', 'Unable to establish connection with service endpoint with OData componenet', 3, 6, '2015/12/11 16:10:00'),
-(2, 'Lingering numpad', 'A High level incident is not recreatable with our build, and transition at this point is not possible', 0, 2, '2016/09/03 10:40:00');
+INSERT INTO impediments (impediment_id, impediment_name, impediment_description, impediment_priority_id, impediment_status_id, impediment_report_date, impediment_reporter, impediment_processor) VALUES
+(0, 'Insufficient tools', 'ARPA SDK would serve as a huge advantage with development', 2, 1, '2016/10/25 14:45:00', 3, 5),
+(1, 'Data connection', 'Unable to establish connection with service endpoint with OData componenet', 3, 6, '2015/12/11 16:10:00', 4, 1),
+(2, 'Lingering numpad', 'A High level incident is not recreatable with our build, and transition at this point is not possible', 0, 2, '2016/09/03 10:40:00', 9, 0);
 
 INSERT INTO project_impediments (project_impediment_id, project_impediment_project_id, project_impediment_impediment_id) VALUES
 (0, 3, 0),
@@ -168,3 +179,6 @@ INSERT INTO project_impediments (project_impediment_id, project_impediment_proje
 
 INSERT INTO task_impediments (task_impediment_id, task_impediment_task_id, task_impediment_impediment_id) VALUES
 (0, 17021230, 2);
+
+INSERT INTO remedies (remedy_id, remedy_description, remedy_impediment_id, remedy_submission_date, remedy_provider) VALUES
+(0, 'Use service control tool to generate project structure from existing endpoint meta data', 1, '2015/12/13 14:20:00', 1); 

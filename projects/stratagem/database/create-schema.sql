@@ -55,7 +55,7 @@ CREATE TABLE objective_statuses (
 CREATE TABLE objectives (
 	objective_id SERIAL NOT NULL,
 	objective_name CHARACTER VARYING(100) NOT NULL,
-	objective_description CHARACTER VARYING(500) NULL,
+	objective_description CHARACTER VARYING(1000) NULL,
 	objective_priority INTEGER NOT NULL,
 	objective_status_id INTEGER NOT NULL,
 	CONSTRAINT PK_OBJECTIVE_ID PRIMARY KEY (objective_id),
@@ -94,9 +94,20 @@ CREATE TABLE project_statuses (
 CREATE TABLE projects (
 	project_id SERIAL NOT NULL,
 	project_name CHARACTER VARYING(100) NOT NULL,
-	project_description CHARACTER VARYING(500) NULL,
+	project_description CHARACTER VARYING(1000) NULL,
 	project_visibility BOOLEAN NOT NULL,
 	CONSTRAINT PK_PROJECT_ID PRIMARY KEY (project_id)
+);
+CREATE TABLE project_managers (
+	project_manager_id SERIAL NOT NULL,
+	project_manager_project_id INTEGER NOT NULL,
+	project_manager_user_id INTEGER NOT NULL,
+	project_manager_owner BOOLEAN NOT NULL,
+	CONSTRAINT PK_PROJECT_MANAGER_ID PRIMARY KEY (project_manager_id),
+	CONSTRAINT FK_PROJECT_MANAGER_PROJECT FOREIGN KEY (project_manager_project_id)
+	  REFERENCES projects (project_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_PROJECT_MANAGER_USER FOREIGN KEY (project_manager_user_id)
+	  REFERENCES app_users (user_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 CREATE TABLE project_status_alterations (
 	alteration_id SERIAL NOT NULL,
@@ -118,7 +129,7 @@ CREATE TABLE project_status_alterations (
 CREATE TABLE tasks (
 	task_id SERIAL NOT NULL,
 	task_name CHARACTER VARYING(100) NOT NULL,
-	task_description CHARACTER VARYING(500) NULL,
+	task_description CHARACTER VARYING(1000) NULL,
 	task_completion_percentage INTEGER NOT NULL,
 	CONSTRAINT PK_TASK_ID PRIMARY KEY (task_id)
 );
@@ -153,13 +164,19 @@ CREATE TABLE impediment_statuses (
 CREATE TABLE impediments (
 	impediment_id SERIAL NOT NULL,
 	impediment_name CHARACTER VARYING(100) NOT NULL,
-	impediment_description CHARACTER VARYING(500) NULL,
+	impediment_description CHARACTER VARYING(2000) NULL,
 	impediment_priority_id INTEGER NOT NULL,
 	impediment_status_id INTEGER NOT NULL,
-	impediment_creation_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+	impediment_report_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+	impediment_reporter INTEGER NOT NULL,
+	impediment_processor INTEGER NULL,
 	CONSTRAINT PK_IMPEDIMENT_ID PRIMARY KEY (impediment_id),
 	CONSTRAINT FK_IMPEDIMENT_PRIORITY_ID FOREIGN KEY (impediment_priority_id)
-	  REFERENCES priorities (priority_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+	  REFERENCES priorities (priority_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_IMPEDIMENT_REPORTER FOREIGN KEY (impediment_reporter)
+	  REFERENCES app_users (user_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_IMPEDIMENT_PROCESSOR FOREIGN KEY (impediment_processor)
+	  REFERENCES app_users (user_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 CREATE TABLE project_impediments (
 	project_impediment_id SERIAL NOT NULL,
@@ -180,6 +197,18 @@ CREATE TABLE task_impediments (
 	  REFERENCES tasks (task_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
 	CONSTRAINT FK_TASK_IMPEDIMENT_IMPEDIMENT_ID FOREIGN KEY (task_impediment_impediment_id)
 	  REFERENCES impediments (impediment_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+CREATE TABLE remedies (
+	remedy_id SERIAL NOT NULL,
+	remedy_description CHARACTER VARYING(2000),
+	remedy_impediment_id INTEGER NOT NULL,
+	remedy_submission_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+	remedy_provider INTEGER NOT NULL,
+	CONSTRAINT PK_REMEDY_ID PRIMARY KEY (remedy_id),
+	CONSTRAINT FK_REMEDY_IMPEDIMENT FOREIGN KEY (remedy_impediment_id)
+	  REFERENCES impediments (impediment_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_REMEDY_PROVIDER FOREIGN KEY (remedy_provider)
+	  REFERENCES app_users (user_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 	
 -- ###########################################################################################
@@ -204,3 +233,5 @@ ALTER TABLE impediment_statuses OWNER TO postgres;
 ALTER TABLE impediments OWNER TO postgres;
 ALTER TABLE project_impediments OWNER TO postgres;
 ALTER TABLE task_impediments OWNER TO postgres;
+ALTER TABLE remedies OWNER TO postgres;
+ALTER TABLE project_managers OWNER TO postgres;
