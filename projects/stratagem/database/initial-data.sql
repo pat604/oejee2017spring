@@ -146,15 +146,16 @@ INSERT INTO tasks (task_id, task_name, task_description, task_completion_percent
 (1, 'Print matching', 'Matching watermark prints', 85),
 (2, 'Extraction planning', 'Planning extraction approach', 60),
 (3, 'Backup system allocation', 'Allocating backup systems for overload evasion', 100),
-(4, 'Incident wrap up', 'Closing all end-to-end test incidents', 0);
+(4, 'Incident wrap up', 'Closing all end-to-end test incidents', 0),
+(5, 'Stable build', 'Create maintainable build on CI server for ease of rollback', 100);
 
-INSERT INTO project_tasks(project_task_id, project_task_project_id, project_task_task_id) VALUES
+INSERT INTO project_tasks (project_task_id, project_task_project_id, project_task_task_id) VALUES
 (0, 1, 0),
 (1, 0, 1),
 (2, 2, 2),
 (3, 1, 4);
 
-INSERT INTO objective_tasks(objective_task_id, objective_task_objective_id, objective_task_task_id) VALUES
+INSERT INTO objective_tasks (objective_task_id, objective_task_objective_id, objective_task_task_id) VALUES
 (0, 1, 3);
 
 -- ###########################################################################################
@@ -192,3 +193,6 @@ INSERT INTO project_deadlines (deadline_id, deadline_project_id, deadline_date) 
 INSERT INTO task_deadlines (deadline_id, deadline_task_id, deadline_date) VALUES
 (0, 1, '2016/08/14 00:00:00'),
 (1, 3, '2016/09/10 00:00:00');
+
+INSERT INTO task_dependencies (dependency_id, dependency_dependent, dependency_maintainer, dependency_value) VALUES
+(0, 5, 4, 100);

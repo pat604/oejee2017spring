@@ -1,3 +1,4 @@
+DROP TABLE task_dependencies;
 DROP TABLE project_deadlines;
 DROP TABLE task_deadlines;
 

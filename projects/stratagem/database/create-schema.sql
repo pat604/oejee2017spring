@@ -229,6 +229,17 @@ CREATE TABLE task_deadlines (
 	CONSTRAINT FK_TASK_DEADLINE_TASK_ID FOREIGN KEY (deadline_task_id)
 	  REFERENCES tasks (task_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
+CREATE TABLE task_dependencies (
+	dependency_id SERIAL NOT NULL,
+	dependency_dependent INTEGER NOT NULL,
+	dependency_maintainer INTEGER NOT NULL,
+	dependency_value INTEGER NULL,
+	CONSTRAINT PK_TASK_DEPENDENCY_ID PRIMARY KEY (dependency_id),
+	CONSTRAINT FK_TASK_DEPENDENCY_DEPENDENT FOREIGN KEY (dependency_dependent)
+	  REFERENCES tasks (task_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_TASK_DEPENDENCY_MAINTAINER FOREIGN KEY (dependency_maintainer)
+	  REFERENCES tasks (task_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
 	
 -- ###########################################################################################
 
@@ -256,3 +267,4 @@ ALTER TABLE remedies OWNER TO postgres;
 ALTER TABLE project_managers OWNER TO postgres;
 ALTER TABLE project_deadlines OWNER TO postgres;
 ALTER TABLE task_deadlines OWNER TO postgres;
+ALTER TABLE task_dependencies OWNER TO postgres;
