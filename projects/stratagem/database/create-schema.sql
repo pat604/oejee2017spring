@@ -243,6 +243,71 @@ CREATE TABLE task_dependencies (
 	
 -- ###########################################################################################
 
+CREATE TABLE user_objective_assignments (
+	assignment_id SERIAL NOT NULL,
+	assignment_entrustor INTEGER NOT NULL,
+	assignment_recipient INTEGER NOT NULL,
+	assignment_objective INTEGER NOT NULL,
+	CONSTRAINT PK_OBJECTIVE_ASSIGNMENTS_ID PRIMARY KEY (assignment_id),
+	CONSTRAINT FK_OBJECTIVE_ASSIGNMENTS_ENTRUSTOR FOREIGN KEY (assignment_entrustor)
+	  REFERENCES app_users (user_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_OBJECTIVE_ASSIGNMENTS_RECIPIENT FOREIGN KEY (assignment_recipient)
+	  REFERENCES app_users (user_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_OBJECTIVE_ASSIGNMENTS_OBJECTIVE FOREIGN KEY (assignment_objective)
+	  REFERENCES objectives (objective_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+CREATE TABLE user_project_assignments (
+	assignment_id SERIAL NOT NULL,
+	assignment_entrustor INTEGER NOT NULL,
+	assignment_recipient INTEGER NOT NULL,
+	assignment_project INTEGER NOT NULL,
+	CONSTRAINT PK_PROJECT_ASSIGNMENTS_ID PRIMARY KEY (assignment_id),
+	CONSTRAINT FK_PROJECT_ASSIGNMENTS_ENTRUSTOR FOREIGN KEY (assignment_entrustor)
+	  REFERENCES app_users (user_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_PROJECT_ASSIGNMENTS_RECIPIENT FOREIGN KEY (assignment_recipient)
+	  REFERENCES app_users (user_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_OBJECTIVE_ASSIGNMENTS_PROJECT FOREIGN KEY (assignment_project)
+	  REFERENCES projects (project_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+CREATE TABLE user_task_assignments (
+	assignment_id SERIAL NOT NULL,
+	assignment_entrustor INTEGER NOT NULL,
+	assignment_recipient INTEGER NOT NULL,
+	assignment_task INTEGER NOT NULL,
+	CONSTRAINT PK_TASK_ASSIGNMENTS_ID PRIMARY KEY (assignment_id),
+	CONSTRAINT FK_TASK_ASSIGNMENTS_ENTRUSTOR FOREIGN KEY (assignment_entrustor)
+	  REFERENCES app_users (user_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_TASK_ASSIGNMENTS_RECIPIENT FOREIGN KEY (assignment_recipient)
+	  REFERENCES app_users (user_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_TASK_ASSIGNMENTS_TASK FOREIGN KEY (assignment_task)
+	  REFERENCES tasks (task_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+
+-- ###########################################################################################
+
+CREATE TABLE reviews (
+	review_id SERIAL NOT NULL,
+	review_name CHARACTER VARYING(100),
+	review_description CHARACTER VARYING(2000),
+	review_organizer INTEGER NOT NULL,
+	review_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+	CONSTRAINT PK_REVIEW_ID PRIMARY KEY (review_id),
+	CONSTRAINT FK_REVIEW_ORGANIZER FOREIGN KEY (review_organizer)
+	  REFERENCES app_users (user_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+CREATE TABLE review_invitations (
+	invitation_id SERIAL NOT NULL,
+	invitaion_review INTEGER NOT NULL,
+	invitation_recipiant INTEGER NOT NULL,
+	CONSTRAINT PK_INVITATION_ID PRIMARY KEY (invitation_id),
+	CONSTRAINT FK_INVITATION_REVIEW FOREIGN KEY (invitaion_review)
+	  REFERENCES reviews (review_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_INVITATION_RECIPIENT FOREIGN KEY (invitation_recipiant)
+	  REFERENCES app_users (user_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+
+-- ###########################################################################################
+
 ALTER TABLE priorities OWNER TO postgres;
 ALTER TABLE roles OWNER TO postgres;
 ALTER TABLE app_users OWNER TO postgres;
@@ -268,3 +333,8 @@ ALTER TABLE project_managers OWNER TO postgres;
 ALTER TABLE project_deadlines OWNER TO postgres;
 ALTER TABLE task_deadlines OWNER TO postgres;
 ALTER TABLE task_dependencies OWNER TO postgres;
+ALTER TABLE user_objective_assignments OWNER TO postgres;
+ALTER TABLE user_project_assignments OWNER TO postgres;
+ALTER TABLE user_task_assignments OWNER TO postgres;
+ALTER TABLE reviews OWNER TO postgres;
+ALTER TABLE review_invitations OWNER TO postgres;

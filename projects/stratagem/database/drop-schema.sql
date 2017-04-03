@@ -1,3 +1,10 @@
+DROP TABLE review_invitations;
+DROP TABLE reviews;
+
+DROP TABLE user_objective_assignments;
+DROP TABLE user_project_assignments;
+DROP TABLE user_task_assignments;
+
 DROP TABLE task_dependencies;
 DROP TABLE project_deadlines;
 DROP TABLE task_deadlines;
