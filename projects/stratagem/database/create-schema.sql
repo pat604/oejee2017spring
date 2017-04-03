@@ -21,6 +21,21 @@ CREATE TABLE authorizations (
 	CONSTRAINT FK_AUTHORIZATION_ROLE FOREIGN KEY (authorization_role_id)
 	  REFERENCES roles (role_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
+CREATE TABLE teams (
+	team_id SERIAL NOT NULL,
+	team_name CHARACTER VARYING(100) NOT NULL,
+	CONSTRAINT PK_TEAM_ID PRIMARY KEY (team_id)
+);
+CREATE TABLE team_members (
+	team_member_id SERIAL NOT NULL,
+	team_member_team_id INTEGER NOT NULL,
+	team_member_user_id INTEGER NOT NULL,
+	CONSTRAINT PK_TEAM_MEMBER_ID PRIMARY KEY (team_member_id),
+	CONSTRAINT FK_TEAM_MEMBER_TEAM_ID FOREIGN KEY (team_member_user_id)
+	  REFERENCES app_users (user_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_TEAM_MEMBER_USER_ID FOREIGN KEY (team_member_team_id)
+	  REFERENCES teams (team_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
 
 -- ###########################################################################################
 
@@ -107,6 +122,8 @@ CREATE TABLE tasks (
 ALTER TABLE roles OWNER TO postgres;
 ALTER TABLE app_users OWNER TO postgres;
 ALTER TABLE authorizations OWNER TO postgres;
+ALTER TABLE teams OWNER TO postgres;
+ALTER TABLE team_members OWNER TO postgres;
 ALTER TABLE objective_statuses OWNER TO postgres;
 ALTER TABLE objectives OWNER TO postgres;
 ALTER TABLE objective_status_alterations OWNER TO postgres;

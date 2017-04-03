@@ -5,6 +5,8 @@ DROP TABLE objective_appointments;
 DROP TABLE authorizations;
 DROP TABLE app_users;
 DROP TABLE roles;
+DROP TABLE teams;
+DROP TABLE team_members;
 
 DROP TABLE tasks;
 

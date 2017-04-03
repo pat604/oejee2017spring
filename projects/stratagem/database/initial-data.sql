@@ -1,10 +1,9 @@
 INSERT INTO roles (role_id, role_name) VALUES (0, 'pristine_user');
 INSERT INTO roles (role_id, role_name) VALUES (1, 'general_user');
-INSERT INTO roles (role_id, role_name) VALUES (2, 'test_user');
-INSERT INTO roles (role_id, role_name) VALUES (3, 'general_manager');
-INSERT INTO roles (role_id, role_name) VALUES (4, 'department_manager');
-INSERT INTO roles (role_id, role_name) VALUES (5, 'central_manager');
-INSERT INTO roles (role_id, role_name) VALUES (6, 'system_administrator');
+INSERT INTO roles (role_id, role_name) VALUES (2, 'general_manager');
+INSERT INTO roles (role_id, role_name) VALUES (3, 'department_manager');
+INSERT INTO roles (role_id, role_name) VALUES (4, 'central_manager');
+INSERT INTO roles (role_id, role_name) VALUES (5, 'system_administrator');
 SELECT SETVAL('roles_role_id_seq', COALESCE(MAX(role_id), 1) ) FROM roles;
 
 INSERT INTO app_users (user_id, user_name, user_password) VALUES (0, 'adam', 'a123');
@@ -19,17 +18,39 @@ INSERT INTO app_users (user_id, user_name, user_password) VALUES (8, 'ike', 'i12
 INSERT INTO app_users (user_id, user_name, user_password) VALUES (9, 'jenny', 'j123');
 SELECT SETVAL('app_users_user_id_seq', COALESCE(MAX(user_id), 1) ) FROM app_users;
 
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (0, 2);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (0, 5);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (1, 2);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (2, 2);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (3, 2);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (4, 2);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (5, 2);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (6, 2);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (7, 2);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (8, 2);
-INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (9, 2);
+INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (0, 1);
+INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (0, 3);
+INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (1, 1);
+INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (1, 3);
+INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (2, 1);
+INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (3, 1);
+INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (4, 1);
+INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (5, 1);
+INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (6, 1);
+INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (7, 1);
+INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (8, 1);
+INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES (9, 1);
+
+INSERT INTO teams (team_id, team_name) VALUES
+(0, 'Management'),
+(1, 'DevOps'),
+(2, 'Back-end development'),
+(3, 'Front-end development'),
+(4, 'Quality assurance');
+
+INSERT INTO team_members (team_member_id, team_member_team_id, team_member_user_id) VALUES
+(0, 0, 0),
+(1, 0, 1),
+(2, 1, 2),
+(3, 1, 4),
+(4, 1, 5),
+(5, 2, 3),
+(6, 2, 6),
+(7, 2, 7),
+(8, 3, 8),
+(9, 3, 9),
+(10, 4, 3),
+(11, 4, 7);
 
 -- ###########################################################################################
 
