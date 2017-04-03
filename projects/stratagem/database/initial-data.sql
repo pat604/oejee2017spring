@@ -44,12 +44,12 @@ INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES
 (9, 1),
 (10, 2);
 
-INSERT INTO teams (team_id, team_name) VALUES
-(0, 'Management'),
-(1, 'DevOps'),
-(2, 'Back-end development'),
-(3, 'Front-end development'),
-(4, 'Quality assurance');
+INSERT INTO teams (team_id, team_name, team_leader) VALUES
+(0, 'Management', 0),
+(1, 'DevOps', 2),
+(2, 'Back-end development', 3),
+(3, 'Front-end development', 8),
+(4, 'Quality assurance', 3);
 
 INSERT INTO team_members (team_member_id, team_member_team_id, team_member_user_id) VALUES
 (0, 0, 0),

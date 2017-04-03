@@ -4,6 +4,9 @@ DROP TABLE reviews;
 DROP TABLE user_objective_assignments;
 DROP TABLE user_project_assignments;
 DROP TABLE user_task_assignments;
+DROP TABLE team_objective_assignments;
+DROP TABLE team_project_assignments;
+DROP TABLE team_task_assignments;
 
 DROP TABLE task_dependencies;
 DROP TABLE project_deadlines;
@@ -33,6 +36,6 @@ DROP TABLE priorities;
 
 DROP TABLE team_members;
 DROP TABLE authorizations;
+DROP TABLE teams;
 DROP TABLE app_users;
 DROP TABLE roles;
-DROP TABLE teams;
