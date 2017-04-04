@@ -13,7 +13,7 @@ CREATE SEQUENCE appuser_record_id_seq START 1;
 CREATE TABLE appuser (
   appuser_record_id NUMERIC DEFAULT nextval('appuser_record_id_seq'),
   appuser_id CHARACTER VARYING(100) NOT NULL,
-  username CHARACTER VARYING(100) NOT NULL,
+  username CHARACTER VARYING(100) NOT NULL UNIQUE ,
   first_name CHARACTER VARYING(100) NOT NULL ,
   last_name CHARACTER  VARYING (100) NOT NULL ,
 	wallet_id CHARACTER VARYING(100),
@@ -24,6 +24,29 @@ CREATE TABLE appuser (
 	  REFERENCES usertype (usertype_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 ALTER TABLE appuser OWNER TO postgres;
+
+CREATE UNIQUE INDEX UI_APPUSER_NAME ON appuser USING btree (username);
+
+CREATE SEQUENCE role_role_id_seq START 1;
+CREATE TABLE role (
+  role_id SERIAL DEFAULT nextval(role_role_id_seq),
+  role_name CHARACTER VARYING(100) NOT NULL UNIQUE ,
+  CONSTRAINT PK_ROLE_ID PRIMARY KEY (role_id)
+);
+ALTER TABLE role OWNER TO postgres;
+
+CREATE TABLE userrole (
+  userrole_id SERIAL NOT NULL,
+  userrole_appuser_id CHARACTER VARYING(100) NOT NULL,
+  userrole_role_id INTEGER NOT NULL,
+  CONSTRAINT PK_USERROLE_ID PRIMARY KEY (userrole_id),
+  CONSTRAINT FK_USERROLE_USER FOREIGN KEY (userrole_appuser_id)
+  REFERENCES appuser (appuser_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT FK_USERROLE_ROLE FOREIGN KEY (userrole_role_id)
+  REFERENCES role (role_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+
+ALTER TABLE userrole OWNER TO postgres;
 
 
 CREATE SEQUENCE wallet_record_id_seq START 1;

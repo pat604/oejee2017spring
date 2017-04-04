@@ -9,6 +9,7 @@ import hu.smiklos.stmm.pers.parameter.AppUserParameter;
 import hu.smiklos.stmm.webadmin.common.AdminActions;
 import hu.smiklos.stmm.webadmin.common.AdminPages;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,6 +22,7 @@ import java.util.List;
 /**
  * Created by SebestyenMiklos on 2017. 03. 20..
  */
+@PermitAll
 @WebServlet("/AppUser")
 public class AppUserController extends HttpServlet {
     private HttpServletRequest request;

@@ -1,11 +1,14 @@
 package hu.smiklos.stmm.ejb.common;
 import org.mindrot.jbcrypt.BCrypt;
+
+import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 
 /**
  * Created by SebestyenMiklos on 2017. 04. 02..
  */
-@Stateless
+@PermitAll
+@Stateless(mappedName = "ejb/Password")
 public class Password implements PasswordInterface {
 
     private String password;
