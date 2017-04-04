@@ -85,7 +85,8 @@ INSERT INTO objectives (objective_id, objective_name, objective_description, obj
 (0, 'Integration with augmented reality', '', 2, 1),
 (1, 'Increase influence in market', 'Completing projects for our esteemed contacts', 1, 1);
 
---INSERT INTO objective_missions
+INSERT INTO objective_missions (mission_id, mission_name, mission_description, mission_objective, mission_stage_id) VALUES
+(0, 'Steps towards growing technologies', '', 0, 4);
 
 INSERT INTO objective_status_alterations (alteration_id, alteration_objective_id, alteration_status_id, alteration_date) VALUES
 (0, 0, 0, '2016/03/20 15:45:00'),
@@ -123,7 +124,8 @@ INSERT INTO projects (project_id, project_name, project_description, project_vis
 (2, 'Grove BI outsourcing', '', TRUE),
 (3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', FALSE);
 
---INSERT INTO project_missions
+INSERT INTO project_missions (mission_id, mission_name, mission_description, mission_project, mission_stage_id) VALUES
+(0, 'Employee data visualization requests', '', 3, 2);
 
 INSERT INTO project_managers (project_manager_id, project_manager_project_id, project_manager_user_id, project_manager_owner) VALUES
 (0, 0, 0, TRUE),
@@ -210,3 +212,11 @@ INSERT INTO task_dependencies (dependency_id, dependency_dependent, dependency_m
 
 INSERT INTO task_estimations (estimation_id, estimation_task, estimation_pessimist, estimation_realist, estimation_optimist) VALUES
 (0, 4, '5 0:00:00', '4 0:00:00', '3 0:00:00');
+
+-- ###########################################################################################
+
+-- INSERT INTO ASSIGNMENTS
+
+-- ###########################################################################################
+
+-- INSERT INTO reviews
