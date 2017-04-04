@@ -3,6 +3,8 @@ package hu.smiklos.stmm.webadmin.servlet;
 
 
 import hu.smiklos.stmm.webadmin.common.AdminPages;
+
+import javax.annotation.security.PermitAll;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +17,7 @@ import java.io.IOException;
 /**
  * Created by SebestyenMiklos on 2017. 03. 12..
  */
+@PermitAll
 @WebServlet("/AdminHome")
 public class AdminHomeController extends HttpServlet {
 

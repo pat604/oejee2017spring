@@ -12,12 +12,12 @@
             <a class="navbar-brand" href="#">moneybook</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-            <form class="navbar-form navbar-right" action="<%= UriBuilder.getUrl(Page.SIGN_IN.getUrl(),"") %>">
+            <form class="navbar-form navbar-right" method="post" action="j_security_check">
                 <div class="form-group">
-                    <input type="text" placeholder="Email" class="form-control">
+                    <input type="text" name="j_username" placeholder="Email" class="form-control">
                 </div>
                 <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control">
+                    <input type="password" name="j_password" placeholder="Password" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-success">Sign in</button>
             </form>

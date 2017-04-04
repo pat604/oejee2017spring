@@ -6,6 +6,7 @@ import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.pers.service.UserTypeService;
 import hu.smiklos.stmm.pers.service.UserTypeServiceInterface;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.ArrayList;
@@ -14,7 +15,8 @@ import java.util.List;
 /**
  * Created by SebestyenMiklos on 2017. 03. 26..
  */
-@Stateless
+@PermitAll
+@Stateless(mappedName = "ejb/UserTypeFacade")
 public class UserTypeFacade implements UserTypeFacadeInterface {
 
 

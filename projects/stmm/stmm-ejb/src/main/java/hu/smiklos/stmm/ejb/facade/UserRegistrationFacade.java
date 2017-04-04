@@ -12,6 +12,7 @@ import hu.smiklos.stmm.pers.service.AppUserServiceInterface;
 import hu.smiklos.stmm.pers.service.RegistrationPerDayInterface;
 import hu.smiklos.stmm.pers.service.UserTypeServiceInterface;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.Date;
@@ -19,7 +20,8 @@ import java.util.Date;
 /**
  * Created by SebestyenMiklos on 2017. 03. 30..
  */
-@Stateless
+@PermitAll
+@Stateless(mappedName = "ejb/UserRegistrationFacade")
 public class UserRegistrationFacade implements UserRegistrationFacadeInterface {
 
     @EJB

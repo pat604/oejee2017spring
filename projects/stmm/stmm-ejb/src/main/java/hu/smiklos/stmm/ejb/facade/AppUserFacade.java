@@ -8,6 +8,7 @@ import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.pers.service.AppUserServiceInterface;
 import hu.smiklos.stmm.pers.service.RegistrationPerDayService;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.ArrayList;
@@ -16,7 +17,8 @@ import java.util.List;
 /**
  * Created by SebestyenMiklos on 2017. 03. 12..
  */
-@Stateless
+@PermitAll
+@Stateless(mappedName = "ejb/AppuserFacede")
 public class AppUserFacade implements AppUserFacadeInterface {
 
     @EJB

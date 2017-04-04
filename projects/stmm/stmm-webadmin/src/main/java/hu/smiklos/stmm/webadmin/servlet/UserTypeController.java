@@ -10,6 +10,7 @@ import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.webadmin.common.AdminActions;
 import hu.smiklos.stmm.webadmin.common.AdminPages;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +26,7 @@ import static hu.smiklos.stmm.webadmin.common.AdminActions.ListUserAction;
 /**
  * Created by SebestyenMiklos on 2017. 03. 21..
  */
+@PermitAll
 @WebServlet("/UserType")
 public class UserTypeController extends HttpServlet {
     private HttpServletRequest request;
