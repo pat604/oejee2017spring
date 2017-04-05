@@ -1,5 +1,4 @@
 package hu.smiklos.stmm.ejb.common;
-import org.mindrot.jbcrypt.BCrypt;
 import javax.ejb.Local;
 
 /**
@@ -8,7 +7,7 @@ import javax.ejb.Local;
 @Local
 public interface PasswordInterface {
 
-    String getHashedPassword();
+    String getHashedPassword(String plain_text_password);
     boolean checkPassword(String password, String hashedPassword);
     void setPlainTextPassword(String plain_text);
 }

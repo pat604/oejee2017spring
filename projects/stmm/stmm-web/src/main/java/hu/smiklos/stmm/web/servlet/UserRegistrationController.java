@@ -5,6 +5,7 @@ import hu.smiklos.stmm.ejb.facade.UserRegistrationFacadeInterface;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.web.common.Page;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +17,7 @@ import java.io.IOException;
 /**
  * Created by SebestyenMiklos on 2017. 03. 30..
  */
+@PermitAll
 @WebServlet("/Registration")
 public class UserRegistrationController extends HttpServlet {
     HttpServletRequest request;

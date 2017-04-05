@@ -9,7 +9,7 @@ import javax.ejb.Stateless;
  */
 @PermitAll
 @Stateless(mappedName = "ejb/Password")
-public class Password implements PasswordInterface {
+public class Password implements PasswordInterface, PasswordCheckInterface {
 
     private String password;
 
@@ -21,7 +21,8 @@ public class Password implements PasswordInterface {
     }
 
     @Override
-    public String getHashedPassword() {
+    public String getHashedPassword(String plain_text_password) {
+        this.setPlainTextPassword(plain_text_password);
         String salt =  BCrypt.gensalt();
         String hashed = BCrypt.hashpw(password, salt);
         return hashed;
@@ -37,4 +38,5 @@ public class Password implements PasswordInterface {
     public void setPlainTextPassword(String plain_text) {
         this.password = plain_text;
     }
+
 }
