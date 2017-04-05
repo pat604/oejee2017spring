@@ -33,7 +33,7 @@ public class ProjectPingServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		final PrintWriter out = response.getWriter();
 		try {
-			final List<ProjectRepresentor> projects = this.protocol.getAllProjects(null);
+			final List<ProjectRepresentor> projects = this.protocol.getAllProjects(new ProjectCriteria());
 			for(ProjectRepresentor representor : projects) {
 				out.println(representor.toString());
 			}

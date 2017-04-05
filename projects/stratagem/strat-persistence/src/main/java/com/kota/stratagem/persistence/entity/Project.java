@@ -55,8 +55,8 @@ public class Project implements Serializable {
 	@Column(name = "project_status_id", nullable = false)
 	private ProjectStatus status;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
-	@JoinTable(name = "project_tasks", joinColumns = @JoinColumn(name = "project_task_project_id"), inverseJoinColumns = @JoinColumn(name = "project_task_task_id"))
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Task.class)
+	@JoinTable(name = "project_tasks", joinColumns = @JoinColumn(name = "project_task_task_id"), inverseJoinColumns = @JoinColumn(name = "project_task_project_id"))
 	private Set<Task> tasks;
 
 	@Column(name = "project_visibility", nullable = false)
