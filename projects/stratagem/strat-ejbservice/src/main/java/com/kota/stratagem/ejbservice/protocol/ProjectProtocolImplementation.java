@@ -1,7 +1,6 @@
 package com.kota.stratagem.ejbservice.protocol;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,7 +21,6 @@ import com.kota.stratagem.persistence.entity.trunk.ProjectStatus;
 import com.kota.stratagem.persistence.exception.CoherentPersistenceServiceException;
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
 import com.kota.stratagem.persistence.service.ProjectService;
-import com.kota.stratagem.persistence.service.TaskService;
 
 @Stateless(mappedName = "ejb/projectProtocol")
 public class ProjectProtocolImplementation implements ProjectProtocol {
@@ -31,9 +29,6 @@ public class ProjectProtocolImplementation implements ProjectProtocol {
 
 	@EJB
 	private ProjectService projectService;
-
-	@EJB
-	private TaskService taskService;
 
 	@EJB
 	private ProjectConverter converter;
@@ -74,19 +69,14 @@ public class ProjectProtocolImplementation implements ProjectProtocol {
 	}
 
 	@Override
-	public ProjectRepresentor saveProject(Long id, String name, ProjectStatusRepresentor status, Boolean visible) throws AdaptorException {
+	public ProjectRepresentor saveProject(Long id, String name, String description, ProjectStatusRepresentor status, Set<Task> tasks, Boolean visible) throws AdaptorException {
 		try {
 			Project project = null;
 			final ProjectStatus projectStatus = ProjectStatus.valueOf(status.name());
-			Set<Task> tasks = new HashSet<>();
-			for(Task task : taskService.readAll()) {
-				if(task.getProject().getId() == id)
-					tasks.add(task);
-			}
 			if(this.projectService.exists(id)) {
-				project = this.projectService.update(id, name, projectStatus, tasks, visible);
+				project = this.projectService.update(id, name, description, projectStatus, tasks, visible);
 			} else {
-				project = this.projectService.create(id, name, projectStatus, tasks, visible);
+				project = this.projectService.create(id, name, description, projectStatus, tasks, visible);
 			}
 			return this.converter.to(project);
 		} catch(final PersistenceServiceException e) {

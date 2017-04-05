@@ -118,11 +118,11 @@ INSERT INTO project_statuses (status_id, status_name) VALUES
 (15, 'UPGRADING'),
 (16, 'DISPOSED');
 
-INSERT INTO projects (project_id, project_name, project_description, project_visibility) VALUES 
-(0, 'Ceraphis data deployment', 'Deployment of Ceraphis Solutions buisness data to data warehouse in India', TRUE),
-(1, 'QuickExtract app', 'Develop mobile app for QuickExtract', TRUE),
-(2, 'Grove BI outsourcing', '', TRUE),
-(3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', FALSE);
+INSERT INTO projects (project_id, project_name, project_description, project_status_id, project_visibility) VALUES 
+(0, 'Ceraphis data deployment', 'Deployment of Ceraphis Solutions buisness data to data warehouse in India', 10, TRUE),
+(1, 'QuickExtract app', 'Develop mobile app for QuickExtract', 7, TRUE),
+(2, 'Grove BI outsourcing', '', 0, TRUE),
+(3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', 5, FALSE);
 
 INSERT INTO project_missions (mission_id, mission_name, mission_description, mission_project, mission_stage_id) VALUES
 (0, 'Employee data visualization requests', '', 3, 2);

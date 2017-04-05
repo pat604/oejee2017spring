@@ -12,7 +12,6 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
-import com.kota.stratagem.persistence.entity.Project;
 import com.kota.stratagem.persistence.entity.Task;
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
 import com.kota.stratagem.persistence.parameter.TaskParameter;
@@ -29,12 +28,12 @@ public class TaskServiceImplementation implements TaskService {
 	private EntityManager entityManager;
 
 	@Override
-	public Task create(Long id, String description, Project project, double completion) throws PersistenceServiceException {
+	public Task create(Long id, String name, String description, double completion) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Create Task (id: " + id + ", description: " + description + ", project: " + project.getName() + ", completion: " + completion + ")");
+			LOGGER.debug("Create Task (id: " + id + ", name: " + name + ", description: " + description + ", completion: " + completion + ")");
 		}
 		try {
-			final Task task = new Task(id, description, project, completion);
+			final Task task = new Task(id, name, description, completion);
 			this.entityManager.persist(task);
 			this.entityManager.flush();
 			return task;
@@ -72,14 +71,14 @@ public class TaskServiceImplementation implements TaskService {
 	}
 
 	@Override
-	public Task update(Long id, String description, Project project, double completion) throws PersistenceServiceException {
+	public Task update(Long id, String name, String description, double completion) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Update Task (id: " + id + ", description: " + description + ", project: " + project.getName() + ", completion: " + completion + ")");
+			LOGGER.debug("Update Task (id: " + id + ", name: " + name + ", description: " + description + ", completion: " + completion + ")");
 		}
 		try {
 			final Task task = this.read(id);
+			task.setName(name);
 			task.setDescription(description);
-			task.setProject(project);
 			task.setCompletion(completion);
 			return this.entityManager.merge(task);
 		} catch(final Exception e) {

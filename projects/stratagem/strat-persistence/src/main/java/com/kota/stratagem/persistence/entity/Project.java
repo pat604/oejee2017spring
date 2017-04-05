@@ -13,6 +13,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -46,11 +48,15 @@ public class Project implements Serializable {
 	@Column(name = "project_name", nullable = false)
 	private String name;
 
+	@Column(name = "project_description", nullable = true)
+	private String description;
+
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "project_status_id", nullable = false)
 	private ProjectStatus status;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class, mappedBy = "project")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
+	@JoinTable(name = "project_tasks", joinColumns = @JoinColumn(name = "project_task_project_id"), inverseJoinColumns = @JoinColumn(name = "project_task_task_id"))
 	private Set<Task> tasks;
 
 	@Column(name = "project_visibility", nullable = false)
@@ -60,9 +66,10 @@ public class Project implements Serializable {
 		this.tasks = new HashSet<>();
 	}
 
-	public Project(Long id, String name, ProjectStatus status, Set<Task> tasks, Boolean visible) {
+	public Project(Long id, String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) {
 		this.id = id;
 		this.name = name;
+		this.description = description;
 		this.status = status;
 		this.tasks = tasks;
 		this.visible = visible;
@@ -82,6 +89,14 @@ public class Project implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public ProjectStatus getStatus() {
@@ -110,7 +125,7 @@ public class Project implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Project [id=" + id + ", name=" + name + ", status=" + status + ", tasks=" + tasks + ", visible=" + visible + "]";
+		return "Project [id=" + id + ", name=" + name + ", description=" + description + ", status=" + status + ", tasks=" + tasks + ", visible=" + visible + "]";
 	}
 
 }

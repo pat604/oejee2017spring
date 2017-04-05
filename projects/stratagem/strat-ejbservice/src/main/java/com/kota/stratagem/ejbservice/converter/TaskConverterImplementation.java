@@ -11,11 +11,9 @@ import com.kota.stratagem.persistence.entity.Task;
 @Stateless
 public class TaskConverterImplementation implements TaskConverter {
 
-	private ProjectConverterImplementation projectConverter = new ProjectConverterImplementation();
-
 	@Override
 	public TaskRepresentor to(Task task) {
-		return new TaskRepresentor(task.getId(), task.getDescription(), task.getCompletion(), this.projectConverter.to(task.getProject()));
+		return new TaskRepresentor(task.getId(), task.getName(), task.getDescription(), task.getCompletion());
 	}
 
 	@Override

@@ -24,7 +24,7 @@ import com.kota.stratagem.weblayer.common.ProjectParameter;
 public class ProjectDetailController extends HttpServlet implements ProjectParameter, ProjectAttribute {
 
 	private static final long serialVersionUID = -8825015852540069920L;
-	
+
 	private static final Logger LOGGER = Logger.getLogger(ProjectDetailController.class);
 
 	private static final String TRUE_VALUE = "1";
@@ -37,19 +37,19 @@ public class ProjectDetailController extends HttpServlet implements ProjectParam
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		final String id = request.getParameter(ID);
 		LOGGER.info("Get Project by id (" + id + ")");
-		if (id == null || "".equals(id)) {
+		if(id == null || "".equals(id)) {
 			response.sendRedirect(Page.PROJECT_LIST.getUrl());
 		} else {
 			final boolean editFlag = TRUE_VALUE.equals(request.getParameter(EDIT_FLAG));
 			ProjectRepresentor project = null;
 			boolean isNew = false;
-			if (NEW_PROJECT_ID_FLAG.equals(id)) {
+			if(NEW_PROJECT_ID_FLAG.equals(id)) {
 				project = new ProjectRepresentor(-1L, "", ProjectStatusRepresentor.PROPOSED, true);
 				isNew = true;
 			} else {
 				try {
 					project = this.protocol.getProject(Long.parseLong(id));
-				} catch (final AdaptorException e) {
+				} catch(final AdaptorException e) {
 					LOGGER.error(e, e);
 				}
 			}
@@ -69,20 +69,21 @@ public class ProjectDetailController extends HttpServlet implements ProjectParam
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		final String id = request.getParameter(ID);
 		final String name = request.getParameter(NAME);
+		final String description = request.getParameter(DESCRIPTION);
 		final ProjectStatusRepresentor status = ProjectStatusRepresentor.valueOf(request.getParameter(STATUS));
 		final String visible = request.getParameter(VISIBLE);
-		if (ID == null || "".equals(ID)) {
+		if(ID == null || "".equals(ID)) {
 			final ProjectRepresentor project = new ProjectRepresentor(Long.parseLong(id), name, status, Boolean.valueOf(visible));
 			this.forward(request, response, true, project, true);
 		} else {
 			ProjectRepresentor project = null;
 			try {
-				project = this.protocol.saveProject(Long.parseLong(id), name, status, Boolean.valueOf(visible));
-			} catch (final AdaptorException e) {
+				project = this.protocol.saveProject(Long.parseLong(id), name, description, status, null, Boolean.valueOf(visible));
+			} catch(final AdaptorException e) {
 				LOGGER.error(e, e);
 			}
 			this.forward(request, response, false, project, false);
 		}
 	}
-	
+
 }

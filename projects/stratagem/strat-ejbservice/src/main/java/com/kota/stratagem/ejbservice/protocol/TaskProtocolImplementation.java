@@ -9,14 +9,12 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import com.kota.stratagem.ejbservice.converter.TaskConverter;
-import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
 import com.kota.stratagem.ejbservice.domain.TaskRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
 import com.kota.stratagem.ejbservice.util.ApplicationError;
 import com.kota.stratagem.persistence.entity.Task;
 import com.kota.stratagem.persistence.exception.CoherentPersistenceServiceException;
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
-import com.kota.stratagem.persistence.service.ProjectService;
 import com.kota.stratagem.persistence.service.TaskService;
 
 @Stateless(mappedName = "ejb/taskProtocol")
@@ -26,9 +24,6 @@ public class TaskProtocolImplementation implements TaskProtocol {
 
 	@EJB
 	private TaskService taskService;
-
-	@EJB
-	private ProjectService projectService;
 
 	@EJB
 	private TaskConverter converter;
@@ -62,13 +57,13 @@ public class TaskProtocolImplementation implements TaskProtocol {
 	}
 
 	@Override
-	public TaskRepresentor saveTask(Long id, String description, ProjectRepresentor project, double completion) throws AdaptorException {
+	public TaskRepresentor saveTask(Long id, String name, String description, double completion) throws AdaptorException {
 		try {
 			Task task = null;
 			if(this.taskService.exists(id)) {
-				task = this.taskService.update(id, description, this.projectService.read(project.getId()), completion);
+				task = this.taskService.update(id, name, description, completion);
 			} else {
-				task = this.taskService.create(id, description, this.projectService.read(project.getId()), completion);
+				task = this.taskService.create(id, name, description, completion);
 			}
 			return this.converter.to(task);
 		} catch(final PersistenceServiceException e) {

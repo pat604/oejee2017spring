@@ -115,8 +115,11 @@ CREATE TABLE projects (
 	project_id SERIAL NOT NULL,
 	project_name CHARACTER VARYING(100) NOT NULL,
 	project_description CHARACTER VARYING(1000) NULL,
+	project_status_id INTEGER NOT NULL,
 	project_visibility BOOLEAN NOT NULL,
-	CONSTRAINT PK_PROJECT_ID PRIMARY KEY (project_id)
+	CONSTRAINT PK_PROJECT_ID PRIMARY KEY (project_id),
+	CONSTRAINT FK_PROJECT_STATUS FOREIGN KEY (project_status_id)
+	  REFERENCES project_statuses (status_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 CREATE TABLE project_missions (
 	mission_id SERIAL NOT NULL,
