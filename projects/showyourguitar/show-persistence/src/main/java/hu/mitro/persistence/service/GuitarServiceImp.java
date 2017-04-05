@@ -27,7 +27,14 @@ public class GuitarServiceImp implements GuitarService {
 
 	@Override
 	public Guitar read(Long id) throws PersistenceException {
-
+		Guitar guitar = null;
+		try {
+			guitar = this.entityManager.createNamedQuery(GuitarQuery.GET_BY_ID, Guitar.class)
+					.setParameter(GuitarParameter.ID, id).getSingleResult();
+		} catch (Exception e) {
+			throw new PersistenceException(
+					"Unknown error when fetching Guitar by id (" + id + ")!" + e.getLocalizedMessage(), e);
+		}
 		return null;
 	}
 
@@ -35,12 +42,11 @@ public class GuitarServiceImp implements GuitarService {
 	public Guitar read(String serialNumber) throws PersistenceException {
 		Guitar guitar = null;
 		try {
-			guitar = this.entityManager
-					.createNamedQuery(GuitarQuery.GET_BY_SERIALNUMBER, Guitar.class)
+			guitar = this.entityManager.createNamedQuery(GuitarQuery.GET_BY_SERIALNUMBER, Guitar.class)
 					.setParameter(GuitarParameter.SERIALNUMBER, serialNumber).getSingleResult();
 		} catch (Exception e) {
-			throw new PersistenceException("Unknown error when fetching Guitar by serialNumber ("
-					+ serialNumber + ")!" + e.getLocalizedMessage(), e);
+			throw new PersistenceException("Unknown error when fetching Guitar by serialNumber (" + serialNumber + ")!"
+					+ e.getLocalizedMessage(), e);
 		}
 		return guitar;
 	}

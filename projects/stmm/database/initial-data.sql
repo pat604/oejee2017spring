@@ -15,6 +15,18 @@ INSERT INTO wallet (wallet_id, amount)
 INSERT INTO wallet (wallet_id, amount)
             VALUES ('US-11111111', 11111.55);
 
+INSERT INTO wallet (wallet_id, amount)
+            VALUES ('HU-11111111', 12000.22);
+
+INSERT INTO wallet (wallet_id, amount)
+            VALUES ('HU-11111112', 99000.11);
+
+INSERT INTO wallet (wallet_id, amount)
+            VALUES ('UK-11111111', 99011.44);
+
+INSERT INTO wallet (wallet_id, amount)
+            VALUES ('US-11111111', 11111.55);
+
 INSERT INTO appuser (appuser_id, username, first_name, last_name, wallet_id, password, appuser_usertype_id)
             VALUES ('2017-03-12-0000001', 'testUser11','Kis','Zoltán','HU-11111111','H@#1', 'REGISTERED');
 INSERT INTO appuser (appuser_id, username, first_name, last_name, wallet_id, password, appuser_usertype_id)

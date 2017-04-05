@@ -3,6 +3,7 @@ package hu.smiklos.stmm.pers.service;
 import hu.smiklos.stmm.pers.entity.AppUser;
 import hu.smiklos.stmm.pers.entity.UserType;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
+import hu.smiklos.stmm.pers.parameter.UserTypeParameter;
 import hu.smiklos.stmm.pers.query.AppUserQuery;
 import hu.smiklos.stmm.pers.query.UsertypesQuery;
 import org.apache.log4j.Logger;
@@ -21,10 +22,9 @@ import java.util.List;
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class UserTypeService implements UserTypeServiceInterface {
 
+    private static final Logger LOGGER = Logger.getLogger(AppUserService.class);
     @PersistenceContext(unitName = UnitName.UNIT_NAME)
     private EntityManager entityManager;
-
-    private static final Logger LOGGER = Logger.getLogger(AppUserService.class);
 
     @Override
     public List<UserType> readAll() throws PersistenceServiceException {
@@ -38,5 +38,19 @@ public class UserTypeService implements UserTypeServiceInterface {
             throw new PersistenceServiceException("Unknown error when fetching application users! " + e.getLocalizedMessage(), e);
         }
         return result;
+    }
+
+    @Override
+    public UserType getTypeWhereStateIs(int state) throws PersistenceServiceException {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Get user type by state: " + state);
+        }
+        UserType userType = null;
+        try {
+            userType = this.entityManager.createNamedQuery(UsertypesQuery.GET_TYPE_WHERE_STATE_IS, UserType.class).setParameter(UserTypeParameter.STATE, state).getSingleResult();
+        } catch (final Exception e) {
+            throw new PersistenceServiceException("Unknown error when fetching usertype by state: " + state + "! " + e.getLocalizedMessage(), e);
+        }
+        return userType;
     }
 }
