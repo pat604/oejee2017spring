@@ -1,4 +1,4 @@
-package com.kota.stratagem.weblayer.servlet;
+package com.kota.stratagem.weblayer.servlet.project;
 
 import java.io.IOException;
 
@@ -17,8 +17,8 @@ import com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
 import com.kota.stratagem.ejbservice.protocol.ProjectProtocol;
 import com.kota.stratagem.weblayer.common.Page;
-import com.kota.stratagem.weblayer.common.ProjectAttribute;
-import com.kota.stratagem.weblayer.common.ProjectParameter;
+import com.kota.stratagem.weblayer.common.project.ProjectAttribute;
+import com.kota.stratagem.weblayer.common.project.ProjectParameter;
 
 @WebServlet("/ProjectDetail")
 public class ProjectDetailController extends HttpServlet implements ProjectParameter, ProjectAttribute {

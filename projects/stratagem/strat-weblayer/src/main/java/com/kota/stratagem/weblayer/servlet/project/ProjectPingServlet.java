@@ -1,4 +1,4 @@
-package com.kota.stratagem.weblayer.servlet;
+package com.kota.stratagem.weblayer.servlet.project;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,27 +13,28 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.kota.stratagem.ejbservice.domain.TaskRepresentor;
-import com.kota.stratagem.ejbservice.protocol.TaskProtocol;
+import com.kota.stratagem.ejbservice.domain.ProjectCriteria;
+import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
+import com.kota.stratagem.ejbservice.protocol.ProjectProtocol;
 
-@WebServlet("/TaskPing")
-public class TaskPingServlet extends HttpServlet {
+@WebServlet("/ProjectPing")
+public class ProjectPingServlet extends HttpServlet {
 
-	private static final long serialVersionUID = -3067666682855692427L;
+	private static final long serialVersionUID = -3780468253548335598L;
 
-	private static final Logger LOGGER = Logger.getLogger(TaskPingServlet.class);
+	private static final Logger LOGGER = Logger.getLogger(ProjectPingServlet.class);
 
 	@EJB
-	private TaskProtocol protocol;
+	private ProjectProtocol protocol;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LOGGER.info("Get tasks");
+		LOGGER.info("Get projects");
 		response.setCharacterEncoding("UTF-8");
 		final PrintWriter out = response.getWriter();
 		try {
-			final List<TaskRepresentor> tasks = this.protocol.getAllTasks();
-			for(TaskRepresentor representor : tasks) {
+			final List<ProjectRepresentor> projects = this.protocol.getAllProjects(new ProjectCriteria());
+			for(ProjectRepresentor representor : projects) {
 				out.println(representor.toString());
 			}
 		} catch(final Exception e) {
