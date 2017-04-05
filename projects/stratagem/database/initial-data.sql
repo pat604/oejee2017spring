@@ -152,6 +152,12 @@ INSERT INTO project_status_alterations (alteration_id, alteration_project_id, al
 (12, 3, 6, 0, '2016/10/22 10:15:00'),
 (13, 3, 5, 3, '2016/12/12 09:15:00');
 
+INSERT INTO objective_projects (objective_project_id, objective_project_objective, objective_project_project) VALUES
+(0, 0, 3),
+(1, 1, 0),
+(2, 1, 1),
+(3, 1, 2);
+
 -- ###########################################################################################
 
 INSERT INTO tasks (task_id, task_name, task_description, task_completion_percentage) VALUES 
@@ -215,8 +221,21 @@ INSERT INTO task_estimations (estimation_id, estimation_task, estimation_pessimi
 
 -- ###########################################################################################
 
--- INSERT INTO ASSIGNMENTS
+-- INSERT INTO team_objective_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_objective) VALUES
+-- INSERT INTO user_objective_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_objective) VALUES
+INSERT INTO team_project_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_project) VALUES
+(0, 0 , 2, 3);
+-- INSERT INTO user_project_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_project) VALUES
+-- INSERT INTO team_task_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_task) VALUES
+-- INSERT INTO user_task_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_task) VALUES
 
 -- ###########################################################################################
 
--- INSERT INTO reviews
+INSERT INTO reviews (review_id, review_name, review_description, review_organizer, review_date) VALUES
+(0, 'ARPA integration code review', 'Let us analyze our progress made with the new AR SDK', 0, '2016/09/15 14:00:00');
+
+INSERT INTO review_invitations (invitation_id, invitaion_review, invitation_recipiant) VALUES
+(0, 0, 0),
+(1, 0, 3),
+(2, 0, 6),
+(3, 0, 7);
