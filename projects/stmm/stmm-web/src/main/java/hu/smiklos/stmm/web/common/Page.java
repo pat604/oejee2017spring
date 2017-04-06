@@ -9,7 +9,12 @@ public enum Page {
     USER_REGISTRATION("userregistration.jsp", "Registration"),
     ERROR("error.jsp", "Error"),
     LOGIN("login.jsp", "Login"),
-    LOGOUT("home.jsp", "Logout");
+    LOGOUT("home.jsp", "Logout"),
+    CREDIT_CARD("credit_card.jsp", "CreditCard"),
+    MB_ACCOUNT("mb_account.jsp", "MBAccount"),
+    INVEST("invest.jsp", "Invest"),
+    BORROW("borrow.jsp","Borrow");
+
 
 
     private final String jspName;

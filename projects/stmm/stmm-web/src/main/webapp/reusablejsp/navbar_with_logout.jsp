@@ -12,9 +12,18 @@
             <a class="navbar-brand" href="#">moneybook</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="<%=Page.CREDIT_CARD.getUrl() %>">Credit card</a></li>
+                <li><a href="<%= Page.MB_ACCOUNT.getUrl() %>">MB Account</a></li>
+                <li><a href="<%= Page.INVEST.getUrl() %>">Invest</a></li>
+                <li><a href="<%= Page.BORROW.getUrl() %>">Borrow</a></li>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        <%= request.getUserPrincipal().getName() %>
+                        <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">Action</a></li>
                         <li><a href="#">Another action</a></li>
