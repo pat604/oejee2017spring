@@ -37,12 +37,12 @@ public class ProjectServiceImplementation implements ProjectService {
 	private TaskService taskService;
 
 	@Override
-	public Project create(Long id, String name, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException {
+	public Project create(Long id, String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Create Project (id: " + id + ", name: " + name + ", status: " + status + ", tasks: " + tasks + ", visible: " + visible + ")");
+			LOGGER.debug("Create Project (id: " + id + ", name: " + name + ", description: " + description + ", status: " + status + ", tasks: " + tasks + ", visible: " + visible + ")");
 		}
 		try {
-			final Project project = new Project(id, name, status, tasks, visible);
+			final Project project = new Project(id, name, description, status, tasks, visible);
 			this.entityManager.persist(project);
 			this.entityManager.flush();
 			return project;
@@ -80,9 +80,23 @@ public class ProjectServiceImplementation implements ProjectService {
 	}
 
 	@Override
-	public Project update(Long id, String name, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException {
+	public List<Project> read(ProjectStatus status) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Update Project (id: " + id + ", name: " + name + ", status: " + status + ", tasks: " + tasks + ", visible: " + visible + ")");
+			LOGGER.debug("Get Projects by Status");
+		}
+		List<Project> result = null;
+		try {
+			result = this.entityManager.createNamedQuery(ProjectQuery.GET_ALL_BY_STATUS, Project.class).setParameter(ProjectParameter.STATUS, status).getResultList();
+		} catch(final Exception e) {
+			throw new PersistenceServiceException("Unknown error when fetching Projects! " + e.getLocalizedMessage(), e);
+		}
+		return result;
+	}
+
+	@Override
+	public Project update(Long id, String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException {
+		if(LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Update Project (id: " + id + ", name: " + name + ", description: " + description + ", status: " + status + ", tasks: " + tasks + ", visible: " + visible + ")");
 		}
 		try {
 			final Project project = this.read(id);
@@ -108,7 +122,7 @@ public class ProjectServiceImplementation implements ProjectService {
 					throw new PersistenceServiceException("Unknown error when removing Project by id (" + id + ")! " + e.getLocalizedMessage(), e);
 				}
 			} else {
-				throw new CoherentPersistenceServiceException(PersistenceApplicationError.HAS_DEPENDENCY, "Project has undeleted task(s)", id.toString());
+				throw new CoherentPersistenceServiceException(PersistenceApplicationError.HAS_DEPENDENCY, "Project has undeleted dependency(s)", id.toString());
 			}
 		} else {
 			throw new CoherentPersistenceServiceException(PersistenceApplicationError.NON_EXISTANT, "Project doesn't exist", id.toString());

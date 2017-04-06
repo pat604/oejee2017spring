@@ -2,15 +2,11 @@ package com.kota.stratagem.persistence.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
@@ -38,12 +34,11 @@ public class Task implements Serializable {
 	@Column(name = "task_id", nullable = false)
 	private Long id;
 
-	@Column(name = "task_description", nullable = false)
-	private String description;
+	@Column(name = "task_name", nullable = false)
+	private String name;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
-	@JoinColumn(name = "task_project_id", referencedColumnName = "project_id", nullable = false)
-	private Project project;
+	@Column(name = "task_description", nullable = true)
+	private String description;
 
 	@Column(name = "task_completion_percentage", nullable = false)
 	private double completion;
@@ -52,10 +47,10 @@ public class Task implements Serializable {
 		this(null, null, null, 0);
 	}
 
-	public Task(Long id, String description, Project project, double completion) {
+	public Task(Long id, String name, String description, double completion) {
 		this.id = id;
+		this.name = name;
 		this.description = description;
-		this.project = project;
 		this.completion = completion;
 	}
 
@@ -67,20 +62,20 @@ public class Task implements Serializable {
 		this.id = id;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Project getProject() {
-		return project;
-	}
-
-	public void setProject(Project project) {
-		this.project = project;
 	}
 
 	public double getCompletion() {
@@ -93,7 +88,7 @@ public class Task implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Task [id=" + id + ", description=" + description + ", project=" + project + ", completion=" + completion + "]";
+		return "Task [id=" + id + ", name=" + name + ", description=" + description + ", completion=" + completion + "]";
 	}
 
 }

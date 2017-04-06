@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -27,6 +28,8 @@ import hu.mitro.persistence.query.GuitarQuery;
 		@NamedQuery(name = GuitarQuery.GET_ALL, query = "SELECT g FROM Guitar g ORDER BY g.guitarBrand") //
 })
 public class Guitar implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@SequenceGenerator(name = "generatorGuitar", sequenceName = "guitar_guitar_id_seq", allocationSize = 1)
@@ -53,6 +56,7 @@ public class Guitar implements Serializable {
 	@Column(name = "guitar_price", nullable = false)
 	private double guitarPrice;
 
+	@OneToOne
 	@Column(name = "guitar_guitarowner_id", nullable = false)
 	private GuitarOwner guitarOwner;
 

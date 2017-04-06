@@ -1,4 +1,4 @@
-GRANT SELECT, INSERT, UPDATE, DELETE ON projects, tasks TO stratagem_std_user;
+GRANT SELECT, INSERT, UPDATE, DELETE ON projects, tasks, project_tasks TO stratagem_std_user;
 GRANT USAGE, SELECT, UPDATE ON tasks_task_id_seq TO stratagem_std_user;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON app_users, roles, authorizations TO stratagem_std_user;

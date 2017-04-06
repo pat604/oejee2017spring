@@ -17,4 +17,6 @@ public interface AppUserServiceInterface {
 
     AppUser read(String appuserId) throws PersistenceServiceException;
 
+    AppUser create(AppUser user) throws PersistenceServiceException;
+
 }

@@ -5,4 +5,5 @@ package hu.smiklos.stmm.pers.query;
  */
 public class UsertypesQuery {
     public static final String GET_ALL = "UserType.getAll";
+    public static final String GET_TYPE_WHERE_STATE_IS = "UserType.getByState";
 }
