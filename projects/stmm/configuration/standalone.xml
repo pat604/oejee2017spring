@@ -307,7 +307,7 @@
                         <login-module code="hu.smiklos.stmm.security.StmmLoginModule" flag="required">
                             <module-option name="dsJndiName" value="java:jboss/datasources/postgreSQL"/>
                             <module-option name="principalsQuery" value="SELECT password FROM appuser WHERE username = ?"/>
-                            <module-option name="rolesQuery" value="SELECT role_name, 'Roles' FROM userrole INNER JOIN appuser ON (appuser_id = userrole_appuser_id) INNER JOIN role ON (role_id = userrole_role_id) WHERE username = ?"/>
+                            <module-option name="rolesQuery" value="SELECT usertype AS role_name, 'Roles' AS Roles FROM userrole INNER JOIN appuser ON (appuser_id = userrole_appuser_id) INNER JOIN usertype ON (usertype_id = userrole_usertype_id) WHERE username = ?"/>
                         </login-module>
                     </authentication>
                 </security-domain>

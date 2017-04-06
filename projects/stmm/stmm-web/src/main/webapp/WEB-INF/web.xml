@@ -16,8 +16,7 @@
             <http-method>TRACE</http-method>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>webuser</role-name>
-            <role-name>webadmin</role-name>
+            <role-name>REGISTERED</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>NONE</transport-guarantee>
@@ -45,12 +44,32 @@
 
     <security-role>
         <description>Generic user</description>
-        <role-name>webuser</role-name>
+        <role-name>REGISTERED</role-name>
     </security-role>
 
     <security-role>
-        <description>Administrator</description>
-        <role-name>webadmin</role-name>
+    <description>User with no overdue</description>
+    <role-name>RELIABLE</role-name>
+</security-role>
+
+    <security-role>
+        <description>User with few day overdue</description>
+        <role-name>SUSPICIOUS</role-name>
+    </security-role>
+
+    <security-role>
+        <description>User with at least one week overdue</description>
+        <role-name>OWING</role-name>
+    </security-role>
+
+    <security-role>
+        <description>User with proved identity </description>
+        <role-name>PROVED</role-name>
+    </security-role>
+
+    <security-role>
+        <description>Unregistered visitor user</description>
+        <role-name>GUEST</role-name>
     </security-role>
 
     <error-page>

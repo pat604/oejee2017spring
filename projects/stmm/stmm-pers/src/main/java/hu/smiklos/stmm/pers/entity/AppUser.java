@@ -25,6 +25,7 @@ public class AppUser implements Serializable {
     private String password;
     private String username;
     private UserType userType;
+    private CreditCard creditCard;
 
     public AppUser(String userId, String walletId, String first_name, String last_name, String password, UserType userType) {
         this.userId = userId;
@@ -89,6 +90,10 @@ public class AppUser implements Serializable {
     public UserType getUserType() {
         return userType;
     }
+
+    /* @OneToOne
+    @JoinColumn(name="appuser_creditcard_number")
+    public CreditCard getCreditCard() { return  creditCard; } */
 
     public void setUserType(UserType userType) {
         this.userType = userType;
