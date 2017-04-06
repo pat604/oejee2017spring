@@ -14,9 +14,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import hu.qwaevisz.tickethandling.persistence.parameter.CustomerParameter;
-import hu.qwaevisz.tickethandling.persistence.query.CustomerQuery;
-
 @Entity
 @Table(name = "customer")
 @NamedQueries(value = { //
@@ -34,10 +31,10 @@ public class Customer implements Serializable {
 	@Column(name = "cust_sys_id", nullable = false)
 	private String id;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = CompInSystem.class, mappedBy = "system")
-	private final Set<CompInSystem> components;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = CompInSystem.class, mappedBy = "system")
+	private final Set<Component> components;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Ticket.class, mappedBy = "system")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Ticket.class, mappedBy = "system")
 	private final Set<Ticket> tickets;
 
 	@Column(name = "cust_name", nullable = false)

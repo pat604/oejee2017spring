@@ -101,7 +101,7 @@
 									value="${ticket.id}" /></a>
 						</div>
 						<div class="col-sm-1">
-							<c:out value="${ticket.system}" />
+							<c:out value="${ticket.system.id}" />
 						</div>
 						<div class="col-sm-1">
 							<c:out value="${ticket.priority.label}" />

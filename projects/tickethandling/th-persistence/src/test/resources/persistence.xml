@@ -4,7 +4,7 @@
         version="2.0">
         	
 	<persistence-unit name="th-persistence-test-unit" transaction-type="RESOURCE_LOCAL">
-		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider> 
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>hu.qwaevisz.tickethandling.persistence.entity.Ticket</class> 
 		<class>hu.qwaevisz.tickethandling.persistence.entity.Employee</class>
 		<class>hu.qwaevisz.tickethandling.persistence.entity.Customer</class>
@@ -23,7 +23,7 @@
 	</persistence-unit>
 	
 	<persistence-unit name="th-persistence-init-unit" transaction-type="RESOURCE_LOCAL">
-		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider> 
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>hu.qwaevisz.tickethandling.persistence.entity.Ticket</class>
 		<class>hu.qwaevisz.tickethandling.persistence.entity.Employee</class>
 		<class>hu.qwaevisz.tickethandling.persistence.entity.Customer</class>
