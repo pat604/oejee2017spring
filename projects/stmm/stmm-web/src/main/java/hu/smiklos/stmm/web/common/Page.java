@@ -8,7 +8,8 @@ public enum Page {
     SIGN_IN("startpage.jsp", "Start"),
     USER_REGISTRATION("userregistration.jsp", "Registration"),
     ERROR("error.jsp", "Error"),
-    LOGIN("login.jsp", "Login");
+    LOGIN("login.jsp", "Login"),
+    LOGOUT("home.jsp", "Logout");
 
 
     private final String jspName;

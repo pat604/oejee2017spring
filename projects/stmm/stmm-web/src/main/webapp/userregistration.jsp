@@ -1,4 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="hu.smiklos.stmm.ejb.uribuilder.UriBuilder" %>
 <%@ page import="hu.smiklos.stmm.web.common.Page" %>
 <%@ page import="hu.smiklos.stmm.ejb.domain.UserRegistrationStub" %>

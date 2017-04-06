@@ -3,17 +3,23 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 
-<jsp:include page="/reusablejsp/head_tag.jsp" ></jsp:include>
+<jsp:include page="/reusablejsp/head_tag.jsp"></jsp:include>
 <body>
-
-<jsp:include page="/reusablejsp/navbar_with_login.jsp" ></jsp:include>
+<% if (request != null && request.getUserPrincipal() != null && request.getUserPrincipal().getName() != null) { %>
+<jsp:include page="/reusablejsp/navbar_with_logout.jsp"></jsp:include>
+<% } else { %>
+<jsp:include page="/reusablejsp/navbar_with_login.jsp"></jsp:include>
+<% } %>
 
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
     <div class="container">
         <h1>Wellcome world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="<%= Page.USER_REGISTRATION.getUrl() %>" role="button">Register &raquo;</a></p>
+        <p>Lorem ipsum dolor sit amet, an diam tantas vis, cu prima partiendo constituto vis. Quo euismod referrentur te, in vim quot laudem minimum. An cibo deleniti quaerendum sea, duo labores scripserit no. Te pro everti impedit perfecto. Vim no audiam posidonium. Eam ne iriure fuisset.</p>
+        <% if (!(request != null && request.getUserPrincipal() != null && request.getUserPrincipal().getName() != null)) { %>
+        <p><a class="btn btn-primary btn-lg" href="<%= Page.USER_REGISTRATION.getUrl() %>"
+              role="button">Register &raquo;</a></p>
+        <% } %>
     </div>
 </div>
 
@@ -22,12 +28,16 @@
     <div class="row">
         <div class="col-md-6">
             <h2>Invest</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
+                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
+                euismod. Donec sed odio dui. </p>
             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
         <div class="col-md-6">
             <h2>Borrow</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
+                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
+                euismod. Donec sed odio dui. </p>
             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
     </div>
