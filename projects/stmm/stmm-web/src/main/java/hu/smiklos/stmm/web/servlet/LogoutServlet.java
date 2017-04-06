@@ -14,8 +14,6 @@ import java.io.IOException;
 @WebServlet("/Logout")
 public class LogoutServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 1599166100486735562L;
-
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setHeader("Cache-Control", "no-cache, no-store");

@@ -4,8 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by SebestyenMiklos on 2017. 04. 02..
  */
@@ -18,7 +16,7 @@ public class PasswordTest {
     @Before
     public void setUp() {
         pw = new Password(PASSWORD);
-        this.hashedPw = pw.getHashedPassword();
+        this.hashedPw = pw.getHashedPassword(null);
     }
 
     @Test

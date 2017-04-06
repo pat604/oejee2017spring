@@ -3,11 +3,13 @@ package hu.smiklos.stmm.ejb.converter;
 import hu.smiklos.stmm.ejb.domain.AppUserStub;
 import hu.smiklos.stmm.pers.entity.AppUser;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 
 /**
  * Created by SebestyenMiklos on 2017. 03. 16..
  */
+@PermitAll
 @Stateless
 public class AppUserConverter implements AppUserConverterInterface {
 

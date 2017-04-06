@@ -1,0 +1,11 @@
+group 'hu.smiklos.stmm'
+version '1.0-SNAPSHOT'
+
+jar {
+    archiveName 'stmm-security.jar'
+}
+
+dependencies {
+    compile project(':stmm-pers')
+    compile project(':stmm-ejb')
+}

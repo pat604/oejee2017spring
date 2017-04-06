@@ -57,8 +57,7 @@ public class UserRegistrationFacade implements UserRegistrationFacadeInterface {
         AppUser user= converter.formToAppUser(stub);
         user.setUserId(String.format("%s-%s", todayNumber, nextVal));
 
-        pwService.setPlainTextPassword(stub.getPassword());
-        user.setPassword(pwService.getHashedPassword());
+        user.setPassword(pwService.getHashedPassword(stub.getPassword()));
 
         UserType uType = userTypeService.getTypeWhereStateIs(1);
         user.setUserType(uType);
