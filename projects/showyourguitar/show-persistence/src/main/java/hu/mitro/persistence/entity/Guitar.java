@@ -6,9 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -21,11 +23,10 @@ import hu.mitro.persistence.query.GuitarQuery;
 @Entity
 @Table(name = "guitar")
 @NamedQueries(value = { //
-		@NamedQuery(name = GuitarQuery.GET_BY_ID, query = "SELECT g FROM Guitar g WHERE g.id=:"
-				+ GuitarParameter.ID),
+		@NamedQuery(name = GuitarQuery.GET_BY_ID, query = "SELECT g FROM Guitar g WHERE g.id=:" + GuitarParameter.ID),
 		@NamedQuery(name = GuitarQuery.GET_BY_SERIALNUMBER, query = "SELECT g FROM Guitar g WHERE g.guitarSerialNumber=:"
 				+ GuitarParameter.SERIALNUMBER),
-		@NamedQuery(name = GuitarQuery.GET_ALL, query = "SELECT g FROM Guitar g ORDER BY g.guitarBrand") //
+		@NamedQuery(name = GuitarQuery.GET_ALL, query = "SELECT g FROM Guitar g") //
 })
 public class Guitar implements Serializable {
 
@@ -56,16 +57,16 @@ public class Guitar implements Serializable {
 	@Column(name = "guitar_price", nullable = false)
 	private double guitarPrice;
 
-	@OneToOne
-	@Column(name = "guitar_guitarowner_id", nullable = false)
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "guitar_guitarowner_id", referencedColumnName = "guitarowner_id", nullable = false)
 	private GuitarOwner guitarOwner;
 
 	public Guitar() {
 		super();
 	}
 
-	public Guitar(Long id, String guitarSerialNumber, GuitarBrand guitarbrand, String guitartype,
-			String guitarColor, int guitarVintage, double guitarPrice, GuitarOwner guitarOwner) {
+	public Guitar(Long id, String guitarSerialNumber, GuitarBrand guitarbrand, String guitartype, String guitarColor,
+			int guitarVintage, double guitarPrice, GuitarOwner guitarOwner) {
 		super();
 		this.id = id;
 		this.guitarSerialNumber = guitarSerialNumber;
@@ -143,10 +144,10 @@ public class Guitar implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Guitar [id=" + this.id + ", guitarSerialNumber=" + this.guitarSerialNumber
-				+ ", guitarbrand=" + this.guitarbrand + ", guitartype=" + this.guitartype
-				+ ", guitarColor=" + this.guitarColor + ", guitarVintage=" + this.guitarVintage
-				+ ", guitarPrice=" + this.guitarPrice + ", guitarOwner=" + this.guitarOwner + "]";
+		return "Guitar [id=" + this.id + ", guitarSerialNumber=" + this.guitarSerialNumber + ", guitarbrand="
+				+ this.guitarbrand + ", guitartype=" + this.guitartype + ", guitarColor=" + this.guitarColor
+				+ ", guitarVintage=" + this.guitarVintage + ", guitarPrice=" + this.guitarPrice + ", guitarOwner="
+				+ this.guitarOwner + "]";
 	}
 
 }
