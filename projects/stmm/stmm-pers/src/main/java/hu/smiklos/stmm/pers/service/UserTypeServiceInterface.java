@@ -14,4 +14,6 @@ public interface UserTypeServiceInterface {
 
 
     public List<UserType> readAll() throws PersistenceServiceException;
+
+    UserType getTypeWhereStateIs(int state) throws PersistenceServiceException;
 }

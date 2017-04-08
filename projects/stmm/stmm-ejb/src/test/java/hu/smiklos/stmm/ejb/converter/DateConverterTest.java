@@ -30,8 +30,8 @@ public class DateConverterTest {
 
     @Test
     public void getDateAsContinouesString() throws Exception {
-        String string = "01 2, 2010";
-        DateFormat format = new SimpleDateFormat("mm d, yyyy", Locale.ENGLISH);
+        String string = "2010/01/02";
+        DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         Date date = format.parse(string);
         String dateString = DateConverter.getDateAsContinouesString(date);
         Assert.assertEquals("20100102", dateString);
@@ -39,8 +39,8 @@ public class DateConverterTest {
 
     @Test
     public void getDateHyphenSeparated() throws Exception {
-        String string = "02 02, 2010";
-        DateFormat format = new SimpleDateFormat("mm dd, yyyy", Locale.ENGLISH);
+        String string = "2010/02/02";
+        DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         Date date = format.parse(string);
         String dateString = DateConverter.getDateHyphenSeparated(date);
         Assert.assertEquals("2010-02-02", dateString);
@@ -48,8 +48,8 @@ public class DateConverterTest {
 
     @Test
     public void getDateAsContinouesStringDecember() throws Exception {
-        String string = "12 2, 2010";
-        DateFormat format = new SimpleDateFormat("mm d, yyyy", Locale.ENGLISH);
+        String string = "2010/12/02";
+        DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         Date date = format.parse(string);
         String dateString = DateConverter.getDateAsContinouesString(date);
         Assert.assertEquals("20101202", dateString);
@@ -57,8 +57,8 @@ public class DateConverterTest {
 
     @Test
     public void getDateHyphenSeparatedDecember() throws Exception {
-        String string = "12 2, 2010";
-        DateFormat format = new SimpleDateFormat("mm d, yyyy", Locale.ENGLISH);
+        String string = "2010/12/02";
+        DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         Date date = format.parse(string);
         String dateString = DateConverter.getDateHyphenSeparated(date);
         Assert.assertEquals("2010-12-02", dateString);
