@@ -20,7 +20,7 @@ INSERT INTO roles (role_id, role_name) VALUES
 (3, 'department_manager'),
 (4, 'central_manager'),
 (5, 'system_administrator');
-SELECT SETVAL('roles_role_id_seq', COALESCE(MAX(role_id), 1) ) FROM roles;
+SELECT SETVAL('roles_role_id_seq', COALESCE(MAX(role_id), 0) ) FROM roles;
 
 INSERT INTO app_users (user_id, user_name, user_password) VALUES 
 (0, 'adam', 'a123'),
@@ -34,7 +34,7 @@ INSERT INTO app_users (user_id, user_name, user_password) VALUES
 (8, 'ike', 'i123'),
 (9, 'jenny', 'j123'),
 (10, 'Kevin', 'k123');
-SELECT SETVAL('app_users_user_id_seq', COALESCE(MAX(user_id), 1) ) FROM app_users;
+SELECT SETVAL('app_users_user_id_seq', COALESCE(MAX(user_id), 0) ) FROM app_users;
 
 INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES 
 (0, 1),

@@ -44,7 +44,7 @@ public class ProjectDetailController extends HttpServlet implements ProjectParam
 			ProjectRepresentor project = null;
 			boolean isNew = false;
 			if(NEW_PROJECT_ID_FLAG.equals(id)) {
-				project = new ProjectRepresentor(-1L, "", ProjectStatusRepresentor.PROPOSED, true);
+				project = new ProjectRepresentor(-1L, "", "", ProjectStatusRepresentor.PROPOSED, true);
 				isNew = true;
 			} else {
 				try {
@@ -73,7 +73,7 @@ public class ProjectDetailController extends HttpServlet implements ProjectParam
 		final ProjectStatusRepresentor status = ProjectStatusRepresentor.valueOf(request.getParameter(STATUS));
 		final String visible = request.getParameter(VISIBLE);
 		if(ID == null || "".equals(ID)) {
-			final ProjectRepresentor project = new ProjectRepresentor(Long.parseLong(id), name, status, Boolean.valueOf(visible));
+			final ProjectRepresentor project = new ProjectRepresentor(Long.parseLong(id), name, description, status, Boolean.valueOf(visible));
 			this.forward(request, response, true, project, true);
 		} else {
 			ProjectRepresentor project = null;

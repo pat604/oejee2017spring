@@ -46,7 +46,7 @@
                         <th>Name</th>
                         <th>Status</th>
                         <th>Tasks</th>
-                        <!-- <th>&nbsp;</th> -->
+                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,6 +55,7 @@
                             <td><c:out value="${project.name}" /></td>
                             <td><c:out value="${project.status.label}" /></td>
                             <td><c:out value="${project.tasks.size()}" /></td>
+                            <td><a href="ProjectDetail?id=<c:out value="${project.id}" />">Details</a></td>
                             <!--  <td><a href="MagazineDelete?reference=<c:out value="${magazine.reference}" />">delete (unsafe)</a></td> -->
                         </tr>
                     </c:forEach>
