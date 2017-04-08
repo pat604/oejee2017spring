@@ -14,6 +14,14 @@
     <c:if test="${not empty requestScope.project.description}"><h4><jsp:getProperty name="project" property="description" /></h4></c:if>
     <div><label>Status: </label><span>${requestScope.project.status.label}</span></div>
     <div><label>Number of tasks: </label><span>${requestScope.project.tasks.size()}</span></div>
+    <c:choose>
+	    <c:when test="${requestScope.project.visible}">
+            <span><strong>Public</strong> project</span>
+        </c:when>
+        <c:otherwise>
+ 			<span><strong>Private</strong> project</span>
+        </c:otherwise>
+	</c:choose>
     <br/><br/>
     <div>
         <a href="ProjectList">back</a>

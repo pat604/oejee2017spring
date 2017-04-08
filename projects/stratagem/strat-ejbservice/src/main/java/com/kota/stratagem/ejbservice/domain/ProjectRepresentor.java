@@ -12,7 +12,7 @@ public class ProjectRepresentor {
 	private final Boolean visible;
 
 	public ProjectRepresentor() {
-		this(null, null, null, ProjectStatusRepresentor.PROPOSED, true);
+		this(null, "", "", ProjectStatusRepresentor.PROPOSED, true);
 	}
 
 	public ProjectRepresentor(Long id, String name, String description, ProjectStatusRepresentor status, Boolean visible) {
@@ -26,6 +26,10 @@ public class ProjectRepresentor {
 
 	public Long getId() {
 		return id;
+	}
+	
+	public String getStringId() {
+		return id.toString();
 	}
 
 	public String getName() {

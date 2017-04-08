@@ -1,6 +1,7 @@
 package com.kota.stratagem.weblayer.servlet.project;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -67,22 +68,33 @@ public class ProjectDetailController extends HttpServlet implements ProjectParam
 
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		final String id = request.getParameter(ID);
-		final String name = request.getParameter(NAME);
-		final String description = request.getParameter(DESCRIPTION);
-		final ProjectStatusRepresentor status = ProjectStatusRepresentor.valueOf(request.getParameter(STATUS));
-		final String visible = request.getParameter(VISIBLE);
-		if(ID == null || "".equals(ID)) {
-			final ProjectRepresentor project = new ProjectRepresentor(Long.parseLong(id), name, description, status, Boolean.valueOf(visible));
-			this.forward(request, response, true, project, true);
-		} else {
-			ProjectRepresentor project = null;
-			try {
-				project = this.protocol.saveProject(Long.parseLong(id), name, description, status, null, Boolean.valueOf(visible));
-			} catch(final AdaptorException e) {
-				LOGGER.error(e, e);
+		try {
+			Long id = null;
+			if(request.getParameter(ID) == "" || request.getParameter(ID) == null) {
+				id = null;
+			} else {
+				id = Long.parseLong(request.getParameter(ID));
 			}
-			this.forward(request, response, false, project, false);
+			final String name = request.getParameter(NAME);
+			final String description = request.getParameter(DESCRIPTION);
+			final ProjectStatusRepresentor status = ProjectStatusRepresentor.valueOf(request.getParameter(STATUS));
+			final Boolean visible = Boolean.valueOf(request.getParameter(VISIBLE));
+			if(ID == null || "".equals(ID)) {
+				LOGGER.info("Create new project. id: (" + id + ")");
+				final ProjectRepresentor project = new ProjectRepresentor(id, name, description, status, visible);
+				this.forward(request, response, true, project, true);
+			} else {
+				ProjectRepresentor project = null;
+				try {
+					LOGGER.info("Update project. id: (" + id + ")");
+					project = this.protocol.saveProject(id, name, description, status, null, visible);
+				} catch(final AdaptorException e) {
+					LOGGER.error(e, e);
+				}
+				this.forward(request, response, false, project, false);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

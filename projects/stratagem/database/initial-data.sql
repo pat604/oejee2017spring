@@ -123,6 +123,7 @@ INSERT INTO projects (project_id, project_name, project_description, project_sta
 (1, 'QuickExtract app', 'Develop mobile app for QuickExtract', 7, TRUE),
 (2, 'Grove BI outsourcing', '', 0, TRUE),
 (3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', 5, FALSE);
+SELECT SETVAL('projects_project_id_seq', COALESCE(MAX(project_id), 0) ) FROM projects;
 
 INSERT INTO project_missions (mission_id, mission_name, mission_description, mission_project, mission_stage_id) VALUES
 (0, 'Employee data visualization requests', '', 3, 2);
