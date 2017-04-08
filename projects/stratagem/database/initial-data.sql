@@ -168,6 +168,8 @@ INSERT INTO tasks (task_id, task_name, task_description, task_completion_percent
 (4, 'Incident wrap up', 'Closing all end-to-end test incidents', 0),
 (5, 'Stable build', 'Create maintainable build on CI server for ease of rollback', 100);
 
+-- INSERT INTO task_alterations
+
 INSERT INTO project_tasks (project_task_id, project_task_project_id, project_task_task_id) VALUES
 (0, 1, 0),
 (1, 0, 1),
