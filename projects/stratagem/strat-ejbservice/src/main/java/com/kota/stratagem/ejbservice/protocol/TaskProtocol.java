@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
 import com.kota.stratagem.ejbservice.domain.TaskRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
 
@@ -15,7 +14,7 @@ public interface TaskProtocol {
 
 	List<TaskRepresentor> getAllTasks() throws AdaptorException;
 
-	TaskRepresentor saveTask(Long id, String description, double completion, ProjectRepresentor project) throws AdaptorException;
+	TaskRepresentor saveTask(Long id, String name, String description, double completion) throws AdaptorException;
 
 	void removeTask(Long id) throws AdaptorException;
 

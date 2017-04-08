@@ -13,13 +13,15 @@ import com.kota.stratagem.persistence.exception.PersistenceServiceException;
 @Local
 public interface ProjectService {
 
-	Project create(Long id, String name, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException;
+	Project create(Long id, String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException;
 
 	List<Project> readAll() throws PersistenceServiceException;
 
 	Project read(Long id) throws PersistenceServiceException;
 
-	Project update(Long id, String name, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException;
+	List<Project> read(ProjectStatus status) throws PersistenceServiceException;
+
+	Project update(Long id, String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException;
 
 	void delete(Long id) throws PersistenceServiceException;
 

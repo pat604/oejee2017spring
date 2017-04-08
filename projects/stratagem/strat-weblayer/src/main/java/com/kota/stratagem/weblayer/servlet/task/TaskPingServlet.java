@@ -1,4 +1,4 @@
-package com.kota.stratagem.weblayer.servlet;
+package com.kota.stratagem.weblayer.servlet.task;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,14 +18,14 @@ import com.kota.stratagem.ejbservice.protocol.TaskProtocol;
 
 @WebServlet("/TaskPing")
 public class TaskPingServlet extends HttpServlet {
-	
-	private static final long serialVersionUID = -304609817630402208L;
-	
+
+	private static final long serialVersionUID = -3067666682855692427L;
+
 	private static final Logger LOGGER = Logger.getLogger(TaskPingServlet.class);
 
 	@EJB
 	private TaskProtocol protocol;
-	
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LOGGER.info("Get tasks");
@@ -33,14 +33,14 @@ public class TaskPingServlet extends HttpServlet {
 		final PrintWriter out = response.getWriter();
 		try {
 			final List<TaskRepresentor> tasks = this.protocol.getAllTasks();
-			for (TaskRepresentor representor : tasks) {
+			for(TaskRepresentor representor : tasks) {
 				out.println(representor.toString());
 			}
-		} catch (final Exception e) {
+		} catch(final Exception e) {
 			LOGGER.error(e, e);
 			out.println(e.getLocalizedMessage());
 		}
 		out.close();
 	}
-	
+
 }
