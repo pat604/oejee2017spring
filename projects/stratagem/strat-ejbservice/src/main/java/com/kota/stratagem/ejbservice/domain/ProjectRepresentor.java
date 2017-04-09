@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectRepresentor {
-	private final Long id;
+	private final String temp = "temp";
+	private Long id;
 	private final String name;
 	private final String description;
 	private final ProjectStatusRepresentor status;
@@ -17,6 +18,14 @@ public class ProjectRepresentor {
 
 	public ProjectRepresentor(Long id, String name, String description, ProjectStatusRepresentor status, Boolean visible) {
 		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.status = status;
+		this.tasks = new ArrayList();
+		this.visible = visible;
+	}
+	
+	public ProjectRepresentor(String name, String description, ProjectStatusRepresentor status, Boolean visible) {
 		this.name = name;
 		this.description = description;
 		this.status = status;

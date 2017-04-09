@@ -57,8 +57,8 @@
                             <td><c:out value="${project.name}" /></td>
                             <td><c:out value="${project.status.label}" /></td>
                             <td><c:out value="${project.tasks.size()}" /></td>
-                            <td><a href="ProjectDetail?id=<c:out value="${project.id}" />">Details</a></td>
-                            <td><a href="ProjectDetail?id=<c:out value="${project.id}" />&edit=1">Edit</a></td>
+                            <td><a href="ProjectAction?id=<c:out value="${project.id}" />">Details</a></td>
+                            <td><a href="ProjectAction?id=<c:out value="${project.id}" />&edit=1">Edit</a></td>
                             <td><a href="ProjectDelete?id=<c:out value="${project.id}" />">Delete</a></td>
                         </tr>
                     </c:forEach>
@@ -69,7 +69,7 @@
 	</c:choose>
 	<br/><br/>
 	<div>
-		<a href="ProjectDetail?id=-1&edit=1">Create</a> new project.
+		<a href="ProjectAction?id=-1&edit=1">Create</a> new project.
 	</div>
 	<% if (request.isUserInRole("department_manager")) { %>
 		<div>

@@ -13,14 +13,14 @@
 </head>
 <body>
 	<div class="frame">
-		<form method="post" action="ProjectDetail">
+		<form method="post" action="ProjectAction">
+			<c:if test="${requestScope.project.getId() != -1}"><input type="hidden" name="id" value="${project.id}" /></c:if>
 			<div>
-				<input type="text" name="id" value="<% project.getStringId(); %>" />
 				<label>Name: </label>
-				<input class="inputheader" type="text" name="name" value="<% out.print(project.getName()); %>" />
+				<input class="inputheader" type="text" name="name" value="${project.name}" />
 				<br/><br/>
 				<label>Description: </label>
-				<input class="inputheader" type="text" name="description" value="<% out.print(project.getDescription()); %>" />
+				<input class="inputheader" type="text" name="description" value="${project.description}" />
 				<br/><br/>
 			</div>
 			<div>
