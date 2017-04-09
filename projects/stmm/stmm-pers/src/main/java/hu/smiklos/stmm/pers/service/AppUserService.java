@@ -53,4 +53,17 @@ public class AppUserService implements AppUserServiceInterface {
         }
         return appUser;
     }
+
+    @Override
+    public AppUser create(AppUser user) throws PersistenceServiceException {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Create User ("+ user.toString() +")");
+        }
+        try {
+            this.entityManager.persist(user);
+            return user;
+        } catch (final Exception e) {
+            throw new PersistenceServiceException("Unknown error during persisting AppUser (" + user.getUserId() + ")! " + e.getLocalizedMessage(), e);
+        }
+    }
 }

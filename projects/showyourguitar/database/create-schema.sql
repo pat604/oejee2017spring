@@ -11,6 +11,7 @@ CREATE TABLE guitarowner (
 	guitarowner_username CHARACTER VARYING(100) NOT NULL,
 	guitarowner_email CHARACTER VARYING(100) NOT NULL,
 	guitarowner_password CHARACTER VARYING(100) NOT NULL,
+	guitarowner_guitar_id INTEGER,
 	CONSTRAINT PK_GUITAROWNER_ID PRIMARY KEY (guitarowner_id)
 );
 

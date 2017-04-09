@@ -1,2 +1,3 @@
 include 'ds-ejbservice'
 include 'ds-weblayer'
+include 'ds-persistence'

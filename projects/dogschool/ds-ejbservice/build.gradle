@@ -1,10 +1,6 @@
-apply plugin: 'idea'
-apply plugin: 'java'
-
-repositories { mavenCentral() }
 
 jar { archiveName 'ds-ejbservice.jar' }
 
 dependencies {
-	compile group: 'javax', name:'javaee-api', version:'6.0'
+	compile project(':ds-persistence')
 }
