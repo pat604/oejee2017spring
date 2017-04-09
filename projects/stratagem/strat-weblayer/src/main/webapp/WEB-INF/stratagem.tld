@@ -19,7 +19,6 @@
         <attribute>
             <name>value</name>
             <rtexprvalue>true</rtexprvalue>
-            <required>true</required>
         </attribute>
     </tag>
 </taglib>
