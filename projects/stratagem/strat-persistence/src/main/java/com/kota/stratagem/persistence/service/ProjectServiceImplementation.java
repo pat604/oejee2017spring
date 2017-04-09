@@ -3,7 +3,6 @@ package com.kota.stratagem.persistence.service;
 import java.util.List;
 import java.util.Set;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -32,9 +31,6 @@ public class ProjectServiceImplementation implements ProjectService {
 
 	@PersistenceContext(unitName = "strat-persistence-unit")
 	private EntityManager entityManager;
-
-	@EJB
-	private TaskService taskService;
 
 	@Override
 	public Project create(String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException {

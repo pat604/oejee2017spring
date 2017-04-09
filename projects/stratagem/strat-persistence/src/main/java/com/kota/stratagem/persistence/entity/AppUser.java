@@ -7,6 +7,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.kota.stratagem.persistence.entity.trunk.Role;
 import com.kota.stratagem.persistence.parameter.AppUserParameter;
 import com.kota.stratagem.persistence.query.AppUserQuery;
 
@@ -50,6 +53,10 @@ public class AppUser implements Serializable {
 	@Column(name = "user_email", nullable = false)
 	private String email;
 	
+	@Enumerated(EnumType.ORDINAL)
+	@JoinTable(name = "authorizations", joinColumns = @JoinColumn(name = "authorization_role_id"), inverseJoinColumns = @JoinColumn(name = "authorization_user_id"))
+	private Role role;
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Project.class)
 	@JoinTable(name = "user_project_assignments", joinColumns = @JoinColumn(name = "assignment_project"), inverseJoinColumns = @JoinColumn(name = "assignment_recipient"))
 	private Set<Project> projects;
@@ -58,18 +65,20 @@ public class AppUser implements Serializable {
 		this.projects = new HashSet<>();
 	}
 
-	public AppUser(Long id, String name, String passwordHash, String email, Set<Project> projects) {
+	public AppUser(Long id, String name, String passwordHash, String email, Role role, Set<Project> projects) {
 		this.id = id;
 		this.name = name;
 		this.passwordHash = passwordHash;
 		this.email = email;
+		this.role = role;
 		this.projects = projects;
 	}
 	
-	public AppUser(String name, String passwordHash, String email, Set<Project> projects) {
+	public AppUser(String name, String passwordHash, String email, Role role, Set<Project> projects) {
 		this.name = name;
 		this.passwordHash = passwordHash;
 		this.email = email;
+		this.role = role;
 		this.projects = projects;
 	}
 
@@ -105,6 +114,14 @@ public class AppUser implements Serializable {
 		this.email = email;
 	}
 
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
 	public Set<Project> getProjects() {
 		return projects;
 	}
@@ -116,7 +133,7 @@ public class AppUser implements Serializable {
 	@Override
 	public String toString() {
 		return "AppUser [id=" + id + ", name=" + name + ", passwordHash=" + passwordHash + ", email=" + email
-				+ ", projects=" + projects + "]";
+				+ ", role=" + role + ", projects=" + projects + "]";
 	}
 	
 }
