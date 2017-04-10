@@ -3,17 +3,13 @@ package com.kota.stratagem.persistence.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -26,7 +22,7 @@ import com.kota.stratagem.persistence.query.RemedyQuery;
 @Table(name = "remedies")
 @NamedQueries(value = { //
 		@NamedQuery(name = RemedyQuery.COUNT_BY_ID, query = "SELECT COUNT(r) FROM Remedy r WHERE r.id=:" + RemedyParameter.ID),
-		@NamedQuery(name = RemedyQuery.GET_ALL_REMEDIES, query = "SELECT r FROM Remedy r ORDER BY r.name"),
+		@NamedQuery(name = RemedyQuery.GET_ALL_REMEDIES, query = "SELECT r FROM Remedy r ORDER BY r.submissionDate"),
 		@NamedQuery(name = RemedyQuery.GET_BY_ID, query = "SELECT r FROM Remedy r WHERE r.id=:" + RemedyParameter.ID),
 		@NamedQuery(name = RemedyQuery.REMOVE_BY_ID, query = "DELETE FROM Remedy r WHERE r.id=:" + RemedyParameter.ID)
 		//
@@ -44,7 +40,6 @@ public class Remedy implements Serializable {
 	@Column(name = "remedy_description", nullable = false)
 	private String description;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Impediment.class)
 	@Column(name = "remedy_impediment_id")
 	private Impediment impediment;
 	
@@ -52,7 +47,6 @@ public class Remedy implements Serializable {
 	@Column(name = "remedy_submission_date", nullable = false)
 	private Date submissionDate;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = AppUser.class)
 	@Column(name = "remedy_provider", nullable = false)
 	private AppUser provider;
 

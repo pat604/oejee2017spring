@@ -38,14 +38,13 @@ public class Team implements Serializable {
 	private static final long serialVersionUID = -3554913763648115162L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appUserGenerator")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "teamGenerator")
 	@Column(name = "team_id", nullable = false)
 	private Long id;
 
 	@Column(name = "team_name", nullable = false)
 	private String name;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = AppUser.class)
 	@Column(name = "team_leader", nullable = false)
 	private AppUser leader;
 

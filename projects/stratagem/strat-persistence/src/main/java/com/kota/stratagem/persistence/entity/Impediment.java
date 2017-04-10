@@ -17,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -65,15 +64,13 @@ public class Impediment implements Serializable {
 	@Column(name = "impediment_report_date", nullable = false)
 	private Date reportDate;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = AppUser.class)
 	@Column(name = "impediment_reporter", nullable = false)
 	private AppUser reporter;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = AppUser.class)
 	@Column(name = "impediment_processor", nullable = false)
 	private AppUser processor;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Remedy.class, mappedBy = "remedy_impediment_id")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Remedy.class, mappedBy = "impediment")
 	private Set<Remedy> remedies;
 
 	public Impediment() {
