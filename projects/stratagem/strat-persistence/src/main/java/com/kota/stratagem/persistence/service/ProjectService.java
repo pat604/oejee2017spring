@@ -15,11 +15,11 @@ public interface ProjectService {
 
 	Project create(String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException;
 
-	List<Project> readAll() throws PersistenceServiceException;
-
 	Project read(Long id) throws PersistenceServiceException;
 
 	List<Project> read(ProjectStatus status) throws PersistenceServiceException;
+
+	List<Project> readAll() throws PersistenceServiceException;
 
 	Project update(Long id, String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException;
 

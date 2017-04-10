@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectRepresentor {
-	private final String temp = "temp";
 	private Long id;
 	private final String name;
 	private final String description;
@@ -21,22 +20,22 @@ public class ProjectRepresentor {
 		this.name = name;
 		this.description = description;
 		this.status = status;
-		this.tasks = new ArrayList();
+		this.tasks = new ArrayList<>();
 		this.visible = visible;
 	}
-	
+
 	public ProjectRepresentor(String name, String description, ProjectStatusRepresentor status, Boolean visible) {
 		this.name = name;
 		this.description = description;
 		this.status = status;
-		this.tasks = new ArrayList();
+		this.tasks = new ArrayList<>();
 		this.visible = visible;
 	}
 
 	public Long getId() {
 		return id;
 	}
-	
+
 	public String getStringId() {
 		return id.toString();
 	}
@@ -67,8 +66,7 @@ public class ProjectRepresentor {
 
 	@Override
 	public String toString() {
-		return "ProjectRepresentor [id=" + id + ", name=" + name + ", description=" + description + ", status=" + status
-				+ ", tasks=" + tasks + ", visible=" + visible + "]";
+		return "ProjectRepresentor [id=" + id + ", name=" + name + ", description=" + description + ", status=" + status + ", tasks=" + tasks + ", visible=" + visible + "]";
 	}
 
 }
