@@ -38,29 +38,29 @@ import com.kota.stratagem.persistence.query.AppUserQuery;
 public class AppUser implements Serializable {
 
 	private static final long serialVersionUID = -2320296399311475905L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appUserGenerator")
 	@Column(name = "user_id", nullable = false, updatable = false, insertable = false)
 	private Long id;
-	
+
 	@Column(name = "user_name", nullable = false)
 	private String name;
-	
+
 	@Column(name = "user_password_hash", nullable = false)
 	private String passwordHash;
-	
+
 	@Column(name = "user_email", nullable = false)
 	private String email;
-	
+
 	@Enumerated(EnumType.ORDINAL)
-	@JoinTable(name = "authorizations", joinColumns = @JoinColumn(name = "authorization_role_id"), inverseJoinColumns = @JoinColumn(name = "authorization_user_id"))
+	@Column(name = "user_role", nullable = false)
 	private Role role;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Project.class)
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Project.class)
 	@JoinTable(name = "user_project_assignments", joinColumns = @JoinColumn(name = "assignment_project"), inverseJoinColumns = @JoinColumn(name = "assignment_recipient"))
 	private Set<Project> projects;
-	
+
 	public AppUser() {
 		this.projects = new HashSet<>();
 	}
@@ -73,7 +73,7 @@ public class AppUser implements Serializable {
 		this.role = role;
 		this.projects = projects;
 	}
-	
+
 	public AppUser(String name, String passwordHash, String email, Role role, Set<Project> projects) {
 		this.name = name;
 		this.passwordHash = passwordHash;
@@ -132,8 +132,7 @@ public class AppUser implements Serializable {
 
 	@Override
 	public String toString() {
-		return "AppUser [id=" + id + ", name=" + name + ", passwordHash=" + passwordHash + ", email=" + email
-				+ ", role=" + role + ", projects=" + projects + "]";
+		return "AppUser [id=" + id + ", name=" + name + ", passwordHash=" + passwordHash + ", email=" + email + ", role=" + role + ", projects=" + projects + "]";
 	}
-	
+
 }
