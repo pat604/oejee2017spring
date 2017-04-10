@@ -1,5 +1,6 @@
 package com.kota.stratagem.persistence.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -86,7 +87,7 @@ public class AppUserServiceImplementation implements AppUserService {
 			user.setPasswordHash(passwordHash);
 			user.setEmail(email);
 			user.setRole(role);
-			user.setProjects(projects);
+			user.setProjects(projects != null ? projects : new HashSet<Project>());
 			return this.entityManager.merge(user);
 		} catch(final Exception e) {
 			throw new PersistenceServiceException("Unknown error when merging AppUser! " + e.getLocalizedMessage(), e);

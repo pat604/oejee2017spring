@@ -1,7 +1,6 @@
 package com.kota.stratagem.weblayer.servlet.project;
 
 import java.io.IOException;
-import java.text.ParseException;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -62,8 +61,9 @@ public class ProjectActionController extends HttpServlet implements ProjectParam
 			throws ServletException, IOException {
 		request.setAttribute(ATTR_PROJECT, project);
 		request.setAttribute(ATTR_ISNEW, isNew);
-		if(finishFlag) { response.sendRedirect(Page.PROJECT_LIST.getUrl()); }
-		else {
+		if(finishFlag) {
+			response.sendRedirect(Page.PROJECT_LIST.getUrl());
+		} else {
 			final RequestDispatcher view = request.getRequestDispatcher(editFlag ? Page.PROJECT_EDIT.getJspName() : Page.PROJECT_VIEW.getJspName());
 			view.forward(request, response);
 		}
@@ -73,6 +73,7 @@ public class ProjectActionController extends HttpServlet implements ProjectParam
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		try {
 			Long id = null;
+
 			if(request.getParameter(ID) != "" && request.getParameter(ID) != null) {
 				id = Long.parseLong(request.getParameter(ID));
 			}
@@ -88,13 +89,16 @@ public class ProjectActionController extends HttpServlet implements ProjectParam
 				ProjectRepresentor project = null;
 				try {
 					LOGGER.info(id == null ? "Create project : (" + name + ")" : "Update project : (" + id + ")");
+
+					// Representor collection 
+
 					project = this.protocol.saveProject(id, name, description, status, null, visible);
 				} catch(final AdaptorException e) {
 					LOGGER.error(e, e);
 				}
 				this.forward(request, response, false, project, false, true);
 			}
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}

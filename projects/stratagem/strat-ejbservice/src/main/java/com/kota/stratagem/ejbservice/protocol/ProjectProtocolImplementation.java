@@ -1,6 +1,7 @@
 package com.kota.stratagem.ejbservice.protocol;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ import com.kota.stratagem.ejbservice.converter.ProjectConverter;
 import com.kota.stratagem.ejbservice.domain.ProjectCriteria;
 import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
 import com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor;
+import com.kota.stratagem.ejbservice.domain.TaskRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
 import com.kota.stratagem.ejbservice.util.ApplicationError;
 import com.kota.stratagem.persistence.entity.Project;
@@ -21,6 +23,7 @@ import com.kota.stratagem.persistence.entity.trunk.ProjectStatus;
 import com.kota.stratagem.persistence.exception.CoherentPersistenceServiceException;
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
 import com.kota.stratagem.persistence.service.ProjectService;
+import com.kota.stratagem.persistence.service.TaskService;
 
 @Stateless(mappedName = "ejb/projectProtocol")
 public class ProjectProtocolImplementation implements ProjectProtocol {
@@ -29,6 +32,9 @@ public class ProjectProtocolImplementation implements ProjectProtocol {
 
 	@EJB
 	private ProjectService projectService;
+
+	@EJB
+	private TaskService taskService;
 
 	@EJB
 	private ProjectConverter converter;
@@ -69,14 +75,18 @@ public class ProjectProtocolImplementation implements ProjectProtocol {
 	}
 
 	@Override
-	public ProjectRepresentor saveProject(Long id, String name, String description, ProjectStatusRepresentor status, Set<Task> tasks, Boolean visible) throws AdaptorException {
+	public ProjectRepresentor saveProject(Long id, String name, String description, ProjectStatusRepresentor status, Set<TaskRepresentor> tasks, Boolean visible) throws AdaptorException {
 		try {
 			Project project = null;
 			final ProjectStatus projectStatus = ProjectStatus.valueOf(status.name());
 			if(id != null && this.projectService.exists(id)) {
-				project = this.projectService.update(id, name, description, projectStatus, tasks, visible);
+				Set<Task> projectTasks = new HashSet<Task>();
+				for(TaskRepresentor task : tasks) {
+					projectTasks.add(taskService.read(task.getId()));
+				}
+				project = this.projectService.update(id, name, description, projectStatus, projectTasks, visible);
 			} else {
-				project = this.projectService.create(name, description, projectStatus, tasks, visible);
+				project = this.projectService.create(name, description, projectStatus, null, visible);
 			}
 			return this.converter.to(project);
 		} catch(final PersistenceServiceException e) {

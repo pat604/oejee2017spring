@@ -22,7 +22,7 @@ INSERT INTO roles (role_id, role_name) VALUES
 (5, 'system_administrator');
 SELECT SETVAL('roles_role_id_seq', COALESCE(MAX(role_id), 0) ) FROM roles;
 
-INSERT INTO app_users (user_id, user_name, user_password) VALUES 
+INSERT INTO app_users (user_id, user_name, user_password_hash) VALUES 
 (0, 'adam', 'a123'),
 (1, 'brent', 'b123'),
 (2, 'chris', 'c123'),

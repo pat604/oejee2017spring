@@ -3,11 +3,14 @@ package com.kota.stratagem.ejbservice.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.Stateless;
+
 import com.kota.stratagem.ejbservice.domain.AppUserRepresentor;
 import com.kota.stratagem.ejbservice.domain.RoleRepresentor;
 import com.kota.stratagem.persistence.entity.AppUser;
 import com.kota.stratagem.persistence.entity.Project;
 
+@Stateless
 public class AppUserConverterImplementation implements AppUserConverter {
 
 	private ProjectConverter projectConverter = new ProjectConverterImplementation();

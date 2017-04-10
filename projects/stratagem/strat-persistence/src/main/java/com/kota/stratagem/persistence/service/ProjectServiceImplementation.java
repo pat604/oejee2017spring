@@ -1,5 +1,6 @@
 package com.kota.stratagem.persistence.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -99,7 +100,7 @@ public class ProjectServiceImplementation implements ProjectService {
 			project.setName(name);
 			project.setDescription(description);
 			project.setStatus(status);
-			project.setTasks(tasks);
+			project.setTasks(tasks != null ? tasks : new HashSet<Task>());
 			return this.entityManager.merge(project);
 		} catch(final Exception e) {
 			throw new PersistenceServiceException("Unknown error when merging Project! " + e.getLocalizedMessage(), e);
