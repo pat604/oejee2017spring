@@ -3,6 +3,7 @@ package hu.smiklos.stmm.web.servlet;
 import hu.smiklos.stmm.ejb.domain.UserRegistrationStub;
 import hu.smiklos.stmm.ejb.facade.UserRegistrationFacadeInterface;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
+import hu.smiklos.stmm.web.common.Modal;
 import hu.smiklos.stmm.web.common.Page;
 
 import javax.annotation.security.PermitAll;
@@ -59,7 +60,10 @@ public class UserRegistrationController extends HttpServlet {
         stub.setUsername(username);
         if(stub.isValid()){
             facade.createUser(stub);
-            request.setAttribute("modal","Your registration was successfull, you can now login");
+            Modal modal = new Modal();
+            modal.setTitle("Registration successfull!");
+            modal.setMessage("You can log-in now!");
+            request.setAttribute(Modal.ATTR_MODAL,modal);
             request.getRequestDispatcher(Page.HOME.getJspName()).forward(request, response);
             return;
         }

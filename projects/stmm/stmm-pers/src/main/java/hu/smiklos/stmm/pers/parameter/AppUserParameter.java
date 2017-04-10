@@ -5,4 +5,6 @@ package hu.smiklos.stmm.pers.parameter;
  */
 public class AppUserParameter {
     public static final String ID = "appuser_id";
+    public static final String USERNAME = "username";
+
 }

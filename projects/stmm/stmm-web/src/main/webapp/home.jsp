@@ -42,14 +42,11 @@
         </div>
     </div>
 
-    <hr>
-
-    <footer>
-        <p>&copy; 2016 Company, Inc.</p>
-    </footer>
+    <jsp:include page="/reusablejsp/footer.jsp"></jsp:include>
 </div> <!-- /container -->
 
 
 <jsp:include page="/reusablejsp/jquery_before_body_close.jsp"></jsp:include>
+<jsp:include page="/reusablejsp/modal.jsp"></jsp:include>
 </body>
 </html>

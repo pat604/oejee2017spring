@@ -13,7 +13,8 @@ import java.io.Serializable;
 @Table(name = "appuser")
 @NamedQueries(value = { //
         @NamedQuery(name = AppUserQuery.GET_ALL, query = "SELECT a FROM AppUser a ORDER BY a.userId"),
-        @NamedQuery(name = AppUserQuery.GET_BY_ID, query = "SELECT a FROM AppUser a WHERE a.userId=:"+ AppUserParameter.ID)
+        @NamedQuery(name = AppUserQuery.GET_BY_ID, query = "SELECT a FROM AppUser a WHERE a.userId=:"+ AppUserParameter.ID),
+        @NamedQuery(name = AppUserQuery.GET_BY_USERNAME, query = "SELECT a FROM  AppUser a WHERE a.username=:" + AppUserParameter.USERNAME)
 })
 public class AppUser implements Serializable {
 
@@ -91,12 +92,16 @@ public class AppUser implements Serializable {
         return userType;
     }
 
-    /* @OneToOne
-    @JoinColumn(name="appuser_creditcard_number")
-    public CreditCard getCreditCard() { return  creditCard; } */
-
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    @OneToOne
+    @JoinColumn(name="appuser_creditcard_card_number")
+    public CreditCard getCreditCard() { return  creditCard; }
+
+    public void setCreditCard(CreditCard card) {
+        this.creditCard = card;
     }
 
     @Column(name = "username", nullable = false)
