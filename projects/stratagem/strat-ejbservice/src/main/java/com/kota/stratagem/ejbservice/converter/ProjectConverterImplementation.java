@@ -18,9 +18,12 @@ public class ProjectConverterImplementation implements ProjectConverter {
 	@Override
 	public ProjectRepresentor to(Project project) {
 		final ProjectStatusRepresentor status = ProjectStatusRepresentor.valueOf(project.getStatus().toString());
-		final ProjectRepresentor representor = new ProjectRepresentor(project.getId(), project.getName(), status, project.getVisible());
-		for(Task task : project.getTasks()) {
-			representor.addTask(taskConverter.to(task));
+		final ProjectRepresentor representor = project.getId() != null ? new ProjectRepresentor(project.getId(), project.getName(), project.getDescription(), status, project.getVisible())
+				: new ProjectRepresentor(project.getName(), project.getDescription(), status, project.getVisible());
+		if(project.getTasks() != null) {
+			for(Task task : project.getTasks()) {
+				representor.addTask(taskConverter.to(task));
+			}
 		}
 		return representor;
 	}

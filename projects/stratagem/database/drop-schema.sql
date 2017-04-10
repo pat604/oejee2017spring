@@ -16,11 +16,12 @@ DROP TABLE task_deadlines;
 DROP TABLE remedies;
 DROP TABLE project_impediments;
 DROP TABLE task_impediments;
-DROP TABLE impediment_statuses;
 DROP TABLE impediments;
+DROP TABLE impediment_statuses;
 
 DROP TABLE project_tasks;
 DROP TABLE objective_tasks;
+DROP TABLE task_alterations;
 DROP TABLE tasks;
 
 DROP TABLE objective_projects;

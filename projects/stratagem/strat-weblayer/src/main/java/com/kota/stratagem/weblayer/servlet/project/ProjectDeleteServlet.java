@@ -1,4 +1,4 @@
-package com.kota.stratagem.weblayer.servlet;
+package com.kota.stratagem.weblayer.servlet.project;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
 import com.kota.stratagem.ejbservice.protocol.ProjectProtocol;
 import com.kota.stratagem.weblayer.common.Page;
-import com.kota.stratagem.weblayer.common.ProjectParameter;
+import com.kota.stratagem.weblayer.common.project.ProjectParameter;
 
 @WebServlet("/ProjectDelete")
 public class ProjectDeleteServlet extends HttpServlet implements ProjectParameter {

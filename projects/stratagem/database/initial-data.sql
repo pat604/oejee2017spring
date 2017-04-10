@@ -20,7 +20,7 @@ INSERT INTO roles (role_id, role_name) VALUES
 (3, 'department_manager'),
 (4, 'central_manager'),
 (5, 'system_administrator');
-SELECT SETVAL('roles_role_id_seq', COALESCE(MAX(role_id), 1) ) FROM roles;
+SELECT SETVAL('roles_role_id_seq', COALESCE(MAX(role_id), 0) ) FROM roles;
 
 INSERT INTO app_users (user_id, user_name, user_password) VALUES 
 (0, 'adam', 'a123'),
@@ -34,7 +34,7 @@ INSERT INTO app_users (user_id, user_name, user_password) VALUES
 (8, 'ike', 'i123'),
 (9, 'jenny', 'j123'),
 (10, 'Kevin', 'k123');
-SELECT SETVAL('app_users_user_id_seq', COALESCE(MAX(user_id), 1) ) FROM app_users;
+SELECT SETVAL('app_users_user_id_seq', COALESCE(MAX(user_id), 0) ) FROM app_users;
 
 INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES 
 (0, 1),
@@ -123,6 +123,7 @@ INSERT INTO projects (project_id, project_name, project_description, project_sta
 (1, 'QuickExtract app', 'Develop mobile app for QuickExtract', 7, TRUE),
 (2, 'Grove BI outsourcing', '', 0, TRUE),
 (3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', 5, FALSE);
+SELECT SETVAL('projects_project_id_seq', COALESCE(MAX(project_id), 0) ) FROM projects;
 
 INSERT INTO project_missions (mission_id, mission_name, mission_description, mission_project, mission_stage_id) VALUES
 (0, 'Employee data visualization requests', '', 3, 2);
@@ -167,6 +168,8 @@ INSERT INTO tasks (task_id, task_name, task_description, task_completion_percent
 (3, 'Backup system allocation', 'Allocating backup systems for overload evasion', 100),
 (4, 'Incident wrap up', 'Closing all end-to-end test incidents', 0),
 (5, 'Stable build', 'Create maintainable build on CI server for ease of rollback', 100);
+
+-- INSERT INTO task_alterations
 
 INSERT INTO project_tasks (project_task_id, project_task_project_id, project_task_task_id) VALUES
 (0, 1, 0),

@@ -73,10 +73,10 @@ public class ProjectProtocolImplementation implements ProjectProtocol {
 		try {
 			Project project = null;
 			final ProjectStatus projectStatus = ProjectStatus.valueOf(status.name());
-			if(this.projectService.exists(id)) {
+			if(id != null && this.projectService.exists(id)) {
 				project = this.projectService.update(id, name, description, projectStatus, tasks, visible);
 			} else {
-				project = this.projectService.create(id, name, description, projectStatus, tasks, visible);
+				project = this.projectService.create(name, description, projectStatus, tasks, visible);
 			}
 			return this.converter.to(project);
 		} catch(final PersistenceServiceException e) {

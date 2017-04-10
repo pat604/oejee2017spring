@@ -4,9 +4,9 @@ public enum Page {
 
 	LOGIN("login.jsp", "Login"), //
 	ERROR("error.jsp", "Error"), // 
-	PROJECT_LIST("project-list.jsp", "ProjectList"), //
-	PROJECT_VIEW("project-detail.jsp", "Project"), //
-	PROJECT_EDIT("project-edit.jsp", "Project"); //
+	PROJECT_LIST("/project/project-list.jsp", "ProjectList"), //
+	PROJECT_VIEW("/project/project-detail.jsp", "Project"), //
+	PROJECT_EDIT("/project/project-edit.jsp", "Project"); //
 
 	private final String jspName;
 	private final String url;

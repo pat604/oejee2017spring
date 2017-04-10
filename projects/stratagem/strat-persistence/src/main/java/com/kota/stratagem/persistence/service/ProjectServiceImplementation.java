@@ -3,7 +3,6 @@ package com.kota.stratagem.persistence.service;
 import java.util.List;
 import java.util.Set;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -33,21 +32,18 @@ public class ProjectServiceImplementation implements ProjectService {
 	@PersistenceContext(unitName = "strat-persistence-unit")
 	private EntityManager entityManager;
 
-	@EJB
-	private TaskService taskService;
-
 	@Override
-	public Project create(Long id, String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException {
+	public Project create(String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Create Project (id: " + id + ", name: " + name + ", description: " + description + ", status: " + status + ", tasks: " + tasks + ", visible: " + visible + ")");
+			LOGGER.debug("Create Project (name: " + name + ", description: " + description + ", status: " + status + ", tasks: " + tasks + ", visible: " + visible + ")");
 		}
 		try {
-			final Project project = new Project(id, name, description, status, tasks, visible);
+			final Project project = new Project(name, description, status, tasks, visible);
 			this.entityManager.persist(project);
 			this.entityManager.flush();
 			return project;
 		} catch(final Exception e) {
-			throw new PersistenceServiceException("Unknown error during persisting Project (" + id + ")! " + e.getLocalizedMessage(), e);
+			throw new PersistenceServiceException("Unknown error during persisting Project (" + name + ")! " + e.getLocalizedMessage(), e);
 		}
 	}
 
@@ -101,6 +97,7 @@ public class ProjectServiceImplementation implements ProjectService {
 		try {
 			final Project project = this.read(id);
 			project.setName(name);
+			project.setDescription(description);
 			project.setStatus(status);
 			project.setTasks(tasks);
 			return this.entityManager.merge(project);
@@ -115,7 +112,7 @@ public class ProjectServiceImplementation implements ProjectService {
 			LOGGER.debug("Remove Project by id (" + id + ")");
 		}
 		if(this.exists(id)) {
-			if(this.read(id).getTasks().size() > 0) {
+			if(this.read(id).getTasks().size() == 0) {
 				try {
 					this.entityManager.createNamedQuery(ProjectQuery.REMOVE_BY_ID).setParameter(ProjectParameter.ID, id).executeUpdate();
 				} catch(final Exception e) {

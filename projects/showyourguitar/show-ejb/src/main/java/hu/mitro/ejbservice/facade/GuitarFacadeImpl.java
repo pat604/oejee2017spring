@@ -42,13 +42,11 @@ public class GuitarFacadeImpl implements GuitarFacade {
 
 	@Override
 	public List<GuitarStub> getGuitars(GuitarBrandStub brand) {
-		// List<GuitarStub> guitars = new ArrayList<GuitarStub>();
-		// GuitarOwnerStub guitarOwner = new GuitarOwnerStub("tamas.mitro", "blacktom73@gmail.com",
-		// "tamas1234");
-		// guitars.add(new GuitarStub(GuitarBrandStub.GIBSON, "Les Paul Standard", "Ebony", 1990,
-		// 550000.0, guitarOwner));
-		// return guitars;
-		return null;
+		List<GuitarStub> guitars = new ArrayList<GuitarStub>();
+		GuitarOwnerStub guitarOwner = new GuitarOwnerStub("tamas.mitro", "blacktom73@gmail.com", "tamas1234");
+		guitars.add(new GuitarStub(GuitarBrandStub.GIBSON, "Les Paul Standard", "Ebony", 1990, 550000.0, guitarOwner));
+		return guitars;
+		// return null;
 	}
 
 	@Override

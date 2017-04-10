@@ -35,12 +35,12 @@ import com.kota.stratagem.persistence.query.ProjectQuery;
 		@NamedQuery(name = ProjectQuery.REMOVE_BY_ID, query = "DELETE FROM Project p WHERE p.id=:" + ProjectParameter.ID)
 		//
 })
+@SequenceGenerator(name = "projectGenerator", sequenceName = "projects_project_id_seq", allocationSize = 1)
 public class Project implements Serializable {
 
 	private static final long serialVersionUID = -6784523546510114561L;
 
 	@Id
-	@SequenceGenerator(name = "projectGenerator", sequenceName = "project_project_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "projectGenerator")
 	@Column(name = "project_id", nullable = false, updatable = false, insertable = false)
 	private Long id;
@@ -68,6 +68,14 @@ public class Project implements Serializable {
 
 	public Project(Long id, String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) {
 		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.status = status;
+		this.tasks = tasks;
+		this.visible = visible;
+	}
+	
+	public Project(String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) {
 		this.name = name;
 		this.description = description;
 		this.status = status;

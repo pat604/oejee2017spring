@@ -1,4 +1,4 @@
-package com.kota.stratagem.weblayer.servlet;
+package com.kota.stratagem.weblayer.servlet.project;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,8 +20,8 @@ import com.kota.stratagem.ejbservice.exception.AdaptorException;
 import com.kota.stratagem.ejbservice.protocol.ProjectProtocol;
 import com.kota.stratagem.weblayer.common.FormValue;
 import com.kota.stratagem.weblayer.common.Page;
-import com.kota.stratagem.weblayer.common.ProjectListAttribute;
-import com.kota.stratagem.weblayer.common.ProjectListParameter;
+import com.kota.stratagem.weblayer.common.project.ProjectListAttribute;
+import com.kota.stratagem.weblayer.common.project.ProjectListParameter;
 
 @WebServlet("/ProjectList")
 public class ProjectListController extends HttpServlet implements ProjectListAttribute, ProjectListParameter, FormValue {
