@@ -3,5 +3,6 @@ include 'stmm-web'
 include 'stmm-webadmin'
 include 'stmm-ejb'
 include 'stmm-pers'
+include 'stmm-security'
 
 

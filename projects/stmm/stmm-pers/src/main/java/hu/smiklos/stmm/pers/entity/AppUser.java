@@ -13,7 +13,8 @@ import java.io.Serializable;
 @Table(name = "appuser")
 @NamedQueries(value = { //
         @NamedQuery(name = AppUserQuery.GET_ALL, query = "SELECT a FROM AppUser a ORDER BY a.userId"),
-        @NamedQuery(name = AppUserQuery.GET_BY_ID, query = "SELECT a FROM AppUser a WHERE a.userId=:"+ AppUserParameter.ID)
+        @NamedQuery(name = AppUserQuery.GET_BY_ID, query = "SELECT a FROM AppUser a WHERE a.userId=:"+ AppUserParameter.ID),
+        @NamedQuery(name = AppUserQuery.GET_BY_USERNAME, query = "SELECT a FROM  AppUser a WHERE a.username=:" + AppUserParameter.USERNAME)
 })
 public class AppUser implements Serializable {
 
@@ -23,7 +24,9 @@ public class AppUser implements Serializable {
     private String first_name;
     private String last_name;
     private String password;
+    private String username;
     private UserType userType;
+    private CreditCard creditCard;
 
     public AppUser(String userId, String walletId, String first_name, String last_name, String password, UserType userType) {
         this.userId = userId;
@@ -93,5 +96,20 @@ public class AppUser implements Serializable {
         this.userType = userType;
     }
 
+    @OneToOne
+    @JoinColumn(name="appuser_creditcard_card_number")
+    public CreditCard getCreditCard() { return  creditCard; }
 
+    public void setCreditCard(CreditCard card) {
+        this.creditCard = card;
+    }
+
+    @Column(name = "username", nullable = false)
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

@@ -1,53 +1,135 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub" %>
-<%@ page import="hu.qwaevisz.tickethandling.ejbservice.domain.PriorityStub" %>
-<%@ page import="hu.qwaevisz.tickethandling.ejbservice.domain.StatusStub" %>
-<%@ page import="hu.qwaevisz.tickethandling.weblayer.common.TicketAttribute" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!-- TicketStub ticket = (TicketStub) request.getAttribute(TicketAttribute.ATTR_TICKET); %-->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page
+	import="hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub"%>
+<%@ page
+	import="hu.qwaevisz.tickethandling.ejbservice.domain.PriorityStub"%>
+<%@ page
+	import="hu.qwaevisz.tickethandling.ejbservice.domain.StatusStub"%>
+<%@ page
+	import="hu.qwaevisz.tickethandling.weblayer.common.TicketAttribute"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://qwaevisz.hu/jsp/tlds/tickettag" prefix="bt"%>
+<%
+	TicketStub ticket = (TicketStub) request.getAttribute(TicketAttribute.ATTR_TICKET);
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="style/page.css" />
+
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="css/tickethandling.css" />
+
+<script src="js/bootstrap.js"></script>
 <title>:: Ticket ::</title>
 </head>
 <body>
-	<div class="frame">
-		<form method="post" action="Ticket">
-			<div>
-				<input class="inputheader" type="text" name="id" value="< out.print(ticket.getId()); %>" />:
-				<input class="inputheader" type="text" name="system" value="< out.print(ticket.getSystem()); %>" />
-				<br/><br/>
+	<div class="jumbotron jumbotron-ticketing">
+		<h1>
+			<%
+				if ("".equals(ticket.getId())) {
+					out.print("New ticket");
+				} else {
+					out.print(ticket.getId());
+				}
+			%>
+		</h1>
+	</div>
+	<div class="container">
+		<form method="post" action="Ticket" class="form-horizontal">
+			<input type="text" name="id" id="id" hidden="hidden"
+				contenteditable="false" value="<%out.print(ticket.getId());%>" />
+
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="system">System: </label>
+				<div class="col-sm-10">
+					<input class="form-control"  type="text" name="system" id="system"
+						value="<%out.print(ticket.getSystem());%>" />
+				</div>
 			</div>
-			<div>
-				<label>ID: </label>
-				<c:choose>
-                     <c:when test="${requestScope.isnew}">
-                        <input type="text" name="id" value="" />
-                     </c:when>
-                     <c:otherwise>
-                        <span>< out.print(ticket.getId()); %></span>
-                        <input type="hidden" name="id" value="<= ticket.getId() %>" />
-                     </c:otherwise>
-                </c:choose>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="processor">Processor:</label>
+				<div class="col-sm-10">
+					<input class="form-control"  type="text" name="processor"
+						id="processor" value="<%out.print(ticket.getProcessor());%>" />
+				</div>
 			</div>
-			<div>
-				<label for="system">System: </label>
-				<input type="text" name="system" id="system" value="< out.print(ticket.getSystem()); %>" />
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="level">Level: </label>
+				<div class="col-sm-2">
+					<input class="form-control" type="number" name="level" id="level" max="3" min="1"
+						value="<%out.print(ticket.getLevel());%>" />
+				</div>
 			</div>
-			<div>
-				<label for="priority">Priority: </label>
-				<select name="priority" id="priority">
-					< for ( PriorityStub priority : PriorityStub.values()) { %>
-						<option value="< out.print(priority.name()); %>" < out.print( priority == ticket.getPriority() ? "selected=\"selected\"" : "" ); %> >< out.print(priority.getLabel()); %></option>
-					< } %>
-				</select>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="sender_name">Sender
+					name: </label>
+				<div class="col-sm-10">
+					<input class="form-control" type="text" name="sender_name" id="sender_name"
+						value="<%out.print(ticket.getSender_name());%>" />
+				</div>
 			</div>
-			<br/><br/>
-			<div>
-				<input type="submit" value="Save" />&nbsp;
-				<a href="Ticket?id=< out.print(ticket.getId()); %>">cancel</a>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="business_impact">Business
+					impact: </label>
+				<div class="col-sm-10">
+					<input class="form-control" type="text" name="business_impact" id="business_impact"
+						value="<%out.print(ticket.getBusiness_impact());%>" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="steps_to_rep">Steps
+					to reproduce the issue: </label>
+				<div class="col-sm-10">
+					<input class="form-control" type="text" name="steps_to_rep" id="steps_to_rep"
+						value="<%out.print(ticket.getSteps_to_rep());%>" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="priority">Priority:
+				</label>
+				<div class="col-sm-10">
+					<select class="form-control" name="priority" id="priority">
+						<%
+							for (PriorityStub priority : PriorityStub.values()) {
+						%>
+						<option value="<%out.print(priority.name());%>"
+							<%out.print(priority == ticket.getPriority() ? "selected=\"selected\"" : "");%>>
+							<%
+								out.print(priority.getLabel());
+							%>
+						</option>
+						<%
+							}
+						%>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="status">Status: </label>
+				<div class="col-sm-10">
+					<select class="form-control" name="status" id="status">
+						<%
+							for (StatusStub status : StatusStub.values()) {
+						%>
+						<option value="<%out.print(status.name());%>"
+							<%out.print(status == ticket.getStatus() ? "selected=\"selected\"" : "");%>>
+							<%
+								out.print(status.getLabel());
+							%>
+						</option>
+						<%
+							}
+						%>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default">Submit</button>
+					&nbsp;<a href="Ticket?id=<%out.print(ticket.getId());%>">Cancel</a>
+				</div>
 			</div>
 		</form>
 	</div>

@@ -7,4 +7,5 @@ public class AppUserQuery {
 
     public static final String GET_ALL = "Appuser.getAll";
     public static final java.lang.String GET_BY_ID = "Appuser.getById";
+    public static final java.lang.String GET_BY_USERNAME = "Appuser.getByUsername" ;
 }

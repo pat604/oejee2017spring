@@ -1,6 +1,7 @@
 package hu.smiklos.stmm.pers.service;
 
 import hu.smiklos.stmm.pers.entity.AppUser;
+import hu.smiklos.stmm.pers.entity.CreditCard;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 
 import javax.ejb.Local;
@@ -16,5 +17,13 @@ public interface AppUserServiceInterface {
     List<AppUser> readAll() throws PersistenceServiceException;
 
     AppUser read(String appuserId) throws PersistenceServiceException;
+
+    AppUser create(AppUser user) throws PersistenceServiceException;
+
+    AppUser getUserByUsername(String username) throws PersistenceServiceException;
+
+    CreditCard addCreditCard(CreditCard card) throws PersistenceServiceException;
+
+    CreditCard updateCreditCard(CreditCard card) throws PersistenceServiceException;
 
 }
