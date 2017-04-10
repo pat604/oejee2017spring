@@ -262,7 +262,7 @@ CREATE TABLE task_impediments (
 );
 CREATE TABLE remedies (
 	remedy_id SERIAL NOT NULL,
-	remedy_description CHARACTER VARYING(2000) NULL,
+	remedy_description CHARACTER VARYING(2000) NOT NULL,
 	remedy_impediment_id INTEGER NOT NULL,
 	remedy_submission_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 	remedy_provider INTEGER NOT NULL,

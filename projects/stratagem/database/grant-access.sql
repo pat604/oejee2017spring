@@ -5,3 +5,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON projects, tasks, project_tasks TO strata
 GRANT USAGE, SELECT, UPDATE ON tasks_task_id_seq, projects_project_id_seq TO stratagem_std_user;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON user_project_assignments TO stratagem_std_user;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON impediments, remedies TO stratagem_std_user;
+GRANT USAGE, SELECT, UPDATE ON impediments_impediment_id_seq, remedies_remedy_id_seq TO stratagem_std_user;
