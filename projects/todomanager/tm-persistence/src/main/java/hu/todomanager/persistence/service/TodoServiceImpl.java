@@ -1,5 +1,6 @@
 package hu.todomanager.persistence.service;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -66,6 +67,22 @@ public class TodoServiceImpl implements TodoService {
 			throw new PersistenceServiceException("Unknown error when fetching todos! " + e.getLocalizedMessage(), e);
 		}
 		return result;
+	}
+	
+	@Override
+	public void addTodo(Todo todo) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Add Todo");
+		}
+		try {
+			final Todo newTodo = new Todo(todo.getName(), todo.getDescription(), todo.getState(), todo.getDeadline());
+			LOGGER.info("XXXXXXXXXXXXXXXXXXX");
+			LOGGER.info(newTodo);
+			LOGGER.info(newTodo.getDeadline());
+			this.entityManager.persist(newTodo);
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when adding todo! " + e.getLocalizedMessage(), e);
+		}
 	}
 
 }

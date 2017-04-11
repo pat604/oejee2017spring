@@ -1,6 +1,9 @@
 package hu.todomanager.weblayer.servlet;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.io.IOException;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,9 +11,9 @@ import javax.servlet.annotation.WebServlet;
 import org.apache.log4j.Logger;
 import java.io.IOException;
 import javax.servlet.http.*;
-import hu.todomanager.ejbservice.domain.TodoStub;
+import hu.todomanager.ejbservice.domain.*;
 import hu.todomanager.ejbservice.exception.FacadeException;
-import hu.todomanager.ejbservice.facade.TodoFacade;
+import hu.todomanager.ejbservice.facade.*;
 import hu.todomanager.weblayer.common.*;
 
 @WebServlet("/newTodo")
@@ -19,24 +22,32 @@ public class NewTodoController extends HttpServlet implements TodoParameter{
 	private static final Logger LOGGER = Logger.getLogger(NewTodoController.class);
 	
 	@EJB
-	private TodoFacade facade;
+	private PriorityFacade priorityFacade;
+	@EJB
+	private CategoryFacade categoryFacade;
+	@EJB
+	private TodoFacade todoFacade;
 	
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		TodoStub todo = null;
+		List<PriorityStub> priorities = new ArrayList<PriorityStub>();
+		List<CategoryStub> categories = new ArrayList<CategoryStub>();
 		try {
-			Long id = 1L;
-			todo = this.facade.getTodo(id);
+			priorities = this.priorityFacade.getAllPriority();
+			categories = this.categoryFacade.getAllCategory();
 		} catch (final FacadeException e) {
 			LOGGER.error(e, e);
 		}
-		this.forward(request, response);
+		this.forward(request, response, priorities, categories);
 	}
 	
-	private void forward(final HttpServletRequest request, final HttpServletResponse response)
+	private void forward(final HttpServletRequest request, final HttpServletResponse response,
+			List<PriorityStub> priorities, List<CategoryStub> categories)
 			throws ServletException, IOException {
-		final RequestDispatcher view = request.getRequestDispatcher(Page.TODO_EDIT.getJspName());
+		request.setAttribute("priorities", priorities);
+		request.setAttribute("categories", categories);
+		final RequestDispatcher view = request.getRequestDispatcher(Page.TODO_NEW.getJspName());
 		view.forward(request, response);
 	}
 
@@ -44,18 +55,31 @@ public class NewTodoController extends HttpServlet implements TodoParameter{
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		final String name = request.getParameter(NAME);
 		final String description = request.getParameter(DESCRIPTION);
-		final int priority = Integer.parseInt(request.getParameter(PRIORITY));
+		final String priority = request.getParameter(PRIORITIES);
+		final String category = request.getParameter(CATEGORIES);
+		LOGGER.info(name);
+		LOGGER.info(description);
+		LOGGER.info(priority);
+		LOGGER.info(category);
+		List<PriorityStub> priorities = new ArrayList<PriorityStub>();
+		List<CategoryStub> categories = new ArrayList<CategoryStub>();
+		try {
+			priorities = this.priorityFacade.getAllPriority();
+			categories = this.categoryFacade.getAllCategory();
+		} catch (final FacadeException e) {
+			LOGGER.error(e, e);
+		}
 		if (name == null || "".equals(name)) {
-			final TodoStub todo = null;//new TodoStub(name);
-			this.forward(request, response);
+			final TodoStub todo = null;
+			this.forward(request, response, priorities, categories);
 		} else {
-			TodoStub todo = null;
+			TodoStub todo = new TodoStub(name, description, 0, new Date());
 			try {
-				todo = this.facade.addTodo();
+				this.todoFacade.addTodo(todo);
 			} catch (final FacadeException e) {
 				LOGGER.error(e, e);
 			}
-			this.forward(request, response);
+			this.forward(request, response, priorities, categories);
 		}
 	}
 }

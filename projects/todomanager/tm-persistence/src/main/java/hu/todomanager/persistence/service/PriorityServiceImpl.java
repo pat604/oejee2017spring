@@ -17,6 +17,7 @@ import hu.todomanager.persistence.exception.PersistenceServiceException;
 import hu.todomanager.persistence.parameter.TodoParameter;
 import hu.todomanager.persistence.query.PriorityQuery;
 
+
 @Stateless(mappedName = "ejb/priorityService")
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -26,18 +27,45 @@ public class PriorityServiceImpl implements PriorityService {
 
 	@PersistenceContext(unitName = "tm-persistence-unit")
 	private EntityManager entityManager;
+	
+	@Override
+	public Priority readByName(String name) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Get Priority by name (" + name + ")");
+		}
+		Priority result = null;
+		try {
+			//result = this.entityManager.createNamedQuery(TodoQuery.GET_BY_NAME, Todo.class).setParameter(TodoParameter.NAME, name).getSingleResult();
+			//LOGGER.info("Priority name: (" + result.getName() + ")");
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when fetching Priority by name (" + name + ")! " + e.getLocalizedMessage(), e);
+		}
+		return result;
+	}
 
 	@Override
 	public List<Priority> readAll() throws PersistenceServiceException {
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Get Priorities");
+			LOGGER.debug("Get Categories.");
 		}
 		List<Priority> result = null;
 		try {
 			result = this.entityManager.createNamedQuery(PriorityQuery.GET_ALL, Priority.class).getResultList();
 		} catch (final Exception e) {
-			throw new PersistenceServiceException("Unknown error when fetching Priorities! " + e.getLocalizedMessage(), e);
+			throw new PersistenceServiceException("Unknown error when fetching Categories! " + e.getLocalizedMessage(), e);
 		}
 		return result;
+	}
+	
+	@Override
+	public void addPriority(Priority priority) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Add Priority");
+		}
+		try {
+			
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when adding priority! " + e.getLocalizedMessage(), e);
+		}
 	}
 }

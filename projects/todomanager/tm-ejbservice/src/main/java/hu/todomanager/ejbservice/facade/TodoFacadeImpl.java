@@ -1,6 +1,7 @@
 package hu.todomanager.ejbservice.facade;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -87,6 +88,20 @@ public class TodoFacadeImpl implements TodoFacade {
 			}
 			
 			return stubs;
+		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		}
+	}
+	
+	@Override
+	public void addTodo(TodoStub todo) throws FacadeException {
+		try {
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Add Todo");
+			}
+			todoService.addTodo(new Todo(todo.getName(), todo.getDescription(), todo.getState(), todo.getDeadline()));
+			
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());
