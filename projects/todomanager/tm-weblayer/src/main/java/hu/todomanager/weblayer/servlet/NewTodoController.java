@@ -57,10 +57,11 @@ public class NewTodoController extends HttpServlet implements TodoParameter{
 		final String description = request.getParameter(DESCRIPTION);
 		final String priority = request.getParameter(PRIORITIES);
 		final String category = request.getParameter(CATEGORIES);
+		final String[] selectedPriorities = request.getParameterValues("selPriorities");
+		final String[] selectedCategories = request.getParameterValues("selCategories");
+		final String[] selectedSubTodos = request.getParameterValues("selSubTodos");
 		LOGGER.info(name);
-		LOGGER.info(description);
-		LOGGER.info(priority);
-		LOGGER.info(category);
+		
 		List<PriorityStub> priorities = new ArrayList<PriorityStub>();
 		List<CategoryStub> categories = new ArrayList<CategoryStub>();
 		try {
@@ -69,13 +70,13 @@ public class NewTodoController extends HttpServlet implements TodoParameter{
 		} catch (final FacadeException e) {
 			LOGGER.error(e, e);
 		}
-		if (name == null || "".equals(name)) {
+		if (name == null || "".equals(name) || selectedPriorities == null || selectedCategories == null) {
 			final TodoStub todo = null;
 			this.forward(request, response, priorities, categories);
 		} else {
 			TodoStub todo = new TodoStub(name, description, 0, new Date());
 			try {
-				this.todoFacade.addTodo(todo);
+				this.todoFacade.addTodo(todo, selectedPriorities, selectedCategories, selectedSubTodos);
 			} catch (final FacadeException e) {
 				LOGGER.error(e, e);
 			}

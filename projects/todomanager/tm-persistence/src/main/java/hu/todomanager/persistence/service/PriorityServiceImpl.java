@@ -35,7 +35,7 @@ public class PriorityServiceImpl implements PriorityService {
 		}
 		Priority result = null;
 		try {
-			//result = this.entityManager.createNamedQuery(TodoQuery.GET_BY_NAME, Todo.class).setParameter(TodoParameter.NAME, name).getSingleResult();
+			result = this.entityManager.createNamedQuery(PriorityQuery.GET_BY_NAME, Priority.class).setParameter(TodoParameter.NAME, name).getSingleResult();
 			//LOGGER.info("Priority name: (" + result.getName() + ")");
 		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error when fetching Priority by name (" + name + ")! " + e.getLocalizedMessage(), e);

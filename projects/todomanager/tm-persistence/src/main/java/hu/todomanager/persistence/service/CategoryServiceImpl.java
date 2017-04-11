@@ -35,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		Category result = null;
 		try {
-			//result = this.entityManager.createNamedQuery(TodoQuery.GET_BY_NAME, Todo.class).setParameter(TodoParameter.NAME, name).getSingleResult();
+			result = this.entityManager.createNamedQuery(CategoryQuery.GET_BY_NAME, Category.class).setParameter(TodoParameter.NAME, name).getSingleResult();
 			//LOGGER.info("Category name: (" + result.getName() + ")");
 		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error when fetching Category by name (" + name + ")! " + e.getLocalizedMessage(), e);

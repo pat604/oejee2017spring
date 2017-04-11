@@ -76,9 +76,6 @@ public class TodoServiceImpl implements TodoService {
 		}
 		try {
 			final Todo newTodo = new Todo(todo.getName(), todo.getDescription(), todo.getState(), todo.getDeadline());
-			LOGGER.info("XXXXXXXXXXXXXXXXXXX");
-			LOGGER.info(newTodo);
-			LOGGER.info(newTodo.getDeadline());
 			this.entityManager.persist(newTodo);
 		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error when adding todo! " + e.getLocalizedMessage(), e);

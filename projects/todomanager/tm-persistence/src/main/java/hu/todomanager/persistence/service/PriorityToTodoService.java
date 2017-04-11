@@ -8,4 +8,6 @@ import hu.todomanager.persistence.exception.PersistenceServiceException;
 @Local
 public interface PriorityToTodoService {
 	List<PriorityToTodo> readAll() throws PersistenceServiceException;
+	
+	void add(Long todoId, Long priorityId) throws PersistenceServiceException;
 }

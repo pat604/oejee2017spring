@@ -49,7 +49,7 @@ ALTER TABLE category OWNER TO postgres;
 CREATE UNIQUE INDEX UI_CATEGORY_NAME ON category USING btree (name);
 
 CREATE TABLE priority_to_todo (
-	id INTEGER NOT NULL,
+	id SERIAL NOT NULL,
 	priority_id INTEGER NOT NULL,
 	todo_id INTEGER NOT NULL,
 	CONSTRAINT PK_PRIORITY_TO_TODO_ID PRIMARY KEY (id),
@@ -62,7 +62,7 @@ CREATE TABLE priority_to_todo (
 ALTER TABLE priority_to_todo OWNER TO postgres;
 
 CREATE TABLE category_to_todo (
-	id INTEGER NOT NULL,
+	id SERIAL NOT NULL,
 	category_id INTEGER NOT NULL,
 	todo_id INTEGER NOT NULL,
 	CONSTRAINT PK_CATEGORY_TO_TODO_ID PRIMARY KEY (id),

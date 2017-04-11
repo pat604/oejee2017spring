@@ -39,4 +39,16 @@ public class CategoryToTodoServiceImpl implements CategoryToTodoService {
 		}
 		return result;
 	}
+	
+	@Override
+	public void add(Long todoId, Long categoryId) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Add CategoryToTodo");
+		}
+		try {
+			this.entityManager.persist(new CategoryToTodo(categoryId, todoId));
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when adding categoryToTodo! " + e.getLocalizedMessage(), e);
+		}
+	}
 }

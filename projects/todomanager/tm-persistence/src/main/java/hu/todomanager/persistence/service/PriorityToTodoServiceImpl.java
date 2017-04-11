@@ -40,4 +40,16 @@ public class PriorityToTodoServiceImpl implements PriorityToTodoService {
 		}
 		return result;
 	}
+	
+	@Override
+	public void add(Long todoId, Long priorityId) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Add PriorityToTodo");
+		}
+		try {
+			this.entityManager.persist(new PriorityToTodo(priorityId, todoId));
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when adding prioToTodo! " + e.getLocalizedMessage(), e);
+		}
+	}
 }

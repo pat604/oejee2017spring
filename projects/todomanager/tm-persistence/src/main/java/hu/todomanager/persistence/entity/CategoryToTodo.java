@@ -14,6 +14,8 @@ import hu.todomanager.persistence.query.CategoryToTodoQuery;
 public class CategoryToTodo implements Serializable {
 	
 	@Id
+	@SequenceGenerator(name = "generatorCategoryToTodo", sequenceName = "category_to_todo_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generatorCategoryToTodo")
 	@Column(name = "id", nullable = false)
 	private Long id;
 	
