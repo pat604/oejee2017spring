@@ -1,6 +1,7 @@
 package com.kota.stratagem.persistence.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,11 +16,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.kota.stratagem.persistence.entity.trunk.ProjectStatus;
 import com.kota.stratagem.persistence.parameter.ProjectParameter;
@@ -55,12 +60,32 @@ public class Project implements Serializable {
 	@Column(name = "project_status_id", nullable = false)
 	private ProjectStatus status;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "project_deadline", nullable = true)
+	private Date deadline;
+
+	@Column(name = "project_visibility", nullable = false)
+	private Boolean visible;
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Task.class)
 	@JoinTable(name = "project_tasks", joinColumns = @JoinColumn(name = "project_task_task_id"), inverseJoinColumns = @JoinColumn(name = "project_task_project_id"))
 	private Set<Task> tasks;
 
-	@Column(name = "project_visibility", nullable = false)
-	private Boolean visible;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Team.class)
+	@JoinTable(name = "team_project_assignments", joinColumns = @JoinColumn(name = "assignment_recipient"), inverseJoinColumns = @JoinColumn(name = "assignment_project"))
+	private Set<Team> assignedTeams;
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = AppUser.class)
+	@JoinTable(name = "user_project_assignments", joinColumns = @JoinColumn(name = "assignment_recipient"), inverseJoinColumns = @JoinColumn(name = "assignment_project"))
+	private Set<AppUser> assignedUsers;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Impediment.class)
+	@JoinTable(name = "project_impediments", joinColumns = @JoinColumn(name = "project_impediment_impediment_id"), inverseJoinColumns = @JoinColumn(name = "project_impediment_project_id"))
+	private Set<Impediment> impediments;
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Objective.class)
+	@JoinTable(name = "objective_projects", joinColumns = @JoinColumn(name = "objective_project_objective"), inverseJoinColumns = @JoinColumn(name = "objective_project_project"))
+	private Objective objective;
 
 	public Project() {
 		this.tasks = new HashSet<>();
@@ -74,7 +99,7 @@ public class Project implements Serializable {
 		this.tasks = tasks;
 		this.visible = visible;
 	}
-	
+
 	public Project(String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) {
 		this.name = name;
 		this.description = description;

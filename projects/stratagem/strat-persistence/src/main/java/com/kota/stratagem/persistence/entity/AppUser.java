@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -57,29 +58,57 @@ public class AppUser implements Serializable {
 	@Column(name = "user_role", nullable = false)
 	private Role role;
 
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Objective.class)
+	@JoinTable(name = "user_objective_assignments", joinColumns = @JoinColumn(name = "assignment_objective"), inverseJoinColumns = @JoinColumn(name = "assignment_recipient"))
+	private Set<Objective> objectives;
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Project.class)
 	@JoinTable(name = "user_project_assignments", joinColumns = @JoinColumn(name = "assignment_project"), inverseJoinColumns = @JoinColumn(name = "assignment_recipient"))
 	private Set<Project> projects;
 
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Task.class)
+	@JoinTable(name = "user_task_assignments", joinColumns = @JoinColumn(name = "assignment_task"), inverseJoinColumns = @JoinColumn(name = "assignment_recipient"))
+	private Set<Task> tasks;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Team.class, mappedBy = "team_leader")
+	private Set<Team> supervisedTeams;
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Team.class)
+	@JoinTable(name = "team_members", joinColumns = @JoinColumn(name = "team_member_team_id"), inverseJoinColumns = @JoinColumn(name = "team_member_user_id"))
+	private Set<Team> teamMemberships;
+
 	public AppUser() {
+		this.objectives = new HashSet<>();
 		this.projects = new HashSet<>();
+		this.tasks = new HashSet<>();
+		this.supervisedTeams = new HashSet<>();
+		this.teamMemberships = new HashSet<>();
 	}
 
-	public AppUser(Long id, String name, String passwordHash, String email, Role role, Set<Project> projects) {
+	public AppUser(Long id, String name, String passwordHash, String email, Role role, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks, Set<Team> supervisedTeams,
+			Set<Team> teamMemberships) {
 		this.id = id;
 		this.name = name;
 		this.passwordHash = passwordHash;
 		this.email = email;
 		this.role = role;
+		this.objectives = objectives;
 		this.projects = projects;
+		this.tasks = tasks;
+		this.supervisedTeams = supervisedTeams;
+		this.teamMemberships = teamMemberships;
 	}
 
-	public AppUser(String name, String passwordHash, String email, Role role, Set<Project> projects) {
+	public AppUser(String name, String passwordHash, String email, Role role, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks, Set<Team> supervisedTeams, Set<Team> teamMemberships) {
 		this.name = name;
 		this.passwordHash = passwordHash;
 		this.email = email;
 		this.role = role;
+		this.objectives = objectives;
 		this.projects = projects;
+		this.tasks = tasks;
+		this.supervisedTeams = supervisedTeams;
+		this.teamMemberships = teamMemberships;
 	}
 
 	public Long getId() {
@@ -122,6 +151,14 @@ public class AppUser implements Serializable {
 		this.role = role;
 	}
 
+	public Set<Objective> getObjectives() {
+		return objectives;
+	}
+
+	public void setObjectives(Set<Objective> objectives) {
+		this.objectives = objectives;
+	}
+
 	public Set<Project> getProjects() {
 		return projects;
 	}
@@ -130,9 +167,34 @@ public class AppUser implements Serializable {
 		this.projects = projects;
 	}
 
+	public Set<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(Set<Task> tasks) {
+		this.tasks = tasks;
+	}
+
+	public Set<Team> getSupervisedTeams() {
+		return supervisedTeams;
+	}
+
+	public void setSupervisedTeams(Set<Team> supervisedTeams) {
+		this.supervisedTeams = supervisedTeams;
+	}
+
+	public Set<Team> getTeamMemberships() {
+		return teamMemberships;
+	}
+
+	public void setTeamMemberships(Set<Team> teamMemberships) {
+		this.teamMemberships = teamMemberships;
+	}
+
 	@Override
 	public String toString() {
-		return "AppUser [id=" + id + ", name=" + name + ", passwordHash=" + passwordHash + ", email=" + email + ", role=" + role + ", projects=" + projects + "]";
+		return "AppUser [id=" + id + ", name=" + name + ", passwordHash=" + passwordHash + ", email=" + email + ", role=" + role + ", objectives=" + objectives + ", projects=" + projects + ", tasks="
+				+ tasks + ", supervisedTeams=" + supervisedTeams + ", teamMemberships=" + teamMemberships + "]";
 	}
 
 }

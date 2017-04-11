@@ -119,6 +119,7 @@ CREATE TABLE projects (
 	project_name CHARACTER VARYING(100) NOT NULL,
 	project_description CHARACTER VARYING(1000) NULL,
 	project_status_id INTEGER NOT NULL,
+	project_deadline TIMESTAMP WITHOUT TIME ZONE NULL,
 	project_visibility BOOLEAN NOT NULL,
 	CONSTRAINT PK_PROJECT_ID PRIMARY KEY (project_id),
 	CONSTRAINT FK_PROJECT_STATUS FOREIGN KEY (project_status_id)
@@ -179,6 +180,7 @@ CREATE TABLE tasks (
 	task_name CHARACTER VARYING(100) NOT NULL,
 	task_description CHARACTER VARYING(1000) NULL,
 	task_completion_percentage INTEGER NOT NULL,
+	task_deadline TIMESTAMP WITHOUT TIME ZONE NULL,
 	CONSTRAINT PK_TASK_ID PRIMARY KEY (task_id)
 );
 CREATE TABLE task_alterations (
@@ -275,22 +277,6 @@ CREATE TABLE remedies (
 	
 -- ###########################################################################################
 	
-CREATE TABLE project_deadlines (
-	deadline_id SERIAL NOT NULL,
-	deadline_project_id INTEGER NOT NULL,
-	deadline_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-	CONSTRAINT PK_PROJECT_DEADLINE_ID PRIMARY KEY (deadline_id),
-	CONSTRAINT FK_PROJECT_DEADLINE_PROJECT_ID FOREIGN KEY (deadline_project_id)
-	  REFERENCES projects (project_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
-);
-CREATE TABLE task_deadlines (
-	deadline_id SERIAL NOT NULL,
-	deadline_task_id INTEGER NOT NULL,
-	deadline_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-	CONSTRAINT PK_TASK_DEADLINE_ID PRIMARY KEY (deadline_id),
-	CONSTRAINT FK_TASK_DEADLINE_TASK_ID FOREIGN KEY (deadline_task_id)
-	  REFERENCES tasks (task_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
-);
 CREATE TABLE task_dependencies (
 	dependency_id SERIAL NOT NULL,
 	dependency_dependent INTEGER NOT NULL,
@@ -446,8 +432,6 @@ ALTER TABLE project_impediments OWNER TO postgres;
 ALTER TABLE task_impediments OWNER TO postgres;
 ALTER TABLE remedies OWNER TO postgres;
 ALTER TABLE project_managers OWNER TO postgres;
-ALTER TABLE project_deadlines OWNER TO postgres;
-ALTER TABLE task_deadlines OWNER TO postgres;
 ALTER TABLE task_dependencies OWNER TO postgres;
 ALTER TABLE task_estimations OWNER TO postgres;
 ALTER TABLE user_objective_assignments OWNER TO postgres;

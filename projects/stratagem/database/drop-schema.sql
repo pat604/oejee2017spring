@@ -10,8 +10,6 @@ DROP TABLE team_task_assignments;
 
 DROP TABLE task_estimations;
 DROP TABLE task_dependencies;
-DROP TABLE project_deadlines;
-DROP TABLE task_deadlines;
 
 DROP TABLE remedies;
 DROP TABLE project_impediments;

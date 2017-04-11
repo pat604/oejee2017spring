@@ -118,11 +118,11 @@ INSERT INTO project_statuses (status_id, status_name) VALUES
 (15, 'UPGRADING'),
 (16, 'DISPOSED');
 
-INSERT INTO projects (project_id, project_name, project_description, project_status_id, project_visibility) VALUES 
-(0, 'Ceraphis data deployment', 'Deployment of Ceraphis Solutions buisness data to data warehouse in India', 10, TRUE),
-(1, 'QuickExtract app', 'Develop mobile app for QuickExtract', 7, TRUE),
-(2, 'Grove BI outsourcing', '', 0, TRUE),
-(3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', 5, FALSE);
+INSERT INTO projects (project_id, project_name, project_description, project_status_id, project_deadline, project_visibility) VALUES 
+(0, 'Ceraphis data deployment', 'Deployment of Ceraphis Solutions buisness data to data warehouse in India', 10, '2015/11/30 00:00:00', TRUE),
+(1, 'QuickExtract app', 'Develop mobile app for QuickExtract', 7, NULL, TRUE),
+(2, 'Grove BI outsourcing', '', 0, NULL, TRUE),
+(3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', 5, '2017/05/26 00:00:00', FALSE);
 SELECT SETVAL('projects_project_id_seq', COALESCE(MAX(project_id), 0) ) FROM projects;
 
 INSERT INTO project_missions (mission_id, mission_name, mission_description, mission_project, mission_stage_id) VALUES
@@ -161,13 +161,13 @@ INSERT INTO objective_projects (objective_project_id, objective_project_objectiv
 
 -- ###########################################################################################
 
-INSERT INTO tasks (task_id, task_name, task_description, task_completion_percentage) VALUES 
-(0, 'Use-case test tool', 'Creating tool for efficient use-case testing', 30),
-(1, 'Print matching', 'Matching watermark prints', 85),
-(2, 'Extraction planning', 'Planning extraction approach', 60),
-(3, 'Backup system allocation', 'Allocating backup systems for overload evasion', 100),
-(4, 'Incident wrap up', 'Closing all end-to-end test incidents', 0),
-(5, 'Stable build', 'Create maintainable build on CI server for ease of rollback', 100);
+INSERT INTO tasks (task_id, task_name, task_description, task_completion_percentage, task_deadline) VALUES 
+(0, 'Use-case test tool', 'Creating tool for efficient use-case testing', 30, NULL),
+(1, 'Print matching', 'Matching watermark prints', 85, '2016/08/14 00:00:00'),
+(2, 'Extraction planning', 'Planning extraction approach', 60, NULL),
+(3, 'Backup system allocation', 'Allocating backup systems for overload evasion', 100, '2016/09/10 00:00:00'),
+(4, 'Incident wrap up', 'Closing all end-to-end test incidents', 0, NULL),
+(5, 'Stable build', 'Create maintainable build on CI server for ease of rollback', 100, NULL);
 
 -- INSERT INTO task_alterations
 
@@ -207,14 +207,6 @@ INSERT INTO remedies (remedy_id, remedy_description, remedy_impediment_id, remed
 (0, 'Use service control tool to generate project structure from existing endpoint meta data', 1, '2015/12/13 14:20:00', 1); 
 
 -- ###########################################################################################
-
-INSERT INTO project_deadlines (deadline_id, deadline_project_id, deadline_date) VALUES
-(0, 0, '2015/11/30 00:00:00'),
-(1, 3, '2017/05/26 00:00:00');
-
-INSERT INTO task_deadlines (deadline_id, deadline_task_id, deadline_date) VALUES
-(0, 1, '2016/08/14 00:00:00'),
-(1, 3, '2016/09/10 00:00:00');
 
 INSERT INTO task_dependencies (dependency_id, dependency_dependent, dependency_maintainer, dependency_value) VALUES
 (0, 5, 4, 100);

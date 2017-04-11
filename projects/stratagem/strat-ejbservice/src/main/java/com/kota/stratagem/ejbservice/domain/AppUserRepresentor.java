@@ -10,6 +10,7 @@ public class AppUserRepresentor {
 	private final String passwordHash;
 	private final String email;
 	private final RoleRepresentor role;
+
 	private final List<ProjectRepresentor> projects;
 
 	public AppUserRepresentor() {

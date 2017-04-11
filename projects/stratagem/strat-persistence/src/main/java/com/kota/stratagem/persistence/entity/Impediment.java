@@ -14,6 +14,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -45,39 +48,48 @@ public class Impediment implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "impedimentGenerator")
 	@Column(name = "impediment_id", nullable = false)
 	private Long id;
-	
+
 	@Column(name = "impediment_name", nullable = false)
 	private String name;
-	
+
 	@Column(name = "impediment_description", nullable = true)
 	private String description;
-	
+
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "impediment_priority_id", nullable = false)
 	private Priority priority;
-	
+
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "impediment_status_id", nullable = false)
 	private ImpedimentStatus status;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "impediment_report_date", nullable = false)
 	private Date reportDate;
-	
+
 	@Column(name = "impediment_reporter", nullable = false)
 	private AppUser reporter;
-	
+
 	@Column(name = "impediment_processor", nullable = false)
 	private AppUser processor;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Remedy.class, mappedBy = "impediment")
 	private Set<Remedy> remedies;
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Project.class)
+	@JoinTable(name = "project_impediments", joinColumns = @JoinColumn(name = "project_impediment_project_id"), inverseJoinColumns = @JoinColumn(name = "project_impediment_impediment_id"))
+	private Project project;
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
+	@JoinTable(name = "task_impediments", joinColumns = @JoinColumn(name = "task_impediment_task_id"), inverseJoinColumns = @JoinColumn(name = "task_impediment_impediment_id"))
+	private Task task;
 
 	public Impediment() {
 		remedies = new HashSet<>();
 	}
-	
-	public Impediment(Long id, String name, String description, Priority priority, ImpedimentStatus status, Date reportDate, AppUser reporter, AppUser processor, Set<Remedy> remedies) {
+
+	public Impediment(Long id, String name, String description, Priority priority, ImpedimentStatus status, Date reportDate, AppUser reporter, AppUser processor, Set<Remedy> remedies, Project project,
+			Task task) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -87,9 +99,12 @@ public class Impediment implements Serializable {
 		this.reporter = reporter;
 		this.processor = processor;
 		this.remedies = remedies;
+		this.project = project;
+		this.task = task;
 	}
 
-	public Impediment(String name, String description, Priority priority, ImpedimentStatus status, Date reportDate, AppUser reporter, AppUser processor, Set<Remedy> remedies) {
+	public Impediment(String name, String description, Priority priority, ImpedimentStatus status, Date reportDate, AppUser reporter, AppUser processor, Set<Remedy> remedies, Project project,
+			Task task) {
 		this.name = name;
 		this.description = description;
 		this.priority = priority;
@@ -98,6 +113,8 @@ public class Impediment implements Serializable {
 		this.reporter = reporter;
 		this.processor = processor;
 		this.remedies = remedies;
+		this.project = project;
+		this.task = task;
 	}
 
 	public Long getId() {
@@ -172,10 +189,26 @@ public class Impediment implements Serializable {
 		this.remedies = remedies;
 	}
 
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public Task getTask() {
+		return task;
+	}
+
+	public void setTask(Task task) {
+		this.task = task;
+	}
+
 	@Override
 	public String toString() {
-		return "Impediment [id=" + id + ", name=" + name + ", description=" + description + ", priority=" + priority + ", status=" + status + ", reportDate="
-				+ reportDate + ", reporter=" + reporter + ", processor=" + processor + ", remedies=" + remedies + "]";
+		return "Impediment [id=" + id + ", name=" + name + ", description=" + description + ", priority=" + priority + ", status=" + status + ", reportDate=" + reportDate + ", reporter=" + reporter
+				+ ", processor=" + processor + ", remedies=" + remedies + ", project=" + project + ", task=" + task + "]";
 	}
-	
+
 }
