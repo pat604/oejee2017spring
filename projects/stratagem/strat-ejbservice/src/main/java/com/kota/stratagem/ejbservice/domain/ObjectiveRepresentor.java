@@ -15,11 +15,10 @@ public class ObjectiveRepresentor {
 	private final List<AppUserRepresentor> assignedUsers;
 
 	public ObjectiveRepresentor() {
-		this(null, "", "", 10, ObjectiveStatusRepresentor.PLANNED, null, null, null, null);
+		this(null, "", "", 10, ObjectiveStatusRepresentor.PLANNED);
 	}
 
-	public ObjectiveRepresentor(Long id, String name, String description, int priority, ObjectiveStatusRepresentor status, List<ProjectRepresentor> projects, List<TaskRepresentor> tasks,
-			List<TeamRepresentor> assignedTeams, List<AppUserRepresentor> assignedUsers) {
+	public ObjectiveRepresentor(Long id, String name, String description, int priority, ObjectiveStatusRepresentor status) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -31,8 +30,7 @@ public class ObjectiveRepresentor {
 		this.assignedUsers = new ArrayList<>();
 	}
 
-	public ObjectiveRepresentor(String name, String description, int priority, ObjectiveStatusRepresentor status, List<ProjectRepresentor> projects, List<TaskRepresentor> tasks,
-			List<TeamRepresentor> assignedTeams, List<AppUserRepresentor> assignedUsers) {
+	public ObjectiveRepresentor(String name, String description, int priority, ObjectiveStatusRepresentor status) {
 		this.name = name;
 		this.description = description;
 		this.priority = priority;

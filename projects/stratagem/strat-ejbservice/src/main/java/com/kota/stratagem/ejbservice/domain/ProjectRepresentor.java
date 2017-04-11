@@ -18,11 +18,10 @@ public class ProjectRepresentor {
 	private final ObjectiveRepresentor objective;
 
 	public ProjectRepresentor() {
-		this(null, "", "", ProjectStatusRepresentor.PROPOSED, new Date(), true, null, null, null, null, null);
+		this(null, "", "", ProjectStatusRepresentor.PROPOSED, new Date(), true, null);
 	}
 
-	public ProjectRepresentor(Long id, String name, String description, ProjectStatusRepresentor status, Date deadline, Boolean visible, List<TaskRepresentor> tasks,
-			List<TeamRepresentor> assignedTeams, List<AppUserRepresentor> assignedUsers, List<ImpedimentRepresentor> impediments, ObjectiveRepresentor objective) {
+	public ProjectRepresentor(Long id, String name, String description, ProjectStatusRepresentor status, Date deadline, Boolean visible, ObjectiveRepresentor objective) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -36,8 +35,7 @@ public class ProjectRepresentor {
 		this.objective = objective;
 	}
 
-	public ProjectRepresentor(String name, String description, ProjectStatusRepresentor status, Date deadline, Boolean visible, List<TaskRepresentor> tasks, List<TeamRepresentor> assignedTeams,
-			List<AppUserRepresentor> assignedUsers, List<ImpedimentRepresentor> impediments, ObjectiveRepresentor objective) {
+	public ProjectRepresentor(String name, String description, ProjectStatusRepresentor status, Date deadline, Boolean visible, ObjectiveRepresentor objective) {
 		this.name = name;
 		this.description = description;
 		this.status = status;

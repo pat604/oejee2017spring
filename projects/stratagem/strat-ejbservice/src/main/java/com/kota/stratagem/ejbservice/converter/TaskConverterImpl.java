@@ -9,7 +9,7 @@ import com.kota.stratagem.ejbservice.domain.TaskRepresentor;
 import com.kota.stratagem.persistence.entity.Task;
 
 @Stateless
-public class TaskConverterImplementation implements TaskConverter {
+public class TaskConverterImpl implements TaskConverter {
 
 	@Override
 	public TaskRepresentor to(Task task) {

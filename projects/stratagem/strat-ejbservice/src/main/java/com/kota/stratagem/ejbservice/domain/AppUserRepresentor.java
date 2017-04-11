@@ -19,12 +19,10 @@ public class AppUserRepresentor {
 	private final List<TeamRepresentor> teamMemberships;
 
 	public AppUserRepresentor() {
-		this(null, "", "", "", RoleRepresentor.PRISTINE_USER, null, null, null, null, null, null, null);
+		this(null, "", "", "", RoleRepresentor.PRISTINE_USER);
 	}
 
-	public AppUserRepresentor(Long id, String name, String passwordHash, String email, RoleRepresentor role, List<ObjectiveRepresentor> objectives, List<ProjectRepresentor> projects,
-			List<TaskRepresentor> tasks, List<ImpedimentRepresentor> reportedImpediments, List<ImpedimentRepresentor> processedImpediments, List<TeamRepresentor> supervisedTeams,
-			List<TeamRepresentor> teamMemberships) {
+	public AppUserRepresentor(Long id, String name, String passwordHash, String email, RoleRepresentor role) {
 		this.id = id;
 		this.name = name;
 		this.passwordHash = passwordHash;
@@ -39,9 +37,7 @@ public class AppUserRepresentor {
 		this.teamMemberships = new ArrayList<>();
 	}
 
-	public AppUserRepresentor(String name, String passwordHash, String email, RoleRepresentor role, List<ObjectiveRepresentor> objectives, List<ProjectRepresentor> projects,
-			List<TaskRepresentor> tasks, List<ImpedimentRepresentor> reportedImpediments, List<ImpedimentRepresentor> processedImpediments, List<TeamRepresentor> supervisedTeams,
-			List<TeamRepresentor> teamMemberships) {
+	public AppUserRepresentor(String name, String passwordHash, String email, RoleRepresentor role) {
 		this.name = name;
 		this.passwordHash = passwordHash;
 		this.email = email;

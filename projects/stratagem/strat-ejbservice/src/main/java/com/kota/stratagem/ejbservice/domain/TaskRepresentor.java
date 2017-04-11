@@ -15,11 +15,10 @@ public class TaskRepresentor {
 	private final List<TaskRepresentor> taskDependencies;
 
 	public TaskRepresentor() {
-		this(null, "", "", 0, null, null, null, null, null);
+		this(null, "", "", 0);
 	}
 
-	public TaskRepresentor(Long id, String name, String description, double comlpetion, List<TeamRepresentor> assignedTeams, List<AppUserRepresentor> assignedUsers,
-			List<ImpedimentRepresentor> impediments, List<TaskRepresentor> dependantTasks, List<TaskRepresentor> taskDependencies) {
+	public TaskRepresentor(Long id, String name, String description, double comlpetion) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -31,8 +30,7 @@ public class TaskRepresentor {
 		this.taskDependencies = new ArrayList<>();
 	}
 
-	public TaskRepresentor(String name, String description, double comlpetion, List<TeamRepresentor> assignedTeams, List<AppUserRepresentor> assignedUsers, List<ImpedimentRepresentor> impediments,
-			List<TaskRepresentor> dependantTasks, List<TaskRepresentor> taskDependencies) {
+	public TaskRepresentor(String name, String description, double comlpetion) {
 		this.name = name;
 		this.description = description;
 		this.comlpetion = comlpetion;

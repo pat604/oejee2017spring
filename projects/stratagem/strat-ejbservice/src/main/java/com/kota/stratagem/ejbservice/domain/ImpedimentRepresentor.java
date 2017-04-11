@@ -18,11 +18,11 @@ public class ImpedimentRepresentor {
 	private final TaskRepresentor task;
 
 	public ImpedimentRepresentor() {
-		this(null, "", "", PriorityRepresentor.MEDIUM, ImpedimentStatusRepresentor.OPEN, new Date(), null, null, null, null, null);
+		this(null, "", "", PriorityRepresentor.MEDIUM, ImpedimentStatusRepresentor.OPEN, new Date(), null, null, null, null);
 	}
 
 	public ImpedimentRepresentor(Long id, String name, String description, PriorityRepresentor priority, ImpedimentStatusRepresentor status, Date reportDate, AppUserRepresentor reporter,
-			AppUserRepresentor processor, List<RemedyRepresentor> remedies, ProjectRepresentor project, TaskRepresentor task) {
+			AppUserRepresentor processor, ProjectRepresentor project, TaskRepresentor task) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -37,7 +37,7 @@ public class ImpedimentRepresentor {
 	}
 
 	public ImpedimentRepresentor(String name, String description, PriorityRepresentor priority, ImpedimentStatusRepresentor status, Date reportDate, AppUserRepresentor reporter,
-			AppUserRepresentor processor, List<RemedyRepresentor> remedies, ProjectRepresentor project, TaskRepresentor task) {
+			AppUserRepresentor processor, ProjectRepresentor project, TaskRepresentor task) {
 		this.name = name;
 		this.description = description;
 		this.priority = priority;

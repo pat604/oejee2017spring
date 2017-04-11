@@ -13,11 +13,10 @@ public class TeamRepresentor {
 	private final List<TaskRepresentor> tasks;
 
 	public TeamRepresentor() {
-		this(null, "", null, null, null, null, null);
+		this(null, "", null);
 	}
 
-	public TeamRepresentor(Long id, String name, AppUserRepresentor leader, List<AppUserRepresentor> members, List<ObjectiveRepresentor> objectives, List<ProjectRepresentor> projects,
-			List<TaskRepresentor> tasks) {
+	public TeamRepresentor(Long id, String name, AppUserRepresentor leader) {
 		this.id = id;
 		this.name = name;
 		this.leader = leader;
@@ -27,8 +26,7 @@ public class TeamRepresentor {
 		this.tasks = new ArrayList<>();
 	}
 
-	public TeamRepresentor(String name, AppUserRepresentor leader, List<AppUserRepresentor> members, List<ObjectiveRepresentor> objectives, List<ProjectRepresentor> projects,
-			List<TaskRepresentor> tasks) {
+	public TeamRepresentor(String name, AppUserRepresentor leader) {
 		this.name = name;
 		this.leader = leader;
 		this.members = new ArrayList<>();
