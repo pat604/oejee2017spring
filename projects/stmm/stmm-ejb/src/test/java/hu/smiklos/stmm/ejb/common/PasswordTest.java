@@ -15,8 +15,8 @@ public class PasswordTest {
 
     @Before
     public void setUp() {
-        pw = new Password(PASSWORD);
-        this.hashedPw = pw.getHashedPassword(null);
+        pw=new Password();
+        hashedPw = pw.getHashedPassword(PASSWORD);
     }
 
     @Test

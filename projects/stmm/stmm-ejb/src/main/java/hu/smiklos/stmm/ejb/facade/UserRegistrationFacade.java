@@ -60,7 +60,7 @@ public class UserRegistrationFacade implements UserRegistrationFacadeInterface {
         user.setPassword(pwService.getHashedPassword(stub.getPassword()));
 
         UserType uType = userTypeService.getTypeWhereStateIs(1);
-        user.setUserType(uType);
+        user.addUserRole(uType);
 
         userService.create(user);
     }

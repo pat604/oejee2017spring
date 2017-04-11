@@ -17,7 +17,9 @@ import javax.persistence.*;
 public class UserType {
 
     private String id;
+
     private String usertype;
+
     private int state;
 
     public UserType() {

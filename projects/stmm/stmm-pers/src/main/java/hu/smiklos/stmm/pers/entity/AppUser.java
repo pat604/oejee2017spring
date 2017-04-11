@@ -5,6 +5,9 @@ import hu.smiklos.stmm.pers.query.AppUserQuery;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by SebestyenMiklos on 2017. 03. 12..
@@ -13,7 +16,7 @@ import java.io.Serializable;
 @Table(name = "appuser")
 @NamedQueries(value = { //
         @NamedQuery(name = AppUserQuery.GET_ALL, query = "SELECT a FROM AppUser a ORDER BY a.userId"),
-        @NamedQuery(name = AppUserQuery.GET_BY_ID, query = "SELECT a FROM AppUser a WHERE a.userId=:"+ AppUserParameter.ID),
+        @NamedQuery(name = AppUserQuery.GET_BY_ID, query = "SELECT a FROM AppUser a WHERE a.userId=:" + AppUserParameter.ID),
         @NamedQuery(name = AppUserQuery.GET_BY_USERNAME, query = "SELECT a FROM  AppUser a WHERE a.username=:" + AppUserParameter.USERNAME)
 })
 public class AppUser implements Serializable {
@@ -25,19 +28,38 @@ public class AppUser implements Serializable {
     private String last_name;
     private String password;
     private String username;
-    private UserType userType;
+    private Set<UserType> userroles;
     private CreditCard creditCard;
 
-    public AppUser(String userId, String walletId, String first_name, String last_name, String password, UserType userType) {
+    public AppUser(String userId, String walletId, String first_name, String last_name, String password) {
         this.userId = userId;
         this.walletId = walletId;
         this.first_name = first_name;
         this.last_name = last_name;
         this.password = password;
-        this.userType = userType;
+
     }
 
     public AppUser() {
+        this.userroles = new HashSet<UserType>();
+    }
+
+    @OneToMany
+    @JoinTable(name = "userrole", joinColumns = {@JoinColumn(name = "userrole_appuser_id", referencedColumnName = "appuser_id")}, inverseJoinColumns = {@JoinColumn(name = "userrole_usertype_id", referencedColumnName = "usertype_id")})
+    public Set<UserType> getUserroles() {
+        return userroles;
+    }
+
+    public void setUserroles(Set<UserType> userroles) {
+        this.userroles = userroles;
+    }
+
+    public void addUserRole(UserType userType) {
+        if(this.userroles == null){
+            this.userroles = new HashSet<UserType>();
+
+        }
+        this.userroles.add(userType);
     }
 
     @Id
@@ -86,19 +108,12 @@ public class AppUser implements Serializable {
         this.password = password;
     }
 
-    @OneToOne
-    @JoinColumn(name="appuser_usertype_id")
-    public UserType getUserType() {
-        return userType;
-    }
-
-    public void setUserType(UserType userType) {
-        this.userType = userType;
-    }
 
     @OneToOne
-    @JoinColumn(name="appuser_creditcard_card_number")
-    public CreditCard getCreditCard() { return  creditCard; }
+    @JoinColumn(name = "appuser_creditcard_card_number")
+    public CreditCard getCreditCard() {
+        return creditCard;
+    }
 
     public void setCreditCard(CreditCard card) {
         this.creditCard = card;
