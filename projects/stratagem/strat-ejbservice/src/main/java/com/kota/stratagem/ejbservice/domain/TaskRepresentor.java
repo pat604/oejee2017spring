@@ -13,12 +13,14 @@ public class TaskRepresentor {
 	private final List<ImpedimentRepresentor> impediments;
 	private final List<TaskRepresentor> dependantTasks;
 	private final List<TaskRepresentor> taskDependencies;
+	private final ObjectiveRepresentor objective;
+	private final ProjectRepresentor project;
 
 	public TaskRepresentor() {
-		this(null, "", "", 0);
+		this(null, "", "", 0, null, null);
 	}
 
-	public TaskRepresentor(Long id, String name, String description, double comlpetion) {
+	public TaskRepresentor(Long id, String name, String description, double comlpetion, ObjectiveRepresentor objective, ProjectRepresentor project) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -28,9 +30,11 @@ public class TaskRepresentor {
 		this.impediments = new ArrayList<>();
 		this.dependantTasks = new ArrayList<>();
 		this.taskDependencies = new ArrayList<>();
+		this.objective = objective;
+		this.project = project;
 	}
 
-	public TaskRepresentor(String name, String description, double comlpetion) {
+	public TaskRepresentor(String name, String description, double comlpetion, ObjectiveRepresentor objective, ProjectRepresentor project) {
 		this.name = name;
 		this.description = description;
 		this.comlpetion = comlpetion;
@@ -39,6 +43,8 @@ public class TaskRepresentor {
 		this.impediments = new ArrayList<>();
 		this.dependantTasks = new ArrayList<>();
 		this.taskDependencies = new ArrayList<>();
+		this.objective = objective;
+		this.project = project;
 	}
 
 	public Long getId() {
@@ -100,11 +106,20 @@ public class TaskRepresentor {
 	public void addTaskDependency(TaskRepresentor task) {
 		this.taskDependencies.add(task);
 	}
+	
+	public ObjectiveRepresentor getObjective() {
+		return objective;
+	}
+
+	public ProjectRepresentor getProject() {
+		return project;
+	}
 
 	@Override
 	public String toString() {
-		return "TaskRepresentor [id=" + id + ", name=" + name + ", description=" + description + ", comlpetion=" + comlpetion + ", assignedTeams=" + assignedTeams + ", assignedUsers=" + assignedUsers
-				+ ", impediments=" + impediments + ", dependantTasks=" + dependantTasks + ", taskDependencies=" + taskDependencies + "]";
+		return "TaskRepresentor [id=" + id + ", name=" + name + ", description=" + description + ", comlpetion=" + comlpetion + ", assignedTeams="
+				+ assignedTeams + ", assignedUsers=" + assignedUsers + ", impediments=" + impediments + ", dependantTasks=" + dependantTasks
+				+ ", taskDependencies=" + taskDependencies + ", objective=" + objective + ", project=" + project + "]";
 	}
 
 }

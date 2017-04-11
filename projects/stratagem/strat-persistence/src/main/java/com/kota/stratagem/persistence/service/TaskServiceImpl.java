@@ -16,6 +16,8 @@ import org.apache.log4j.Logger;
 
 import com.kota.stratagem.persistence.entity.AppUser;
 import com.kota.stratagem.persistence.entity.Impediment;
+import com.kota.stratagem.persistence.entity.Objective;
+import com.kota.stratagem.persistence.entity.Project;
 import com.kota.stratagem.persistence.entity.Task;
 import com.kota.stratagem.persistence.entity.Team;
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
@@ -34,12 +36,12 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public Task create(String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Set<Task> dependantTasks,
-			Set<Task> taskDependencies) throws PersistenceServiceException {
+			Set<Task> taskDependencies, Objective objective, Project project) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Create Task (name: " + name + ", description: " + description + ", completion: " + completion + ")");
 		}
 		try {
-			final Task task = new Task(name, description, completion, assignedTeams, assignedUsers, impediments, dependantTasks, taskDependencies);
+			final Task task = new Task(name, description, completion, assignedTeams, assignedUsers, impediments, dependantTasks, taskDependencies, objective, project);
 			this.entityManager.persist(task);
 			this.entityManager.flush();
 			return task;
@@ -78,7 +80,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public Task update(Long id, String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Set<Task> dependantTasks,
-			Set<Task> taskDependencies) throws PersistenceServiceException {
+			Set<Task> taskDependencies, Objective objective, Project project) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Update Task (id: " + id + ", name: " + name + ", description: " + description + ", completion: " + completion + ")");
 		}
@@ -92,6 +94,8 @@ public class TaskServiceImpl implements TaskService {
 			task.setImpediments(impediments != null ? impediments : new HashSet<Impediment>());
 			task.setDependantTasks(dependantTasks != null ? dependantTasks : new HashSet<Task>());
 			task.setTaskDependencies(taskDependencies != null ? taskDependencies : new HashSet<Task>());
+			task.setObjective(objective);
+			task.setProject(project);
 			return this.entityManager.merge(task);
 		} catch(final Exception e) {
 			throw new PersistenceServiceException("Unknown error when merging Task! " + e.getLocalizedMessage(), e);

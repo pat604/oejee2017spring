@@ -1,5 +1,6 @@
 package com.kota.stratagem.ejbservice.converter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.kota.stratagem.ejbservice.domain.RemedyRepresentor;
@@ -7,16 +8,24 @@ import com.kota.stratagem.persistence.entity.Remedy;
 
 public class RemedyConverterImpl implements RemedyConverter {
 
+	private ImpedimentConverter impedimentConverter = new ImpedimentConverterImpl();
+	private AppUserConverter appUserConverter = new AppUserConverterImpl();
+	
 	@Override
 	public RemedyRepresentor to(Remedy remedy) {
-		// TODO Auto-generated method stub
-		return null;
+		final RemedyRepresentor representor = remedy.getId() != null 
+				? new RemedyRepresentor(remedy.getId(), remedy.getDescription(), impedimentConverter.to(remedy.getImpediment()), remedy.getSubmissionDate(), appUserConverter.to(remedy.getProvider()))
+				: new RemedyRepresentor(remedy.getDescription(), impedimentConverter.to(remedy.getImpediment()), remedy.getSubmissionDate(), appUserConverter.to(remedy.getProvider()));
+		return representor;
 	}
 
 	@Override
 	public List<RemedyRepresentor> to(List<Remedy> remedies) {
-		// TODO Auto-generated method stub
-		return null;
+		final List<RemedyRepresentor> representors = new ArrayList<>();
+		for(final Remedy remedy : remedies) {
+			representors.add(this.to(remedy));
+		}
+		return representors;
 	}
 
 }

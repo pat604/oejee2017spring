@@ -7,14 +7,20 @@ import javax.ejb.Stateless;
 
 import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
 import com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor;
+import com.kota.stratagem.persistence.entity.AppUser;
+import com.kota.stratagem.persistence.entity.Impediment;
 import com.kota.stratagem.persistence.entity.Project;
 import com.kota.stratagem.persistence.entity.Task;
+import com.kota.stratagem.persistence.entity.Team;
 
 @Stateless
 public class ProjectConverterImpl implements ProjectConverter {
 
 	private ObjectiveConverter objectiveConverter = new ObjectiveConverterImpl();
 	private TaskConverter taskConverter = new TaskConverterImpl();
+	private TeamConverter teamConverter = new TeamConverterImpl();
+	private AppUserConverter appUserConverter = new AppUserConverterImpl();
+	private ImpedimentConverter impedimentConverter = new ImpedimentConverterImpl();
 
 	@Override
 	public ProjectRepresentor to(Project project) {
@@ -28,9 +34,21 @@ public class ProjectConverterImpl implements ProjectConverter {
 				representor.addTask(taskConverter.to(task));
 			}
 		}
-
-		// Teams and users!
-
+		if(project.getAssignedTeams() != null) {
+			for(Team team : project.getAssignedTeams()) {
+				representor.addTeam(teamConverter.to(team));
+			}
+		}
+		if(project.getAssignedUsers() != null) {
+			for(AppUser user : project.getAssignedUsers()) {
+				representor.addUser(appUserConverter.to(user));
+			}
+		}
+		if(project.getImpediments() != null) {
+			for(Impediment impediment : project.getImpediments()) {
+				representor.addImpediment(impedimentConverter.to(impediment));
+			}
+		}
 		return representor;
 	}
 

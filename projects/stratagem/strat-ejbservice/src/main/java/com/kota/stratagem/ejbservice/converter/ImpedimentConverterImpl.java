@@ -26,12 +26,12 @@ public class ImpedimentConverterImpl implements ImpedimentConverter {
 						taskConverter.to(impediment.getTask()))
 				: new ImpedimentRepresentor(impediment.getName(), impediment.getDescription(), priority, status, impediment.getReportDate(), appUserConverter.to(impediment.getReporter()),
 						appUserConverter.to(impediment.getProcessor()), projectConverter.to(impediment.getProject()), taskConverter.to(impediment.getTask()));
-		if(representor.getRemedies() != null) {
+		if(impediment.getRemedies() != null) {
 			for(Remedy remedy : impediment.getRemedies()) {
 				representor.addRemedy(remedyConverter.to(remedy));
 			}
 		}
-		return null;
+		return representor;
 	}
 
 	@Override

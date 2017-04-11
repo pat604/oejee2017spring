@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -70,6 +71,14 @@ public class Task implements Serializable {
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Task.class)
 	@JoinTable(name = "task_dependencies", joinColumns = @JoinColumn(name = "dependency_maintainer"), inverseJoinColumns = @JoinColumn(name = "dependency_dependent"))
 	private Set<Task> taskDependencies;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Objective.class)
+	@JoinTable(name = "objective_tasks", joinColumns = @JoinColumn(name = "objective_task_objective_id"), inverseJoinColumns = @JoinColumn(name = "objective_task_task_id"))
+	private Objective objective;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Objective.class)
+	@JoinTable(name = "project_tasks", joinColumns = @JoinColumn(name = "project_task_project_id"), inverseJoinColumns = @JoinColumn(name = "project_task_task_id"))
+	private Project project;
 
 	public Task() {
 		this.assignedTeams = new HashSet<>();
@@ -80,7 +89,7 @@ public class Task implements Serializable {
 	}
 
 	public Task(Long id, String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Set<Task> dependantTasks,
-			Set<Task> taskDependencies) {
+			Set<Task> taskDependencies, Objective objective, Project project) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -90,10 +99,12 @@ public class Task implements Serializable {
 		this.impediments = impediments;
 		this.dependantTasks = dependantTasks;
 		this.taskDependencies = taskDependencies;
+		this.objective = objective;
+		this.project = project;
 	}
 
 	public Task(String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Set<Task> dependantTasks,
-			Set<Task> taskDependencies) {
+			Set<Task> taskDependencies, Objective objective, Project project) {
 		this.name = name;
 		this.description = description;
 		this.completion = completion;
@@ -102,6 +113,8 @@ public class Task implements Serializable {
 		this.impediments = impediments;
 		this.dependantTasks = dependantTasks;
 		this.taskDependencies = taskDependencies;
+		this.objective = objective;
+		this.project = project;
 	}
 
 	public Long getId() {
@@ -176,10 +189,27 @@ public class Task implements Serializable {
 		this.taskDependencies = taskDependencies;
 	}
 
+	public Objective getObjective() {
+		return objective;
+	}
+
+	public void setObjective(Objective objective) {
+		this.objective = objective;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
 	@Override
 	public String toString() {
-		return "Task [id=" + id + ", name=" + name + ", description=" + description + ", completion=" + completion + ", assignedTeams=" + assignedTeams + ", assignedUsers=" + assignedUsers
-				+ ", impediments=" + impediments + ", dependantTasks=" + dependantTasks + ", taskDependencies=" + taskDependencies + "]";
+		return "Task [id=" + id + ", name=" + name + ", description=" + description + ", completion=" + completion + ", assignedTeams=" + assignedTeams
+				+ ", assignedUsers=" + assignedUsers + ", impediments=" + impediments + ", dependantTasks=" + dependantTasks + ", taskDependencies="
+				+ taskDependencies + ", objective=" + objective + ", project=" + project + "]";
 	}
 
 }
