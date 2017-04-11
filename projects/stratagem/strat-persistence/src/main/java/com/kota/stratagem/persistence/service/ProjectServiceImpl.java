@@ -31,9 +31,9 @@ import com.kota.stratagem.persistence.util.PersistenceApplicationError;
 @Stateless(mappedName = "ejb/projectService")
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-public class ProjectServiceImplementation implements ProjectService {
+public class ProjectServiceImpl implements ProjectService {
 
-	private static final Logger LOGGER = Logger.getLogger(ProjectServiceImplementation.class);
+	private static final Logger LOGGER = Logger.getLogger(ProjectServiceImpl.class);
 
 	@PersistenceContext(unitName = "strat-persistence-unit")
 	private EntityManager entityManager;

@@ -25,9 +25,9 @@ import com.kota.stratagem.persistence.query.TaskQuery;
 @Stateless(mappedName = "ejb/taskService")
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-public class TaskServiceImplementation implements TaskService {
+public class TaskServiceImpl implements TaskService {
 
-	private static final Logger LOGGER = Logger.getLogger(TaskServiceImplementation.class);
+	private static final Logger LOGGER = Logger.getLogger(TaskServiceImpl.class);
 
 	@PersistenceContext(unitName = "strat-persistence-unit")
 	private EntityManager entityManager;
