@@ -89,23 +89,38 @@ public class Project implements Serializable {
 
 	public Project() {
 		this.tasks = new HashSet<>();
+		this.assignedTeams = new HashSet<>();
+		this.assignedUsers = new HashSet<>();
+		this.impediments = new HashSet<>();
 	}
 
-	public Project(Long id, String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) {
+	public Project(Long id, String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers,
+			Set<Impediment> impediments, Objective objective) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.status = status;
-		this.tasks = tasks;
+		this.deadline = deadline;
 		this.visible = visible;
+		this.tasks = tasks;
+		this.assignedTeams = assignedTeams;
+		this.assignedUsers = assignedUsers;
+		this.impediments = impediments;
+		this.objective = objective;
 	}
 
-	public Project(String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) {
+	public Project(String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers,
+			Set<Impediment> impediments, Objective objective) {
 		this.name = name;
 		this.description = description;
 		this.status = status;
-		this.tasks = tasks;
+		this.deadline = deadline;
 		this.visible = visible;
+		this.tasks = tasks;
+		this.assignedTeams = assignedTeams;
+		this.assignedUsers = assignedUsers;
+		this.impediments = impediments;
+		this.objective = objective;
 	}
 
 	public Long getId() {
@@ -140,12 +155,12 @@ public class Project implements Serializable {
 		this.status = status;
 	}
 
-	public Set<Task> getTasks() {
-		return tasks;
+	public Date getDeadline() {
+		return deadline;
 	}
 
-	public void setTasks(Set<Task> tasks) {
-		this.tasks = tasks;
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
 	}
 
 	public Boolean getVisible() {
@@ -156,9 +171,50 @@ public class Project implements Serializable {
 		this.visible = visible;
 	}
 
+	public Set<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(Set<Task> tasks) {
+		this.tasks = tasks;
+	}
+
+	public Set<Team> getAssignedTeams() {
+		return assignedTeams;
+	}
+
+	public void setAssignedTeams(Set<Team> assignedTeams) {
+		this.assignedTeams = assignedTeams;
+	}
+
+	public Set<AppUser> getAssignedUsers() {
+		return assignedUsers;
+	}
+
+	public void setAssignedUsers(Set<AppUser> assignedUsers) {
+		this.assignedUsers = assignedUsers;
+	}
+
+	public Set<Impediment> getImpediments() {
+		return impediments;
+	}
+
+	public void setImpediments(Set<Impediment> impediments) {
+		this.impediments = impediments;
+	}
+
+	public Objective getObjective() {
+		return objective;
+	}
+
+	public void setObjective(Objective objective) {
+		this.objective = objective;
+	}
+
 	@Override
 	public String toString() {
-		return "Project [id=" + id + ", name=" + name + ", description=" + description + ", status=" + status + ", tasks=" + tasks + ", visible=" + visible + "]";
+		return "Project [id=" + id + ", name=" + name + ", description=" + description + ", status=" + status + ", deadline=" + deadline + ", visible=" + visible + ", tasks=" + tasks
+				+ ", assignedTeams=" + assignedTeams + ", assignedUsers=" + assignedUsers + ", impediments=" + impediments + ", objective=" + objective + "]";
 	}
 
 }

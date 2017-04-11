@@ -208,8 +208,8 @@ INSERT INTO remedies (remedy_id, remedy_description, remedy_impediment_id, remed
 
 -- ###########################################################################################
 
-INSERT INTO task_dependencies (dependency_id, dependency_dependent, dependency_maintainer, dependency_value) VALUES
-(0, 5, 4, 100);
+INSERT INTO task_dependencies (dependency_id, dependency_dependent, dependency_maintainer) VALUES
+(0, 5, 4);
 
 INSERT INTO task_estimations (estimation_id, estimation_task, estimation_pessimist, estimation_realist, estimation_optimist) VALUES
 (0, 4, '5 0:00:00', '4 0:00:00', '3 0:00:00');

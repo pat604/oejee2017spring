@@ -1,5 +1,6 @@
 package com.kota.stratagem.persistence.service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,8 +15,12 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
+import com.kota.stratagem.persistence.entity.AppUser;
+import com.kota.stratagem.persistence.entity.Impediment;
+import com.kota.stratagem.persistence.entity.Objective;
 import com.kota.stratagem.persistence.entity.Project;
 import com.kota.stratagem.persistence.entity.Task;
+import com.kota.stratagem.persistence.entity.Team;
 import com.kota.stratagem.persistence.entity.trunk.ProjectStatus;
 import com.kota.stratagem.persistence.exception.CoherentPersistenceServiceException;
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
@@ -34,12 +39,13 @@ public class ProjectServiceImplementation implements ProjectService {
 	private EntityManager entityManager;
 
 	@Override
-	public Project create(String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException {
+	public Project create(String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers,
+			Set<Impediment> impediments, Objective objective) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Create Project (name: " + name + ", description: " + description + ", status: " + status + ", tasks: " + tasks + ", visible: " + visible + ")");
 		}
 		try {
-			final Project project = new Project(name, description, status, tasks, visible);
+			final Project project = new Project(name, description, status, deadline, visible, tasks, assignedTeams, assignedUsers, impediments, objective);
 			this.entityManager.persist(project);
 			this.entityManager.flush();
 			return project;
@@ -91,7 +97,8 @@ public class ProjectServiceImplementation implements ProjectService {
 	}
 
 	@Override
-	public Project update(Long id, String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException {
+	public Project update(Long id, String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers,
+			Set<Impediment> impediments, Objective objective) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Update Project (id: " + id + ", name: " + name + ", description: " + description + ", status: " + status + ", tasks: " + tasks + ", visible: " + visible + ")");
 		}
@@ -100,7 +107,13 @@ public class ProjectServiceImplementation implements ProjectService {
 			project.setName(name);
 			project.setDescription(description);
 			project.setStatus(status);
+			project.setDeadline(deadline);
+			project.setVisible(visible);
 			project.setTasks(tasks != null ? tasks : new HashSet<Task>());
+			project.setAssignedTeams(assignedTeams != null ? assignedTeams : new HashSet<Team>());
+			project.setAssignedUsers(assignedUsers != null ? assignedUsers : new HashSet<AppUser>());
+			project.setImpediments(impediments != null ? impediments : new HashSet<Impediment>());
+			project.setObjective(objective);
 			return this.entityManager.merge(project);
 		} catch(final Exception e) {
 			throw new PersistenceServiceException("Unknown error when merging Project! " + e.getLocalizedMessage(), e);

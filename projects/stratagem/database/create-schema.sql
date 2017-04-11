@@ -281,7 +281,6 @@ CREATE TABLE task_dependencies (
 	dependency_id SERIAL NOT NULL,
 	dependency_dependent INTEGER NOT NULL,
 	dependency_maintainer INTEGER NOT NULL,
-	dependency_value INTEGER NULL,
 	CONSTRAINT PK_TASK_DEPENDENCY_ID PRIMARY KEY (dependency_id),
 	CONSTRAINT FK_TASK_DEPENDENCY_DEPENDENT FOREIGN KEY (dependency_dependent)
 	  REFERENCES tasks (task_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,

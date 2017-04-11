@@ -15,6 +15,7 @@ import javax.persistence.PersistenceContext;
 import org.apache.log4j.Logger;
 
 import com.kota.stratagem.persistence.entity.AppUser;
+import com.kota.stratagem.persistence.entity.Impediment;
 import com.kota.stratagem.persistence.entity.Objective;
 import com.kota.stratagem.persistence.entity.Project;
 import com.kota.stratagem.persistence.entity.Task;
@@ -37,13 +38,13 @@ public class AppUserServiceImplementation implements AppUserService {
 	private EntityManager entityManager;
 
 	@Override
-	public AppUser create(String name, String passwordHash, String email, Role role, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks, Set<Team> supervisedTeams,
-			Set<Team> teamMemberships) throws PersistenceServiceException {
+	public AppUser create(String name, String passwordHash, String email, Role role, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks, Set<Impediment> reportedImpediments,
+			Set<Impediment> processedImpediments, Set<Team> supervisedTeams, Set<Team> teamMemberships) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Create AppUser (name=" + name + ", passwordHash=" + passwordHash + ", email=" + email + ", role=" + role + ", projects=" + projects + ")");
 		}
 		try {
-			final AppUser user = new AppUser(name, passwordHash, email, role, objectives, projects, tasks, supervisedTeams, teamMemberships);
+			final AppUser user = new AppUser(name, passwordHash, email, role, objectives, projects, tasks, reportedImpediments, processedImpediments, supervisedTeams, teamMemberships);
 			this.entityManager.persist(user);
 			this.entityManager.flush();
 			return user;
@@ -81,8 +82,8 @@ public class AppUserServiceImplementation implements AppUserService {
 	}
 
 	@Override
-	public AppUser update(Long id, String name, String passwordHash, String email, Role role, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks, Set<Team> supervisedTeams,
-			Set<Team> teamMemberships) throws PersistenceServiceException {
+	public AppUser update(Long id, String name, String passwordHash, String email, Role role, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks, Set<Impediment> reportedImpediments,
+			Set<Impediment> processedImpediments, Set<Team> supervisedTeams, Set<Team> teamMemberships) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Update ApUser (id: " + id + ", name=" + name + ", passwordHash=" + passwordHash + ", email=" + email + ", role=" + role + ", projects=" + projects + ")");
 		}
@@ -95,6 +96,8 @@ public class AppUserServiceImplementation implements AppUserService {
 			user.setObjectives(objectives != null ? objectives : new HashSet<Objective>());
 			user.setProjects(projects != null ? projects : new HashSet<Project>());
 			user.setTasks(tasks != null ? tasks : new HashSet<Task>());
+			user.setReportedImpediments(reportedImpediments != null ? reportedImpediments : new HashSet<Impediment>());
+			user.setProcessedImpediments(processedImpediments != null ? processedImpediments : new HashSet<Impediment>());
 			user.setSupervisedTeams(supervisedTeams != null ? supervisedTeams : new HashSet<Team>());
 			user.setTeamMemberships(teamMemberships != null ? teamMemberships : new HashSet<Team>());
 			return this.entityManager.merge(user);

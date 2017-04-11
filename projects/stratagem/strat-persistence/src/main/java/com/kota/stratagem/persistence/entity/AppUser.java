@@ -70,6 +70,12 @@ public class AppUser implements Serializable {
 	@JoinTable(name = "user_task_assignments", joinColumns = @JoinColumn(name = "assignment_task"), inverseJoinColumns = @JoinColumn(name = "assignment_recipient"))
 	private Set<Task> tasks;
 
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Impediment.class, mappedBy = "impediment_reporter")
+	private Set<Impediment> reportedImpediments;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Impediment.class, mappedBy = "impediment_reporter")
+	private Set<Impediment> processedImpediments;
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Team.class, mappedBy = "team_leader")
 	private Set<Team> supervisedTeams;
 
@@ -81,12 +87,14 @@ public class AppUser implements Serializable {
 		this.objectives = new HashSet<>();
 		this.projects = new HashSet<>();
 		this.tasks = new HashSet<>();
+		this.reportedImpediments = new HashSet<>();
+		this.processedImpediments = new HashSet<>();
 		this.supervisedTeams = new HashSet<>();
 		this.teamMemberships = new HashSet<>();
 	}
 
-	public AppUser(Long id, String name, String passwordHash, String email, Role role, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks, Set<Team> supervisedTeams,
-			Set<Team> teamMemberships) {
+	public AppUser(Long id, String name, String passwordHash, String email, Role role, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks, Set<Impediment> reportedImpediments,
+			Set<Impediment> processedImpediments, Set<Team> supervisedTeams, Set<Team> teamMemberships) {
 		this.id = id;
 		this.name = name;
 		this.passwordHash = passwordHash;
@@ -95,11 +103,14 @@ public class AppUser implements Serializable {
 		this.objectives = objectives;
 		this.projects = projects;
 		this.tasks = tasks;
+		this.reportedImpediments = reportedImpediments;
+		this.processedImpediments = processedImpediments;
 		this.supervisedTeams = supervisedTeams;
 		this.teamMemberships = teamMemberships;
 	}
 
-	public AppUser(String name, String passwordHash, String email, Role role, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks, Set<Team> supervisedTeams, Set<Team> teamMemberships) {
+	public AppUser(String name, String passwordHash, String email, Role role, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks, Set<Impediment> reportedImpediments,
+			Set<Impediment> processedImpediments, Set<Team> supervisedTeams, Set<Team> teamMemberships) {
 		this.name = name;
 		this.passwordHash = passwordHash;
 		this.email = email;
@@ -107,6 +118,8 @@ public class AppUser implements Serializable {
 		this.objectives = objectives;
 		this.projects = projects;
 		this.tasks = tasks;
+		this.reportedImpediments = reportedImpediments;
+		this.processedImpediments = processedImpediments;
 		this.supervisedTeams = supervisedTeams;
 		this.teamMemberships = teamMemberships;
 	}
@@ -175,6 +188,22 @@ public class AppUser implements Serializable {
 		this.tasks = tasks;
 	}
 
+	public Set<Impediment> getReportedImpediments() {
+		return reportedImpediments;
+	}
+
+	public void setReportedImpediments(Set<Impediment> reportedImpediments) {
+		this.reportedImpediments = reportedImpediments;
+	}
+
+	public Set<Impediment> getProcessedImpediments() {
+		return processedImpediments;
+	}
+
+	public void setProcessedImpediments(Set<Impediment> processedImpediments) {
+		this.processedImpediments = processedImpediments;
+	}
+
 	public Set<Team> getSupervisedTeams() {
 		return supervisedTeams;
 	}
@@ -194,7 +223,8 @@ public class AppUser implements Serializable {
 	@Override
 	public String toString() {
 		return "AppUser [id=" + id + ", name=" + name + ", passwordHash=" + passwordHash + ", email=" + email + ", role=" + role + ", objectives=" + objectives + ", projects=" + projects + ", tasks="
-				+ tasks + ", supervisedTeams=" + supervisedTeams + ", teamMemberships=" + teamMemberships + "]";
+				+ tasks + ", reportedImpediments=" + reportedImpediments + ", processedImpediments=" + processedImpediments + ", supervisedTeams=" + supervisedTeams + ", teamMemberships="
+				+ teamMemberships + "]";
 	}
 
 }
