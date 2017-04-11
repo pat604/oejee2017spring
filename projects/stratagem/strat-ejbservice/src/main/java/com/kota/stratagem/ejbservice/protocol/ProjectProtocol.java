@@ -8,8 +8,8 @@ import javax.ejb.Local;
 import com.kota.stratagem.ejbservice.domain.ProjectCriteria;
 import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
 import com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor;
+import com.kota.stratagem.ejbservice.domain.TaskRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
-import com.kota.stratagem.persistence.entity.Task;
 
 @Local
 public interface ProjectProtocol {
@@ -18,7 +18,7 @@ public interface ProjectProtocol {
 
 	List<ProjectRepresentor> getAllProjects(ProjectCriteria criteria) throws AdaptorException;
 
-	ProjectRepresentor saveProject(Long id, String name, String description, ProjectStatusRepresentor status, Set<Task> tasks, Boolean visible) throws AdaptorException;
+	ProjectRepresentor saveProject(Long id, String name, String description, ProjectStatusRepresentor status, Set<TaskRepresentor> tasks, Boolean visible) throws AdaptorException;
 
 	void removeProject(Long id) throws AdaptorException;
 

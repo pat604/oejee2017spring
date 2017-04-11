@@ -27,6 +27,21 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@PersistenceContext(unitName = "tm-persistence-unit")
 	private EntityManager entityManager;
+	
+	@Override
+	public Category readByName(String name) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Get Category by name (" + name + ")");
+		}
+		Category result = null;
+		try {
+			result = this.entityManager.createNamedQuery(CategoryQuery.GET_BY_NAME, Category.class).setParameter(TodoParameter.NAME, name).getSingleResult();
+			//LOGGER.info("Category name: (" + result.getName() + ")");
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when fetching Category by name (" + name + ")! " + e.getLocalizedMessage(), e);
+		}
+		return result;
+	}
 
 	@Override
 	public List<Category> readAll() throws PersistenceServiceException {
@@ -40,5 +55,17 @@ public class CategoryServiceImpl implements CategoryService {
 			throw new PersistenceServiceException("Unknown error when fetching Categories! " + e.getLocalizedMessage(), e);
 		}
 		return result;
+	}
+	
+	@Override
+	public void addCategory(Category category) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Add Category");
+		}
+		try {
+			
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when adding category! " + e.getLocalizedMessage(), e);
+		}
 	}
 }

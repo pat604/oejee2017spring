@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.*;
 import hu.todomanager.persistence.query.PriorityQuery;
+import hu.todomanager.persistence.parameter.TodoParameter;
 
 @Entity
 @Table(name = "priority")
 @NamedQueries(value = {
 		@NamedQuery(name = PriorityQuery.GET_ALL, query = "SELECT p FROM Priority p"),
+		@NamedQuery(name = PriorityQuery.GET_BY_NAME, query = "SELECT p FROM Priority p WHERE p.name=:" + TodoParameter.NAME),
 })
 
 public class Priority implements Serializable {

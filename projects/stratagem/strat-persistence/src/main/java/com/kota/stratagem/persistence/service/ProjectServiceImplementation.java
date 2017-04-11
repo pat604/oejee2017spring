@@ -1,5 +1,6 @@
 package com.kota.stratagem.persistence.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -62,20 +63,6 @@ public class ProjectServiceImplementation implements ProjectService {
 	}
 
 	@Override
-	public List<Project> readAll() throws PersistenceServiceException {
-		if(LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Fetching all projects");
-		}
-		List<Project> result = null;
-		try {
-			result = this.entityManager.createNamedQuery(ProjectQuery.GET_ALL_PROJECTS, Project.class).getResultList();
-		} catch(final Exception e) {
-			throw new PersistenceServiceException("Unknown error occured while fetching projects" + e.getLocalizedMessage(), e);
-		}
-		return result;
-	}
-
-	@Override
 	public List<Project> read(ProjectStatus status) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Get Projects by Status");
@@ -90,6 +77,20 @@ public class ProjectServiceImplementation implements ProjectService {
 	}
 
 	@Override
+	public List<Project> readAll() throws PersistenceServiceException {
+		if(LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Fetching all Projects");
+		}
+		List<Project> result = null;
+		try {
+			result = this.entityManager.createNamedQuery(ProjectQuery.GET_ALL_PROJECTS, Project.class).getResultList();
+		} catch(final Exception e) {
+			throw new PersistenceServiceException("Unknown error occured while fetching Projects" + e.getLocalizedMessage(), e);
+		}
+		return result;
+	}
+
+	@Override
 	public Project update(Long id, String name, String description, ProjectStatus status, Set<Task> tasks, Boolean visible) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Update Project (id: " + id + ", name: " + name + ", description: " + description + ", status: " + status + ", tasks: " + tasks + ", visible: " + visible + ")");
@@ -99,7 +100,7 @@ public class ProjectServiceImplementation implements ProjectService {
 			project.setName(name);
 			project.setDescription(description);
 			project.setStatus(status);
-			project.setTasks(tasks);
+			project.setTasks(tasks != null ? tasks : new HashSet<Task>());
 			return this.entityManager.merge(project);
 		} catch(final Exception e) {
 			throw new PersistenceServiceException("Unknown error when merging Project! " + e.getLocalizedMessage(), e);

@@ -11,5 +11,5 @@ INSERT INTO priority (name, priority_value) VALUES ('not important', 3);
 INSERT INTO category (name, description) VALUES ('chores', 'Things to do around the house.');
 INSERT INTO category (name, description) VALUES ('school', 'School related works.');
 
-INSERT INTO priority_to_todo (id, priority_id, todo_id) VALUES (0, 2, 1);
-INSERT INTO category_to_todo (id, category_id, todo_id) VALUES (0, 1, 1);
+INSERT INTO priority_to_todo (priority_id, todo_id) VALUES (2, 1);
+INSERT INTO category_to_todo (category_id, todo_id) VALUES (1, 1);

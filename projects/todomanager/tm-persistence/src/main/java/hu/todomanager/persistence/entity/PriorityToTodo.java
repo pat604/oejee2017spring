@@ -14,6 +14,8 @@ import hu.todomanager.persistence.query.PriorityToTodoQuery;
 public class PriorityToTodo implements Serializable {
 	
 	@Id
+	@SequenceGenerator(name = "generatorPriorityToTodo", sequenceName = "priority_to_todo_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generatorPriorityToTodo")
 	@Column(name = "id", nullable = false)
 	private Long id;
 	

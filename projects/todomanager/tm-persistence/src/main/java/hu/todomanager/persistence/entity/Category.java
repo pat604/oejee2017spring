@@ -10,6 +10,7 @@ import hu.todomanager.persistence.query.CategoryQuery;
 @Table(name = "category")
 @NamedQueries(value = {
 		@NamedQuery(name = CategoryQuery.GET_ALL, query = "SELECT c FROM Category c"),
+		@NamedQuery(name = CategoryQuery.GET_BY_NAME, query = "SELECT c FROM Category c WHERE c.name=:" + TodoParameter.NAME),
 		//select c from category c where id in (select category_id from todo join category_to_todo on (todo.id = todo_id))
 })
 

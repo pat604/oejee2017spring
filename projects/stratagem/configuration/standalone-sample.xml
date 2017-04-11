@@ -66,7 +66,7 @@
                     <authentication>
                         <login-module code="Database" flag="required">
                             <module-option name="dsJndiName" value="java:jboss/datasources/stratagemds"/>
-                            <module-option name="principalsQuery" value="SELECT user_password FROM app_users WHERE user_name = ?"/>
+                            <module-option name="principalsQuery" value="SELECT user_password_hash FROM app_users WHERE user_name = ?"/>
                             <module-option name="rolesQuery" value="SELECT role_name, 'Roles' FROM authorizations INNER JOIN app_users ON (user_id = authorization_user_id) INNER JOIN roles ON (role_id = authorization_role_id) WHERE user_name = ?"/>
                         </login-module>
                     </authentication>

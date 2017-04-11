@@ -21,7 +21,10 @@ CREATE TABLE app_users (
 	user_name CHARACTER VARYING(100) NOT NULL,
 	user_password_hash CHARACTER VARYING(500) NOT NULL,
 	user_email CHARACTER VARYING(100) NULL,
-	CONSTRAINT PK_USER_ID PRIMARY KEY (user_id) 
+	user_role INTEGER NOT NULL,
+	CONSTRAINT PK_USER_ID PRIMARY KEY (user_id),
+	CONSTRAINT FK_USER_ROLE FOREIGN KEY (user_role)
+	  REFERENCES roles (role_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 CREATE UNIQUE INDEX UI_USER_NAME ON app_users USING btree (user_name);
 CREATE TABLE authorizations (
@@ -259,7 +262,7 @@ CREATE TABLE task_impediments (
 );
 CREATE TABLE remedies (
 	remedy_id SERIAL NOT NULL,
-	remedy_description CHARACTER VARYING(2000) NULL,
+	remedy_description CHARACTER VARYING(2000) NOT NULL,
 	remedy_impediment_id INTEGER NOT NULL,
 	remedy_submission_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 	remedy_provider INTEGER NOT NULL,

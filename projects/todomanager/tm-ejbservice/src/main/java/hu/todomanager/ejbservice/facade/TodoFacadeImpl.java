@@ -1,6 +1,7 @@
 package hu.todomanager.ejbservice.facade;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -87,6 +88,37 @@ public class TodoFacadeImpl implements TodoFacade {
 			}
 			
 			return stubs;
+		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		}
+	}
+	
+	@Override
+	public void addTodo(TodoStub todo, String[] priorities, String[] categories, String[] subTodos) throws FacadeException {
+		try {
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Add Todo");
+			}
+			todoService.addTodo(new Todo(todo.getName(), todo.getDescription(), todo.getState(), todo.getDeadline()));
+			Long todoId = todoService.readByName(todo.getName()).getId();
+			LOGGER.info("todoId: " + todoId);
+
+			for (int i = 0; i < priorities.length; i++) {
+				LOGGER.info("priority: " + priorities[i]);
+				Long priorityId = priorityService.readByName(priorities[i]).getId();
+				priorityToTodoService.add(todoId, priorityId);
+				
+			}
+			for (int i = 0; i < categories.length; i++) {
+				Long categoryId = categoryService.readByName(categories[i]).getId();
+				categoryToTodoService.add(todoId, categoryId);
+			}
+			for (int i = 0; i < subTodos.length; i++) {
+				Long categoryId = categoryService.readByName(categories[i]).getId();
+				categoryToTodoService.add(todoId, categoryId);
+			}
+			
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());

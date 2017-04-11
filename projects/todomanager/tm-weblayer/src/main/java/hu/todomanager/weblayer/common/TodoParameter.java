@@ -4,6 +4,7 @@ public interface TodoParameter {
 
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
-    public static final String PRIORITY = "priority";
+    public static final String PRIORITIES = "priorities";
+    public static final String CATEGORIES = "categories";
     
 }

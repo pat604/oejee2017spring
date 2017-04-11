@@ -3,7 +3,6 @@ package hu.todomanager.persistence.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
-
 import hu.todomanager.persistence.parameter.TodoParameter;
 import hu.todomanager.persistence.query.TodoQuery;
 
