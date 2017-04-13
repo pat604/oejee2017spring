@@ -11,9 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -38,12 +38,12 @@ public class Guitar implements Serializable {
 	@Column(name = "guitar_id", nullable = false)
 	private Long id;
 
-	@Column(name = "guitar_serialnumber", nullable = false)
-	private String guitarSerialNumber;
-
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "guitar_guitarbrand_id", nullable = false)
 	private GuitarBrand guitarbrand;
+
+	@Column(name = "guitar_serialnumber", nullable = false)
+	private String guitarSerialNumber;
 
 	@Column(name = "guitar_type", nullable = false)
 	private String guitartype;
@@ -57,20 +57,21 @@ public class Guitar implements Serializable {
 	@Column(name = "guitar_price", nullable = false)
 	private double guitarPrice;
 
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "guitar_guitarowner_id", referencedColumnName = "guitarowner_id", nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "guitar_guitarowner_id", nullable = false)
+	// @JoinColumn(name = "guitar_guitarowner_id", referencedColumnName = "guitarowner_guitar_id", nullable = false)
 	private GuitarOwner guitarOwner;
 
 	public Guitar() {
 		super();
 	}
 
-	public Guitar(Long id, String guitarSerialNumber, GuitarBrand guitarbrand, String guitartype, String guitarColor,
+	public Guitar(Long id, GuitarBrand guitarbrand, String guitarSerialNumber, String guitartype, String guitarColor,
 			int guitarVintage, double guitarPrice, GuitarOwner guitarOwner) {
 		super();
 		this.id = id;
-		this.guitarSerialNumber = guitarSerialNumber;
 		this.guitarbrand = guitarbrand;
+		this.guitarSerialNumber = guitarSerialNumber;
 		this.guitartype = guitartype;
 		this.guitarColor = guitarColor;
 		this.guitarVintage = guitarVintage;
@@ -86,20 +87,20 @@ public class Guitar implements Serializable {
 		this.id = id;
 	}
 
-	public String getGuitarSerialNumber() {
-		return this.guitarSerialNumber;
-	}
-
-	public void setGuitarSerialNumber(String guitarSerialNumber) {
-		this.guitarSerialNumber = guitarSerialNumber;
-	}
-
 	public GuitarBrand getGuitarbrand() {
 		return this.guitarbrand;
 	}
 
 	public void setGuitarbrand(GuitarBrand guitarbrand) {
 		this.guitarbrand = guitarbrand;
+	}
+
+	public String getGuitarSerialNumber() {
+		return this.guitarSerialNumber;
+	}
+
+	public void setGuitarSerialNumber(String guitarSerialNumber) {
+		this.guitarSerialNumber = guitarSerialNumber;
 	}
 
 	public String getGuitartype() {
@@ -144,8 +145,8 @@ public class Guitar implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Guitar [id=" + this.id + ", guitarSerialNumber=" + this.guitarSerialNumber + ", guitarbrand="
-				+ this.guitarbrand + ", guitartype=" + this.guitartype + ", guitarColor=" + this.guitarColor
+		return "Guitar [id=" + this.id + ", guitarbrand=" + this.guitarbrand + ", guitarSerialNumber="
+				+ this.guitarSerialNumber + ", guitartype=" + this.guitartype + ", guitarColor=" + this.guitarColor
 				+ ", guitarVintage=" + this.guitarVintage + ", guitarPrice=" + this.guitarPrice + ", guitarOwner="
 				+ this.guitarOwner + "]";
 	}

@@ -35,7 +35,7 @@ public class GuitarServiceImp implements GuitarService {
 			throw new PersistenceException(
 					"Unknown error when fetching Guitar by id (" + id + ")!" + e.getLocalizedMessage(), e);
 		}
-		return null;
+		return guitar;
 	}
 
 	@Override
@@ -53,7 +53,9 @@ public class GuitarServiceImp implements GuitarService {
 
 	@Override
 	public List<Guitar> readAll() throws PersistenceException {
-		return null;
+		List<Guitar> guitars = null;
+		guitars = this.entityManager.createNamedQuery(GuitarQuery.GET_ALL, Guitar.class).getResultList();
+		return guitars;
 	}
 
 }

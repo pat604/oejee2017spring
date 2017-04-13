@@ -1,13 +1,14 @@
 package hu.mitro.persistence.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,22 +30,22 @@ public class GuitarOwner implements Serializable {
 	@Column(name = "guitarowner_password", nullable = false)
 	private String ownerPassword;
 
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "guitarowner_guitar_id", referencedColumnName = "guitar_id", nullable = false)
-	private Guitar guitarOfOwner;
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = Guitar.class, mappedBy = "guitarOwner")
+	// @JoinColumn(name = "guitarowner_guitar_id", referencedColumnName = "guitar_guitarowner_id")
+	private List<Guitar> guitars = new ArrayList<Guitar>();
 
 	public GuitarOwner() {
 		super();
 	}
 
 	public GuitarOwner(Long ownerId, String ownerUsername, String ownerEmail, String ownerPassword,
-			Guitar guitarOfOwner) {
+			List<Guitar> guitars) {
 		super();
 		this.ownerId = ownerId;
 		this.ownerUsername = ownerUsername;
 		this.ownerEmail = ownerEmail;
 		this.ownerPassword = ownerPassword;
-		this.guitarOfOwner = guitarOfOwner;
+		this.guitars = guitars;
 	}
 
 	public Long getOwnerId() {
@@ -79,19 +80,18 @@ public class GuitarOwner implements Serializable {
 		this.ownerPassword = ownerPassword;
 	}
 
-	public Guitar getGuitarOfOwner() {
-		return this.guitarOfOwner;
+	public List<Guitar> getGuitars() {
+		return this.guitars;
 	}
 
-	public void setGuitarOfOwner(Guitar guitarOfOwner) {
-		this.guitarOfOwner = guitarOfOwner;
+	public void setGuitars(List<Guitar> guitars) {
+		this.guitars = guitars;
 	}
 
 	@Override
 	public String toString() {
 		return "GuitarOwner [ownerId=" + this.ownerId + ", ownerUsername=" + this.ownerUsername + ", ownerEmail="
-				+ this.ownerEmail + ", ownerPassword=" + this.ownerPassword + ", guitarOfOwner=" + this.guitarOfOwner
-				+ "]";
+				+ this.ownerEmail + ", ownerPassword=" + this.ownerPassword + ", guitars=" + this.guitars + "]";
 	}
 
 }
