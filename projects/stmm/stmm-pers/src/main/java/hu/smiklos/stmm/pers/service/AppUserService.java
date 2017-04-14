@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -81,14 +82,14 @@ public class AppUserService implements AppUserServiceInterface {
     }
 
     @Override
-    public CreditCard addCreditCard(CreditCard card) throws PersistenceServiceException {
+    public CreditCard addCreditCard(CreditCard card, Principal principal) throws PersistenceServiceException {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Create User ("+ card.toString() +")");
+            LOGGER.debug("Create CreditCard ("+ card.toString() +")");
         }
         try {
-            this.entityManager.persist(card);
+            //this.entityManager.persist(card);
 
-            AppUser appUser = this.read(card.getCreditCardAppUser().getUserId());
+            AppUser appUser = this.getUserByUsername(principal.getName());
             appUser.setCreditCard(card);
             this.entityManager.merge(appUser);
 
@@ -99,15 +100,52 @@ public class AppUserService implements AppUserServiceInterface {
     }
 
     @Override
-    public CreditCard updateCreditCard(CreditCard card) throws PersistenceServiceException {
+    public CreditCard updateCreditCard(CreditCard card, Principal principal) throws PersistenceServiceException {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Updating Credit card : " + card.getCard_number());
         }
         try {
-            return this.entityManager.merge(card);
+            this.entityManager.merge(card);
+
+            AppUser appUser = this.getUserByUsername(principal.getName());
+
+            appUser.setCreditCard(card);
+            this.entityManager.merge(appUser);
+            return card;
 
         } catch (final Exception e) {
             throw new PersistenceServiceException("Unknown error when merging Credit card! " + e.getLocalizedMessage(), e);
         }
     }
+
+    public void deleteCreditCard(Principal principal) throws PersistenceServiceException {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Deleting Credit card!");
+        }
+        try {
+
+            AppUser appUser = this.getUserByUsername(principal.getName());
+
+            appUser.setCreditCard(null);
+            this.entityManager.merge(appUser);
+
+        } catch (final Exception e) {
+            throw new PersistenceServiceException("Unknown error when merging Credit card! " + e.getLocalizedMessage(), e);
+        }
+    }
+
+    public AppUser deleteCreditCard(String username) throws PersistenceServiceException {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Get application user by username: " + username);
+        }
+        AppUser appUser = null;
+        try {
+            appUser = this.entityManager.createNamedQuery(AppUserQuery.GET_BY_USERNAME, AppUser.class).setParameter(AppUserParameter.USERNAME, username).getSingleResult();
+        } catch (final Exception e) {
+            throw new PersistenceServiceException("Unknown error when fetching application user: " + username + "! " + e.getLocalizedMessage(), e);
+        }
+        return appUser;
+    }
+
+
 }

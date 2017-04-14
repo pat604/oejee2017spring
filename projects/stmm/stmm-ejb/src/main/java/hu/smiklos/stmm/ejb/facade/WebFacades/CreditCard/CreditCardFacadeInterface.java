@@ -16,4 +16,5 @@ public interface CreditCardFacadeInterface
     void updateCreditCard(CreditCardStub creditCard, Principal principal) throws PersistenceServiceException;
     boolean hasCreditCardAdded(Principal principal) throws PersistenceServiceException;
     CreditCardStub getCreditCard(Principal userPrincipal) throws PersistenceServiceException;
+    void deleteCard(CreditCardStub cardStub, Principal principal) throws PersistenceServiceException;
 }

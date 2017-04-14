@@ -6,7 +6,6 @@ import hu.smiklos.stmm.pers.query.AppUserQuery;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -109,8 +108,8 @@ public class AppUser implements Serializable {
     }
 
 
-    @OneToOne
-    @JoinColumn(name = "appuser_creditcard_card_number")
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REMOVE})
+    @JoinColumn(name = "appuser_creditcard_id")
     public CreditCard getCreditCard() {
         return creditCard;
     }

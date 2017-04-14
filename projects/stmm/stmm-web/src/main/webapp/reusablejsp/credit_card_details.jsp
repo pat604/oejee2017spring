@@ -5,6 +5,8 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="hu.smiklos.stmm.ejb.domain.CreditCard.CreditCardStub" %>
+<%@ page import="hu.smiklos.stmm.ejb.uribuilder.UriBuilder" %>
+<%@ page import="hu.smiklos.stmm.web.common.CreditCardAction" %>
 <%
     Errors errors = new Errors();
     if (request.getAttribute(CreditCardAttributes.ATTR_ERROR) != null) {
@@ -43,6 +45,10 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Credit card</h3>
+            <% if(cardStub.getCreditCardId() != null) { %>
+                <a href="<%= UriBuilder.getUrl(Page.CREDIT_CARD.getUrl(),CreditCardAction.CONFIRM_DELETE_CREDITCARD) %>" class="btn btn-danger pull-right" role="button">Delete card</a>
+                <div class="clearfix"></div>
+            <% } %>
         </div>
         <div class="panel-body">
             <form method="post" action="<%= Page.CREDIT_CARD.getUrl() %>" class="form-horizontal" role="form">
@@ -52,7 +58,7 @@
                     <div class="col-sm-9">
                         <input type="text" class="form-control" name="<%=CreditCardStub.ATTR_CARD_HOLDER_NAME%>"
                                id="<%=CreditCardStub.ATTR_CARD_HOLDER_NAME%>"
-                               placeholder="Card Holder's Name" value="<%= cardStub.getCreditcard_card_holder_name() %>">
+                               placeholder="Card Holder's Name" value="<%= cardStub.getCreditcard_card_holder_name() != null ? cardStub.getCreditcard_card_holder_name() : ""  %>">
                     </div>
                 </div>
                 <div class="form-group">
@@ -62,7 +68,7 @@
                         <input type="text" class="form-control" name="<%= CreditCardStub.ATTR_CARD_NUMBER %>"
                                id="<%= CreditCardStub.ATTR_CARD_NUMBER %>"
                                placeholder="Debit/Credit Card Number"
-                         value="<%= cardStub.getCard_number() %>">
+                         value="<%= cardStub.getCard_number() != null ? cardStub.getCard_number() : "" %>">
                     </div>
                 </div>
                 <div class="form-group">
@@ -74,6 +80,7 @@
                                 <select class="form-control col-sm-2"
                                         name="<%= CreditCardStub.ATTR_CARD_EXPIRY_MONTH %>"
                                         id="<%= CreditCardStub.ATTR_CARD_EXPIRY_MONTH %>">
+                                    <% if(cardStub.getCreditcard_expiry_month() != null) { %>
                                     <option value="01" <%= cardStub.getCreditcard_expiry_month().equals("01")? "selected": "" %>>Jan (01)</option>
                                     <option value="02" <%= cardStub.getCreditcard_expiry_month().equals("02")? "selected": "" %>>Feb (02)</option>
                                     <option value="03" <%= cardStub.getCreditcard_expiry_month().equals("03")? "selected": "" %>>Mar (03)</option>
@@ -86,10 +93,25 @@
                                     <option value="10" <%= cardStub.getCreditcard_expiry_month().equals("10")? "selected": "" %>>Oct (10)</option>
                                     <option value="11" <%= cardStub.getCreditcard_expiry_month().equals("11")? "selected": "" %>>Nov (11)</option>
                                     <option value="12" <%= cardStub.getCreditcard_expiry_month().equals("12")? "selected": "" %>>Dec (12)</option>
+                                    <% } else { %>
+                                    <option value="01" >Jan (01)</option>
+                                    <option value="02" >Feb (02)</option>
+                                    <option value="03" >Mar (03)</option>
+                                    <option value="04" >Apr (04)</option>
+                                    <option value="05" >May (05)</option>
+                                    <option value="06" >June (06)</option>
+                                    <option value="07" >July (07)</option>
+                                    <option value="08" >Aug (08)</option>
+                                    <option value="09" >Sep (09)</option>
+                                    <option value="10" >Oct (10)</option>
+                                    <option value="11" >Nov (11)</option>
+                                    <option value="12" >Dec (12)</option>
+                                    <% } %>
                                 </select>
                             </div>
                             <div class="col-xs-3">
                                 <select class="form-control" name="<%= CreditCardStub.ATTR_CARD_EXPIRY_YEAR %>">
+                                    <% if(cardStub.getCreditcard_expiry_year() != null) { %>
                                     <option value="17" <%= cardStub.getCreditcard_expiry_year().equals("17")? "selected": "" %>>2017</option>
                                     <option value="18" <%= cardStub.getCreditcard_expiry_year().equals("18")? "selected": "" %>>2018</option>
                                     <option value="19" <%= cardStub.getCreditcard_expiry_year().equals("19")? "selected": "" %>>2019</option>
@@ -97,6 +119,15 @@
                                     <option value="21" <%= cardStub.getCreditcard_expiry_year().equals("21")? "selected": "" %>>2021</option>
                                     <option value="22" <%= cardStub.getCreditcard_expiry_year().equals("22")? "selected": "" %>>2022</option>
                                     <option value="23" <%= cardStub.getCreditcard_expiry_year().equals("23")? "selected": "" %>>2023</option>
+                                    <% } else { %>
+                                    <option value="17" >2017</option>
+                                    <option value="18" >2018</option>
+                                    <option value="19" >2019</option>
+                                    <option value="20" >2020</option>
+                                    <option value="21">2021</option>
+                                    <option value="22" >2022</option>
+                                    <option value="23" >2023</option>
+                                    <% } %>
                                 </select>
                             </div>
                         </div>

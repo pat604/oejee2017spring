@@ -15,8 +15,6 @@ public enum Page {
     INVEST("invest.jsp", "Invest"),
     BORROW("borrow.jsp","Borrow");
 
-
-
     private final String jspName;
     private final String url;
 

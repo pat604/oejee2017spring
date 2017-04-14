@@ -19,7 +19,7 @@ DROP DATABASE IF EXISTS stmmdb;
 -- Name: stmmdb; Type: DATABASE; Schema: -; Owner: postgres
 --
 
-CREATE DATABASE stmmdb WITH TEMPLATE = template0 ENCODING = 'WIN1250' LC_COLLATE = 'Hungarian_Hungary.1250' LC_CTYPE = 'Hungarian_Hungary.1250';
+CREATE DATABASE stmmdb WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'Hungarian_Hungary.1250' LC_CTYPE = 'Hungarian_Hungary.1250';
 
 
 ALTER DATABASE stmmdb OWNER TO postgres;
@@ -81,7 +81,7 @@ CREATE TABLE appuser (
     last_name character varying(100) NOT NULL,
     wallet_id character varying(100),
     password character varying(100) NOT NULL,
-    appuser_creditcard_card_number character varying(16)
+    appuser_creditcard_id character varying(100)
 );
 
 
@@ -107,11 +107,11 @@ ALTER TABLE credit_card_record_number_seq OWNER TO postgres;
 
 CREATE TABLE creditcard (
     credit_card_record_number integer NOT NULL,
-    creditcard_card_number character varying(16) DEFAULT NULL::character varying NOT NULL,
-    creditcard_appuser_id character varying(100) NOT NULL,
+    creditcard_card_number character varying(16) NOT NULL,
     creditcard_card_holder_name character varying(100) NOT NULL,
     creditcard_expiry_year character varying(2) NOT NULL,
-    creditcard_expiry_month character varying(2) NOT NULL
+    creditcard_expiry_month character varying(2) NOT NULL,
+    creditcard_id character varying(100) NOT NULL
 );
 
 
@@ -321,18 +321,6 @@ CREATE TABLE registration_per_day (
 ALTER TABLE registration_per_day OWNER TO postgres;
 
 --
--- Name: role; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE role (
-    role_id integer NOT NULL,
-    role_name character varying(100) NOT NULL
-);
-
-
-ALTER TABLE role OWNER TO postgres;
-
---
 -- Name: role_role_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -345,27 +333,6 @@ CREATE SEQUENCE role_role_id_seq
 
 
 ALTER TABLE role_role_id_seq OWNER TO postgres;
-
---
--- Name: role_role_id_seq1; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE role_role_id_seq1
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE role_role_id_seq1 OWNER TO postgres;
-
---
--- Name: role_role_id_seq1; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE role_role_id_seq1 OWNED BY role.role_id;
-
 
 --
 -- Name: userrole; Type: TABLE; Schema: public; Owner: postgres
@@ -478,13 +445,6 @@ ALTER TABLE ONLY creditcard ALTER COLUMN credit_card_record_number SET DEFAULT n
 
 
 --
--- Name: role role_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY role ALTER COLUMN role_id SET DEFAULT nextval('role_role_id_seq1'::regclass);
-
-
---
 -- Name: userrole userrole_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -495,14 +455,9 @@ ALTER TABLE ONLY userrole ALTER COLUMN userrole_id SET DEFAULT nextval('userrole
 -- Data for Name: appuser; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY appuser (appuser_record_id, appuser_id, username, first_name, last_name, wallet_id, password, appuser_creditcard_card_number) FROM stdin;
-20	20170405-4	smiklos	Miklós	Sebestyén	\N	$2a$10$pJUihxmWEAyfWGiApqqqAOvzO0LSrzUF48yK3L7fcCY/TkApld5.C	1234123412341234
-21	20170405-5	nPisti	Pisti	Nagy	\N	$2a$10$WUpF4Rso99PJo7VsNWdS3O3tlbKvsbTDYRjuy0EszEZf.2nB6tOxW	5678567856785678
-17	20170402-2	pNagy	Péter	Nagy	\N	$2a$10$dQ4shd7MSrdBK7qZaCPrWO8gqKBEs2UwhAr1e9aS925lvcPSgq42K	2345234523452345
-23	20170409-2	jKis	János	Kis	\N	$2a$10$yfdgIRhxpd9TtKu3qZxRh.4fTfT0CbhIWIjTe4z1so9Z/smZFgiZm	\N
-24	20170409-3	kMeter	Kilo	Meter	\N	$2a$10$pJUihxmWEAyfWGiApqqqAOvzO0LSrzUF48yK3L7fcCY/TkApld5.C	\N
-25	20170411-1	jTeszt	Józsi	Teszt	\N	$2a$10$kqZoeo0Vcd.q7ACxQYzP8eLjnZoRMLLXtbK3IDnRSwhBBDg7/a6ta	\N
-\.
+INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, wallet_id, password, appuser_creditcard_id) VALUES (21, '20170405-5', 'nPisti', 'Pisti', 'Nagy', NULL, '$2a$10$WUpF4Rso99PJo7VsNWdS3O3tlbKvsbTDYRjuy0EszEZf.2nB6tOxW', NULL);
+INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, wallet_id, password, appuser_creditcard_id) VALUES (20, '20170405-4', 'smiklos', 'Miklós', 'Sebestyén', NULL, '$2a$10$pJUihxmWEAyfWGiApqqqAOvzO0LSrzUF48yK3L7fcCY/TkApld5.C', 'CC-20170405-4');
+INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, wallet_id, password, appuser_creditcard_id) VALUES (17, '20170402-2', 'pNagy', 'Péter', 'Nagy', NULL, '$2a$10$dQ4shd7MSrdBK7qZaCPrWO8gqKBEs2UwhAr1e9aS925lvcPSgq42K', 'CC-20170402-2');
 
 
 --
@@ -523,26 +478,21 @@ SELECT pg_catalog.setval('credit_card_record_number_seq', 1, false);
 -- Data for Name: creditcard; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY creditcard (credit_card_record_number, creditcard_card_number, creditcard_appuser_id, creditcard_card_holder_name, creditcard_expiry_year, creditcard_expiry_month) FROM stdin;
-1	1234123412341234	20170405-4	Miklos Sebestyen	17	11
-2	5678567856785678	20170405-5	Pist Nagy	23	06
-3	2345234523452345	20170402-2	Peter Nagy	20	06
-\.
+INSERT INTO creditcard (credit_card_record_number, creditcard_card_number, creditcard_card_holder_name, creditcard_expiry_year, creditcard_expiry_month, creditcard_id) VALUES (13, '1234123412341234', 'MR MIKLOS SEBESTYEN', '23', '12', 'CC-20170405-4');
+INSERT INTO creditcard (credit_card_record_number, creditcard_card_number, creditcard_card_holder_name, creditcard_expiry_year, creditcard_expiry_month, creditcard_id) VALUES (14, '4321432143214321', 'MR PETER NAGY', '23', '12', 'CC-20170402-2');
 
 
 --
 -- Name: creditcard_credit_card_record_number_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('creditcard_credit_card_record_number_seq', 3, true);
+SELECT pg_catalog.setval('creditcard_credit_card_record_number_seq', 14, true);
 
 
 --
 -- Data for Name: deadline; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY deadline (deadline_record_id, money_transfer_part_id, deadline_id, deadline_state) FROM stdin;
-\.
 
 
 --
@@ -556,8 +506,6 @@ SELECT pg_catalog.setval('deadline_record_id_seq', 1, false);
 -- Data for Name: deadline_state; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY deadline_state (deadline_state_record_id, deadline_state_id, deadline_state_name) FROM stdin;
-\.
 
 
 --
@@ -571,16 +519,12 @@ SELECT pg_catalog.setval('deadline_state_record_id_seq', 1, false);
 -- Data for Name: money_transfer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, number_of_payments, money_transfer_state_id) FROM stdin;
-\.
 
 
 --
 -- Data for Name: money_transfer_part; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY money_transfer_part (money_transfer_part_record_id, money_transfer_part_id, money_transfer_id, return_date, amount) FROM stdin;
-\.
 
 
 --
@@ -594,8 +538,6 @@ SELECT pg_catalog.setval('money_transfer_part_id_seq', 1, false);
 -- Data for Name: money_transfer_part_state; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY money_transfer_part_state (money_transfer_part_state_record_id, money_transfer_part_id, money_transfer_part_name) FROM stdin;
-\.
 
 
 --
@@ -616,8 +558,6 @@ SELECT pg_catalog.setval('money_transfer_record_id_seq', 1, false);
 -- Data for Name: money_transfer_state; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY money_transfer_state (money_transfer_state_record_id, money_transfer_state_id, money_transfer_state_name) FROM stdin;
-\.
 
 
 --
@@ -631,33 +571,21 @@ SELECT pg_catalog.setval('moneytransfer_state_record_id_seq', 1, false);
 -- Data for Name: registration_per_day; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY registration_per_day (day, count) FROM stdin;
-20170502	1
-20171002	1
-20171202	1
-20171702	1
-20173402	1
-20173802	1
-20170602	1
-20172002	1
-20174202	1
-20172202	1
-20174302	1
-20170402	2
-20170405	5
-20170409	3
-20170411	1
-\.
-
-
---
--- Data for Name: role; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY role (role_id, role_name) FROM stdin;
-1	GUEST
-2	REGISTERED
-\.
+INSERT INTO registration_per_day (day, count) VALUES ('20170502', 1);
+INSERT INTO registration_per_day (day, count) VALUES ('20171002', 1);
+INSERT INTO registration_per_day (day, count) VALUES ('20171202', 1);
+INSERT INTO registration_per_day (day, count) VALUES ('20171702', 1);
+INSERT INTO registration_per_day (day, count) VALUES ('20173402', 1);
+INSERT INTO registration_per_day (day, count) VALUES ('20173802', 1);
+INSERT INTO registration_per_day (day, count) VALUES ('20170602', 1);
+INSERT INTO registration_per_day (day, count) VALUES ('20172002', 1);
+INSERT INTO registration_per_day (day, count) VALUES ('20174202', 1);
+INSERT INTO registration_per_day (day, count) VALUES ('20172202', 1);
+INSERT INTO registration_per_day (day, count) VALUES ('20174302', 1);
+INSERT INTO registration_per_day (day, count) VALUES ('20170402', 2);
+INSERT INTO registration_per_day (day, count) VALUES ('20170405', 5);
+INSERT INTO registration_per_day (day, count) VALUES ('20170409', 3);
+INSERT INTO registration_per_day (day, count) VALUES ('20170411', 1);
 
 
 --
@@ -668,22 +596,12 @@ SELECT pg_catalog.setval('role_role_id_seq', 1, false);
 
 
 --
--- Name: role_role_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('role_role_id_seq1', 2, true);
-
-
---
 -- Data for Name: userrole; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY userrole (userrole_id, userrole_appuser_id, userrole_usertype_id) FROM stdin;
-4	20170402-2	REGISTERED
-5	20170405-4	REGISTERED
-6	20170405-5	REGISTERED
-7	20170411-1	REGISTERED
-\.
+INSERT INTO userrole (userrole_id, userrole_appuser_id, userrole_usertype_id) VALUES (5, '20170405-4', 'REGISTERED');
+INSERT INTO userrole (userrole_id, userrole_appuser_id, userrole_usertype_id) VALUES (6, '20170405-5', 'REGISTERED');
+INSERT INTO userrole (userrole_id, userrole_appuser_id, userrole_usertype_id) VALUES (8, '20170402-2', 'REGISTERED');
 
 
 --
@@ -697,22 +615,20 @@ SELECT pg_catalog.setval('userrole_userrole_id_seq', 1, false);
 -- Name: userrole_userrole_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('userrole_userrole_id_seq1', 7, true);
+SELECT pg_catalog.setval('userrole_userrole_id_seq1', 8, true);
 
 
 --
 -- Data for Name: usertype; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY usertype (usertype_record_id, usertype_id, usertype, state) FROM stdin;
-9	REGISTERED	REGISTERED	1
-10	RELIABLE	RELIABLE	3
-11	SUSPICIOUS	SUSPICIOUS	-1
-12	OWING	OWING	-2
-13	PROVED	PROVED	2
-14	ADMINISTRATOR	ADMINISTRATOR	100
-15	GUEST	GUEST	-100
-\.
+INSERT INTO usertype (usertype_record_id, usertype_id, usertype, state) VALUES (9, 'REGISTERED', 'REGISTERED', 1);
+INSERT INTO usertype (usertype_record_id, usertype_id, usertype, state) VALUES (10, 'RELIABLE', 'RELIABLE', 3);
+INSERT INTO usertype (usertype_record_id, usertype_id, usertype, state) VALUES (11, 'SUSPICIOUS', 'SUSPICIOUS', -1);
+INSERT INTO usertype (usertype_record_id, usertype_id, usertype, state) VALUES (12, 'OWING', 'OWING', -2);
+INSERT INTO usertype (usertype_record_id, usertype_id, usertype, state) VALUES (13, 'PROVED', 'PROVED', 2);
+INSERT INTO usertype (usertype_record_id, usertype_id, usertype, state) VALUES (14, 'ADMINISTRATOR', 'ADMINISTRATOR', 100);
+INSERT INTO usertype (usertype_record_id, usertype_id, usertype, state) VALUES (15, 'GUEST', 'GUEST', -100);
 
 
 --
@@ -726,12 +642,10 @@ SELECT pg_catalog.setval('usertype_record_id_seq', 15, true);
 -- Data for Name: wallet; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY wallet (wallet_record_id, wallet_id, amount) FROM stdin;
-9	HU-11111111	12000.22
-10	HU-11111112	99000.11
-11	UK-11111111	99011.44
-12	US-11111111	11111.55
-\.
+INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (9, 'HU-11111111', 12000.22);
+INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (10, 'HU-11111112', 99000.11);
+INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (11, 'UK-11111111', 99011.44);
+INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (12, 'US-11111111', 11111.55);
 
 
 --
@@ -742,11 +656,11 @@ SELECT pg_catalog.setval('wallet_record_id_seq', 12, true);
 
 
 --
--- Name: creditcard creditcard_creditcard_card_number_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: creditcard creditcard_creditcard_id_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY creditcard
-    ADD CONSTRAINT creditcard_creditcard_card_number_pk PRIMARY KEY (creditcard_card_number);
+    ADD CONSTRAINT creditcard_creditcard_id_pk PRIMARY KEY (creditcard_id);
 
 
 --
@@ -806,14 +720,6 @@ ALTER TABLE ONLY money_transfer_state
 
 
 --
--- Name: role pk_role_id; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY role
-    ADD CONSTRAINT pk_role_id PRIMARY KEY (role_id);
-
-
---
 -- Name: userrole pk_userrole_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -846,18 +752,10 @@ ALTER TABLE ONLY registration_per_day
 
 
 --
--- Name: role role_role_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY role
-    ADD CONSTRAINT role_role_name_key UNIQUE (role_name);
-
-
---
 -- Name: appuser_creditcard_number_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX appuser_creditcard_number_uindex ON appuser USING btree (appuser_creditcard_card_number);
+CREATE UNIQUE INDEX appuser_creditcard_number_uindex ON appuser USING btree (appuser_creditcard_id);
 
 
 --
@@ -889,19 +787,11 @@ CREATE UNIQUE INDEX usertype_state_uindex ON usertype USING btree (state);
 
 
 --
--- Name: appuser appuser_creditcard_creditcard_card_number_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: appuser appuser_creditcard_creditcard_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY appuser
-    ADD CONSTRAINT appuser_creditcard_creditcard_card_number_fk FOREIGN KEY (appuser_creditcard_card_number) REFERENCES creditcard(creditcard_card_number) ON UPDATE CASCADE;
-
-
---
--- Name: creditcard creditcard_appuser_appuser_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY creditcard
-    ADD CONSTRAINT creditcard_appuser_appuser_id_fk FOREIGN KEY (creditcard_appuser_id) REFERENCES appuser(appuser_id);
+    ADD CONSTRAINT appuser_creditcard_creditcard_id_fk FOREIGN KEY (appuser_creditcard_id) REFERENCES creditcard(creditcard_id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 --

@@ -5,6 +5,8 @@ import hu.smiklos.stmm.pers.entity.AppUser;
 import hu.smiklos.stmm.pers.entity.CreditCard;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.pers.service.AppUserServiceInterface;
+import hu.smiklos.stmm.pers.service.CreditCardService;
+import hu.smiklos.stmm.pers.service.CreditCardServiceInterface;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
@@ -21,6 +23,9 @@ public class CreditCardFacade implements CreditCardFacadeInterface {
     @EJB
     private AppUserServiceInterface userService;
 
+    @EJB
+    private CreditCardServiceInterface ccService;
+
     @Override
     public boolean hasCreditCardAdded(Principal principal) throws PersistenceServiceException {
         AppUser appUser = getUserByPrincipal(principal);
@@ -36,17 +41,23 @@ public class CreditCardFacade implements CreditCardFacadeInterface {
     }
 
     @Override
-    public void createCreditCard(CreditCardStub creditCard, Principal principal) throws PersistenceServiceException {
-        AppUser appUser = getUserByPrincipal(principal);
-        CreditCard card=creditCard.toCreditCard(appUser);
-        userService.addCreditCard(card);
+    public void deleteCard(CreditCardStub cardStub, Principal principal) throws PersistenceServiceException {
+        userService.deleteCreditCard(principal);
+        ccService.delete(cardStub.getCreditCardId());
     }
 
     @Override
-    public void updateCreditCard(CreditCardStub creditCard, Principal principal) throws PersistenceServiceException {
+    public void createCreditCard(CreditCardStub creditCard, Principal principal) throws PersistenceServiceException {
+        CreditCard card = creditCard.toCreditCard(getUserByPrincipal(principal));
+        userService.addCreditCard(card,principal);
+
+    }
+
+    @Override
+    public void updateCreditCard(CreditCardStub creditCardStub, Principal principal) throws PersistenceServiceException {
         AppUser appUser = getUserByPrincipal(principal);
-        CreditCard card=creditCard.toCreditCard(appUser);
-        userService.updateCreditCard(card);
+        CreditCard card = creditCardStub.toCreditCard(appUser);
+        userService.updateCreditCard(card,principal);
     }
 
 

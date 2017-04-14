@@ -5,6 +5,7 @@ import hu.smiklos.stmm.pers.entity.CreditCard;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 
 import javax.ejb.Local;
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -22,8 +23,10 @@ public interface AppUserServiceInterface {
 
     AppUser getUserByUsername(String username) throws PersistenceServiceException;
 
-    CreditCard addCreditCard(CreditCard card) throws PersistenceServiceException;
+    CreditCard addCreditCard(CreditCard card, Principal principal) throws PersistenceServiceException;
 
-    CreditCard updateCreditCard(CreditCard card) throws PersistenceServiceException;
+    CreditCard updateCreditCard(CreditCard card, Principal principal) throws PersistenceServiceException;
+
+    void deleteCreditCard(Principal principal) throws PersistenceServiceException;
 
 }

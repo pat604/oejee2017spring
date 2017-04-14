@@ -4,6 +4,8 @@ import hu.smiklos.stmm.ejb.common.Errors;
 import hu.smiklos.stmm.pers.entity.AppUser;
 import hu.smiklos.stmm.pers.entity.CreditCard;
 
+import java.security.Principal;
+
 
 /**
  * Created by SebestyenMiklos on 2017. 04. 06..
@@ -19,19 +21,19 @@ public class CreditCardStub {
     private String creditcard_card_holder_name;
     private String creditcard_expiry_year;
     private String creditcard_expiry_month;
-    private AppUser creditcard_appuser;
+    private String creditcard_id;
 
     private Errors errors;
 
     public CreditCardStub() {
     }
 
-    public CreditCardStub(CreditCard creditCard) {
+    public CreditCardStub(CreditCard creditCard ) {
         this.card_number = creditCard.getCard_number();
         this.creditcard_card_holder_name = creditCard.getCreditcard_card_holder_name();
         this.creditcard_expiry_year = creditCard.getCreditcard_expiry_year();
         this.creditcard_expiry_month = creditCard.getCreditcard_expiry_month();
-        this.creditcard_appuser = creditCard.getCreditCardAppUser();
+        this.creditcard_id = creditCard.getCreditcard_id();
     }
 
     public String getCard_number() {
@@ -66,21 +68,13 @@ public class CreditCardStub {
         this.creditcard_expiry_month = creditcard_expiry_month;
     }
 
-    public AppUser getCreditcard_appuser() {
-        return creditcard_appuser;
-    }
-
-    public void setCreditcard_appuser(AppUser creditcard_appuser) {
-        this.creditcard_appuser = creditcard_appuser;
-    }
-
     public CreditCard toCreditCard(AppUser user) {
         CreditCard card = new CreditCard();
         card.setCard_number(this.card_number);
-        card.setCreditCardAppUser(user);
         card.setCreditcard_expiry_month(this.creditcard_expiry_month);
         card.setCreditcard_expiry_year(this.creditcard_expiry_year);
         card.setCreditcard_card_holder_name(this.creditcard_card_holder_name);
+        card.setCreditcard_id("CC-"+user.getUserId());
         return card;
     }
 
@@ -106,5 +100,13 @@ public class CreditCardStub {
 
     public Errors getErrors() {
         return errors;
+    }
+
+    public String getCreditCardId() {
+        return creditcard_id;
+    }
+
+    public void setCreditcard_id(String creditcard_id) {
+        this.creditcard_id = creditcard_id;
     }
 }

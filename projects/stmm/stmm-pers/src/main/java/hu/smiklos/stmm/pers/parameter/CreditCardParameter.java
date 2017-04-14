@@ -5,4 +5,5 @@ package hu.smiklos.stmm.pers.parameter;
  */
 public class CreditCardParameter {
     public final static String CARD_NUMBER = "creditcard_card_number";
+    public final static String CARD_ID = "creditcard_id";
 }
