@@ -16,8 +16,7 @@ public class GuitarConverterImpl implements GuitarConverter {
 
 	@Override
 	public GuitarStub to(Guitar guitar) {
-		GuitarBrandStub guitarBrandStub = GuitarBrandStub
-				.valueOf(guitar.getGuitarbrand().toString());
+		GuitarBrandStub guitarBrandStub = GuitarBrandStub.valueOf(guitar.getGuitarbrand().toString());
 		GuitarOwnerStub guitarOwnerStub = this.converter.to(guitar.getGuitarOwner());
 
 		return new GuitarStub(guitarBrandStub, guitar.getGuitartype(), guitar.getGuitarColor(),
