@@ -1,11 +1,12 @@
 package hu.smiklos.stmm.ejb.facade;
 
 import hu.smiklos.stmm.ejb.domain.AppUserStub;
+import hu.smiklos.stmm.ejb.domain.WalletStub;
 import hu.smiklos.stmm.ejb.exception.FacadeException;
-import hu.smiklos.stmm.pers.entity.AppUser;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 
 import javax.ejb.Local;
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -14,7 +15,9 @@ import java.util.List;
 @Local
 public interface AppUserFacadeInterface {
 
-    public AppUserStub getAppUser(String userId) throws FacadeException, PersistenceServiceException;
+     AppUserStub getAppUser(String userId) throws FacadeException, PersistenceServiceException;
 
-    public List<AppUserStub> getAllAppUser() throws FacadeException, PersistenceServiceException;
+     List<AppUserStub> getAllAppUser() throws FacadeException, PersistenceServiceException;
+
+     WalletStub getWallet(Principal userPrincipal) throws PersistenceServiceException;
 }

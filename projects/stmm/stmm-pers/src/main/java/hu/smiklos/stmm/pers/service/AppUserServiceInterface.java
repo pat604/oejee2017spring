@@ -2,6 +2,7 @@ package hu.smiklos.stmm.pers.service;
 
 import hu.smiklos.stmm.pers.entity.AppUser;
 import hu.smiklos.stmm.pers.entity.CreditCard;
+import hu.smiklos.stmm.pers.entity.Wallet;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 
 import javax.ejb.Local;
@@ -28,5 +29,11 @@ public interface AppUserServiceInterface {
     CreditCard updateCreditCard(CreditCard card, Principal principal) throws PersistenceServiceException;
 
     void deleteCreditCard(Principal principal) throws PersistenceServiceException;
+
+    Wallet addWallet(Wallet wallet, Principal principal) throws PersistenceServiceException;
+
+    void addCredit(int credit, Principal principal) throws PersistenceServiceException;
+
+    void withdrawCredit(int credit, Principal principal) throws PersistenceServiceException;
 
 }

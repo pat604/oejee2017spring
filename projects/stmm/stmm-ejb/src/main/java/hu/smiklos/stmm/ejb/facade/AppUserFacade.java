@@ -2,15 +2,16 @@ package hu.smiklos.stmm.ejb.facade;
 
 import hu.smiklos.stmm.ejb.converter.AppUserConverterInterface;
 import hu.smiklos.stmm.ejb.domain.AppUserStub;
+import hu.smiklos.stmm.ejb.domain.WalletStub;
 import hu.smiklos.stmm.ejb.exception.FacadeException;
 import hu.smiklos.stmm.pers.entity.AppUser;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.pers.service.AppUserServiceInterface;
-import hu.smiklos.stmm.pers.service.RegistrationPerDayService;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,5 +45,12 @@ public class AppUserFacade implements AppUserFacadeInterface {
             userList.add(converter.toAppUserStub(user));
         }
         return userList;
+    }
+
+    @Override
+    public WalletStub getWallet(Principal userPrincipal) throws PersistenceServiceException {
+        AppUser user = userService.getUserByUsername(userPrincipal.getName());
+        WalletStub walletStub = new WalletStub(user.getWallet());
+        return  walletStub;
     }
 }

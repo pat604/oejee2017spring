@@ -14,7 +14,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="<%=Page.CREDIT_CARD.getUrl() %>">Credit card</a></li>
-                <li><a href="<%= Page.MB_ACCOUNT.getUrl() %>">MB Account</a></li>
+                <li><a href="<%= Page.MB_WALLET.getUrl() %>">MB Wallet</a></li>
                 <li><a href="<%= Page.INVEST.getUrl() %>">Invest</a></li>
                 <li><a href="<%= Page.BORROW.getUrl() %>">Borrow</a></li>
             </ul>

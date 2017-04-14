@@ -26,7 +26,7 @@ public class AppUserConverterTest {
     public void toAppUserStub() throws Exception {
         AppUserStub userStub = appUserConverter.toAppUserStub(appUser);
         Assert.assertEquals(appUser.getUserId(),userStub.getAppuserId());
-        Assert.assertEquals(appUser.getWalletId(),userStub.getWalletId());
+        Assert.assertEquals(appUser.getWallet(),userStub.getWalletId());
         Assert.assertEquals(appUser.getFirst_name(),userStub.getFirstName());
         Assert.assertEquals(appUser.getLast_name(),userStub.getLastName());
 

@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public abstract class BaseServlet extends HttpServlet implements HandleGetInterface, HandlePostInterface, ForwardInterface {
     protected HttpServletRequest request;
-    private HttpServletResponse response;
+    HttpServletResponse response;
 
     protected BaseServlet() {
     }

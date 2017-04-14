@@ -22,7 +22,7 @@ public class AppUser implements Serializable {
 
 
     private String userId;
-    private String walletId;
+    private Wallet wallet;
     private String first_name;
     private String last_name;
     private String password;
@@ -30,9 +30,8 @@ public class AppUser implements Serializable {
     private Set<UserType> userroles;
     private CreditCard creditCard;
 
-    public AppUser(String userId, String walletId, String first_name, String last_name, String password) {
+    public AppUser(String userId, String first_name, String last_name, String password) {
         this.userId = userId;
-        this.walletId = walletId;
         this.first_name = first_name;
         this.last_name = last_name;
         this.password = password;
@@ -43,7 +42,7 @@ public class AppUser implements Serializable {
         this.userroles = new HashSet<UserType>();
     }
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "userrole", joinColumns = {@JoinColumn(name = "userrole_appuser_id", referencedColumnName = "appuser_id")}, inverseJoinColumns = {@JoinColumn(name = "userrole_usertype_id", referencedColumnName = "usertype_id")})
     public Set<UserType> getUserroles() {
         return userroles;
@@ -89,13 +88,14 @@ public class AppUser implements Serializable {
         this.last_name = last_name;
     }
 
-    @Column(name = "wallet_id", nullable = true)
-    public String getWalletId() {
-        return walletId;
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "wallet_id")
+    public Wallet getWallet() {
+        return wallet;
     }
 
-    public void setWalletId(String walletId) {
-        this.walletId = walletId;
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
     }
 
     @Column(name = "password", nullable = true)
@@ -108,7 +108,7 @@ public class AppUser implements Serializable {
     }
 
 
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "appuser_creditcard_id")
     public CreditCard getCreditCard() {
         return creditCard;

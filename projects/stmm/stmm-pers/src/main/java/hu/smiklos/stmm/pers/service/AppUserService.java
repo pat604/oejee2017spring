@@ -2,6 +2,7 @@ package hu.smiklos.stmm.pers.service;
 
 import hu.smiklos.stmm.pers.entity.AppUser;
 import hu.smiklos.stmm.pers.entity.CreditCard;
+import hu.smiklos.stmm.pers.entity.Wallet;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.pers.parameter.AppUserParameter;
 import hu.smiklos.stmm.pers.query.AppUserQuery;
@@ -87,7 +88,6 @@ public class AppUserService implements AppUserServiceInterface {
             LOGGER.debug("Create CreditCard ("+ card.toString() +")");
         }
         try {
-            //this.entityManager.persist(card);
 
             AppUser appUser = this.getUserByUsername(principal.getName());
             appUser.setCreditCard(card);
@@ -134,6 +134,60 @@ public class AppUserService implements AppUserServiceInterface {
         }
     }
 
+    @Override
+    public Wallet addWallet(Wallet wallet, Principal principal) throws PersistenceServiceException {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Add wallet to user ("+ principal.getName() +") wallet: " + wallet.toString());
+        }
+        try {
+
+            AppUser appUser = this.getUserByUsername(principal.getName());
+            appUser.setWallet(wallet);
+            this.entityManager.merge(appUser);
+
+            return wallet;
+        } catch (final Exception e) {
+            throw new PersistenceServiceException("Unknown error during adding Wallet (" + wallet.toString() + ")! " + e.getLocalizedMessage(), e);
+        }
+    }
+
+    @Override
+    public void addCredit(int credit, Principal principal) throws PersistenceServiceException {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Add credit to wallet ("+ principal.getName() +") wallet: " + credit);
+        }
+        try {
+
+            AppUser appUser = this.getUserByUsername(principal.getName());
+            Wallet wallet = appUser.getWallet();
+            wallet.setAmount(wallet.getAmount()+credit);
+            appUser.setWallet(wallet);
+            this.entityManager.merge(appUser);
+        } catch (final Exception e) {
+            throw new PersistenceServiceException("Unknown error during adding credit to Wallet (" + credit + ")! " + e.getLocalizedMessage(), e);
+        }
+    }
+
+    @Override
+    public void withdrawCredit(int credit, Principal principal) throws PersistenceServiceException {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Add credit to wallet ("+ principal.getName() +") wallet: " + credit);
+        }
+        try {
+
+            AppUser appUser = this.getUserByUsername(principal.getName());
+            Wallet wallet = appUser.getWallet();
+            if(wallet.getAmount() >= credit) {
+                wallet.setAmount(wallet.getAmount() - credit);
+                appUser.setWallet(wallet);
+                this.entityManager.merge(appUser);
+            }
+        } catch (final Exception e) {
+            throw new PersistenceServiceException("Unknown error during adding credit to Wallet (" + credit + ")! " + e.getLocalizedMessage(), e);
+        }
+    }
+
+
     public AppUser deleteCreditCard(String username) throws PersistenceServiceException {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Get application user by username: " + username);
@@ -146,6 +200,8 @@ public class AppUserService implements AppUserServiceInterface {
         }
         return appUser;
     }
+
+
 
 
 }

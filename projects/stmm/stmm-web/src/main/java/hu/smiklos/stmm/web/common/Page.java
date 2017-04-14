@@ -11,7 +11,7 @@ public enum Page {
     LOGIN("login.jsp", "Login"),
     LOGOUT("home.jsp", "Logout"),
     CREDIT_CARD("credit_card.jsp", "CreditCard"),
-    MB_ACCOUNT("mb_account.jsp", "MBAccount"),
+    MB_WALLET("mb_wallet.jsp", "MBWallet"),
     INVEST("invest.jsp", "Invest"),
     BORROW("borrow.jsp","Borrow");
 
