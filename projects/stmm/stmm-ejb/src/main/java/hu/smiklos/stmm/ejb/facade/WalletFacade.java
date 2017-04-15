@@ -39,7 +39,7 @@ public class WalletFacade implements WalletFacadeInterface {
         WalletStub walletStub = getPrincipalWallet(principal);
         if(walletStub.getAmount() >= credit) {
             walletStub.setAmount(walletStub.getAmount() - credit);
-            appUserService.addCredit(credit, principal);
+            appUserService.withdrawCredit(credit, principal);
         }
         return walletStub;
     }

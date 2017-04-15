@@ -14,4 +14,7 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+<jsp:include page="/reusablejsp/dialog.jsp"></jsp:include>
+<jsp:include page="/reusablejsp/modal.jsp"></jsp:include>
+
 
