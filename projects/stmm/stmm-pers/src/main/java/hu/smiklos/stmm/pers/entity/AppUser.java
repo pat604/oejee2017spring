@@ -88,8 +88,8 @@ public class AppUser implements Serializable {
         this.last_name = last_name;
     }
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "wallet_id")
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "appuser_wallet_id")
     public Wallet getWallet() {
         return wallet;
     }

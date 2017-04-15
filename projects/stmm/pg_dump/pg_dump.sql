@@ -455,9 +455,9 @@ ALTER TABLE ONLY userrole ALTER COLUMN userrole_id SET DEFAULT nextval('userrole
 -- Data for Name: appuser; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, wallet_id, password, appuser_creditcard_id) VALUES (21, '20170405-5', 'nPisti', 'Pisti', 'Nagy', NULL, '$2a$10$WUpF4Rso99PJo7VsNWdS3O3tlbKvsbTDYRjuy0EszEZf.2nB6tOxW', NULL);
-INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, wallet_id, password, appuser_creditcard_id) VALUES (20, '20170405-4', 'smiklos', 'Miklós', 'Sebestyén', NULL, '$2a$10$pJUihxmWEAyfWGiApqqqAOvzO0LSrzUF48yK3L7fcCY/TkApld5.C', 'CC-20170405-4');
-INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, wallet_id, password, appuser_creditcard_id) VALUES (17, '20170402-2', 'pNagy', 'Péter', 'Nagy', NULL, '$2a$10$dQ4shd7MSrdBK7qZaCPrWO8gqKBEs2UwhAr1e9aS925lvcPSgq42K', 'CC-20170402-2');
+INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, appuser_wallet_id, password, appuser_creditcard_id) VALUES (21, '20170405-5', 'nPisti', 'Pisti', 'Nagy', NULL, '$2a$10$WUpF4Rso99PJo7VsNWdS3O3tlbKvsbTDYRjuy0EszEZf.2nB6tOxW', NULL);
+INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, appuser_wallet_id, password, appuser_creditcard_id) VALUES (20, '20170405-4', 'smiklos', 'Miklós', 'Sebestyén', NULL, '$2a$10$pJUihxmWEAyfWGiApqqqAOvzO0LSrzUF48yK3L7fcCY/TkApld5.C', 'CC-20170405-4');
+INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, appuser_wallet_id, password, appuser_creditcard_id) VALUES (17, '20170402-2', 'pNagy', 'Péter', 'Nagy', NULL, '$2a$10$dQ4shd7MSrdBK7qZaCPrWO8gqKBEs2UwhAr1e9aS925lvcPSgq42K', 'CC-20170402-2');
 
 
 --

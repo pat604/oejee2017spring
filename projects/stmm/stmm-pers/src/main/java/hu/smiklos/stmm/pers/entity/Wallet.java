@@ -20,6 +20,8 @@ public class Wallet {
 
     private double amount;
 
+    private AppUser walletOwner;
+
 
     @Id
     @Column(name = "wallet_id")
@@ -38,5 +40,15 @@ public class Wallet {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    @OneToOne(cascade = {CascadeType.ALL}, fetch=FetchType.EAGER)
+    @JoinColumn(name = "wallet_id", referencedColumnName = "appuser_wallet_id")
+    public AppUser getWalletOwner() {
+        return walletOwner;
+    }
+
+    public void setWalletOwner(AppUser walletOwner) {
+        this.walletOwner = walletOwner;
     }
 }

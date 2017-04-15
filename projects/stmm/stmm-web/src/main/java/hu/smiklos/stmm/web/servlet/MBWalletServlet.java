@@ -1,11 +1,8 @@
 package hu.smiklos.stmm.web.servlet;
 
-import hu.smiklos.stmm.ejb.domain.CreditCard.CreditCardStub;
 import hu.smiklos.stmm.ejb.domain.WalletStub;
-import hu.smiklos.stmm.ejb.facade.AppUserFacadeInterface;
 import hu.smiklos.stmm.ejb.facade.WalletFacadeInterface;
 import hu.smiklos.stmm.ejb.facade.WebFacades.CreditCard.CreditCardFacadeInterface;
-import hu.smiklos.stmm.pers.entity.CreditCard;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.web.common.Dialog;
 import hu.smiklos.stmm.web.common.Modal;
@@ -17,7 +14,6 @@ import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
-import java.security.Principal;
 
 /**
  * Created by SebestyenMiklos on 2017. 04. 06..
@@ -53,7 +49,7 @@ public class MBWalletServlet extends BaseServlet {
         int withdrawAmount = Integer.parseInt(request.getParameter(WalletAttributes.WITHDRAW_INPUT));
         if(walletStub.getAmount() >= withdrawAmount ){
             walletFacade.withdrawCredit(withdrawAmount, request.getUserPrincipal());
-            request.setAttribute(Modal.ATTR_MODAL,getCreditWithdrawedModal(withdrawAmount));
+            request.setAttribute(Modal.ATTR_MODAL, getCreditWithdrawnModal(withdrawAmount));
         }else{
             request.setAttribute(Modal.ATTR_MODAL,getNotEnoughMoneyToWithdrawModal());
         }
@@ -104,7 +100,7 @@ public class MBWalletServlet extends BaseServlet {
         }
     }
 
-    public Modal getCreditWithdrawedModal(int credit){
+    public Modal getCreditWithdrawnModal(int credit){
         Modal modal = new Modal();
         modal.setTitle("Credit withdraw!");
         modal.setMessage("You have taken "+credit+" MBC to your Credit card.");
