@@ -1,6 +1,7 @@
 package com.kota.stratagem.ejbservice.protocol;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,30 +12,53 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import com.kota.stratagem.ejbservice.converter.ProjectConverter;
+import com.kota.stratagem.ejbservice.domain.AppUserRepresentor;
+import com.kota.stratagem.ejbservice.domain.ImpedimentRepresentor;
+import com.kota.stratagem.ejbservice.domain.ObjectiveRepresentor;
 import com.kota.stratagem.ejbservice.domain.ProjectCriteria;
 import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
 import com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor;
 import com.kota.stratagem.ejbservice.domain.TaskRepresentor;
+import com.kota.stratagem.ejbservice.domain.TeamRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
 import com.kota.stratagem.ejbservice.util.ApplicationError;
+import com.kota.stratagem.persistence.entity.AppUser;
+import com.kota.stratagem.persistence.entity.Impediment;
 import com.kota.stratagem.persistence.entity.Project;
 import com.kota.stratagem.persistence.entity.Task;
+import com.kota.stratagem.persistence.entity.Team;
 import com.kota.stratagem.persistence.entity.trunk.ProjectStatus;
 import com.kota.stratagem.persistence.exception.CoherentPersistenceServiceException;
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
+import com.kota.stratagem.persistence.service.AppUserService;
+import com.kota.stratagem.persistence.service.ImpedimentService;
+import com.kota.stratagem.persistence.service.ObjectiveService;
 import com.kota.stratagem.persistence.service.ProjectService;
 import com.kota.stratagem.persistence.service.TaskService;
+import com.kota.stratagem.persistence.service.TeamService;
 
 @Stateless(mappedName = "ejb/projectProtocol")
-public class ProjectProtocolImplementation implements ProjectProtocol {
+public class ProjectProtocolImpl implements ProjectProtocol {
 
-	private static final Logger LOGGER = Logger.getLogger(ProjectProtocolImplementation.class);
+	private static final Logger LOGGER = Logger.getLogger(ProjectProtocolImpl.class);
 
 	@EJB
 	private ProjectService projectService;
 
 	@EJB
 	private TaskService taskService;
+
+	@EJB
+	private TeamService teamService;
+
+	@EJB
+	private AppUserService appUserService;
+
+	@EJB
+	private ImpedimentService impedimentService;
+
+	@EJB
+	private ObjectiveService objectiveService;
 
 	@EJB
 	private ProjectConverter converter;
@@ -75,18 +99,31 @@ public class ProjectProtocolImplementation implements ProjectProtocol {
 	}
 
 	@Override
-	public ProjectRepresentor saveProject(Long id, String name, String description, ProjectStatusRepresentor status, Set<TaskRepresentor> tasks, Boolean visible) throws AdaptorException {
+	public ProjectRepresentor saveProject(Long id, String name, String description, ProjectStatusRepresentor status, Date deadline, Boolean visible, Set<TaskRepresentor> tasks,
+			Set<TeamRepresentor> assignedTeams, Set<AppUserRepresentor> assignedUsers, Set<ImpedimentRepresentor> impediments, ObjectiveRepresentor objective) throws AdaptorException {
 		try {
 			Project project = null;
 			final ProjectStatus projectStatus = ProjectStatus.valueOf(status.name());
 			if(id != null && this.projectService.exists(id)) {
 				Set<Task> projectTasks = new HashSet<Task>();
+				Set<Team> teams = new HashSet<Team>();
+				Set<AppUser> users = new HashSet<AppUser>();
+				Set<Impediment> projectImpediments = new HashSet<Impediment>();
 				for(TaskRepresentor task : tasks) {
 					projectTasks.add(taskService.read(task.getId()));
 				}
-				project = this.projectService.update(id, name, description, projectStatus, projectTasks, visible);
+				for(TeamRepresentor team : assignedTeams) {
+					teams.add(teamService.read(team.getId()));
+				}
+				for(AppUserRepresentor user : assignedUsers) {
+					users.add(appUserService.read(user.getId()));
+				}
+				for(ImpedimentRepresentor impediment : impediments) {
+					projectImpediments.add(impedimentService.read(impediment.getId()));
+				}
+				project = this.projectService.update(id, name, description, projectStatus, deadline, visible, projectTasks, teams, users, projectImpediments, objectiveService.read(objective.getId()));
 			} else {
-				project = this.projectService.create(name, description, projectStatus, null, visible);
+				project = this.projectService.create(name, description, projectStatus, deadline, visible, null, null, null, null, objectiveService.read(objective.getId()));
 			}
 			return this.converter.to(project);
 		} catch(final PersistenceServiceException e) {

@@ -25,9 +25,9 @@ import com.kota.stratagem.persistence.service.AppUserService;
 import com.kota.stratagem.persistence.service.ProjectService;
 
 @Stateless(mappedName = "ejb/appUserProtocol")
-public class AppUserProtocolImplementation implements AppUserProtocol {
+public class AppUserProtocolImpl implements AppUserProtocol {
 
-	private static final Logger LOGGER = Logger.getLogger(AppUserProtocolImplementation.class);
+	private static final Logger LOGGER = Logger.getLogger(AppUserProtocolImpl.class);
 
 	@EJB
 	private AppUserService appUserSerive;

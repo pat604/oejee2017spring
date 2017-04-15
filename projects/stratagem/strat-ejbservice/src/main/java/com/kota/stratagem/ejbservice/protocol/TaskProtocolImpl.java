@@ -18,9 +18,9 @@ import com.kota.stratagem.persistence.exception.PersistenceServiceException;
 import com.kota.stratagem.persistence.service.TaskService;
 
 @Stateless(mappedName = "ejb/taskProtocol")
-public class TaskProtocolImplementation implements TaskProtocol {
+public class TaskProtocolImpl implements TaskProtocol {
 
-	private static final Logger LOGGER = Logger.getLogger(TaskProtocolImplementation.class);
+	private static final Logger LOGGER = Logger.getLogger(TaskProtocolImpl.class);
 
 	@EJB
 	private TaskService taskService;
