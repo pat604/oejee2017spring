@@ -230,7 +230,7 @@ CREATE TABLE impediments (
 	impediment_priority_id INTEGER NOT NULL,
 	impediment_status_id INTEGER NOT NULL,
 	impediment_report_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-	impediment_reporter INTEGER NOT NULL,
+	impediment_reporter INTEGER NULL,
 	impediment_processor INTEGER NULL,
 	CONSTRAINT PK_IMPEDIMENT_ID PRIMARY KEY (impediment_id),
 	CONSTRAINT FK_IMPEDIMENT_PRIORITY_ID FOREIGN KEY (impediment_priority_id)

@@ -70,7 +70,7 @@ public class Impediment implements Serializable {
 	@Column(name = "impediment_reporter", nullable = false)
 	private AppUser reporter;
 
-	@Column(name = "impediment_processor", nullable = false)
+	@Column(name = "impediment_processor", nullable = true)
 	private AppUser processor;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Remedy.class, mappedBy = "impediment")

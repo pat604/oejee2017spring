@@ -70,13 +70,13 @@ public class AppUser implements Serializable {
 	@JoinTable(name = "user_task_assignments", joinColumns = @JoinColumn(name = "assignment_task"), inverseJoinColumns = @JoinColumn(name = "assignment_recipient"))
 	private Set<Task> tasks;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Impediment.class, mappedBy = "impediment_reporter")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Impediment.class, mappedBy = "reporter")
 	private Set<Impediment> reportedImpediments;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Impediment.class, mappedBy = "impediment_reporter")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Impediment.class, mappedBy = "processor")
 	private Set<Impediment> processedImpediments;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Team.class, mappedBy = "team_leader")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Team.class, mappedBy = "leader")
 	private Set<Team> supervisedTeams;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Team.class)
