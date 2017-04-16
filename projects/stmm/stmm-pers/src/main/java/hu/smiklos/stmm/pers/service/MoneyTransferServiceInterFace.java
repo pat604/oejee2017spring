@@ -4,6 +4,7 @@ import hu.smiklos.stmm.pers.entity.MoneyTransfer;
 import hu.smiklos.stmm.pers.entity.RepaymentType;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public interface MoneyTransferServiceInterFace {
 
-        MoneyTransfer create(MoneyTransfer moneyTransfer) throws PersistenceServiceException;
+        MoneyTransfer create(MoneyTransfer moneyTransfer, Principal principal) throws PersistenceServiceException;
 
         MoneyTransfer update(MoneyTransfer moneyTransfer) throws PersistenceServiceException;
 

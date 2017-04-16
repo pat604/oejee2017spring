@@ -4,7 +4,6 @@ import hu.smiklos.stmm.ejb.domain.WalletStub;
 import hu.smiklos.stmm.pers.entity.AppUser;
 import hu.smiklos.stmm.pers.entity.Wallet;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
-import hu.smiklos.stmm.pers.service.AppUserService;
 import hu.smiklos.stmm.pers.service.AppUserServiceInterface;
 import hu.smiklos.stmm.pers.service.WalletServiceInterface;
 
@@ -28,7 +27,7 @@ public class WalletFacade implements WalletFacadeInterface {
 
     @Override
     public WalletStub addCredit(int credit, Principal principal) throws PersistenceServiceException {
-            WalletStub walletStub = getPrincipalWallet(principal);
+            WalletStub walletStub = getPrincipalWalletStub(principal);
             walletStub.setAmount(walletStub.getAmount()+credit);
             appUserService.addCredit(credit, principal);
             return walletStub;
@@ -36,7 +35,7 @@ public class WalletFacade implements WalletFacadeInterface {
 
     @Override
     public WalletStub withdrawCredit(int credit, Principal principal) throws PersistenceServiceException {
-        WalletStub walletStub = getPrincipalWallet(principal);
+        WalletStub walletStub = getPrincipalWalletStub(principal);
         if(walletStub.getAmount() >= credit) {
             walletStub.setAmount(walletStub.getAmount() - credit);
             appUserService.withdrawCredit(credit, principal);
@@ -44,7 +43,7 @@ public class WalletFacade implements WalletFacadeInterface {
         return walletStub;
     }
 
-    public WalletStub getPrincipalWallet(Principal principal) throws PersistenceServiceException {
+    public WalletStub getPrincipalWalletStub(Principal principal) throws PersistenceServiceException {
         AppUser user = appUserService.getUserByUsername(principal.getName());
         if(user.getWallet() == null){
             Wallet wallet = new Wallet();
@@ -56,6 +55,11 @@ public class WalletFacade implements WalletFacadeInterface {
             return walletStub;
         }
         return new WalletStub(user.getWallet());
+    }
+
+    public Wallet getPrincipalWallet(Principal principal) throws PersistenceServiceException {
+        Wallet wallet = walletService.getAppUserWallet(principal);
+        return wallet;
     }
 
 

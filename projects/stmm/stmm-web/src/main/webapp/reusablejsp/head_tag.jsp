@@ -18,5 +18,9 @@
 
     <link rel="stylesheet" href="style/base.css">
 
+    <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
+
+
+
 
 </head>

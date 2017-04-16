@@ -5,4 +5,5 @@ package hu.smiklos.stmm.web.common;
  */
 public class MoneyTransferAttributes {
     public static final String MONEYTRANSFER_CREATE_STUB = "moneytransfer_create_stub";
+    public static final String INVESTMENTS = "moneytransfer_investments";
 }

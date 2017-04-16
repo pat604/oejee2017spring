@@ -2,7 +2,9 @@ package hu.smiklos.stmm.ejb.facade;
 
 import hu.smiklos.stmm.ejb.converter.DateConverter;
 import hu.smiklos.stmm.ejb.domain.MoneyTransferCreateStub;
+import hu.smiklos.stmm.pers.entity.MoneyTransfer;
 import hu.smiklos.stmm.pers.entity.Wallet;
+import hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.pers.service.AppUserService;
 import hu.smiklos.stmm.pers.service.AppUserServiceInterface;
@@ -44,7 +46,14 @@ public class MoneyTransferCreateFacade implements MoneyTransferCreateFacadeInter
         if(mtStub.getWallet_from() == null){
             Wallet userWallet = userService.getUserByUsername(principal.getName()).getWallet();
             mtStub.setWallet_from(userWallet);
+
         }
+        mtStub.setState(MoneyTransferStates.ONPLATE);
+        MoneyTransfer mTransfer = mtStub.toMoneyTransfer();
+        mtService.create(mTransfer,principal);
+
+
+
     }
 
     public MoneyTransferCreateStub getPreparedMoneyTransferStub(Principal principal) throws PersistenceServiceException {

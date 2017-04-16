@@ -5,6 +5,7 @@ import hu.smiklos.stmm.ejb.converter.DateConverter;
 import hu.smiklos.stmm.pers.entity.MoneyTransfer;
 import hu.smiklos.stmm.pers.entity.RepaymentType;
 import hu.smiklos.stmm.pers.entity.Wallet;
+import hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates;
 
 import java.sql.Date;
 import java.util.List;
@@ -28,6 +29,7 @@ public class MoneyTransferCreateStub {
     private RepaymentType money_transfer_repayment_type;
     private int money_transfer_invest_period_month;
     private List<RepaymentType> money_transfer_repayment_types;
+    private MoneyTransferStates state;
 
     private Errors errors;
 
@@ -38,7 +40,13 @@ public class MoneyTransferCreateStub {
     public MoneyTransfer toMoneyTransfer(){
         MoneyTransfer mTransfer= new MoneyTransfer();
         String repaymentType = money_transfer_repayment_type.getRepayment_type_id();
-        mTransfer.setMoneytransfer_id("MT-"+repaymentType+"-"+ DateConverter.getDateAsContinouesString(new java.util.Date()) +"-");
+        mTransfer.setMoneytransfer_id(moneytransfer_id);
+        mTransfer.setTransferState(state);
+        mTransfer.setMoney_transfer_repayment_type(money_transfer_repayment_type);
+        mTransfer.setTransfer_amount(transfer_amount);
+        mTransfer.setExpected_return_amount(expected_return_amount);
+        mTransfer.setMoneytransfer_investment_time_period_month(money_transfer_invest_period_month);
+        mTransfer.setWallet_from(wallet_from);
         return  mTransfer;
     }
 
@@ -78,6 +86,10 @@ public class MoneyTransferCreateStub {
         return money_transfer_repayment_type;
     }
 
+    public void setMoney_transfer_repayment_type(RepaymentType money_transfer_repayment_type) {
+        this.money_transfer_repayment_type = money_transfer_repayment_type;
+    }
+
     public void setMoney_transfer_repayment_type(String repaymentTypeId) {
         for(RepaymentType rType : this.getMoney_transfer_repayment_types()){
             if(rType.getRepayment_type_id().equals(repaymentTypeId)){
@@ -86,16 +98,12 @@ public class MoneyTransferCreateStub {
         }
     }
 
-    public void setMoney_transfer_repayment_type(RepaymentType money_transfer_repayment_type) {
-        this.money_transfer_repayment_type = money_transfer_repayment_type;
-    }
-
     public boolean isValid() {
         if(this.errors == null){
             this.errors = new Errors();
         }
         if(wallet_from.getAmount() < transfer_amount || transfer_amount < 0){
-            errors.add(TRANSFER_AMOUNT, "Invested value ERROR!");
+            errors.add(TRANSFER_AMOUNT, "You have not enough money on your MB wallet");
         }
         if(expected_return_amount <= transfer_amount){
             errors.add(EXPECTED_RETURN_AMOUNT, "Expected return amount less than invested amount! ");
@@ -120,5 +128,17 @@ public class MoneyTransferCreateStub {
 
     public void setMoney_transfer_invest_period_month(int money_transfer_invest_period_month) {
         this.money_transfer_invest_period_month = money_transfer_invest_period_month;
+    }
+
+    public Errors getErrors() {
+        return errors;
+    }
+
+    public MoneyTransferStates getState() {
+        return state;
+    }
+
+    public void setState(MoneyTransferStates state) {
+        this.state = state;
     }
 }

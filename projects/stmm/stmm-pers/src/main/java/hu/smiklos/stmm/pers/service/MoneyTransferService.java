@@ -1,8 +1,6 @@
 package hu.smiklos.stmm.pers.service;
 
-import hu.smiklos.stmm.pers.entity.MoneyTransfer;
-import hu.smiklos.stmm.pers.entity.MoneyTransferPerDay;
-import hu.smiklos.stmm.pers.entity.RepaymentType;
+import hu.smiklos.stmm.pers.entity.*;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.pers.parameter.MoneyTransferPerDayParameter;
 import hu.smiklos.stmm.pers.parameter.RegPerDayParameter;
@@ -14,6 +12,7 @@ import org.apache.log4j.Logger;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -24,18 +23,21 @@ import java.util.List;
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class MoneyTransferService implements MoneyTransferServiceInterFace {
 
-    private static final Logger LOGGER = Logger.getLogger(AppUserService.class);
 
+    private static final Logger LOGGER = Logger.getLogger(AppUserService.class);
+    @EJB
+    private AppUserServiceInterface userService;
     @PersistenceContext(unitName = UnitName.UNIT_NAME)
     private EntityManager entityManager;
 
     @Override
-    public MoneyTransfer create(MoneyTransfer moneyTransfer) throws PersistenceServiceException {
+    public MoneyTransfer create(MoneyTransfer moneyTransfer, Principal principal) throws PersistenceServiceException {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Create MoneyTransfer ("+ moneyTransfer.toString() +")");
         }
         try {
             this.entityManager.persist(moneyTransfer);
+            removeInvestedAmountFromWallet(moneyTransfer,principal);
             return moneyTransfer;
         } catch (final Exception e) {
             throw new PersistenceServiceException("Unknown error during persisting MoneyTransfer (" + moneyTransfer.getMoneytransfer_id() + ")! " + e.getLocalizedMessage(), e);
@@ -87,6 +89,24 @@ public class MoneyTransferService implements MoneyTransferServiceInterFace {
             return types;
         } catch (final Exception e) {
             throw new PersistenceServiceException("Unknown error during getRepaymentTypes  " + e.getLocalizedMessage(), e);
+        }
+    }
+
+    private void removeInvestedAmountFromWallet(MoneyTransfer moneyTransfer, Principal principal) throws PersistenceServiceException {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Remove credit from wallet because of Investment ("+ principal.getName() +") investment: " + moneyTransfer.getMoneytransfer_id());
+        }
+        try {
+
+            AppUser appUser = userService.getUserByUsername(principal.getName());
+            Wallet wallet = appUser.getWallet();
+            if(wallet.getAmount() >= moneyTransfer.getTransfer_amount()) {
+                wallet.setAmount(wallet.getAmount() - moneyTransfer.getTransfer_amount());
+                appUser.setWallet(wallet);
+                this.entityManager.merge(appUser);
+            }
+        } catch (final Exception e) {
+            throw new PersistenceServiceException("Unknown error during removing credit from Wallet because of investment (" + moneyTransfer.getTransfer_amount() + ")! " + e.getLocalizedMessage(), e);
         }
     }
 

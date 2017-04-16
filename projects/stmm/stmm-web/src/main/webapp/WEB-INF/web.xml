@@ -30,6 +30,8 @@
             <url-pattern>/style/*</url-pattern>
             <url-pattern>/Registration</url-pattern>
             <url-pattern>/Logout</url-pattern>
+            <url-pattern>/css/*</url-pattern>
+            <url-pattern>/js/*</url-pattern>
             <http-method>GET</http-method>
         </web-resource-collection>
     </security-constraint>

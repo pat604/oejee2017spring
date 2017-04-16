@@ -13,6 +13,7 @@ public enum Page {
     CREDIT_CARD("credit_card.jsp", "CreditCard"),
     MB_WALLET("mb_wallet.jsp", "MBWallet"),
     INVEST("invest.jsp", "Invest"),
+    INVESTMENT_LIST("investment_list.jsp","UserInvestments"),
     BORROW("borrow.jsp","Borrow");
 
     private final String jspName;

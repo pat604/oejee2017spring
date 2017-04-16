@@ -171,7 +171,7 @@ public class AppUserService implements AppUserServiceInterface {
     @Override
     public void withdrawCredit(int credit, Principal principal) throws PersistenceServiceException {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Add credit to wallet ("+ principal.getName() +") wallet: " + credit);
+            LOGGER.debug("Withdraw credit from wallet ("+ principal.getName() +") wallet: " + credit);
         }
         try {
 
@@ -183,10 +183,9 @@ public class AppUserService implements AppUserServiceInterface {
                 this.entityManager.merge(appUser);
             }
         } catch (final Exception e) {
-            throw new PersistenceServiceException("Unknown error during adding credit to Wallet (" + credit + ")! " + e.getLocalizedMessage(), e);
+            throw new PersistenceServiceException("Unknown error during money withdraw from Wallet (" + credit + ")! " + e.getLocalizedMessage(), e);
         }
     }
-
 
     public AppUser deleteCreditCard(String username) throws PersistenceServiceException {
         if (LOGGER.isDebugEnabled()) {

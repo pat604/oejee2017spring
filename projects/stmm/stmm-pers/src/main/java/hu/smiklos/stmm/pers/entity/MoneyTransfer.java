@@ -1,5 +1,7 @@
 package hu.smiklos.stmm.pers.entity;
 
+import hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -19,6 +21,7 @@ public class MoneyTransfer {
     private int expected_return_amount;
     private int moneytransfer_investment_time_period_month;
     private RepaymentType money_transfer_repayment_type;
+    private MoneyTransferStates transfer_state;
 
     @Id
     @Column(name = "moneytransfer_id")
@@ -30,7 +33,7 @@ public class MoneyTransfer {
         this.moneytransfer_id = moneytransfer_id;
     }
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "wallet_from")
     public Wallet getWallet_from() {
         return wallet_from;
@@ -40,7 +43,7 @@ public class MoneyTransfer {
         this.wallet_from = wallet_from;
     }
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "wallet_to")
     public Wallet getWallet_to() {
         return wallet_to;
@@ -88,8 +91,8 @@ public class MoneyTransfer {
     }
 
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "money_transfer_repayment_type")
+    @OneToOne
+    @JoinColumn(name = "money_transfer_repayment_type", nullable = false)
     public RepaymentType getMoney_transfer_repayment_type() {
         return money_transfer_repayment_type;
     }
@@ -98,12 +101,22 @@ public class MoneyTransfer {
         this.money_transfer_repayment_type = money_transfer_repayment_type;
     }
 
-    @Column(name = "money_transfer_invest_period_month")
+    @Column(name = "money_transfer_invest_period_month", nullable = false)
     public int getMoneytransfer_investment_time_period_month() {
         return moneytransfer_investment_time_period_month;
     }
 
     public void setMoneytransfer_investment_time_period_month(int moneytransfer_investment_time_period_month) {
         this.moneytransfer_investment_time_period_month = moneytransfer_investment_time_period_month;
+    }
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "money_transfer_state", nullable = false)
+    public MoneyTransferStates getTransferState() {
+        return transfer_state;
+    }
+
+    public void setTransferState(MoneyTransferStates transfer_state) {
+        this.transfer_state = transfer_state;
     }
 }

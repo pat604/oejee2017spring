@@ -45,7 +45,7 @@ public class MBWalletServlet extends BaseServlet {
     }
 
     private void withdrawCredit() throws PersistenceServiceException {
-        WalletStub walletStub = walletFacade.getPrincipalWallet(request.getUserPrincipal());
+        WalletStub walletStub = walletFacade.getPrincipalWalletStub(request.getUserPrincipal());
         int withdrawAmount = Integer.parseInt(request.getParameter(WalletAttributes.WITHDRAW_INPUT));
         if(walletStub.getAmount() >= withdrawAmount ){
             walletFacade.withdrawCredit(withdrawAmount, request.getUserPrincipal());
@@ -88,7 +88,7 @@ public class MBWalletServlet extends BaseServlet {
 
     public void updateWalletDataForJsp() throws PersistenceServiceException, ServletException, IOException {
         if(ccFacade.hasCreditCardAdded(request.getUserPrincipal())){
-            WalletStub walletStub = walletFacade.getPrincipalWallet(request.getUserPrincipal());
+            WalletStub walletStub = walletFacade.getPrincipalWalletStub(request.getUserPrincipal());
             request.setAttribute(WalletAttributes.WALLET_STUB, walletStub );
             forward(Page.MB_WALLET.getJspName());
             return;
