@@ -19,7 +19,7 @@ DROP DATABASE IF EXISTS stmmdb;
 -- Name: stmmdb; Type: DATABASE; Schema: -; Owner: postgres
 --
 
-CREATE DATABASE stmmdb WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'Hungarian_Hungary.1250' LC_CTYPE = 'Hungarian_Hungary.1250';
+CREATE DATABASE stmmdb WITH TEMPLATE = template0 ENCODING = 'WIN1250' LC_COLLATE = 'Hungarian_Hungary.1250' LC_CTYPE = 'Hungarian_Hungary.1250';
 
 
 ALTER DATABASE stmmdb OWNER TO postgres;
@@ -79,7 +79,7 @@ CREATE TABLE appuser (
     username character varying(100) NOT NULL,
     first_name character varying(100) NOT NULL,
     last_name character varying(100) NOT NULL,
-    wallet_id character varying(100),
+    appuser_wallet_id character varying(100),
     password character varying(100) NOT NULL,
     appuser_creditcard_id character varying(100)
 );
@@ -215,11 +215,15 @@ CREATE TABLE money_transfer (
     money_transfer_record_id numeric DEFAULT nextval('money_transfer_record_id_seq'::regclass),
     moneytransfer_id character varying(100) NOT NULL,
     wallet_from character varying(100) NOT NULL,
-    wallet_to character varying(100) NOT NULL,
+    wallet_to character varying(100),
     transferdate date,
     returndate date,
-    number_of_payments integer DEFAULT 1,
-    money_transfer_state_id character varying(30)
+    money_transfer_state_id character varying(30),
+    money_transfer_repayment_type character varying(100) NOT NULL,
+    money_transfer_amount integer NOT NULL,
+    money_transfer_return_amount integer NOT NULL,
+    money_transfer_invest_period_month integer NOT NULL,
+    money_transfer_state character varying(32) NOT NULL
 );
 
 
@@ -269,17 +273,16 @@ CREATE SEQUENCE money_transfer_part_state_record_id
 ALTER TABLE money_transfer_part_state_record_id OWNER TO postgres;
 
 --
--- Name: money_transfer_part_state; Type: TABLE; Schema: public; Owner: postgres
+-- Name: moneytransfer_per_day; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE money_transfer_part_state (
-    money_transfer_part_state_record_id integer DEFAULT nextval('money_transfer_part_state_record_id'::regclass),
-    money_transfer_part_id character varying(100) NOT NULL,
-    money_transfer_part_name character varying(100) NOT NULL
+CREATE TABLE moneytransfer_per_day (
+    day character varying(8) NOT NULL,
+    count bigint NOT NULL
 );
 
 
-ALTER TABLE money_transfer_part_state OWNER TO postgres;
+ALTER TABLE moneytransfer_per_day OWNER TO postgres;
 
 --
 -- Name: moneytransfer_state_record_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -296,19 +299,6 @@ CREATE SEQUENCE moneytransfer_state_record_id_seq
 ALTER TABLE moneytransfer_state_record_id_seq OWNER TO postgres;
 
 --
--- Name: money_transfer_state; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE money_transfer_state (
-    money_transfer_state_record_id integer DEFAULT nextval('moneytransfer_state_record_id_seq'::regclass),
-    money_transfer_state_id character varying(100) NOT NULL,
-    money_transfer_state_name character varying(100)
-);
-
-
-ALTER TABLE money_transfer_state OWNER TO postgres;
-
---
 -- Name: registration_per_day; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -319,6 +309,18 @@ CREATE TABLE registration_per_day (
 
 
 ALTER TABLE registration_per_day OWNER TO postgres;
+
+--
+-- Name: repayment_type; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE repayment_type (
+    repayment_type_id character varying(100) NOT NULL,
+    repayment_type_name character varying(100) NOT NULL
+);
+
+
+ALTER TABLE repayment_type OWNER TO postgres;
 
 --
 -- Name: role_role_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -456,8 +458,8 @@ ALTER TABLE ONLY userrole ALTER COLUMN userrole_id SET DEFAULT nextval('userrole
 --
 
 INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, appuser_wallet_id, password, appuser_creditcard_id) VALUES (21, '20170405-5', 'nPisti', 'Pisti', 'Nagy', NULL, '$2a$10$WUpF4Rso99PJo7VsNWdS3O3tlbKvsbTDYRjuy0EszEZf.2nB6tOxW', NULL);
-INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, appuser_wallet_id, password, appuser_creditcard_id) VALUES (20, '20170405-4', 'smiklos', 'Miklós', 'Sebestyén', NULL, '$2a$10$pJUihxmWEAyfWGiApqqqAOvzO0LSrzUF48yK3L7fcCY/TkApld5.C', 'CC-20170405-4');
 INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, appuser_wallet_id, password, appuser_creditcard_id) VALUES (17, '20170402-2', 'pNagy', 'Péter', 'Nagy', NULL, '$2a$10$dQ4shd7MSrdBK7qZaCPrWO8gqKBEs2UwhAr1e9aS925lvcPSgq42K', 'CC-20170402-2');
+INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, appuser_wallet_id, password, appuser_creditcard_id) VALUES (20, '20170405-4', 'smiklos', 'Miklós', 'Sebestyén', 'W-20170405-4', '$2a$10$pJUihxmWEAyfWGiApqqqAOvzO0LSrzUF48yK3L7fcCY/TkApld5.C', 'CC-20170405-4');
 
 
 --
@@ -478,15 +480,15 @@ SELECT pg_catalog.setval('credit_card_record_number_seq', 1, false);
 -- Data for Name: creditcard; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO creditcard (credit_card_record_number, creditcard_card_number, creditcard_card_holder_name, creditcard_expiry_year, creditcard_expiry_month, creditcard_id) VALUES (13, '1234123412341234', 'MR MIKLOS SEBESTYEN', '23', '12', 'CC-20170405-4');
 INSERT INTO creditcard (credit_card_record_number, creditcard_card_number, creditcard_card_holder_name, creditcard_expiry_year, creditcard_expiry_month, creditcard_id) VALUES (14, '4321432143214321', 'MR PETER NAGY', '23', '12', 'CC-20170402-2');
+INSERT INTO creditcard (credit_card_record_number, creditcard_card_number, creditcard_card_holder_name, creditcard_expiry_year, creditcard_expiry_month, creditcard_id) VALUES (15, '1234123412341234', 'MR MIKLOS SEBESTYEN', '23', '12', 'CC-20170405-4');
 
 
 --
 -- Name: creditcard_credit_card_record_number_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('creditcard_credit_card_record_number_seq', 14, true);
+SELECT pg_catalog.setval('creditcard_credit_card_record_number_seq', 15, true);
 
 
 --
@@ -519,6 +521,9 @@ SELECT pg_catalog.setval('deadline_state_record_id_seq', 1, false);
 -- Data for Name: money_transfer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, money_transfer_state_id, money_transfer_repayment_type, money_transfer_amount, money_transfer_return_amount, money_transfer_invest_period_month, money_transfer_state) VALUES (2, 'MT-20170416-6', 'W-20170405-4', NULL, NULL, NULL, NULL, 'M', 100, 110, 12, '0');
+INSERT INTO money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, money_transfer_state_id, money_transfer_repayment_type, money_transfer_amount, money_transfer_return_amount, money_transfer_invest_period_month, money_transfer_state) VALUES (3, 'MT-20170416-7', 'W-20170405-4', NULL, NULL, NULL, NULL, 'W', 200, 220, 3, '0');
+INSERT INTO money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, money_transfer_state_id, money_transfer_repayment_type, money_transfer_amount, money_transfer_return_amount, money_transfer_invest_period_month, money_transfer_state) VALUES (4, 'MT-20170416-8', 'W-20170405-4', NULL, NULL, NULL, NULL, 'M', 330, 400, 6, '0');
 
 
 --
@@ -535,12 +540,6 @@ SELECT pg_catalog.setval('money_transfer_part_id_seq', 1, false);
 
 
 --
--- Data for Name: money_transfer_part_state; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-
-
---
 -- Name: money_transfer_part_state_record_id; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -551,13 +550,14 @@ SELECT pg_catalog.setval('money_transfer_part_state_record_id', 1, false);
 -- Name: money_transfer_record_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('money_transfer_record_id_seq', 1, false);
+SELECT pg_catalog.setval('money_transfer_record_id_seq', 4, true);
 
 
 --
--- Data for Name: money_transfer_state; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: moneytransfer_per_day; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO moneytransfer_per_day (day, count) VALUES ('20170416', 8);
 
 
 --
@@ -586,6 +586,14 @@ INSERT INTO registration_per_day (day, count) VALUES ('20170402', 2);
 INSERT INTO registration_per_day (day, count) VALUES ('20170405', 5);
 INSERT INTO registration_per_day (day, count) VALUES ('20170409', 3);
 INSERT INTO registration_per_day (day, count) VALUES ('20170411', 1);
+
+
+--
+-- Data for Name: repayment_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO repayment_type (repayment_type_id, repayment_type_name) VALUES ('M', 'Monthly');
+INSERT INTO repayment_type (repayment_type_id, repayment_type_name) VALUES ('W', 'Weekly');
 
 
 --
@@ -642,17 +650,14 @@ SELECT pg_catalog.setval('usertype_record_id_seq', 15, true);
 -- Data for Name: wallet; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (9, 'HU-11111111', 12000.22);
-INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (10, 'HU-11111112', 99000.11);
-INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (11, 'UK-11111111', 99011.44);
-INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (12, 'US-11111111', 11111.55);
+INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (13, 'W-20170405-4', 80);
 
 
 --
 -- Name: wallet_record_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('wallet_record_id_seq', 12, true);
+SELECT pg_catalog.setval('wallet_record_id_seq', 14, true);
 
 
 --
@@ -664,11 +669,11 @@ ALTER TABLE ONLY creditcard
 
 
 --
--- Name: money_transfer_state money_transfer_state_money_transfer_state_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: moneytransfer_per_day moneytransfer_per_day_day_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY money_transfer_state
-    ADD CONSTRAINT money_transfer_state_money_transfer_state_name_key UNIQUE (money_transfer_state_name);
+ALTER TABLE ONLY moneytransfer_per_day
+    ADD CONSTRAINT moneytransfer_per_day_day_pk PRIMARY KEY (day);
 
 
 --
@@ -712,14 +717,6 @@ ALTER TABLE ONLY money_transfer
 
 
 --
--- Name: money_transfer_state pk_moneytransfer_state; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY money_transfer_state
-    ADD CONSTRAINT pk_moneytransfer_state PRIMARY KEY (money_transfer_state_id);
-
-
---
 -- Name: userrole pk_userrole_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -752,6 +749,14 @@ ALTER TABLE ONLY registration_per_day
 
 
 --
+-- Name: repayment_type repayment_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY repayment_type
+    ADD CONSTRAINT repayment_type_pkey PRIMARY KEY (repayment_type_id);
+
+
+--
 -- Name: appuser_creditcard_number_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -770,6 +775,13 @@ CREATE UNIQUE INDEX appuser_username_uindex ON appuser USING btree (username);
 --
 
 CREATE UNIQUE INDEX creditcard_creditcard_card_number_uindex ON creditcard USING btree (creditcard_card_number);
+
+
+--
+-- Name: repayment_type_repayment_type_name_uindex; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX repayment_type_repayment_type_name_uindex ON repayment_type USING btree (repayment_type_name);
 
 
 --
@@ -815,7 +827,7 @@ ALTER TABLE ONLY deadline
 --
 
 ALTER TABLE ONLY appuser
-    ADD CONSTRAINT fk_wallet_in_appuser FOREIGN KEY (wallet_id) REFERENCES wallet(wallet_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_wallet_in_appuser FOREIGN KEY (appuser_wallet_id) REFERENCES wallet(wallet_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 
 --
