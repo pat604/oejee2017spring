@@ -14,7 +14,7 @@ public enum Page {
     MB_WALLET("mb_wallet.jsp", "MBWallet"),
     INVEST("invest.jsp", "Invest"),
     INVESTMENT_LIST("investment_list.jsp","UserInvestments"),
-    BORROW("borrow.jsp","Borrow");
+    BORROW("borrow.jsp","Borrow"), OFFER_DETAILS("offer_details.jsp","OfferDetails"), ACCEPT_LOAN_OFFER("accept_loan_offer_form","AcceptLoanOffer");
 
     private final String jspName;
     private final String url;
@@ -31,4 +31,5 @@ public enum Page {
     public String getUrl() {
         return this.url;
     }
+
 }

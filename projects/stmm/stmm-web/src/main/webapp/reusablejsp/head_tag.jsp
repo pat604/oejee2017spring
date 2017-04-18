@@ -17,10 +17,8 @@
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
     <link rel="stylesheet" href="style/base.css">
+    <link rel="stylesheet" href="css/borrow.css">
 
     <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
-
-
-
 
 </head>

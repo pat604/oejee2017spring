@@ -17,7 +17,7 @@ public class AppUserConverterTest {
     @Before
     public void setUp() throws Exception {
         UserType userType = new UserType("REGISTERED","REGISTERED");
-        appUser = new AppUser("E-HU-12345678","E-HU-W-12345678","First","Last","hjusda#345");
+        appUser = new AppUser("E-HU-12345678","First","Last","hjusda#345");
         appUser.addUserRole(userType);
         appUserConverter = new AppUserConverter();
     }

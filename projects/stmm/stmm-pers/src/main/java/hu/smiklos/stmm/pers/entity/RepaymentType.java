@@ -14,6 +14,9 @@ import javax.persistence.*;
 })
 public class RepaymentType {
 
+    public static final String MONTH = "M" ;
+    public static final String WEEK = "W" ;
+
     private String repayment_type_id;
     private String repayment_type_name;
 

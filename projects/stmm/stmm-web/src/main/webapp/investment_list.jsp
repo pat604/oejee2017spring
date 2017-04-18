@@ -48,9 +48,11 @@
 </div>
 
 <% } %>
+<% if(request.getAttribute(MoneyTransferAttributes.INVESTMENTS) != null) { %>
 <script>
     $(document).ready(function(){
         $('#investment_list').DataTable();
     });
 
 </script>
+<% } %>

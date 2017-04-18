@@ -19,4 +19,6 @@ public interface MoneyTransferServiceInterFace {
         String getNextMoneyTransferId(String day) throws PersistenceServiceException;
 
         List<RepaymentType> getRepaymentTypes() throws PersistenceServiceException;
+
+        List<MoneyTransfer> getMoneyTransfers(String repaymentType, int repaymentDurationFrom, int getRepaymentDurationTo);
 }

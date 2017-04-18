@@ -8,6 +8,7 @@ import java.util.Map;
  */
 public class Errors {
 
+
     private Map<String, String> errors;
 
     public Errors(){

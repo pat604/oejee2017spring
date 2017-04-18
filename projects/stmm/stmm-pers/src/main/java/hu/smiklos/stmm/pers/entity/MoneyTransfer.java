@@ -1,6 +1,8 @@
 package hu.smiklos.stmm.pers.entity;
 
 import hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates;
+import hu.smiklos.stmm.pers.parameter.MoneyTransferParameter;
+import hu.smiklos.stmm.pers.query.MoneyTransferQuery;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -10,6 +12,10 @@ import java.sql.Date;
  */
 @Entity
 @Table(name = "money_transfer")
+@NamedQueries( value = {
+        @NamedQuery(name = MoneyTransferQuery.GET_BY_BORROW_QUERY,
+        query = "SELECT a FROM MoneyTransfer a WHERE a.money_transfer_repayment_type.repayment_type_id =:"+ MoneyTransferParameter.REPAYMENT_TYPE)
+})
 public class MoneyTransfer {
 
     private String moneytransfer_id;

@@ -2,9 +2,11 @@ package hu.smiklos.stmm.pers.service;
 
 import hu.smiklos.stmm.pers.entity.*;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
+import hu.smiklos.stmm.pers.parameter.MoneyTransferParameter;
 import hu.smiklos.stmm.pers.parameter.MoneyTransferPerDayParameter;
 import hu.smiklos.stmm.pers.parameter.RegPerDayParameter;
 import hu.smiklos.stmm.pers.query.MoneyTransferPerDayQuery;
+import hu.smiklos.stmm.pers.query.MoneyTransferQuery;
 import hu.smiklos.stmm.pers.query.RegPerDayQuery;
 import hu.smiklos.stmm.pers.query.RepaymentTypeQuery;
 import org.apache.log4j.Logger;
@@ -13,7 +15,10 @@ import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by SebestyenMiklos on 2017. 04. 15..
@@ -90,6 +95,16 @@ public class MoneyTransferService implements MoneyTransferServiceInterFace {
         } catch (final Exception e) {
             throw new PersistenceServiceException("Unknown error during getRepaymentTypes  " + e.getLocalizedMessage(), e);
         }
+    }
+
+    @Override
+    public List<MoneyTransfer> getMoneyTransfers(String repaymentType, int repaymentDurationFrom, int repaymentDurationTo) {
+        if (LOGGER.isDebugEnabled()){
+            LOGGER.debug("Select all MoneyTransfers tahat has: repayment_type("+repaymentType+")"+"repayment between("+repaymentDurationFrom+"-"+repaymentDurationTo+")");
+        }
+        List<MoneyTransfer> transfers = new ArrayList<MoneyTransfer>();
+        transfers = entityManager.createNamedQuery(MoneyTransferQuery.GET_BY_BORROW_QUERY,MoneyTransfer.class).setParameter(MoneyTransferParameter.REPAYMENT_TYPE,repaymentType).getResultList();
+        return transfers;
     }
 
     private void removeInvestedAmountFromWallet(MoneyTransfer moneyTransfer, Principal principal) throws PersistenceServiceException {
