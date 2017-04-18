@@ -8,8 +8,11 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 
+import com.kota.stratagem.ejbservice.domain.ObjectiveRepresentor;
+import com.kota.stratagem.ejbservice.domain.ObjectiveStatusRepresentor;
 import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
 import com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor;
+import com.kota.stratagem.persistence.entity.Objective;
 import com.kota.stratagem.persistence.entity.Project;
 
 @Stateless
@@ -41,8 +44,8 @@ public class ProjectConverterImpl implements ProjectConverter {
 		
 		final ProjectStatusRepresentor status = ProjectStatusRepresentor.valueOf(project.getStatus().toString());
 		final ProjectRepresentor representor = project.getId() != null
-				? new ProjectRepresentor(project.getId(), project.getName(), project.getDescription(), status, project.getDeadline(), project.getVisible(), null)
-				: new ProjectRepresentor(project.getName(), project.getDescription(), status, project.getDeadline(), project.getVisible(), null);
+				? new ProjectRepresentor(project.getId(), project.getName(), project.getDescription(), status, project.getDeadline(), project.getVisible(), this.to(project.getObjective()))
+				: new ProjectRepresentor(project.getName(), project.getDescription(), status, project.getDeadline(), project.getVisible(), this.to(project.getObjective()));
 		/*
 				if(project.getTasks() != null) {
 			for(Task task : project.getTasks()) {
@@ -66,6 +69,10 @@ public class ProjectConverterImpl implements ProjectConverter {
 		}
 		*/
 		return representor;
+	}
+	
+	private ObjectiveRepresentor to(Objective objective) {
+		return new ObjectiveRepresentor(objective.getId(), objective.getName(), objective.getDescription(), objective.getPriority(), ObjectiveStatusRepresentor.valueOf(objective.getStatus().toString()));
 	}
 
 	@Override

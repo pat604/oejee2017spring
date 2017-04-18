@@ -68,23 +68,28 @@ public class Project implements Serializable {
 	private Boolean visible;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
-	@JoinTable(name = "project_tasks", joinColumns = @JoinColumn(name = "project_task_task_id"), inverseJoinColumns = @JoinColumn(name = "project_task_project_id"))
+	@JoinTable(name = "project_tasks", joinColumns = @JoinColumn(name = "project_task_task_id", referencedColumnName = "task_id", nullable = false), 
+		inverseJoinColumns = @JoinColumn(name = "project_task_project_id", referencedColumnName = "project_id", nullable = false))
 	private Set<Task> tasks;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Team.class)
-	@JoinTable(name = "team_project_assignments", joinColumns = @JoinColumn(name = "assignment_recipient"), inverseJoinColumns = @JoinColumn(name = "assignment_project"))
+	@JoinTable(name = "team_project_assignments", joinColumns = @JoinColumn(name = "assignment_recipient", referencedColumnName = "team_id", nullable = false), 
+		inverseJoinColumns = @JoinColumn(name = "assignment_project", referencedColumnName = "project_id", nullable = false))
 	private Set<Team> assignedTeams;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = AppUser.class)
-	@JoinTable(name = "user_project_assignments", joinColumns = @JoinColumn(name = "assignment_recipient"), inverseJoinColumns = @JoinColumn(name = "assignment_project"))
+	@JoinTable(name = "user_project_assignments", joinColumns = @JoinColumn(name = "assignment_recipient", referencedColumnName = "user_id", nullable = false), 
+		inverseJoinColumns = @JoinColumn(name = "assignment_project", referencedColumnName = "project_id", nullable = false))
 	private Set<AppUser> assignedUsers;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Impediment.class)
-	@JoinTable(name = "project_impediments", joinColumns = @JoinColumn(name = "project_impediment_impediment_id"), inverseJoinColumns = @JoinColumn(name = "project_impediment_project_id"))
+	@JoinTable(name = "project_impediments", joinColumns = @JoinColumn(name = "project_impediment_impediment_id", referencedColumnName = "impediment_id", nullable = false), 
+		inverseJoinColumns = @JoinColumn(name = "project_impediment_project_id", referencedColumnName = "project_id", nullable = false))
 	private Set<Impediment> impediments;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Objective.class)
-	@JoinTable(name = "objective_projects", joinColumns = @JoinColumn(name = "objective_project_objective"), inverseJoinColumns = @JoinColumn(name = "objective_project_project"))
+	@JoinTable(name = "objective_projects", joinColumns = @JoinColumn(name = "objective_project_objective", referencedColumnName = "objective_id", nullable = false), 
+		inverseJoinColumns = @JoinColumn(name = "objective_project_project", referencedColumnName = "project_id", nullable = false))
 	private Objective objective;
 
 	public Project() {
