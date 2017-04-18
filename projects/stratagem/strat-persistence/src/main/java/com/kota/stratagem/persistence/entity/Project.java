@@ -67,23 +67,23 @@ public class Project implements Serializable {
 	@Column(name = "project_visibility", nullable = false)
 	private Boolean visible;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Task.class)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
 	@JoinTable(name = "project_tasks", joinColumns = @JoinColumn(name = "project_task_task_id"), inverseJoinColumns = @JoinColumn(name = "project_task_project_id"))
 	private Set<Task> tasks;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Team.class)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Team.class)
 	@JoinTable(name = "team_project_assignments", joinColumns = @JoinColumn(name = "assignment_recipient"), inverseJoinColumns = @JoinColumn(name = "assignment_project"))
 	private Set<Team> assignedTeams;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = AppUser.class)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = AppUser.class)
 	@JoinTable(name = "user_project_assignments", joinColumns = @JoinColumn(name = "assignment_recipient"), inverseJoinColumns = @JoinColumn(name = "assignment_project"))
 	private Set<AppUser> assignedUsers;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Impediment.class)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Impediment.class)
 	@JoinTable(name = "project_impediments", joinColumns = @JoinColumn(name = "project_impediment_impediment_id"), inverseJoinColumns = @JoinColumn(name = "project_impediment_project_id"))
 	private Set<Impediment> impediments;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Objective.class)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Objective.class)
 	@JoinTable(name = "objective_projects", joinColumns = @JoinColumn(name = "objective_project_objective"), inverseJoinColumns = @JoinColumn(name = "objective_project_project"))
 	private Objective objective;
 

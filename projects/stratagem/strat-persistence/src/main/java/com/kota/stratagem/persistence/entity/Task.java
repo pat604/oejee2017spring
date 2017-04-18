@@ -28,7 +28,7 @@ import com.kota.stratagem.persistence.query.TaskQuery;
 @Table(name = "tasks")
 @NamedQueries(value = { //
 		@NamedQuery(name = TaskQuery.COUNT_BY_ID, query = "SELECT COUNT(t) FROM Task t WHERE t.id=:" + TaskParameter.ID),
-		@NamedQuery(name = TaskQuery.GET_ALL_TASKS, query = "SELECT t FROM Task t ORDER BY t.completion"),
+		@NamedQuery(name = TaskQuery.GET_ALL_TASKS, query = "SELECT t FROM Task t ORDER BY t.name"),
 		@NamedQuery(name = TaskQuery.GET_BY_ID, query = "SELECT t FROM Task t WHERE t.id=:" + TaskParameter.ID),
 		@NamedQuery(name = TaskQuery.REMOVE_BY_ID, query = "DELETE FROM Task t WHERE t.id=:" + TaskParameter.ID)
 		//
@@ -52,31 +52,31 @@ public class Task implements Serializable {
 	@Column(name = "task_completion_percentage", nullable = false)
 	private double completion;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Team.class)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Team.class)
 	@JoinTable(name = "team_task_assignments", joinColumns = @JoinColumn(name = "assignment_recipient"), inverseJoinColumns = @JoinColumn(name = "assignment_task"))
 	private Set<Team> assignedTeams;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = AppUser.class)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = AppUser.class)
 	@JoinTable(name = "user_task_assignments", joinColumns = @JoinColumn(name = "assignment_recipient"), inverseJoinColumns = @JoinColumn(name = "assignment_task"))
 	private Set<AppUser> assignedUsers;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Impediment.class)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Impediment.class)
 	@JoinTable(name = "project_impediments", joinColumns = @JoinColumn(name = "project_impediment_impediment_id"), inverseJoinColumns = @JoinColumn(name = "project_impediment_project_id"))
 	private Set<Impediment> impediments;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Task.class)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
 	@JoinTable(name = "task_dependencies", joinColumns = @JoinColumn(name = "dependency_dependent"), inverseJoinColumns = @JoinColumn(name = "dependency_maintainer"))
 	private Set<Task> dependantTasks;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Task.class)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
 	@JoinTable(name = "task_dependencies", joinColumns = @JoinColumn(name = "dependency_maintainer"), inverseJoinColumns = @JoinColumn(name = "dependency_dependent"))
 	private Set<Task> taskDependencies;
-	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Objective.class)
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Objective.class)
 	@JoinTable(name = "objective_tasks", joinColumns = @JoinColumn(name = "objective_task_objective_id"), inverseJoinColumns = @JoinColumn(name = "objective_task_task_id"))
 	private Objective objective;
-	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Objective.class)
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Project.class)
 	@JoinTable(name = "project_tasks", joinColumns = @JoinColumn(name = "project_task_project_id"), inverseJoinColumns = @JoinColumn(name = "project_task_task_id"))
 	private Project project;
 
@@ -207,9 +207,8 @@ public class Task implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Task [id=" + id + ", name=" + name + ", description=" + description + ", completion=" + completion + ", assignedTeams=" + assignedTeams
-				+ ", assignedUsers=" + assignedUsers + ", impediments=" + impediments + ", dependantTasks=" + dependantTasks + ", taskDependencies="
-				+ taskDependencies + ", objective=" + objective + ", project=" + project + "]";
+		return "Task [id=" + id + ", name=" + name + ", description=" + description + ", completion=" + completion + ", assignedTeams=" + assignedTeams + ", assignedUsers=" + assignedUsers
+				+ ", impediments=" + impediments + ", dependantTasks=" + dependantTasks + ", taskDependencies=" + taskDependencies + ", objective=" + objective + ", project=" + project + "]";
 	}
 
 }

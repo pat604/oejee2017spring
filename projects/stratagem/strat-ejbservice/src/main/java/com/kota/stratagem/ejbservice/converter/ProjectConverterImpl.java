@@ -3,33 +3,48 @@ package com.kota.stratagem.ejbservice.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+
+import org.apache.log4j.Logger;
 
 import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
 import com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor;
-import com.kota.stratagem.persistence.entity.AppUser;
-import com.kota.stratagem.persistence.entity.Impediment;
 import com.kota.stratagem.persistence.entity.Project;
-import com.kota.stratagem.persistence.entity.Task;
-import com.kota.stratagem.persistence.entity.Team;
 
 @Stateless
 public class ProjectConverterImpl implements ProjectConverter {
 
-	private ObjectiveConverter objectiveConverter = new ObjectiveConverterImpl();
-	private TaskConverter taskConverter = new TaskConverterImpl();
-	private TeamConverter teamConverter = new TeamConverterImpl();
-	private AppUserConverter appUserConverter = new AppUserConverterImpl();
-	private ImpedimentConverter impedimentConverter = new ImpedimentConverterImpl();
+	private static final Logger LOGGER = Logger.getLogger(ProjectConverterImpl.class);
+	
+	@EJB
+	private ObjectiveConverter objectiveConverter;
+
+	@EJB
+	private TaskConverter taskConverter;
+
+	@EJB
+	private TeamConverter teamConverter;
+
+	@EJB
+	private AppUserConverter appUserConverter;
+
+	@EJB
+	private ImpedimentConverter impedimentConverter;
 
 	@Override
 	public ProjectRepresentor to(Project project) {
+		
+		if(LOGGER.isDebugEnabled()) {
+			LOGGER.debug("ProjectConverter method called");
+		}
+		
 		final ProjectStatusRepresentor status = ProjectStatusRepresentor.valueOf(project.getStatus().toString());
 		final ProjectRepresentor representor = project.getId() != null
-				? new ProjectRepresentor(project.getId(), project.getName(), project.getDescription(), status, project.getDeadline(), project.getVisible(),
-						objectiveConverter.to(project.getObjective()))
-				: new ProjectRepresentor(project.getName(), project.getDescription(), status, project.getDeadline(), project.getVisible(), objectiveConverter.to(project.getObjective()));
-		if(project.getTasks() != null) {
+				? new ProjectRepresentor(project.getId(), project.getName(), project.getDescription(), status, project.getDeadline(), project.getVisible(), null)
+				: new ProjectRepresentor(project.getName(), project.getDescription(), status, project.getDeadline(), project.getVisible(), null);
+		/*
+				if(project.getTasks() != null) {
 			for(Task task : project.getTasks()) {
 				representor.addTask(taskConverter.to(task));
 			}
@@ -49,6 +64,7 @@ public class ProjectConverterImpl implements ProjectConverter {
 				representor.addImpediment(impedimentConverter.to(impediment));
 			}
 		}
+		*/
 		return representor;
 	}
 

@@ -74,7 +74,7 @@ INSERT INTO team_members (team_member_id, team_member_team_id, team_member_user_
 
 -- ###########################################################################################
 
-INSERT INTO objective_statuses(status_id, status_name) VALUES 
+INSERT INTO objective_statuses (status_id, status_name) VALUES 
 (0, 'PLANNED'),
 (1, 'DESIGNATED'),
 (2, 'CONTINUOUS'),
@@ -83,7 +83,9 @@ INSERT INTO objective_statuses(status_id, status_name) VALUES
 
 INSERT INTO objectives (objective_id, objective_name, objective_description, objective_priority, objective_status_id) VALUES 
 (0, 'Integration with augmented reality', '', 2, 1),
-(1, 'Increase influence in market', 'Completing projects for our esteemed contacts', 1, 1);
+(1, 'Increase influence in market', 'Completing projects for our esteemed contacts', 1, 1),
+(2, 'Test 1, id:2', 'test', 5, 0),
+(3, 'Test 2, id:3', 'test', 5, 0);
 
 INSERT INTO objective_missions (mission_id, mission_name, mission_description, mission_objective, mission_stage_id) VALUES
 (0, 'Steps towards growing technologies', '', 0, 4);
@@ -122,7 +124,8 @@ INSERT INTO projects (project_id, project_name, project_description, project_sta
 (0, 'Ceraphis data deployment', 'Deployment of Ceraphis Solutions buisness data to data warehouse in India', 10, '2015/11/30 00:00:00', TRUE),
 (1, 'QuickExtract app', 'Develop mobile app for QuickExtract', 7, NULL, TRUE),
 (2, 'Grove BI outsourcing', '', 0, NULL, TRUE),
-(3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', 5, '2017/05/26 00:00:00', FALSE);
+(3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', 5, '2017/05/26 00:00:00', FALSE),
+(4, 'Test', '', 0, NULL, TRUE);
 SELECT SETVAL('projects_project_id_seq', COALESCE(MAX(project_id), 0) ) FROM projects;
 
 INSERT INTO project_missions (mission_id, mission_name, mission_description, mission_project, mission_stage_id) VALUES
@@ -203,8 +206,8 @@ INSERT INTO project_impediments (project_impediment_id, project_impediment_proje
 INSERT INTO task_impediments (task_impediment_id, task_impediment_task_id, task_impediment_impediment_id) VALUES
 (0, 4, 2);
 
-INSERT INTO remedies (remedy_id, remedy_description, remedy_impediment_id, remedy_submission_date, remedy_provider) VALUES
-(0, 'Use service control tool to generate project structure from existing endpoint meta data', 1, '2015/12/13 14:20:00', 1); 
+-- INSERT INTO remedies (remedy_id, remedy_description, remedy_impediment_id, remedy_submission_date, remedy_provider) VALUES
+-- (0, 'Use service control tool to generate project structure from existing endpoint meta data', 1, '2015/12/13 14:20:00', 1); 
 
 -- ###########################################################################################
 
@@ -216,13 +219,18 @@ INSERT INTO task_estimations (estimation_id, estimation_task, estimation_pessimi
 
 -- ###########################################################################################
 
--- INSERT INTO team_objective_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_objective) VALUES
--- INSERT INTO user_objective_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_objective) VALUES
+INSERT INTO team_objective_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_objective) VALUES
+(0, 1, 1, 1);
+INSERT INTO user_objective_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_objective) VALUES
+(0, 2, 2, 3);
 INSERT INTO team_project_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_project) VALUES
-(0, 0 , 2, 3);
--- INSERT INTO user_project_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_project) VALUES
--- INSERT INTO team_task_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_task) VALUES
--- INSERT INTO user_task_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_task) VALUES
+(0, 2, 2, 3);
+INSERT INTO user_project_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_project) VALUES
+(0, 0, 3, 2);
+INSERT INTO team_task_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_task) VALUES
+(0, 1, 2, 0);
+INSERT INTO user_task_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_task) VALUES
+(0, 0, 7, 1);
 
 -- ###########################################################################################
 

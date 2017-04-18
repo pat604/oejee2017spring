@@ -141,6 +141,7 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean exists(Long id) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Check Project by id (" + id + ")");

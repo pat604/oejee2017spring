@@ -80,9 +80,7 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 	public List<AppUserRepresentor> getAllAppUsers() throws AdaptorException {
 		List<AppUserRepresentor> representors = new ArrayList<AppUserRepresentor>();
 		try {
-			List<AppUser> users = null;
-			users = this.appUserSerive.readAll();
-			representors = this.converter.to(users);
+			representors = this.converter.to(this.appUserSerive.readAll());
 			if(LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Fetch all AppUsers : " + representors.size() + " projects(s)");
 			}

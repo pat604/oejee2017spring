@@ -3,6 +3,7 @@ package com.kota.stratagem.ejbservice.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.kota.stratagem.ejbservice.domain.TaskRepresentor;
@@ -14,19 +15,27 @@ import com.kota.stratagem.persistence.entity.Team;
 @Stateless
 public class TaskConverterImpl implements TaskConverter {
 
-	private AppUserConverter appUserConverter = new AppUserConverterImpl();
-	private TeamConverter teamConverter = new TeamConverterImpl();
-	private ObjectiveConverter objectiveConverter = new ObjectiveConverterImpl();
-	private ProjectConverter projectConverter = new ProjectConverterImpl();
-	private ImpedimentConverter impedimentConverter = new ImpedimentConverterImpl();
-	
+	@EJB
+	private AppUserConverter appUserConverter;
+
+	@EJB
+	private TeamConverter teamConverter;
+
+	@EJB
+	private ObjectiveConverter objectiveConverter;
+
+	@EJB
+	private ProjectConverter projectConverter;
+
+	@EJB
+	private ImpedimentConverter impedimentConverter;
+
 	@Override
 	public TaskRepresentor to(Task task) {
-		final TaskRepresentor representor = task.getId() != null 
-				? new TaskRepresentor(task.getId(), task.getName(), task.getDescription(), 
-						task.getCompletion(), objectiveConverter.to(task.getObjective()), projectConverter.to(task.getProject()))
-				: new TaskRepresentor(task.getName(), task.getDescription(), task.getCompletion(), 
-						objectiveConverter.to(task.getObjective()), projectConverter.to(task.getProject()));
+		final TaskRepresentor representor = task.getId() != null
+				? new TaskRepresentor(task.getId(), task.getName(), task.getDescription(), task.getCompletion(), objectiveConverter.to(task.getObjective()), projectConverter.to(task.getProject()))
+				: new TaskRepresentor(task.getName(), task.getDescription(), task.getCompletion(), objectiveConverter.to(task.getObjective()), projectConverter.to(task.getProject()));
+		/*
 		if(task.getAssignedTeams() != null) {
 			for(Team team : task.getAssignedTeams()) {
 				representor.addTeam(teamConverter.to(team));
@@ -43,7 +52,7 @@ public class TaskConverterImpl implements TaskConverter {
 			}
 		}
 		if(task.getDependantTasks() != null) {
-			for(Task dependant: task.getDependantTasks()) {
+			for(Task dependant : task.getDependantTasks()) {
 				representor.addDependantTask(this.to(dependant));
 			}
 		}
@@ -52,6 +61,7 @@ public class TaskConverterImpl implements TaskConverter {
 				representor.addTaskDependency(this.to(dependencies));
 			}
 		}
+		*/
 		return representor;
 	}
 

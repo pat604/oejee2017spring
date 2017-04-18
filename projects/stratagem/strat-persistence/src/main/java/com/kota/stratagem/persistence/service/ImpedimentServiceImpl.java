@@ -128,6 +128,7 @@ public class ImpedimentServiceImpl implements ImpedimentService {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean exists(Long id) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Check Impediment by id (" + id + ")");

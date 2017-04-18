@@ -127,6 +127,7 @@ public class AppUserServiceImpl implements AppUserService {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean exists(Long id) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Check AppUser by id (" + id + ")");

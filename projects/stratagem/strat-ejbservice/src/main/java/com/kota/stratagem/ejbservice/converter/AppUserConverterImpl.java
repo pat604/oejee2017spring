@@ -3,31 +3,37 @@ package com.kota.stratagem.ejbservice.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.kota.stratagem.ejbservice.domain.AppUserRepresentor;
 import com.kota.stratagem.ejbservice.domain.RoleRepresentor;
 import com.kota.stratagem.persistence.entity.AppUser;
-import com.kota.stratagem.persistence.entity.Impediment;
-import com.kota.stratagem.persistence.entity.Objective;
-import com.kota.stratagem.persistence.entity.Project;
-import com.kota.stratagem.persistence.entity.Task;
-import com.kota.stratagem.persistence.entity.Team;
 
 @Stateless
 public class AppUserConverterImpl implements AppUserConverter {
 
-	private ObjectiveConverter objectiveConverter = new ObjectiveConverterImpl();
-	private ProjectConverter projectConverter = new ProjectConverterImpl();
-	private TaskConverter taskConverter = new TaskConverterImpl();
-	private ImpedimentConverter impedimentConverter = new ImpedimentConverterImpl();
-	private TeamConverter teamConverter = new TeamConverterImpl();
+	@EJB
+	private ObjectiveConverter objectiveConverter;
+
+	@EJB
+	private ProjectConverter projectConverter;
+
+	@EJB
+	private TaskConverter taskConverter;
+
+	@EJB
+	private ImpedimentConverter impedimentConverter;
+
+	@EJB
+	private TeamConverter teamConverter;
 
 	@Override
 	public AppUserRepresentor to(AppUser user) {
 		final RoleRepresentor role = RoleRepresentor.valueOf(user.getRole().toString());
 		final AppUserRepresentor representor = user.getId() != null ? new AppUserRepresentor(user.getId(), user.getName(), user.getPasswordHash(), user.getEmail(), role)
 				: new AppUserRepresentor(user.getName(), user.getPasswordHash(), user.getEmail(), role);
+		/*
 		if(user.getObjectives() != null) {
 			for(Objective objective : user.getObjectives()) {
 				representor.addObjective(objectiveConverter.to(objective));
@@ -63,6 +69,7 @@ public class AppUserConverterImpl implements AppUserConverter {
 				representor.addSupervisedTeam(teamConverter.to(team));
 			}
 		}
+		*/
 		return representor;
 	}
 

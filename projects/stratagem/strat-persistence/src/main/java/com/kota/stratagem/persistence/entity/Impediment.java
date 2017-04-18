@@ -67,20 +67,22 @@ public class Impediment implements Serializable {
 	@Column(name = "impediment_report_date", nullable = false)
 	private Date reportDate;
 
-	@Column(name = "impediment_reporter", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = AppUser.class)
+	@JoinColumn(name = "impediment_reporter", nullable = false)
 	private AppUser reporter;
 
-	@Column(name = "impediment_processor", nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = AppUser.class)
+	@JoinColumn(name = "impediment_processor", nullable = true)
 	private AppUser processor;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Remedy.class, mappedBy = "impediment")
 	private Set<Remedy> remedies;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Project.class)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Project.class)
 	@JoinTable(name = "project_impediments", joinColumns = @JoinColumn(name = "project_impediment_project_id"), inverseJoinColumns = @JoinColumn(name = "project_impediment_impediment_id"))
 	private Project project;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Task.class)
 	@JoinTable(name = "task_impediments", joinColumns = @JoinColumn(name = "task_impediment_task_id"), inverseJoinColumns = @JoinColumn(name = "task_impediment_impediment_id"))
 	private Task task;
 
@@ -207,8 +209,15 @@ public class Impediment implements Serializable {
 
 	@Override
 	public String toString() {
+		return "Impediment [id=" + id + ", name=" + name + "]";
+	}
+
+	/*
+	@Override
+	public String toString() {
 		return "Impediment [id=" + id + ", name=" + name + ", description=" + description + ", priority=" + priority + ", status=" + status + ", reportDate=" + reportDate + ", reporter=" + reporter
 				+ ", processor=" + processor + ", remedies=" + remedies + ", project=" + project + ", task=" + task + "]";
 	}
+	*/
 
 }

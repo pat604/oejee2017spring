@@ -37,6 +37,8 @@ public class ProjectPingServlet extends HttpServlet {
 			for(ProjectRepresentor representor : projects) {
 				out.println(representor.toString());
 			}
+			//final ProjectRepresentor project = this.protocol.getProject(0L);
+			//out.println(project.toString());
 		} catch(final Exception e) {
 			LOGGER.error(e, e);
 			out.println(e.getLocalizedMessage());

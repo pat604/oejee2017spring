@@ -76,8 +76,7 @@ public class ProjectProtocolImpl implements ProjectProtocol {
 			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
 		}
 	}
-
-	//Criteria
+	
 	@Override
 	public List<ProjectRepresentor> getAllProjects(final ProjectCriteria criteria) {
 		List<ProjectRepresentor> representors = new ArrayList<ProjectRepresentor>();

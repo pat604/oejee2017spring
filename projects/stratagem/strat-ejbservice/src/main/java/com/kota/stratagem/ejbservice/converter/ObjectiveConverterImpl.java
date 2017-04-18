@@ -3,27 +3,40 @@ package com.kota.stratagem.ejbservice.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
+import org.apache.log4j.Logger;
+
 import com.kota.stratagem.ejbservice.domain.ObjectiveRepresentor;
 import com.kota.stratagem.ejbservice.domain.ObjectiveStatusRepresentor;
-import com.kota.stratagem.persistence.entity.AppUser;
+import com.kota.stratagem.ejbservice.protocol.ObjectiveProtocolImpl;
 import com.kota.stratagem.persistence.entity.Objective;
-import com.kota.stratagem.persistence.entity.Project;
-import com.kota.stratagem.persistence.entity.Task;
-import com.kota.stratagem.persistence.entity.Team;
 
+@Stateless
 public class ObjectiveConverterImpl implements ObjectiveConverter {
 
-	private AppUserConverter appUserConverter = new AppUserConverterImpl();
-	private TeamConverter teamConverter = new TeamConverterImpl();
-	private ProjectConverter projectConverter = new ProjectConverterImpl();
-	private TaskConverter taskConverter = new TaskConverterImpl();
+	private static final Logger LOGGER = Logger.getLogger(ObjectiveConverterImpl.class);
 	
+	@EJB
+	private AppUserConverter appUserConverter;
+
+	@EJB
+	private TeamConverter teamConverter;
+
+	@EJB
+	private ProjectConverter projectConverter;
+
+	@EJB
+	private TaskConverter taskConverter;
+
 	@Override
 	public ObjectiveRepresentor to(Objective objective) {
 		final ObjectiveStatusRepresentor status = ObjectiveStatusRepresentor.valueOf(objective.getStatus().toString());
 		final ObjectiveRepresentor representor = objective.getId() != null
 				? new ObjectiveRepresentor(objective.getId(), objective.getName(), objective.getDescription(), objective.getPriority(), status)
 				: new ObjectiveRepresentor(objective.getName(), objective.getDescription(), objective.getPriority(), status);
+		/*
 		if(objective.getProjects() != null) {
 			for(Project project : objective.getProjects()) {
 				representor.addProject(projectConverter.to(project));
@@ -44,7 +57,8 @@ public class ObjectiveConverterImpl implements ObjectiveConverter {
 				representor.addUser(appUserConverter.to(user));
 			}
 		}
-		return null;
+		*/
+		return representor;
 	}
 
 	@Override

@@ -3,18 +3,29 @@ package com.kota.stratagem.ejbservice.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
 import com.kota.stratagem.ejbservice.domain.ImpedimentRepresentor;
 import com.kota.stratagem.ejbservice.domain.ImpedimentStatusRepresentor;
 import com.kota.stratagem.ejbservice.domain.PriorityRepresentor;
 import com.kota.stratagem.persistence.entity.Impediment;
 import com.kota.stratagem.persistence.entity.Remedy;
 
+@Stateless
 public class ImpedimentConverterImpl implements ImpedimentConverter {
 
-	private AppUserConverter appUserConverter = new AppUserConverterImpl();
-	private RemedyConverter remedyConverter = new RemedyConverterImpl();
-	private ProjectConverter projectConverter = new ProjectConverterImpl();
-	private TaskConverter taskConverter = new TaskConverterImpl();
+	@EJB
+	private AppUserConverter appUserConverter;
+
+	@EJB
+	private RemedyConverter remedyConverter;
+
+	@EJB
+	private ProjectConverter projectConverter;
+
+	@EJB
+	private TaskConverter taskConverter;
 
 	@Override
 	public ImpedimentRepresentor to(Impediment impediment) {

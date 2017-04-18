@@ -116,6 +116,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean exists(Long id) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Check Task by id (" + id + ")");

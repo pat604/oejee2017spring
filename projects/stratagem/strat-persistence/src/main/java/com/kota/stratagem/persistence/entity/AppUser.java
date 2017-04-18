@@ -58,28 +58,28 @@ public class AppUser implements Serializable {
 	@Column(name = "user_role", nullable = false)
 	private Role role;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Objective.class)
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = Objective.class)
 	@JoinTable(name = "user_objective_assignments", joinColumns = @JoinColumn(name = "assignment_objective"), inverseJoinColumns = @JoinColumn(name = "assignment_recipient"))
 	private Set<Objective> objectives;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Project.class)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Project.class)
 	@JoinTable(name = "user_project_assignments", joinColumns = @JoinColumn(name = "assignment_project"), inverseJoinColumns = @JoinColumn(name = "assignment_recipient"))
 	private Set<Project> projects;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Task.class)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
 	@JoinTable(name = "user_task_assignments", joinColumns = @JoinColumn(name = "assignment_task"), inverseJoinColumns = @JoinColumn(name = "assignment_recipient"))
 	private Set<Task> tasks;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Impediment.class, mappedBy = "reporter")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Impediment.class, mappedBy = "reporter")
 	private Set<Impediment> reportedImpediments;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Impediment.class, mappedBy = "processor")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Impediment.class, mappedBy = "processor")
 	private Set<Impediment> processedImpediments;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Team.class, mappedBy = "leader")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Team.class, mappedBy = "leader")
 	private Set<Team> supervisedTeams;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Team.class)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Team.class)
 	@JoinTable(name = "team_members", joinColumns = @JoinColumn(name = "team_member_team_id"), inverseJoinColumns = @JoinColumn(name = "team_member_user_id"))
 	private Set<Team> teamMemberships;
 
@@ -222,9 +222,7 @@ public class AppUser implements Serializable {
 
 	@Override
 	public String toString() {
-		return "AppUser [id=" + id + ", name=" + name + ", passwordHash=" + passwordHash + ", email=" + email + ", role=" + role + ", objectives=" + objectives + ", projects=" + projects + ", tasks="
-				+ tasks + ", reportedImpediments=" + reportedImpediments + ", processedImpediments=" + processedImpediments + ", supervisedTeams=" + supervisedTeams + ", teamMemberships="
-				+ teamMemberships + "]";
+		return "AppUser [id=" + id + ", name=" + name + ", passwordHash=" + passwordHash + ", email=" + email + ", role=" + role + "]";
 	}
 
 }

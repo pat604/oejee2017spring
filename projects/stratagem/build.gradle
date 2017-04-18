@@ -29,6 +29,12 @@ subprojects {
 	}
 }
 
+ear {
+    deploymentDescriptor { 
+    	webModule( webapplicationName, webapplicationContextPath ) 
+    }
+}
+
 dependencies {
 	deploy project('strat-ejbservice')
 	deploy project('strat-persistence')

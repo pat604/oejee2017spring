@@ -3,6 +3,9 @@ package com.kota.stratagem.ejbservice.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
 import com.kota.stratagem.ejbservice.domain.TeamRepresentor;
 import com.kota.stratagem.persistence.entity.AppUser;
 import com.kota.stratagem.persistence.entity.Objective;
@@ -10,17 +13,24 @@ import com.kota.stratagem.persistence.entity.Project;
 import com.kota.stratagem.persistence.entity.Task;
 import com.kota.stratagem.persistence.entity.Team;
 
+@Stateless
 public class TeamConverterImpl implements TeamConverter {
 
-	private AppUserConverter appUserConverter = new AppUserConverterImpl();
-	private ObjectiveConverter objectiveConverter = new ObjectiveConverterImpl();
-	private ProjectConverter projectConverter = new ProjectConverterImpl();
-	private TaskConverter taskConverter = new TaskConverterImpl();
-	
+	@EJB
+	private AppUserConverter appUserConverter;
+
+	@EJB
+	private ObjectiveConverter objectiveConverter;
+
+	@EJB
+	private ProjectConverter projectConverter;
+
+	@EJB
+	private TaskConverter taskConverter;
+
 	@Override
 	public TeamRepresentor to(Team team) {
-		final TeamRepresentor representor = team.getId() != null 
-				? new TeamRepresentor(team.getId(), team.getName(), appUserConverter.to(team.getLeader())) 
+		final TeamRepresentor representor = team.getId() != null ? new TeamRepresentor(team.getId(), team.getName(), appUserConverter.to(team.getLeader()))
 				: new TeamRepresentor(team.getName(), appUserConverter.to(team.getLeader()));
 		if(team.getMembers() != null) {
 			for(AppUser user : team.getMembers()) {

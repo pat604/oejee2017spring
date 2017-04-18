@@ -96,7 +96,7 @@ public class ObjectiveRepresentor {
 	public void addUser(AppUserRepresentor user) {
 		this.assignedUsers.add(user);
 	}
-
+	
 	@Override
 	public String toString() {
 		return "ObjectiveRepresentor [id=" + id + ", name=" + name + ", description=" + description + ", priority=" + priority + ", status=" + status + ", projects=" + projects + ", tasks=" + tasks

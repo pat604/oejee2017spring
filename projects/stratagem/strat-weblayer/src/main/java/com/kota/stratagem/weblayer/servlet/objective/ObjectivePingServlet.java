@@ -1,4 +1,4 @@
-package com.kota.stratagem.weblayer.servlet.appuser;
+package com.kota.stratagem.weblayer.servlet.objective;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,27 +13,27 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.kota.stratagem.ejbservice.domain.AppUserRepresentor;
-import com.kota.stratagem.ejbservice.protocol.AppUserProtocol;
+import com.kota.stratagem.ejbservice.domain.ObjectiveRepresentor;
+import com.kota.stratagem.ejbservice.protocol.ObjectiveProtocol;
 
-@WebServlet("/AppUserPing")
-public class AppUserPingServlet extends HttpServlet {
+@WebServlet("/ObjectivePing")
+public class ObjectivePingServlet extends HttpServlet {
 
-	private static final long serialVersionUID = -7127244186756736915L;
+	private static final long serialVersionUID = 1958561648907457635L;
 
-	private static final Logger LOGGER = Logger.getLogger(AppUserPingServlet.class);
+	private static final Logger LOGGER = Logger.getLogger(ObjectivePingServlet.class);
 
 	@EJB
-	private AppUserProtocol protocol;
+	private ObjectiveProtocol protocol;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LOGGER.info("Get AppUsers");
+		LOGGER.info("Get objectives");
 		response.setCharacterEncoding("UTF-8");
 		final PrintWriter out = response.getWriter();
 		try {
-			final List<AppUserRepresentor> users = this.protocol.getAllAppUsers();
-			for(AppUserRepresentor representor : users) {
+			final List<ObjectiveRepresentor> objectives = this.protocol.getAllObjectives();
+			for(ObjectiveRepresentor representor : objectives) {
 				out.println(representor.toString());
 			}
 		} catch(final Exception e) {
@@ -42,5 +42,4 @@ public class AppUserPingServlet extends HttpServlet {
 		}
 		out.close();
 	}
-
 }

@@ -58,19 +58,19 @@ public class Objective implements Serializable {
 	@Column(name = "objective_status_id", nullable = false)
 	private ObjectiveStatus status;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Project.class)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Project.class)
 	@JoinTable(name = "objective_projects", joinColumns = @JoinColumn(name = "objective_project_project"), inverseJoinColumns = @JoinColumn(name = "objective_project_objective"))
 	private Set<Project> projects;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Task.class)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
 	@JoinTable(name = "objective_tasks", joinColumns = @JoinColumn(name = "objective_task_task_id"), inverseJoinColumns = @JoinColumn(name = "objective_task_objective_id"))
 	private Set<Task> tasks;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Team.class)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Team.class)
 	@JoinTable(name = "team_objective_assignments", joinColumns = @JoinColumn(name = "assignment_recipient"), inverseJoinColumns = @JoinColumn(name = "assignment_objective"))
 	private Set<Team> assignedTeams;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = AppUser.class)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = AppUser.class)
 	@JoinTable(name = "user_objective_assignments", joinColumns = @JoinColumn(name = "assignment_recipient"), inverseJoinColumns = @JoinColumn(name = "assignment_objective"))
 	private Set<AppUser> assignedUsers;
 
@@ -178,8 +178,16 @@ public class Objective implements Serializable {
 
 	@Override
 	public String toString() {
+		return "Objective [id=" + id + ", name=" + name + ", description=" + description + ", priority=" + priority
+				+ ", status=" + status + "]";
+	}
+	
+	/*
+	@Override
+	public String toString() {
 		return "Objective [id=" + id + ", name=" + name + ", description=" + description + ", priority=" + priority + ", status=" + status + ", projects=" + projects + ", tasks=" + tasks
 				+ ", assignedTeams=" + assignedTeams + ", assignedUsers=" + assignedUsers + "]";
 	}
+	*/
 
 }

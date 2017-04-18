@@ -3,11 +3,15 @@ package com.kota.stratagem.persistence.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
@@ -31,36 +35,37 @@ import com.kota.stratagem.persistence.query.RemedyQuery;
 public class Remedy implements Serializable {
 
 	private static final long serialVersionUID = 3249113805246989076L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "remedyGenerator")
 	@Column(name = "remedy_id", nullable = false)
 	private Long id;
-	
+
 	@Column(name = "remedy_description", nullable = false)
 	private String description;
 
-	@Column(name = "remedy_impediment_id")
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Impediment.class)
+	@JoinColumn(name = "remedy_impediment_id", nullable = false)
 	private Impediment impediment;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "remedy_submission_date", nullable = false)
 	private Date submissionDate;
-	
+
 	@Column(name = "remedy_provider", nullable = false)
 	private AppUser provider;
 
 	public Remedy() {
 		this(null, null, null, null, null);
 	}
-	
+
 	public Remedy(Long id, String description, Impediment impediment, Date submissionDate, AppUser provider) {
 		this.description = description;
 		this.impediment = impediment;
 		this.submissionDate = submissionDate;
 		this.provider = provider;
 	}
-	
+
 	public Remedy(String description, Impediment impediment, Date submissionDate, AppUser provider) {
 		this.description = description;
 		this.impediment = impediment;
@@ -110,8 +115,7 @@ public class Remedy implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Remedy [id=" + id + ", description=" + description + ", impediment=" + impediment + ", submissionDate=" + submissionDate + ", provider="
-				+ provider + "]";
+		return "Remedy [id=" + id + ", description=" + description + ", impediment=" + impediment + ", submissionDate=" + submissionDate + ", provider=" + provider + "]";
 	}
-	
+
 }
