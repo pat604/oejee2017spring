@@ -21,7 +21,8 @@ public class ProjectRepresentor {
 		this(null, "", "", ProjectStatusRepresentor.PROPOSED, new Date(), true, null);
 	}
 
-	public ProjectRepresentor(Long id, String name, String description, ProjectStatusRepresentor status, Date deadline, Boolean visible, ObjectiveRepresentor objective) {
+	public ProjectRepresentor(Long id, String name, String description, ProjectStatusRepresentor status, Date deadline, Boolean visible,
+			ObjectiveRepresentor objective) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -35,7 +36,8 @@ public class ProjectRepresentor {
 		this.objective = objective;
 	}
 
-	public ProjectRepresentor(String name, String description, ProjectStatusRepresentor status, Date deadline, Boolean visible, ObjectiveRepresentor objective) {
+	public ProjectRepresentor(String name, String description, ProjectStatusRepresentor status, Date deadline, Boolean visible,
+			ObjectiveRepresentor objective) {
 		this.name = name;
 		this.description = description;
 		this.status = status;
@@ -49,7 +51,7 @@ public class ProjectRepresentor {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -57,27 +59,27 @@ public class ProjectRepresentor {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public ProjectStatusRepresentor getStatus() {
-		return status;
+		return this.status;
 	}
 
 	public Date getDeadline() {
-		return deadline;
+		return this.deadline;
 	}
 
 	public Boolean getVisible() {
-		return visible;
+		return this.visible;
 	}
 
 	public List<TaskRepresentor> getTasks() {
-		return tasks;
+		return this.tasks;
 	}
 
 	public void addTask(TaskRepresentor task) {
@@ -85,7 +87,7 @@ public class ProjectRepresentor {
 	}
 
 	public List<TeamRepresentor> getAssignedTeams() {
-		return assignedTeams;
+		return this.assignedTeams;
 	}
 
 	public void addTeam(TeamRepresentor team) {
@@ -93,7 +95,7 @@ public class ProjectRepresentor {
 	}
 
 	public List<AppUserRepresentor> getAssignedUsers() {
-		return assignedUsers;
+		return this.assignedUsers;
 	}
 
 	public void addUser(AppUserRepresentor user) {
@@ -101,7 +103,7 @@ public class ProjectRepresentor {
 	}
 
 	public List<ImpedimentRepresentor> getImpediments() {
-		return impediments;
+		return this.impediments;
 	}
 
 	public void addImpediment(ImpedimentRepresentor impediment) {
@@ -109,13 +111,14 @@ public class ProjectRepresentor {
 	}
 
 	public ObjectiveRepresentor getObjective() {
-		return objective;
+		return this.objective;
 	}
 
 	@Override
 	public String toString() {
-		return "ProjectRepresentor [id=" + id + ", name=" + name + ", description=" + description + ", status=" + status + ", deadline=" + deadline + ", visible=" + visible + ", tasks=" + tasks
-				+ ", assignedTeams=" + assignedTeams + ", assignedUsers=" + assignedUsers + ", impediments=" + impediments + ", objective=" + objective + "]";
+		return "ProjectRepresentor [id=" + this.id + ", name=" + this.name + ", description=" + this.description + ", status=" + this.status + ", deadline="
+				+ this.deadline + ", visible=" + this.visible + ", tasks=" + this.tasks + ", assignedTeams=" + this.assignedTeams + ", assignedUsers="
+				+ this.assignedUsers + ", impediments=" + this.impediments + ", objective=" + this.objective + "]\n";
 	}
 
 }

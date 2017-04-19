@@ -42,7 +42,7 @@ public class ObjectiveRepresentor {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -50,23 +50,23 @@ public class ObjectiveRepresentor {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public int getPriority() {
-		return priority;
+		return this.priority;
 	}
 
 	public ObjectiveStatusRepresentor getStatus() {
-		return status;
+		return this.status;
 	}
 
 	public List<ProjectRepresentor> getProjects() {
-		return projects;
+		return this.projects;
 	}
 
 	public void addProject(ProjectRepresentor project) {
@@ -74,7 +74,7 @@ public class ObjectiveRepresentor {
 	}
 
 	public List<TaskRepresentor> getTasks() {
-		return tasks;
+		return this.tasks;
 	}
 
 	public void addTask(TaskRepresentor task) {
@@ -82,7 +82,7 @@ public class ObjectiveRepresentor {
 	}
 
 	public List<TeamRepresentor> getAssignedTeams() {
-		return assignedTeams;
+		return this.assignedTeams;
 	}
 
 	public void addTeam(TeamRepresentor team) {
@@ -90,17 +90,18 @@ public class ObjectiveRepresentor {
 	}
 
 	public List<AppUserRepresentor> getAssignedUsers() {
-		return assignedUsers;
+		return this.assignedUsers;
 	}
 
 	public void addUser(AppUserRepresentor user) {
 		this.assignedUsers.add(user);
 	}
-	
+
 	@Override
 	public String toString() {
-		return "ObjectiveRepresentor [id=" + id + ", name=" + name + ", description=" + description + ", priority=" + priority + ", status=" + status + ", projects=" + projects + ", tasks=" + tasks
-				+ ", assignedTeams=" + assignedTeams + ", assignedUsers=" + assignedUsers + "]";
+		return "ObjectiveRepresentor [id=" + this.id + ", name=" + this.name + ", description=" + this.description + ", priority=" + this.priority + ", status="
+				+ this.status + ", projects=" + this.projects + ", tasks=" + this.tasks + ", assignedTeams=" + this.assignedTeams + ", assignedUsers="
+				+ this.assignedUsers + "]\n";
 	}
 
 }

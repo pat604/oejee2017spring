@@ -59,15 +59,15 @@ public class AppUser implements Serializable {
 	private Role role;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Objective.class)
-	@JoinTable(name = "user_objective_assignments", joinColumns = @JoinColumn(name = "assignment_objective"), inverseJoinColumns = @JoinColumn(name = "assignment_recipient"))
+	@JoinTable(name = "user_objective_assignments", joinColumns = @JoinColumn(name = "assignment_recipient", nullable = false), inverseJoinColumns = @JoinColumn(name = "assignment_objective", nullable = false))
 	private Set<Objective> objectives;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Project.class)
-	@JoinTable(name = "user_project_assignments", joinColumns = @JoinColumn(name = "assignment_project"), inverseJoinColumns = @JoinColumn(name = "assignment_recipient"))
+	@JoinTable(name = "user_project_assignments", joinColumns = @JoinColumn(name = "assignment_recipient", nullable = false), inverseJoinColumns = @JoinColumn(name = "assignment_project", nullable = false))
 	private Set<Project> projects;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
-	@JoinTable(name = "user_task_assignments", joinColumns = @JoinColumn(name = "assignment_task"), inverseJoinColumns = @JoinColumn(name = "assignment_recipient"))
+	@JoinTable(name = "user_task_assignments", joinColumns = @JoinColumn(name = "assignment_recipient", nullable = false), inverseJoinColumns = @JoinColumn(name = "assignment_task", nullable = false))
 	private Set<Task> tasks;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Impediment.class, mappedBy = "reporter")
@@ -80,7 +80,7 @@ public class AppUser implements Serializable {
 	private Set<Team> supervisedTeams;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Team.class)
-	@JoinTable(name = "team_members", joinColumns = @JoinColumn(name = "team_member_team_id"), inverseJoinColumns = @JoinColumn(name = "team_member_user_id"))
+	@JoinTable(name = "team_members", joinColumns = @JoinColumn(name = "team_member_user_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "team_member_team_id", nullable = false))
 	private Set<Team> teamMemberships;
 
 	public AppUser() {
@@ -93,8 +93,8 @@ public class AppUser implements Serializable {
 		this.teamMemberships = new HashSet<>();
 	}
 
-	public AppUser(Long id, String name, String passwordHash, String email, Role role, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks, Set<Impediment> reportedImpediments,
-			Set<Impediment> processedImpediments, Set<Team> supervisedTeams, Set<Team> teamMemberships) {
+	public AppUser(Long id, String name, String passwordHash, String email, Role role, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks,
+			Set<Impediment> reportedImpediments, Set<Impediment> processedImpediments, Set<Team> supervisedTeams, Set<Team> teamMemberships) {
 		this.id = id;
 		this.name = name;
 		this.passwordHash = passwordHash;
@@ -109,8 +109,8 @@ public class AppUser implements Serializable {
 		this.teamMemberships = teamMemberships;
 	}
 
-	public AppUser(String name, String passwordHash, String email, Role role, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks, Set<Impediment> reportedImpediments,
-			Set<Impediment> processedImpediments, Set<Team> supervisedTeams, Set<Team> teamMemberships) {
+	public AppUser(String name, String passwordHash, String email, Role role, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks,
+			Set<Impediment> reportedImpediments, Set<Impediment> processedImpediments, Set<Team> supervisedTeams, Set<Team> teamMemberships) {
 		this.name = name;
 		this.passwordHash = passwordHash;
 		this.email = email;
@@ -125,7 +125,7 @@ public class AppUser implements Serializable {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -133,7 +133,7 @@ public class AppUser implements Serializable {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -141,7 +141,7 @@ public class AppUser implements Serializable {
 	}
 
 	public String getPasswordHash() {
-		return passwordHash;
+		return this.passwordHash;
 	}
 
 	public void setPasswordHash(String passwordHash) {
@@ -149,7 +149,7 @@ public class AppUser implements Serializable {
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
@@ -157,7 +157,7 @@ public class AppUser implements Serializable {
 	}
 
 	public Role getRole() {
-		return role;
+		return this.role;
 	}
 
 	public void setRole(Role role) {
@@ -165,7 +165,7 @@ public class AppUser implements Serializable {
 	}
 
 	public Set<Objective> getObjectives() {
-		return objectives;
+		return this.objectives;
 	}
 
 	public void setObjectives(Set<Objective> objectives) {
@@ -173,7 +173,7 @@ public class AppUser implements Serializable {
 	}
 
 	public Set<Project> getProjects() {
-		return projects;
+		return this.projects;
 	}
 
 	public void setProjects(Set<Project> projects) {
@@ -181,7 +181,7 @@ public class AppUser implements Serializable {
 	}
 
 	public Set<Task> getTasks() {
-		return tasks;
+		return this.tasks;
 	}
 
 	public void setTasks(Set<Task> tasks) {
@@ -189,7 +189,7 @@ public class AppUser implements Serializable {
 	}
 
 	public Set<Impediment> getReportedImpediments() {
-		return reportedImpediments;
+		return this.reportedImpediments;
 	}
 
 	public void setReportedImpediments(Set<Impediment> reportedImpediments) {
@@ -197,7 +197,7 @@ public class AppUser implements Serializable {
 	}
 
 	public Set<Impediment> getProcessedImpediments() {
-		return processedImpediments;
+		return this.processedImpediments;
 	}
 
 	public void setProcessedImpediments(Set<Impediment> processedImpediments) {
@@ -205,7 +205,7 @@ public class AppUser implements Serializable {
 	}
 
 	public Set<Team> getSupervisedTeams() {
-		return supervisedTeams;
+		return this.supervisedTeams;
 	}
 
 	public void setSupervisedTeams(Set<Team> supervisedTeams) {
@@ -213,7 +213,7 @@ public class AppUser implements Serializable {
 	}
 
 	public Set<Team> getTeamMemberships() {
-		return teamMemberships;
+		return this.teamMemberships;
 	}
 
 	public void setTeamMemberships(Set<Team> teamMemberships) {
@@ -222,7 +222,7 @@ public class AppUser implements Serializable {
 
 	@Override
 	public String toString() {
-		return "AppUser [id=" + id + ", name=" + name + ", passwordHash=" + passwordHash + ", email=" + email + ", role=" + role + "]";
+		return "AppUser [id=" + this.id + ", name=" + this.name + ", passwordHash=" + this.passwordHash + ", email=" + this.email + ", role=" + this.role + "]";
 	}
 
 }

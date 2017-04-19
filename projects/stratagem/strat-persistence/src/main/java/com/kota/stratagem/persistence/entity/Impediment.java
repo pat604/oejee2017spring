@@ -79,19 +79,19 @@ public class Impediment implements Serializable {
 	private Set<Remedy> remedies;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Project.class)
-	@JoinTable(name = "project_impediments", joinColumns = @JoinColumn(name = "project_impediment_project_id"), inverseJoinColumns = @JoinColumn(name = "project_impediment_impediment_id"))
+	@JoinTable(name = "project_impediments", joinColumns = @JoinColumn(name = "task_impediment_impediment_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "project_impediment_project_id", nullable = false))
 	private Project project;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Task.class)
-	@JoinTable(name = "task_impediments", joinColumns = @JoinColumn(name = "task_impediment_task_id"), inverseJoinColumns = @JoinColumn(name = "task_impediment_impediment_id"))
+	@JoinTable(name = "task_impediments", joinColumns = @JoinColumn(name = "task_impediment_impediment_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "task_impediment_task_id", nullable = false))
 	private Task task;
 
 	public Impediment() {
-		remedies = new HashSet<>();
+		this.remedies = new HashSet<>();
 	}
 
-	public Impediment(Long id, String name, String description, Priority priority, ImpedimentStatus status, Date reportDate, AppUser reporter, AppUser processor, Set<Remedy> remedies, Project project,
-			Task task) {
+	public Impediment(Long id, String name, String description, Priority priority, ImpedimentStatus status, Date reportDate, AppUser reporter,
+			AppUser processor, Set<Remedy> remedies, Project project, Task task) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -105,8 +105,8 @@ public class Impediment implements Serializable {
 		this.task = task;
 	}
 
-	public Impediment(String name, String description, Priority priority, ImpedimentStatus status, Date reportDate, AppUser reporter, AppUser processor, Set<Remedy> remedies, Project project,
-			Task task) {
+	public Impediment(String name, String description, Priority priority, ImpedimentStatus status, Date reportDate, AppUser reporter, AppUser processor,
+			Set<Remedy> remedies, Project project, Task task) {
 		this.name = name;
 		this.description = description;
 		this.priority = priority;
@@ -120,7 +120,7 @@ public class Impediment implements Serializable {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -128,7 +128,7 @@ public class Impediment implements Serializable {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -136,7 +136,7 @@ public class Impediment implements Serializable {
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public void setDescription(String description) {
@@ -144,7 +144,7 @@ public class Impediment implements Serializable {
 	}
 
 	public Priority getPriority() {
-		return priority;
+		return this.priority;
 	}
 
 	public void setPriority(Priority priority) {
@@ -152,7 +152,7 @@ public class Impediment implements Serializable {
 	}
 
 	public ImpedimentStatus getStatus() {
-		return status;
+		return this.status;
 	}
 
 	public void setStatus(ImpedimentStatus status) {
@@ -160,7 +160,7 @@ public class Impediment implements Serializable {
 	}
 
 	public Date getReportDate() {
-		return reportDate;
+		return this.reportDate;
 	}
 
 	public void setReportDate(Date reportDate) {
@@ -168,7 +168,7 @@ public class Impediment implements Serializable {
 	}
 
 	public AppUser getReporter() {
-		return reporter;
+		return this.reporter;
 	}
 
 	public void setReporter(AppUser reporter) {
@@ -176,7 +176,7 @@ public class Impediment implements Serializable {
 	}
 
 	public AppUser getProcessor() {
-		return processor;
+		return this.processor;
 	}
 
 	public void setProcessor(AppUser processor) {
@@ -184,7 +184,7 @@ public class Impediment implements Serializable {
 	}
 
 	public Set<Remedy> getRemedies() {
-		return remedies;
+		return this.remedies;
 	}
 
 	public void setRemedies(Set<Remedy> remedies) {
@@ -192,7 +192,7 @@ public class Impediment implements Serializable {
 	}
 
 	public Project getProject() {
-		return project;
+		return this.project;
 	}
 
 	public void setProject(Project project) {
@@ -200,7 +200,7 @@ public class Impediment implements Serializable {
 	}
 
 	public Task getTask() {
-		return task;
+		return this.task;
 	}
 
 	public void setTask(Task task) {
@@ -209,15 +209,14 @@ public class Impediment implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Impediment [id=" + id + ", name=" + name + "]";
+		return "Impediment [id=" + this.id + ", name=" + this.name + "]";
 	}
 
 	/*
-	@Override
-	public String toString() {
-		return "Impediment [id=" + id + ", name=" + name + ", description=" + description + ", priority=" + priority + ", status=" + status + ", reportDate=" + reportDate + ", reporter=" + reporter
-				+ ", processor=" + processor + ", remedies=" + remedies + ", project=" + project + ", task=" + task + "]";
-	}
-	*/
+	 * @Override public String toString() { return "Impediment [id=" + id + ", name=" + name + ", description=" +
+	 * description + ", priority=" + priority + ", status=" + status + ", reportDate=" + reportDate + ", reporter=" +
+	 * reporter + ", processor=" + processor + ", remedies=" + remedies + ", project=" + project + ", task=" + task +
+	 * "]"; }
+	 */
 
 }

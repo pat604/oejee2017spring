@@ -9,7 +9,6 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import com.kota.stratagem.ejbservice.converter.ObjectiveConverter;
-import com.kota.stratagem.ejbservice.domain.AppUserRepresentor;
 import com.kota.stratagem.ejbservice.domain.ObjectiveRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
 import com.kota.stratagem.ejbservice.util.ApplicationError;
@@ -23,7 +22,7 @@ public class ObjectiveProtocolImpl implements ObjectiveProtocol {
 
 	@EJB
 	private ObjectiveService objectiveService;
-	
+
 	@EJB
 	private ObjectiveConverter converter;
 
@@ -31,11 +30,11 @@ public class ObjectiveProtocolImpl implements ObjectiveProtocol {
 	public ObjectiveRepresentor getObjective(Long id) throws AdaptorException {
 		try {
 			final ObjectiveRepresentor representor = this.converter.to(this.objectiveService.read(id));
-			if(LOGGER.isDebugEnabled()) {
+			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Get Objective (id: " + id + ") --> " + representor);
 			}
 			return representor;
-		} catch(final PersistenceServiceException e) {
+		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
 		}
@@ -46,13 +45,13 @@ public class ObjectiveProtocolImpl implements ObjectiveProtocol {
 		List<ObjectiveRepresentor> representors = new ArrayList<ObjectiveRepresentor>();
 		try {
 			representors = this.converter.to(this.objectiveService.readAll());
-			if(LOGGER.isDebugEnabled()) {
+			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Fetch all Objectives : " + representors.size() + " objective(s)");
 			}
-		} catch(final PersistenceServiceException e) {
+		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 		}
 		return representors;
 	}
-	
+
 }

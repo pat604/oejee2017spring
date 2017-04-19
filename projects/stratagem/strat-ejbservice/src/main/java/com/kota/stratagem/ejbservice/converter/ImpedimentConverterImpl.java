@@ -10,7 +10,6 @@ import com.kota.stratagem.ejbservice.domain.ImpedimentRepresentor;
 import com.kota.stratagem.ejbservice.domain.ImpedimentStatusRepresentor;
 import com.kota.stratagem.ejbservice.domain.PriorityRepresentor;
 import com.kota.stratagem.persistence.entity.Impediment;
-import com.kota.stratagem.persistence.entity.Remedy;
 
 @Stateless
 public class ImpedimentConverterImpl implements ImpedimentConverter {
@@ -33,22 +32,27 @@ public class ImpedimentConverterImpl implements ImpedimentConverter {
 		final ImpedimentStatusRepresentor status = ImpedimentStatusRepresentor.valueOf(impediment.getStatus().toString());
 		final ImpedimentRepresentor representor = impediment.getId() != null
 				? new ImpedimentRepresentor(impediment.getId(), impediment.getName(), impediment.getDescription(), priority, status, impediment.getReportDate(),
-						appUserConverter.to(impediment.getReporter()), appUserConverter.to(impediment.getProcessor()), projectConverter.to(impediment.getProject()),
-						taskConverter.to(impediment.getTask()))
-				: new ImpedimentRepresentor(impediment.getName(), impediment.getDescription(), priority, status, impediment.getReportDate(), appUserConverter.to(impediment.getReporter()),
-						appUserConverter.to(impediment.getProcessor()), projectConverter.to(impediment.getProject()), taskConverter.to(impediment.getTask()));
-		if(impediment.getRemedies() != null) {
-			for(Remedy remedy : impediment.getRemedies()) {
-				representor.addRemedy(remedyConverter.to(remedy));
-			}
-		}
+						this.appUserConverter.to(impediment.getReporter()),
+						impediment.getProcessor() != null ? this.appUserConverter.to(impediment.getProcessor()) : null,
+						impediment.getProject() != null ? this.projectConverter.to(impediment.getProject()) : null,
+						impediment.getTask() != null ? this.taskConverter.to(impediment.getTask()) : null)
+				: new ImpedimentRepresentor(impediment.getName(), impediment.getDescription(), priority, status, impediment.getReportDate(),
+						this.appUserConverter.to(impediment.getReporter()),
+						impediment.getProcessor() != null ? this.appUserConverter.to(impediment.getProcessor()) : null,
+						impediment.getProject() != null ? this.projectConverter.to(impediment.getProject()) : null,
+						impediment.getTask() != null ? this.taskConverter.to(impediment.getTask()) : null);
+		// if (impediment.getRemedies() != null) {
+		// for (final Remedy remedy : impediment.getRemedies()) {
+		// representor.addRemedy(this.remedyConverter.to(remedy));
+		// }
+		// }
 		return representor;
 	}
 
 	@Override
 	public List<ImpedimentRepresentor> to(List<Impediment> impediments) {
 		final List<ImpedimentRepresentor> representors = new ArrayList<>();
-		for(final Impediment impediment : impediments) {
+		for (final Impediment impediment : impediments) {
 			representors.add(this.to(impediment));
 		}
 		return representors;

@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -25,6 +26,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import com.kota.stratagem.persistence.entity.trunk.ProjectStatus;
 import com.kota.stratagem.persistence.parameter.ProjectParameter;
@@ -68,28 +72,24 @@ public class Project implements Serializable {
 	private Boolean visible;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
-	@JoinTable(name = "project_tasks", joinColumns = @JoinColumn(name = "project_task_task_id", referencedColumnName = "task_id", nullable = false), 
-		inverseJoinColumns = @JoinColumn(name = "project_task_project_id", referencedColumnName = "project_id", nullable = false))
+	@JoinTable(name = "project_tasks", joinColumns = @JoinColumn(name = "project_task_project_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "project_task_task_id", nullable = false))
 	private Set<Task> tasks;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Team.class)
-	@JoinTable(name = "team_project_assignments", joinColumns = @JoinColumn(name = "assignment_recipient", referencedColumnName = "team_id", nullable = false), 
-		inverseJoinColumns = @JoinColumn(name = "assignment_project", referencedColumnName = "project_id", nullable = false))
+	@JoinTable(name = "team_project_assignments", joinColumns = @JoinColumn(name = "assignment_project", nullable = false), inverseJoinColumns = @JoinColumn(name = "assignment_recipient", nullable = false))
 	private Set<Team> assignedTeams;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = AppUser.class)
-	@JoinTable(name = "user_project_assignments", joinColumns = @JoinColumn(name = "assignment_recipient", referencedColumnName = "user_id", nullable = false), 
-		inverseJoinColumns = @JoinColumn(name = "assignment_project", referencedColumnName = "project_id", nullable = false))
+	@JoinTable(name = "user_project_assignments", joinColumns = @JoinColumn(name = "assignment_project", nullable = false), inverseJoinColumns = @JoinColumn(name = "assignment_recipient", nullable = false))
 	private Set<AppUser> assignedUsers;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Impediment.class)
-	@JoinTable(name = "project_impediments", joinColumns = @JoinColumn(name = "project_impediment_impediment_id", referencedColumnName = "impediment_id", nullable = false), 
-		inverseJoinColumns = @JoinColumn(name = "project_impediment_project_id", referencedColumnName = "project_id", nullable = false))
+	@JoinTable(name = "project_impediments", joinColumns = @JoinColumn(name = "project_impediment_project_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "project_impediment_impediment_id", nullable = false))
 	private Set<Impediment> impediments;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Objective.class)
-	@JoinTable(name = "objective_projects", joinColumns = @JoinColumn(name = "objective_project_objective", referencedColumnName = "objective_id", nullable = false), 
-		inverseJoinColumns = @JoinColumn(name = "objective_project_project", referencedColumnName = "project_id", nullable = false))
+	@JoinTable(name = "objective_projects", joinColumns = @JoinColumn(name = "objective_project_project", nullable = false), inverseJoinColumns = @JoinColumn(name = "objective_project_objective", nullable = false))
+	@NotFound(action = NotFoundAction.IGNORE)
 	private Objective objective;
 
 	public Project() {
@@ -99,8 +99,8 @@ public class Project implements Serializable {
 		this.impediments = new HashSet<>();
 	}
 
-	public Project(Long id, String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers,
-			Set<Impediment> impediments, Objective objective) {
+	public Project(Long id, String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams,
+			Set<AppUser> assignedUsers, Set<Impediment> impediments, Objective objective) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -114,8 +114,8 @@ public class Project implements Serializable {
 		this.objective = objective;
 	}
 
-	public Project(String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers,
-			Set<Impediment> impediments, Objective objective) {
+	public Project(String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams,
+			Set<AppUser> assignedUsers, Set<Impediment> impediments, Objective objective) {
 		this.name = name;
 		this.description = description;
 		this.status = status;
@@ -129,7 +129,7 @@ public class Project implements Serializable {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -137,7 +137,7 @@ public class Project implements Serializable {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -145,7 +145,7 @@ public class Project implements Serializable {
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public void setDescription(String description) {
@@ -153,7 +153,7 @@ public class Project implements Serializable {
 	}
 
 	public ProjectStatus getStatus() {
-		return status;
+		return this.status;
 	}
 
 	public void setStatus(ProjectStatus status) {
@@ -161,7 +161,7 @@ public class Project implements Serializable {
 	}
 
 	public Date getDeadline() {
-		return deadline;
+		return this.deadline;
 	}
 
 	public void setDeadline(Date deadline) {
@@ -169,7 +169,7 @@ public class Project implements Serializable {
 	}
 
 	public Boolean getVisible() {
-		return visible;
+		return this.visible;
 	}
 
 	public void setVisible(Boolean visible) {
@@ -177,7 +177,7 @@ public class Project implements Serializable {
 	}
 
 	public Set<Task> getTasks() {
-		return tasks;
+		return this.tasks;
 	}
 
 	public void setTasks(Set<Task> tasks) {
@@ -185,7 +185,7 @@ public class Project implements Serializable {
 	}
 
 	public Set<Team> getAssignedTeams() {
-		return assignedTeams;
+		return this.assignedTeams;
 	}
 
 	public void setAssignedTeams(Set<Team> assignedTeams) {
@@ -193,7 +193,7 @@ public class Project implements Serializable {
 	}
 
 	public Set<AppUser> getAssignedUsers() {
-		return assignedUsers;
+		return this.assignedUsers;
 	}
 
 	public void setAssignedUsers(Set<AppUser> assignedUsers) {
@@ -201,7 +201,7 @@ public class Project implements Serializable {
 	}
 
 	public Set<Impediment> getImpediments() {
-		return impediments;
+		return this.impediments;
 	}
 
 	public void setImpediments(Set<Impediment> impediments) {
@@ -209,7 +209,11 @@ public class Project implements Serializable {
 	}
 
 	public Objective getObjective() {
-		return objective;
+		try {
+			return this.objective;
+		} catch (final EntityNotFoundException e) {
+			return null;
+		}
 	}
 
 	public void setObjective(Objective objective) {
@@ -218,8 +222,9 @@ public class Project implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Project [id=" + id + ", name=" + name + ", description=" + description + ", status=" + status + ", deadline=" + deadline + ", visible=" + visible + ", tasks=" + tasks
-				+ ", assignedTeams=" + assignedTeams + ", assignedUsers=" + assignedUsers + ", impediments=" + impediments + ", objective=" + objective + "]";
+		return "Project [id=" + this.id + ", name=" + this.name + ", description=" + this.description + ", status=" + this.status + ", deadline="
+				+ this.deadline + ", visible=" + this.visible + ", tasks=" + this.tasks + ", assignedTeams=" + this.assignedTeams + ", assignedUsers="
+				+ this.assignedUsers + ", impediments=" + this.impediments + ", objective=" + this.objective + "]";
 	}
 
 }

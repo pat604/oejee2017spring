@@ -21,6 +21,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import com.kota.stratagem.persistence.parameter.TaskParameter;
 import com.kota.stratagem.persistence.query.TaskQuery;
 
@@ -53,31 +56,32 @@ public class Task implements Serializable {
 	private double completion;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Team.class)
-	@JoinTable(name = "team_task_assignments", joinColumns = @JoinColumn(name = "assignment_recipient"), inverseJoinColumns = @JoinColumn(name = "assignment_task"))
+	@JoinTable(name = "team_task_assignments", joinColumns = @JoinColumn(name = "assignment_task", nullable = false), inverseJoinColumns = @JoinColumn(name = "assignment_recipient", nullable = false))
 	private Set<Team> assignedTeams;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = AppUser.class)
-	@JoinTable(name = "user_task_assignments", joinColumns = @JoinColumn(name = "assignment_recipient"), inverseJoinColumns = @JoinColumn(name = "assignment_task"))
+	@JoinTable(name = "user_task_assignments", joinColumns = @JoinColumn(name = "assignment_task", nullable = false), inverseJoinColumns = @JoinColumn(name = "assignment_recipient", nullable = false))
 	private Set<AppUser> assignedUsers;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Impediment.class)
-	@JoinTable(name = "project_impediments", joinColumns = @JoinColumn(name = "project_impediment_impediment_id"), inverseJoinColumns = @JoinColumn(name = "project_impediment_project_id"))
+	@JoinTable(name = "project_impediments", joinColumns = @JoinColumn(name = "project_impediment_project_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "project_impediment_impediment_id", nullable = false))
 	private Set<Impediment> impediments;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
-	@JoinTable(name = "task_dependencies", joinColumns = @JoinColumn(name = "dependency_dependent"), inverseJoinColumns = @JoinColumn(name = "dependency_maintainer"))
+	@JoinTable(name = "task_dependencies", joinColumns = @JoinColumn(name = "dependency_maintainer", nullable = false), inverseJoinColumns = @JoinColumn(name = "dependency_dependent", nullable = false))
 	private Set<Task> dependantTasks;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
-	@JoinTable(name = "task_dependencies", joinColumns = @JoinColumn(name = "dependency_maintainer"), inverseJoinColumns = @JoinColumn(name = "dependency_dependent"))
+	@JoinTable(name = "task_dependencies", joinColumns = @JoinColumn(name = "dependency_dependent", nullable = false), inverseJoinColumns = @JoinColumn(name = "dependency_maintainer", nullable = false))
 	private Set<Task> taskDependencies;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Objective.class)
-	@JoinTable(name = "objective_tasks", joinColumns = @JoinColumn(name = "objective_task_objective_id"), inverseJoinColumns = @JoinColumn(name = "objective_task_task_id"))
+	@JoinTable(name = "objective_tasks", joinColumns = @JoinColumn(name = "objective_task_task_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "objective_task_objective_id", nullable = false))
 	private Objective objective;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Project.class)
-	@JoinTable(name = "project_tasks", joinColumns = @JoinColumn(name = "project_task_project_id"), inverseJoinColumns = @JoinColumn(name = "project_task_task_id"))
+	@JoinTable(name = "project_tasks", joinColumns = @JoinColumn(name = "project_task_task_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "project_task_project_id", nullable = false))
+	@NotFound(action = NotFoundAction.IGNORE)
 	private Project project;
 
 	public Task() {
@@ -88,8 +92,8 @@ public class Task implements Serializable {
 		this.taskDependencies = new HashSet<>();
 	}
 
-	public Task(Long id, String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Set<Task> dependantTasks,
-			Set<Task> taskDependencies, Objective objective, Project project) {
+	public Task(Long id, String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments,
+			Set<Task> dependantTasks, Set<Task> taskDependencies, Objective objective, Project project) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -103,8 +107,8 @@ public class Task implements Serializable {
 		this.project = project;
 	}
 
-	public Task(String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Set<Task> dependantTasks,
-			Set<Task> taskDependencies, Objective objective, Project project) {
+	public Task(String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments,
+			Set<Task> dependantTasks, Set<Task> taskDependencies, Objective objective, Project project) {
 		this.name = name;
 		this.description = description;
 		this.completion = completion;
@@ -118,7 +122,7 @@ public class Task implements Serializable {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -126,7 +130,7 @@ public class Task implements Serializable {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -134,7 +138,7 @@ public class Task implements Serializable {
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public void setDescription(String description) {
@@ -142,7 +146,7 @@ public class Task implements Serializable {
 	}
 
 	public double getCompletion() {
-		return completion;
+		return this.completion;
 	}
 
 	public void setCompletion(double completion) {
@@ -150,7 +154,7 @@ public class Task implements Serializable {
 	}
 
 	public Set<Team> getAssignedTeams() {
-		return assignedTeams;
+		return this.assignedTeams;
 	}
 
 	public void setAssignedTeams(Set<Team> assignedTeams) {
@@ -158,7 +162,7 @@ public class Task implements Serializable {
 	}
 
 	public Set<AppUser> getAssignedUsers() {
-		return assignedUsers;
+		return this.assignedUsers;
 	}
 
 	public void setAssignedUsers(Set<AppUser> assignedUsers) {
@@ -166,7 +170,7 @@ public class Task implements Serializable {
 	}
 
 	public Set<Impediment> getImpediments() {
-		return impediments;
+		return this.impediments;
 	}
 
 	public void setImpediments(Set<Impediment> impediments) {
@@ -174,7 +178,7 @@ public class Task implements Serializable {
 	}
 
 	public Set<Task> getDependantTasks() {
-		return dependantTasks;
+		return this.dependantTasks;
 	}
 
 	public void setDependantTasks(Set<Task> dependantTasks) {
@@ -182,7 +186,7 @@ public class Task implements Serializable {
 	}
 
 	public Set<Task> getTaskDependencies() {
-		return taskDependencies;
+		return this.taskDependencies;
 	}
 
 	public void setTaskDependencies(Set<Task> taskDependencies) {
@@ -190,7 +194,7 @@ public class Task implements Serializable {
 	}
 
 	public Objective getObjective() {
-		return objective;
+		return this.objective;
 	}
 
 	public void setObjective(Objective objective) {
@@ -198,7 +202,7 @@ public class Task implements Serializable {
 	}
 
 	public Project getProject() {
-		return project;
+		return this.project;
 	}
 
 	public void setProject(Project project) {
@@ -207,8 +211,9 @@ public class Task implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Task [id=" + id + ", name=" + name + ", description=" + description + ", completion=" + completion + ", assignedTeams=" + assignedTeams + ", assignedUsers=" + assignedUsers
-				+ ", impediments=" + impediments + ", dependantTasks=" + dependantTasks + ", taskDependencies=" + taskDependencies + ", objective=" + objective + ", project=" + project + "]";
+		return "Task [id=" + this.id + ", name=" + this.name + ", description=" + this.description + ", completion=" + this.completion + ", assignedTeams="
+				+ this.assignedTeams + ", assignedUsers=" + this.assignedUsers + ", impediments=" + this.impediments + ", dependantTasks=" + this.dependantTasks
+				+ ", taskDependencies=" + this.taskDependencies + ", objective=" + this.objective + ", project=" + this.project + "]";
 	}
 
 }

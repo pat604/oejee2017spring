@@ -52,7 +52,7 @@ public class AppUserRepresentor {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -60,23 +60,23 @@ public class AppUserRepresentor {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public String getPasswordHash() {
-		return passwordHash;
+		return this.passwordHash;
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public RoleRepresentor getRole() {
-		return role;
+		return this.role;
 	}
 
 	public List<ObjectiveRepresentor> getObjectives() {
-		return objectives;
+		return this.objectives;
 	}
 
 	public void addObjective(ObjectiveRepresentor objective) {
@@ -84,7 +84,7 @@ public class AppUserRepresentor {
 	}
 
 	public List<ProjectRepresentor> getProjects() {
-		return projects;
+		return this.projects;
 	}
 
 	public void addProject(ProjectRepresentor project) {
@@ -92,7 +92,7 @@ public class AppUserRepresentor {
 	}
 
 	public List<TaskRepresentor> getTasks() {
-		return tasks;
+		return this.tasks;
 	}
 
 	public void addTask(TaskRepresentor task) {
@@ -100,7 +100,7 @@ public class AppUserRepresentor {
 	}
 
 	public List<ImpedimentRepresentor> getReportedImpediments() {
-		return reportedImpediments;
+		return this.reportedImpediments;
 	}
 
 	public void addReportedImpediment(ImpedimentRepresentor impediment) {
@@ -108,7 +108,7 @@ public class AppUserRepresentor {
 	}
 
 	public List<ImpedimentRepresentor> getProcessedImpediments() {
-		return processedImpediments;
+		return this.processedImpediments;
 	}
 
 	public void addProcessingImpediment(ImpedimentRepresentor impediment) {
@@ -116,7 +116,7 @@ public class AppUserRepresentor {
 	}
 
 	public List<TeamRepresentor> getSupervisedTeams() {
-		return supervisedTeams;
+		return this.supervisedTeams;
 	}
 
 	public void addSupervisedTeam(TeamRepresentor team) {
@@ -124,7 +124,7 @@ public class AppUserRepresentor {
 	}
 
 	public List<TeamRepresentor> getTeamMemberships() {
-		return teamMemberships;
+		return this.teamMemberships;
 	}
 
 	public void addTeamMembership(TeamRepresentor team) {
@@ -133,9 +133,10 @@ public class AppUserRepresentor {
 
 	@Override
 	public String toString() {
-		return "AppUserRepresentor [id=" + id + ", name=" + name + ", passwordHash=" + passwordHash + ", email=" + email + ", role=" + role + ", objectives=" + objectives + ", projects=" + projects
-				+ ", tasks=" + tasks + ", reportedImpediments=" + reportedImpediments + ", processedImpediments=" + processedImpediments + ", supervisedTeams=" + supervisedTeams + ", teamMemberships="
-				+ teamMemberships + "]";
+		return "AppUserRepresentor [id=" + this.id + ", name=" + this.name + ", passwordHash=" + this.passwordHash + ", email=" + this.email + ", role="
+				+ this.role + ", objectives=" + this.objectives + ", projects=" + this.projects + ", tasks=" + this.tasks + ", reportedImpediments="
+				+ this.reportedImpediments + ", processedImpediments=" + this.processedImpediments + ", supervisedTeams=" + this.supervisedTeams
+				+ ", teamMemberships=" + this.teamMemberships + "]\n";
 	}
 
 }

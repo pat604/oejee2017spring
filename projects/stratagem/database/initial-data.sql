@@ -58,19 +58,19 @@ INSERT INTO teams (team_id, team_name, team_leader) VALUES
 (3, 'Front-end development', 8),
 (4, 'Quality assurance', 3);
 
-INSERT INTO team_members (team_member_id, team_member_team_id, team_member_user_id) VALUES
-(0, 0, 0),
-(1, 0, 1),
-(2, 1, 2),
-(3, 1, 4),
-(4, 1, 5),
-(5, 2, 3),
-(6, 2, 6),
-(7, 2, 7),
-(8, 3, 8),
-(9, 3, 9),
-(10, 4, 3),
-(11, 4, 7);
+INSERT INTO team_members (team_member_team_id, team_member_user_id) VALUES
+(0, 0),
+(0, 1),
+(1, 2),
+(1, 4),
+(1, 5),
+(2, 3),
+(2, 6),
+(2, 7),
+(3, 8),
+(3, 9),
+(4, 3),
+(4, 7);
 
 -- ###########################################################################################
 
@@ -84,8 +84,8 @@ INSERT INTO objective_statuses (status_id, status_name) VALUES
 INSERT INTO objectives (objective_id, objective_name, objective_description, objective_priority, objective_status_id) VALUES 
 (0, 'Integration with augmented reality', '', 2, 1),
 (1, 'Increase influence in market', 'Completing projects for our esteemed contacts', 1, 1),
-(2, 'Test 1, id:2', 'test', 5, 0),
-(3, 'Test 2, id:3', 'test', 5, 0);
+(2, 'Test 1', 'test, id:2', 5, 0),
+(3, 'Test 2', 'test, id:3', 5, 0);
 
 INSERT INTO objective_missions (mission_id, mission_name, mission_description, mission_objective, mission_stage_id) VALUES
 (0, 'Steps towards growing technologies', '', 0, 4);
@@ -96,8 +96,8 @@ INSERT INTO objective_status_alterations (alteration_id, alteration_objective_id
 (2, 1, 0, '2015/02/19 16:20:00'),
 (3, 1, 2, '2015/04/27 10:30:00');
 
-INSERT INTO objective_appointments(appointment_id, appointment_user_id, appointment_objective_id) VALUES
-(0, 0, 1);
+INSERT INTO objective_appointments(appointment_user_id, appointment_objective_id) VALUES
+(0, 1);
 
 -- ###########################################################################################
 
@@ -125,7 +125,9 @@ INSERT INTO projects (project_id, project_name, project_description, project_sta
 (1, 'QuickExtract app', 'Develop mobile app for QuickExtract', 7, NULL, TRUE),
 (2, 'Grove BI outsourcing', '', 0, NULL, TRUE),
 (3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', 5, '2017/05/26 00:00:00', FALSE),
-(4, 'Test', '', 0, NULL, TRUE);
+(4, 'Test', 'Test 1 objective project', 0, NULL, TRUE),
+(5, 'Test', 'Test 1 objective project', 0, NULL, TRUE),
+(6, 'Test', 'Test 2 objective project', 0, NULL, TRUE);
 SELECT SETVAL('projects_project_id_seq', COALESCE(MAX(project_id), 0) ) FROM projects;
 
 INSERT INTO project_missions (mission_id, mission_name, mission_description, mission_project, mission_stage_id) VALUES
@@ -156,11 +158,12 @@ INSERT INTO project_status_alterations (alteration_id, alteration_project_id, al
 (12, 3, 6, 0, '2016/10/22 10:15:00'),
 (13, 3, 5, 3, '2016/12/12 09:15:00');
 
-INSERT INTO objective_projects (objective_project_id, objective_project_objective, objective_project_project) VALUES
-(0, 0, 3),
-(1, 1, 0),
-(2, 1, 1),
-(3, 1, 2);
+INSERT INTO objective_projects (objective_project_objective, objective_project_project) VALUES
+(0, 3),
+(1, 0),
+(2, 4),
+(2, 5),
+(3, 6);
 
 -- ###########################################################################################
 
@@ -174,14 +177,16 @@ INSERT INTO tasks (task_id, task_name, task_description, task_completion_percent
 
 -- INSERT INTO task_alterations
 
-INSERT INTO project_tasks (project_task_id, project_task_project_id, project_task_task_id) VALUES
-(0, 1, 0),
-(1, 0, 1),
-(2, 2, 2),
-(3, 1, 4);
+INSERT INTO project_tasks (project_task_project_id, project_task_task_id) VALUES
+(0, 1),
+(2, 2),
+(1, 4),
+(3, 5);
 
-INSERT INTO objective_tasks (objective_task_id, objective_task_objective_id, objective_task_task_id) VALUES
-(0, 1, 3);
+INSERT INTO objective_tasks (objective_task_objective_id, objective_task_task_id) VALUES
+(0, 2),
+(2, 3),
+(3, 4);
 
 -- ###########################################################################################
 
@@ -199,46 +204,46 @@ INSERT INTO impediments (impediment_id, impediment_name, impediment_description,
 (1, 'Data connection', 'Unable to establish connection with service endpoint with OData componenet', 3, 6, '2015/12/11 16:10:00', 4, 1),
 (2, 'Lingering numpad', 'A High level incident is not recreatable with our build, and transition at this point is not possible', 0, 2, '2016/09/03 10:40:00', 9, 0);
 
-INSERT INTO project_impediments (project_impediment_id, project_impediment_project_id, project_impediment_impediment_id) VALUES
-(0, 3, 0),
-(1, 1, 1);
+INSERT INTO project_impediments (project_impediment_project_id, project_impediment_impediment_id) VALUES
+(3, 0),
+(1, 1);
 
-INSERT INTO task_impediments (task_impediment_id, task_impediment_task_id, task_impediment_impediment_id) VALUES
-(0, 4, 2);
+INSERT INTO task_impediments (task_impediment_task_id, task_impediment_impediment_id) VALUES
+(4, 2);
 
 -- INSERT INTO remedies (remedy_id, remedy_description, remedy_impediment_id, remedy_submission_date, remedy_provider) VALUES
 -- (0, 'Use service control tool to generate project structure from existing endpoint meta data', 1, '2015/12/13 14:20:00', 1); 
 
 -- ###########################################################################################
 
-INSERT INTO task_dependencies (dependency_id, dependency_dependent, dependency_maintainer) VALUES
-(0, 5, 4);
+INSERT INTO task_dependencies (dependency_dependent, dependency_maintainer) VALUES
+(5, 4);
 
 INSERT INTO task_estimations (estimation_id, estimation_task, estimation_pessimist, estimation_realist, estimation_optimist) VALUES
 (0, 4, '5 0:00:00', '4 0:00:00', '3 0:00:00');
 
 -- ###########################################################################################
 
-INSERT INTO team_objective_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_objective) VALUES
-(0, 1, 1, 1);
-INSERT INTO user_objective_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_objective) VALUES
-(0, 2, 2, 3);
-INSERT INTO team_project_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_project) VALUES
-(0, 2, 2, 3);
-INSERT INTO user_project_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_project) VALUES
-(0, 0, 3, 2);
-INSERT INTO team_task_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_task) VALUES
-(0, 1, 2, 0);
-INSERT INTO user_task_assignments (assignment_id, assignment_entrustor, assignment_recipient, assignment_task) VALUES
-(0, 0, 7, 1);
+INSERT INTO team_objective_assignments (assignment_entrustor, assignment_recipient, assignment_objective) VALUES
+(1, 1, 1);
+INSERT INTO user_objective_assignments (assignment_entrustor, assignment_recipient, assignment_objective) VALUES
+(2, 2, 3);
+INSERT INTO team_project_assignments (assignment_entrustor, assignment_recipient, assignment_project) VALUES
+(2, 2, 3);
+INSERT INTO user_project_assignments (assignment_entrustor, assignment_recipient, assignment_project) VALUES
+(0, 3, 2);
+INSERT INTO team_task_assignments (assignment_entrustor, assignment_recipient, assignment_task) VALUES
+(1, 2, 0);
+INSERT INTO user_task_assignments (assignment_entrustor, assignment_recipient, assignment_task) VALUES
+(0, 7, 1);
 
 -- ###########################################################################################
 
 INSERT INTO reviews (review_id, review_name, review_description, review_organizer, review_date) VALUES
 (0, 'ARPA integration code review', 'Let us analyze our progress made with the new AR SDK', 0, '2016/09/15 14:00:00');
 
-INSERT INTO review_invitations (invitation_id, invitaion_review, invitation_recipiant) VALUES
-(0, 0, 0),
-(1, 0, 3),
-(2, 0, 6),
-(3, 0, 7);
+INSERT INTO review_invitations (invitaion_review, invitation_recipiant) VALUES
+(0, 0),
+(0, 3),
+(0, 6),
+(0, 7);
