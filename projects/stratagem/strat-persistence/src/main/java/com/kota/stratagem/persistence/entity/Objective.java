@@ -1,5 +1,6 @@
 package com.kota.stratagem.persistence.entity;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -34,7 +36,9 @@ import com.kota.stratagem.persistence.query.ObjectiveQuery;
 		//
 })
 @SequenceGenerator(name = "objectiveGenerator", sequenceName = "objectives_objective_id_seq", allocationSize = 1)
-public class Objective {
+public class Objective implements Serializable {
+
+	private static final long serialVersionUID = 3624081320738998792L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "objectiveGenerator")
@@ -46,41 +50,64 @@ public class Objective {
 
 	@Column(name = "objective_description", nullable = true)
 	private String description;
-	
+
 	@Column(name = "objective_priority", nullable = false)
 	private int priority;
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "objective_status_id", nullable = false)
 	private ObjectiveStatus status;
-	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Task.class)
-	@JoinTable(name = "objective_projects", joinColumns = @JoinColumn(name = "objective_project_project"), inverseJoinColumns = @JoinColumn(name = "objective_project_objective"))
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Project.class)
+	@JoinTable(name = "objective_projects", joinColumns = @JoinColumn(name = "objective_project_objective", nullable = false), inverseJoinColumns = @JoinColumn(name = "objective_project_project", nullable = false))
 	private Set<Project> projects;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
+	@JoinTable(name = "objective_tasks", joinColumns = @JoinColumn(name = "objective_task_objective_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "objective_task_task_id", nullable = false))
+	private Set<Task> tasks;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Team.class)
+	@JoinTable(name = "team_objective_assignments", joinColumns = @JoinColumn(name = "assignment_objective", nullable = false), inverseJoinColumns = @JoinColumn(name = "assignment_recipient", nullable = false))
+	private Set<Team> assignedTeams;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = AppUser.class)
+	@JoinTable(name = "user_objective_assignments", joinColumns = @JoinColumn(name = "assignment_objective", nullable = false), inverseJoinColumns = @JoinColumn(name = "assignment_recipient", nullable = false))
+	private Set<AppUser> assignedUsers;
 
 	public Objective() {
 		this.projects = new HashSet<>();
+		this.tasks = new HashSet<>();
+		this.assignedTeams = new HashSet<>();
+		this.assignedUsers = new HashSet<>();
 	}
-	
-	public Objective(Long id, String name, String description, int priority, ObjectiveStatus status, Set<Project> projects) {
+
+	public Objective(Long id, String name, String description, int priority, ObjectiveStatus status, Set<Project> projects, Set<Task> tasks,
+			Set<Team> assignedTeams, Set<AppUser> assignedUsers) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.priority = priority;
 		this.status = status;
 		this.projects = projects;
+		this.tasks = tasks;
+		this.assignedTeams = assignedTeams;
+		this.assignedUsers = assignedUsers;
 	}
 
-	public Objective(String name, String description, int priority, ObjectiveStatus status, Set<Project> projects) {
+	public Objective(String name, String description, int priority, ObjectiveStatus status, Set<Project> projects, Set<Task> tasks, Set<Team> assignedTeams,
+			Set<AppUser> assignedUsers) {
 		this.name = name;
 		this.description = description;
 		this.priority = priority;
 		this.status = status;
 		this.projects = projects;
+		this.tasks = tasks;
+		this.assignedTeams = assignedTeams;
+		this.assignedUsers = assignedUsers;
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -88,7 +115,7 @@ public class Objective {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -96,7 +123,7 @@ public class Objective {
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public void setDescription(String description) {
@@ -104,7 +131,7 @@ public class Objective {
 	}
 
 	public int getPriority() {
-		return priority;
+		return this.priority;
 	}
 
 	public void setPriority(int priority) {
@@ -112,7 +139,7 @@ public class Objective {
 	}
 
 	public ObjectiveStatus getStatus() {
-		return status;
+		return this.status;
 	}
 
 	public void setStatus(ObjectiveStatus status) {
@@ -120,17 +147,47 @@ public class Objective {
 	}
 
 	public Set<Project> getProjects() {
-		return projects;
+		return this.projects;
 	}
 
 	public void setProjects(Set<Project> projects) {
 		this.projects = projects;
 	}
 
+	public Set<Task> getTasks() {
+		return this.tasks;
+	}
+
+	public void setTasks(Set<Task> tasks) {
+		this.tasks = tasks;
+	}
+
+	public Set<Team> getAssignedTeams() {
+		return this.assignedTeams;
+	}
+
+	public void setAssignedTeams(Set<Team> assignedTeams) {
+		this.assignedTeams = assignedTeams;
+	}
+
+	public Set<AppUser> getAssignedUsers() {
+		return this.assignedUsers;
+	}
+
+	public void setAssignedUsers(Set<AppUser> assignedUsers) {
+		this.assignedUsers = assignedUsers;
+	}
+
 	@Override
 	public String toString() {
-		return "Objective [id=" + id + ", name=" + name + ", description=" + description + ", priority=" + priority + ", status=" + status + ", projects="
-				+ projects + "]";
+		return "Objective [id=" + this.id + ", name=" + this.name + ", description=" + this.description + ", priority=" + this.priority + ", status="
+				+ this.status + "]";
 	}
-		
+
+	/*
+	 * @Override public String toString() { return "Objective [id=" + id + ", name=" + name + ", description=" +
+	 * description + ", priority=" + priority + ", status=" + status + ", projects=" + projects + ", tasks=" + tasks +
+	 * ", assignedTeams=" + assignedTeams + ", assignedUsers=" + assignedUsers + "]"; }
+	 */
+
 }

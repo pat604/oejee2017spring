@@ -1,6 +1,8 @@
 package com.kota.stratagem.persistence.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -12,7 +14,12 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
+import com.kota.stratagem.persistence.entity.AppUser;
+import com.kota.stratagem.persistence.entity.Impediment;
+import com.kota.stratagem.persistence.entity.Objective;
+import com.kota.stratagem.persistence.entity.Project;
 import com.kota.stratagem.persistence.entity.Task;
+import com.kota.stratagem.persistence.entity.Team;
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
 import com.kota.stratagem.persistence.parameter.TaskParameter;
 import com.kota.stratagem.persistence.query.TaskQuery;
@@ -20,25 +27,26 @@ import com.kota.stratagem.persistence.query.TaskQuery;
 @Stateless(mappedName = "ejb/taskService")
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-public class TaskServiceImplementation implements TaskService {
+public class TaskServiceImpl implements TaskService {
 
-	private static final Logger LOGGER = Logger.getLogger(TaskServiceImplementation.class);
+	private static final Logger LOGGER = Logger.getLogger(TaskServiceImpl.class);
 
 	@PersistenceContext(unitName = "strat-persistence-unit")
 	private EntityManager entityManager;
 
 	@Override
-	public Task create(Long id, String name, String description, double completion) throws PersistenceServiceException {
+	public Task create(String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Set<Task> dependantTasks,
+			Set<Task> taskDependencies, Objective objective, Project project) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Create Task (id: " + id + ", name: " + name + ", description: " + description + ", completion: " + completion + ")");
+			LOGGER.debug("Create Task (name: " + name + ", description: " + description + ", completion: " + completion + ")");
 		}
 		try {
-			final Task task = new Task(id, name, description, completion);
+			final Task task = new Task(name, description, completion, assignedTeams, assignedUsers, impediments, dependantTasks, taskDependencies, objective, project);
 			this.entityManager.persist(task);
 			this.entityManager.flush();
 			return task;
 		} catch(final Exception e) {
-			throw new PersistenceServiceException("Unknown error during persisting Task (" + id + ")! " + e.getLocalizedMessage(), e);
+			throw new PersistenceServiceException("Unknown error during persisting Task (" + name + ")! " + e.getLocalizedMessage(), e);
 		}
 	}
 
@@ -71,7 +79,8 @@ public class TaskServiceImplementation implements TaskService {
 	}
 
 	@Override
-	public Task update(Long id, String name, String description, double completion) throws PersistenceServiceException {
+	public Task update(Long id, String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Set<Task> dependantTasks,
+			Set<Task> taskDependencies, Objective objective, Project project) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Update Task (id: " + id + ", name: " + name + ", description: " + description + ", completion: " + completion + ")");
 		}
@@ -80,6 +89,13 @@ public class TaskServiceImplementation implements TaskService {
 			task.setName(name);
 			task.setDescription(description);
 			task.setCompletion(completion);
+			task.setAssignedTeams(assignedTeams != null ? assignedTeams : new HashSet<Team>());
+			task.setAssignedUsers(assignedUsers != null ? assignedUsers : new HashSet<AppUser>());
+			task.setImpediments(impediments != null ? impediments : new HashSet<Impediment>());
+			task.setDependantTasks(dependantTasks != null ? dependantTasks : new HashSet<Task>());
+			task.setTaskDependencies(taskDependencies != null ? taskDependencies : new HashSet<Task>());
+			task.setObjective(objective);
+			task.setProject(project);
 			return this.entityManager.merge(task);
 		} catch(final Exception e) {
 			throw new PersistenceServiceException("Unknown error when merging Task! " + e.getLocalizedMessage(), e);
@@ -100,6 +116,7 @@ public class TaskServiceImplementation implements TaskService {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean exists(Long id) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Check Task by id (" + id + ")");

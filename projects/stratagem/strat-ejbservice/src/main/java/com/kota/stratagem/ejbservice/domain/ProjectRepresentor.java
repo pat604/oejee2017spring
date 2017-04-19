@@ -1,6 +1,7 @@
 package com.kota.stratagem.ejbservice.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ProjectRepresentor {
@@ -8,65 +9,116 @@ public class ProjectRepresentor {
 	private final String name;
 	private final String description;
 	private final ProjectStatusRepresentor status;
-	private final List<TaskRepresentor> tasks;
+	private final Date deadline;
 	private final Boolean visible;
+	private final List<TaskRepresentor> tasks;
+	private final List<TeamRepresentor> assignedTeams;
+	private final List<AppUserRepresentor> assignedUsers;
+	private final List<ImpedimentRepresentor> impediments;
+	private final ObjectiveRepresentor objective;
 
 	public ProjectRepresentor() {
-		this(null, "", "", ProjectStatusRepresentor.PROPOSED, true);
+		this(null, "", "", ProjectStatusRepresentor.PROPOSED, new Date(), true, null);
 	}
 
-	public ProjectRepresentor(Long id, String name, String description, ProjectStatusRepresentor status, Boolean visible) {
+	public ProjectRepresentor(Long id, String name, String description, ProjectStatusRepresentor status, Date deadline, Boolean visible,
+			ObjectiveRepresentor objective) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.status = status;
-		this.tasks = new ArrayList<>();
+		this.deadline = deadline;
 		this.visible = visible;
+		this.tasks = new ArrayList<>();
+		this.assignedTeams = new ArrayList<>();
+		this.assignedUsers = new ArrayList<>();
+		this.impediments = new ArrayList<>();
+		this.objective = objective;
 	}
 
-	public ProjectRepresentor(String name, String description, ProjectStatusRepresentor status, Boolean visible) {
+	public ProjectRepresentor(String name, String description, ProjectStatusRepresentor status, Date deadline, Boolean visible,
+			ObjectiveRepresentor objective) {
 		this.name = name;
 		this.description = description;
 		this.status = status;
-		this.tasks = new ArrayList<>();
+		this.deadline = deadline;
 		this.visible = visible;
+		this.tasks = new ArrayList<>();
+		this.assignedTeams = new ArrayList<>();
+		this.assignedUsers = new ArrayList<>();
+		this.impediments = new ArrayList<>();
+		this.objective = objective;
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
-	public String getStringId() {
-		return id.toString();
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public ProjectStatusRepresentor getStatus() {
-		return status;
+		return this.status;
 	}
 
-	public List<TaskRepresentor> getTasks() {
-		return tasks;
-	}
-
-	public void addTask(TaskRepresentor task) {
-		tasks.add(task);
+	public Date getDeadline() {
+		return this.deadline;
 	}
 
 	public Boolean getVisible() {
-		return visible;
+		return this.visible;
+	}
+
+	public List<TaskRepresentor> getTasks() {
+		return this.tasks;
+	}
+
+	public void addTask(TaskRepresentor task) {
+		this.tasks.add(task);
+	}
+
+	public List<TeamRepresentor> getAssignedTeams() {
+		return this.assignedTeams;
+	}
+
+	public void addTeam(TeamRepresentor team) {
+		this.assignedTeams.add(team);
+	}
+
+	public List<AppUserRepresentor> getAssignedUsers() {
+		return this.assignedUsers;
+	}
+
+	public void addUser(AppUserRepresentor user) {
+		this.assignedUsers.add(user);
+	}
+
+	public List<ImpedimentRepresentor> getImpediments() {
+		return this.impediments;
+	}
+
+	public void addImpediment(ImpedimentRepresentor impediment) {
+		this.impediments.add(impediment);
+	}
+
+	public ObjectiveRepresentor getObjective() {
+		return this.objective;
 	}
 
 	@Override
 	public String toString() {
-		return "ProjectRepresentor [id=" + id + ", name=" + name + ", description=" + description + ", status=" + status + ", tasks=" + tasks + ", visible=" + visible + "]";
+		return "ProjectRepresentor [id=" + this.id + ", name=" + this.name + ", description=" + this.description + ", status=" + this.status + ", deadline="
+				+ this.deadline + ", visible=" + this.visible + ", tasks=" + this.tasks + ", assignedTeams=" + this.assignedTeams + ", assignedUsers="
+				+ this.assignedUsers + ", impediments=" + this.impediments + ", objective=" + this.objective + "]\n";
 	}
 
 }

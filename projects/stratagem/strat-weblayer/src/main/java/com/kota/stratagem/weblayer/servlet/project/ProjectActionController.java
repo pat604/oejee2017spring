@@ -44,7 +44,7 @@ public class ProjectActionController extends HttpServlet implements ProjectParam
 			ProjectRepresentor project = null;
 			boolean isNew = false;
 			if(NEW_PROJECT_ID_FLAG.equals(id)) {
-				project = new ProjectRepresentor("", "", ProjectStatusRepresentor.PROPOSED, true);
+				project = new ProjectRepresentor(null, "", "", ProjectStatusRepresentor.PROPOSED, null, true, null);
 				isNew = true;
 			} else {
 				try {
@@ -83,7 +83,7 @@ public class ProjectActionController extends HttpServlet implements ProjectParam
 			final Boolean visible = Boolean.valueOf(request.getParameter(VISIBLE));
 			if(name == null || "".equals(name)) {
 				LOGGER.info("Failed attempt to modify project : (" + name + ")");
-				final ProjectRepresentor project = new ProjectRepresentor(name, description, status, visible);
+				final ProjectRepresentor project = new ProjectRepresentor(id, name, description, status, null, visible, null);
 				this.forward(request, response, true, project, true, false);
 			} else {
 				ProjectRepresentor project = null;
@@ -92,7 +92,7 @@ public class ProjectActionController extends HttpServlet implements ProjectParam
 
 					// Representor collection 
 
-					project = this.protocol.saveProject(id, name, description, status, null, visible);
+					project = this.protocol.saveProject(id, name, description, status, null, visible, null, null, null, null, null);
 				} catch(final AdaptorException e) {
 					LOGGER.error(e, e);
 				}

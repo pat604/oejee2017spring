@@ -13,10 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -45,33 +45,54 @@ public class Team implements Serializable {
 	@Column(name = "team_name", nullable = false)
 	private String name;
 
-	@Column(name = "team_leader", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "team_leader", nullable = false)
 	private AppUser leader;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = AppUser.class)
-	@JoinTable(name = "team_members", joinColumns = @JoinColumn(name = "team_member_user_id"), inverseJoinColumns = @JoinColumn(name = "team_member_team_id"))
+	@JoinTable(name = "team_members", joinColumns = @JoinColumn(name = "team_member_team_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "team_member_user_id", nullable = false))
 	private Set<AppUser> members;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Objective.class)
+	@JoinTable(name = "team_objective_assignments", joinColumns = @JoinColumn(name = "assignment_recipient", nullable = false), inverseJoinColumns = @JoinColumn(name = "assignment_objective", nullable = false))
+	private Set<Objective> objectives;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Project.class)
+	@JoinTable(name = "team_project_assignments", joinColumns = @JoinColumn(name = "assignment_recipient", nullable = false), inverseJoinColumns = @JoinColumn(name = "assignment_project", nullable = false))
+	private Set<Project> projects;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Task.class)
+	@JoinTable(name = "team_task_assignments", joinColumns = @JoinColumn(name = "assignment_recipient", nullable = false), inverseJoinColumns = @JoinColumn(name = "assignment_task", nullable = false))
+	private Set<Task> tasks;
 
 	public Team() {
 		this.members = new HashSet<>();
+		this.objectives = new HashSet<>();
+		this.projects = new HashSet<>();
+		this.tasks = new HashSet<>();
 	}
 
-	public Team(Long id, String name, AppUser leader, Set<AppUser> members) {
+	public Team(Long id, String name, AppUser leader, Set<AppUser> members, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks) {
 		this.id = id;
 		this.name = name;
 		this.leader = leader;
 		this.members = members;
+		this.objectives = objectives;
+		this.projects = projects;
+		this.tasks = tasks;
 	}
 
-	public Team(String name, AppUser leader, Set<AppUser> members) {
-		super();
+	public Team(String name, AppUser leader, Set<AppUser> members, Set<Objective> objectives, Set<Project> projects, Set<Task> tasks) {
 		this.name = name;
 		this.leader = leader;
 		this.members = members;
+		this.objectives = objectives;
+		this.projects = projects;
+		this.tasks = tasks;
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -79,7 +100,7 @@ public class Team implements Serializable {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -87,7 +108,7 @@ public class Team implements Serializable {
 	}
 
 	public AppUser getLeader() {
-		return leader;
+		return this.leader;
 	}
 
 	public void setLeader(AppUser leader) {
@@ -95,20 +116,41 @@ public class Team implements Serializable {
 	}
 
 	public Set<AppUser> getMembers() {
-		return members;
+		return this.members;
 	}
 
 	public void setMembers(Set<AppUser> members) {
 		this.members = members;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public Set<Objective> getObjectives() {
+		return this.objectives;
+	}
+
+	public void setObjectives(Set<Objective> objectives) {
+		this.objectives = objectives;
+	}
+
+	public Set<Project> getProjects() {
+		return this.projects;
+	}
+
+	public void setProjects(Set<Project> projects) {
+		this.projects = projects;
+	}
+
+	public Set<Task> getTasks() {
+		return this.tasks;
+	}
+
+	public void setTasks(Set<Task> tasks) {
+		this.tasks = tasks;
 	}
 
 	@Override
 	public String toString() {
-		return "Team [id=" + id + ", name=" + name + ", leader=" + leader + ", members=" + members + "]";
+		return "Team [id=" + this.id + ", name=" + this.name + ", leader=" + this.leader + ", members=" + this.members + ", objectives=" + this.objectives
+				+ ", projects=" + this.projects + ", tasks=" + this.tasks + "]";
 	}
 
 }
