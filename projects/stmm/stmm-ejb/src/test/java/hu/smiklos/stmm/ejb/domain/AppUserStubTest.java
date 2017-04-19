@@ -9,16 +9,15 @@ import static org.junit.Assert.*;
  * Created by SebestyenMiklos on 2017. 03. 14..
  */
 public class AppUserStubTest {
-    AppUserStub user;
     private final String appuserId = "EMEA-HU-12345";
     private final String walletId = "HU-123456798";
     private final String firstName = "First";
     private final String secondName = "Second";
-
+    AppUserStub user;
 
     @Before
     public void createUserStub() {
-        user = new AppUserStub(appuserId,walletId,firstName,secondName);
+        user = new AppUserStub(appuserId,firstName,secondName);
     }
 
 

@@ -1,0 +1,16 @@
+body {
+    padding-top: 50px; /* Whatever the height of your navbar is; the
+                             default is 50px */
+}
+.first_container {
+    padding-top: 50px;
+}
+
+.panel-heading h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: normal;
+    width: 75%;
+    padding-top: 8px;
+}

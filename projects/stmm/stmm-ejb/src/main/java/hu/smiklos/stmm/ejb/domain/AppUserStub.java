@@ -15,23 +15,18 @@ public class AppUserStub {
 
     private String lastName;
 
+    public AppUserStub(String userId, String first_name, String last_name) {
+        this.appuserId = userId;
+        this.firstName = first_name;
+        this.lastName = last_name;
+    }
+
     public String getFirstName() {
         return firstName;
     }
 
     public String getLastName() {
         return lastName;
-    }
-
-    public AppUserStub() {
-
-    }
-
-    public AppUserStub(String appuserId, String walletId, String firstName, String lastName) {
-        this.appuserId = appuserId;
-        this.walletId = walletId;
-        this.firstName = firstName;
-        this.lastName = lastName;
     }
 
     public String getAppuserId() {

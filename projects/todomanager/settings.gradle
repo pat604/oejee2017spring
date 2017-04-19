@@ -1,0 +1,3 @@
+include 'tm-ejbservice'
+include 'tm-weblayer'
+include 'tm-persistence'
