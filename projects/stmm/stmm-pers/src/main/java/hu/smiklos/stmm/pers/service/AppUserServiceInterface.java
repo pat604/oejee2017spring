@@ -32,7 +32,7 @@ public interface AppUserServiceInterface {
 
     Wallet addWallet(Wallet wallet, Principal principal) throws PersistenceServiceException;
 
-    void addCredit(int credit, Principal principal) throws PersistenceServiceException;
+    void addCredit(double credit, Principal principal) throws PersistenceServiceException;
 
     void withdrawCredit(int credit, Principal principal) throws PersistenceServiceException;
 

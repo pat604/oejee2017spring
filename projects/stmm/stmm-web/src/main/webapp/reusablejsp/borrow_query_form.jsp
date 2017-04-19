@@ -15,17 +15,6 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="sr-only" for="<%= BorrowStub.BORROW_AMOUNT%>">Amount</label>
-                    <div class="input-group">
-                        <input type="number" class="form-control" name="<%= BorrowStub.BORROW_AMOUNT%>"
-                               id="<%= BorrowStub.BORROW_AMOUNT%>" placeholder="Amount to borrow">
-                        <div class="input-group-addon">MBC</div>
-                    </div>
-                </div>
-
-
-
-                <div class="form-group">
                     <label class="sr-only" for="<%= BorrowStub.BORROW_REPAYMENT_PERIOD_MONTH_MIN %>">Repayment
                         duration</label>
                     <div class="input-group">

@@ -1,6 +1,7 @@
 package hu.smiklos.stmm.pers.service;
 
 import hu.smiklos.stmm.pers.entity.*;
+import hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.pers.parameter.MoneyTransferParameter;
 import hu.smiklos.stmm.pers.parameter.MoneyTransferPerDayParameter;
@@ -112,9 +113,9 @@ public class MoneyTransferService implements MoneyTransferServiceInterFace {
     }
 
     @Override
-    public List<MoneyTransfer> getMoneyTransfers(String repaymentType, int repaymentDurationFrom, int repaymentDurationTo, Principal principal) throws PersistenceServiceException {
+    public List<MoneyTransfer> getOnPlateMoneyTransfersThatNotPrincipalOwns(String repaymentType, int repaymentDurationFrom, int repaymentDurationTo, Principal principal) throws PersistenceServiceException {
         if (LOGGER.isDebugEnabled()){
-            LOGGER.debug("Select all MoneyTransfers tahat has: repayment_type("+repaymentType+")"+"repayment between("+repaymentDurationFrom+"-"+repaymentDurationTo+")");
+            LOGGER.debug("Select all on plate MoneyTransfers tahat has: repayment_type("+repaymentType+")"+"repayment between("+repaymentDurationFrom+"-"+repaymentDurationTo+")");
         }
         String walletId = userService.getUserByUsername(principal.getName()).getWallet().getWallet_id();
 
@@ -122,6 +123,9 @@ public class MoneyTransferService implements MoneyTransferServiceInterFace {
         transfers = entityManager.createNamedQuery(MoneyTransferQuery.GET_BY_BORROW_QUERY,MoneyTransfer.class)
                 .setParameter(MoneyTransferParameter.REPAYMENT_TYPE,repaymentType)
                 .setParameter(MoneyTransferParameter.WALLET_ID, walletId)
+                .setParameter(MoneyTransferParameter.MONEY_TRANSFER_STATE,  hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates.ONPLATE)
+                .setParameter(MoneyTransferParameter.REPAYMENT_MONTHS_FROM, repaymentDurationFrom)
+                .setParameter(MoneyTransferParameter.REPAYMENT_MONTHS_TO,repaymentDurationTo)
                 .getResultList();
         return transfers;
     }

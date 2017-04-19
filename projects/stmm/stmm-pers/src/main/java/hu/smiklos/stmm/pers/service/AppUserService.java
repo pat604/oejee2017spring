@@ -152,7 +152,7 @@ public class AppUserService implements AppUserServiceInterface {
     }
 
     @Override
-    public void addCredit(int credit, Principal principal) throws PersistenceServiceException {
+    public void addCredit(double credit, Principal principal) throws PersistenceServiceException {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Add credit to wallet ("+ principal.getName() +") wallet: " + credit);
         }

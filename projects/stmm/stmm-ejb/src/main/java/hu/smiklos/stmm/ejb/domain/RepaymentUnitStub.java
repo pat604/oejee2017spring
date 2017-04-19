@@ -7,7 +7,7 @@ import java.util.Date;
  */
 public class RepaymentUnitStub {
     private Date deadline;
-    private float amount;
+    private double amount;
 
     public Date getDeadline() {
         return deadline;
@@ -17,11 +17,11 @@ public class RepaymentUnitStub {
         this.deadline = deadline;
     }
 
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 }

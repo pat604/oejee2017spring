@@ -52,7 +52,7 @@ public class LoanOfferStub {
     }
 
     private void setPaymentAmounts(int numberOfPayments, MoneyTransfer transfer, List<RepaymentUnitStub> payments){
-        float amount = transfer.getExpected_return_amount() / (float)numberOfPayments;
+        double amount = transfer.getExpected_return_amount() / (double) numberOfPayments;
         for( int i=0; i < numberOfPayments; i++){
             payments.get(i).setAmount(amount);
         }
@@ -73,11 +73,11 @@ public class LoanOfferStub {
         }
     }
 
-    public int getNetValue() {
+    public double getNetValue() {
         return transfer.getTransfer_amount();
     }
 
-    public int getTotalRepayAmount() {
+    public double getTotalRepayAmount() {
         return transfer.getExpected_return_amount();
     }
 

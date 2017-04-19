@@ -11,7 +11,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.security.Principal;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by SebestyenMiklos on 2017. 04. 16..
@@ -25,7 +24,7 @@ public class BorrowFacade implements BorrowFacadeInterface {
 
     @Override
     public OfferListOnBorrowQuery getOffers(BorrowStub borrow, Principal principal) throws PersistenceServiceException {
-       List<MoneyTransfer> unSortedOffers =  mtService.getMoneyTransfers(borrow.getRepaymentType(),borrow.getRepaymentDurationFrom(),borrow.getGetRepaymentDurationTo(),principal);
+       List<MoneyTransfer> unSortedOffers =  mtService.getOnPlateMoneyTransfersThatNotPrincipalOwns(borrow.getRepaymentType(),borrow.getRepaymentDurationFrom(),borrow.getRepaymentDurationTo(),principal);
        OfferListOnBorrowQuery list = new OfferListOnBorrowQuery();
        list.setOffers(unSortedOffers);
        return list;

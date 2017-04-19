@@ -3,12 +3,10 @@ package hu.smiklos.stmm.pers.entity;
 import hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates;
 import hu.smiklos.stmm.pers.parameter.MoneyTransferParameter;
 import hu.smiklos.stmm.pers.query.MoneyTransferQuery;
-import hu.smiklos.stmm.pers.entity.RepaymentUnit;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,14 +14,16 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "money_transfer")
-@NamedQueries( value = {
+@NamedQueries(value = {
         @NamedQuery(name = MoneyTransferQuery.GET_BY_BORROW_QUERY,
-                query = "SELECT a FROM MoneyTransfer a WHERE a.money_transfer_repayment_type.repayment_type_id =:"+ MoneyTransferParameter.REPAYMENT_TYPE +
-                    " and a.wallet_from.wallet_id <>:"+ MoneyTransferParameter.WALLET_ID),
+                query = "SELECT a FROM MoneyTransfer a WHERE a.money_transfer_repayment_type.repayment_type_id =:" + MoneyTransferParameter.REPAYMENT_TYPE +
+                        " and a.wallet_from.wallet_id <>:" + MoneyTransferParameter.WALLET_ID +
+                        " and a.transferState  =:" + MoneyTransferParameter.MONEY_TRANSFER_STATE +
+                        " and a.moneytransfer_investment_time_period_month between :" + MoneyTransferParameter.REPAYMENT_MONTHS_FROM + " and :" + MoneyTransferParameter.REPAYMENT_MONTHS_TO),
         @NamedQuery(name = MoneyTransferQuery.GET_BY_ID,
-                query = "SELECT a FROM MoneyTransfer a WHERE a.moneytransfer_id =:"+ MoneyTransferParameter.ID),
+                query = "SELECT a FROM MoneyTransfer a WHERE a.moneytransfer_id =:" + MoneyTransferParameter.ID),
         @NamedQuery(name = MoneyTransferQuery.DELETE_BY_ID,
-                query = "DELETE FROM MoneyTransfer a WHERE a.moneytransfer_id=:"+ MoneyTransferParameter.ID)
+                query = "DELETE FROM MoneyTransfer a WHERE a.moneytransfer_id=:" + MoneyTransferParameter.ID)
 })
 public class MoneyTransfer {
 
@@ -33,8 +33,8 @@ public class MoneyTransfer {
     private Wallet wallet_to;
     private Date transferdate;
     private Date returndate;
-    private int transfer_amount;
-    private int expected_return_amount;
+    private double transfer_amount;
+    private double expected_return_amount;
     private int moneytransfer_investment_time_period_month;
     private RepaymentType money_transfer_repayment_type;
     private MoneyTransferStates transfer_state;
@@ -95,20 +95,20 @@ public class MoneyTransfer {
     }
 
     @Column(name = "money_transfer_amount")
-    public int getTransfer_amount() {
+    public double getTransfer_amount() {
         return transfer_amount;
     }
 
-    public void setTransfer_amount(int transfer_amount) {
+    public void setTransfer_amount(double transfer_amount) {
         this.transfer_amount = transfer_amount;
     }
 
     @Column(name = "money_transfer_return_amount")
-    public int getExpected_return_amount() {
+    public double getExpected_return_amount() {
         return expected_return_amount;
     }
 
-    public void setExpected_return_amount(int expected_return_amount) {
+    public void setExpected_return_amount(double expected_return_amount) {
         this.expected_return_amount = expected_return_amount;
     }
 
@@ -132,7 +132,8 @@ public class MoneyTransfer {
         this.moneytransfer_investment_time_period_month = moneytransfer_investment_time_period_month;
     }
 
-    @Enumerated(EnumType.ORDINAL)
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "money_transfer_state", nullable = false)
     public MoneyTransferStates getTransferState() {
         return transfer_state;

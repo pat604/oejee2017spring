@@ -404,8 +404,10 @@ SELECT pg_catalog.setval('creditcard_credit_card_record_number_seq', 15, true);
 -- Data for Name: money_transfer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, money_transfer_state_id, money_transfer_repayment_type, money_transfer_amount, money_transfer_return_amount, money_transfer_invest_period_month, money_transfer_state) VALUES (10, 'MT-20170419-4', 'W-20170402-2', NULL, NULL, NULL, NULL, 'M', 222, 244, 12, '0');
-INSERT INTO money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, money_transfer_state_id, money_transfer_repayment_type, money_transfer_amount, money_transfer_return_amount, money_transfer_invest_period_month, money_transfer_state) VALUES (11, 'MT-20170419-5', 'W-20170402-2', NULL, NULL, NULL, NULL, 'W', 222, 244, 6, '0');
+INSERT INTO money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, money_transfer_state_id, money_transfer_repayment_type, money_transfer_amount, money_transfer_return_amount, money_transfer_invest_period_month, money_transfer_state) VALUES (10, 'MT-20170419-4', 'W-20170402-2', NULL, NULL, NULL, NULL, 'M', 222, 244, 12, 'ONPLATE');
+INSERT INTO money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, money_transfer_state_id, money_transfer_repayment_type, money_transfer_amount, money_transfer_return_amount, money_transfer_invest_period_month, money_transfer_state) VALUES (11, 'MT-20170419-5', 'W-20170402-2', NULL, NULL, NULL, NULL, 'W', 222, 244, 6, 'ONPLATE');
+INSERT INTO money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, money_transfer_state_id, money_transfer_repayment_type, money_transfer_amount, money_transfer_return_amount, money_transfer_invest_period_month, money_transfer_state) VALUES (14, 'MT-20170419-8', 'W-20170405-4', NULL, NULL, NULL, NULL, 'M', 111, 122, 13, 'ONPLATE');
+INSERT INTO money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, money_transfer_state_id, money_transfer_repayment_type, money_transfer_amount, money_transfer_return_amount, money_transfer_invest_period_month, money_transfer_state) VALUES (15, 'MT-20170419-9', 'W-20170405-4', NULL, NULL, NULL, NULL, 'M', 100, 110, 12, 'ONPLATE');
 
 
 --
@@ -419,7 +421,7 @@ SELECT pg_catalog.setval('money_transfer_part_id_seq', 1, false);
 -- Name: money_transfer_record_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('money_transfer_record_id_seq', 13, true);
+SELECT pg_catalog.setval('money_transfer_record_id_seq', 15, true);
 
 
 --
@@ -428,7 +430,7 @@ SELECT pg_catalog.setval('money_transfer_record_id_seq', 13, true);
 
 INSERT INTO moneytransfer_per_day (day, count) VALUES ('20170416', 8);
 INSERT INTO moneytransfer_per_day (day, count) VALUES ('20170417', 2);
-INSERT INTO moneytransfer_per_day (day, count) VALUES ('20170419', 7);
+INSERT INTO moneytransfer_per_day (day, count) VALUES ('20170419', 9);
 
 
 --
@@ -527,8 +529,8 @@ SELECT pg_catalog.setval('usertype_record_id_seq', 15, true);
 -- Data for Name: wallet; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (15, 'W-20170402-2', 1532);
-INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (13, 'W-20170405-4', 4080);
+INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (13, 'W-20170405-4', 3789);
+INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (15, 'W-20170402-2', 1600);
 
 
 --

@@ -9,10 +9,10 @@
 <% List<RepaymentUnitStub> repaymentUnits = loanStub.getPayments(); %>
 <div class="row">
     <div class="col-sm-12">
-        <h4>You get: <%= loanStub.getNetValue() %></h4>
+        <h4>You get: <%= String.valueOf(loanStub.getNetValue()) %></h4>
         <h4>You pay back: <%= loanStub.getTotalRepayAmount() %></h4>
         <h4>Payment method: <%= loanStub.getRePaymentMethod() %></h4>
-        <h4>In <%= loanStub.getNumberOfPayments() %> payments.</h4>
+        <h4>In <%= String.valueOf(loanStub.getNumberOfPayments()) %> payments.</h4>
 
     </div>
 </div>
@@ -24,7 +24,7 @@
             </a>
             <% for (RepaymentUnitStub unit : repaymentUnits) { %>
             <a href="#"
-               class="list-group-item"><%= String.format("%d MBC until %s ", (long)unit.getAmount(), unit.getDeadline().toString()) %>
+               class="list-group-item"><%= String.format("%s MBC until %s ", String.valueOf(unit.getAmount()), unit.getDeadline().toString()) %>
             </a>
             <% } %>
         </div>

@@ -47,10 +47,10 @@
                             for(MoneyTransfer mt : offerList){
                                 out.println("<tr>");
                                 out.println("<td>");
-                                out.println(mt.getTransfer_amount());
+                                out.println(String.valueOf(mt.getTransfer_amount()));
                                 out.println("</td>");
                                 out.println("<td>");
-                                out.println(mt.getExpected_return_amount() - mt.getTransfer_amount());
+                                out.println(String.valueOf(mt.getExpected_return_amount() - mt.getTransfer_amount()));
                                 out.println("</td>");
                                 out.println("<td>");
                                 out.println(mt.getMoney_transfer_repayment_type().getRepayment_type_name());

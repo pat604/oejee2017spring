@@ -22,7 +22,7 @@ public interface MoneyTransferServiceInterFace {
 
         List<RepaymentType> getRepaymentTypes() throws PersistenceServiceException;
 
-        List<MoneyTransfer> getMoneyTransfers(String repaymentType, int repaymentDurationFrom, int getRepaymentDurationTo, Principal principal) throws PersistenceServiceException;
+        List<MoneyTransfer> getOnPlateMoneyTransfersThatNotPrincipalOwns(String repaymentType, int repaymentDurationFrom, int getRepaymentDurationTo, Principal principal) throws PersistenceServiceException;
 
         void delete(String investmentId) throws PersistenceServiceException;
 }
