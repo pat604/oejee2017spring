@@ -26,8 +26,6 @@ public class BorrowServlet extends BaseServlet {
 
     @Override
     public void handleGet() throws ServletException, IOException {
-        OfferListOnBorrowQuery offerList = borrowFacade.getAllOffers();
-        request.setAttribute(BorrowAttributes.OFFERS_ON_BORROW_QUERY, offerList);
         forward(Page.BORROW.getJspName());
     }
 

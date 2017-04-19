@@ -36,6 +36,20 @@ public class MoneyTransferService implements MoneyTransferServiceInterFace {
     private EntityManager entityManager;
 
     @Override
+    public MoneyTransfer read(String moneyTransferId) throws PersistenceServiceException {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Get MoneyTransfer by id: " + moneyTransferId);
+        }
+        MoneyTransfer mTransfer = null;
+        try {
+            mTransfer = this.entityManager.createNamedQuery(MoneyTransferQuery.GET_BY_ID, MoneyTransfer.class).setParameter(MoneyTransferParameter.ID, moneyTransferId).getSingleResult();
+        } catch (final Exception e) {
+            throw new PersistenceServiceException("Unknown error when fetching MoneyTransfer by id: " + moneyTransferId + "! " + e.getLocalizedMessage(), e);
+        }
+        return mTransfer;
+    }
+
+    @Override
     public MoneyTransfer create(MoneyTransfer moneyTransfer, Principal principal) throws PersistenceServiceException {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Create MoneyTransfer ("+ moneyTransfer.toString() +")");

@@ -30,13 +30,4 @@ public class BorrowFacade implements BorrowFacadeInterface {
        return list;
     }
 
-    @Override
-    public OfferListOnBorrowQuery getAllOffers() {
-        return null;
-    }
-
-    @Override
-    public OfferListOnBorrowQuery getAllOnPlateOffers() {
-        return null;
-    }
 }

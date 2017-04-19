@@ -5,4 +5,5 @@ package hu.smiklos.stmm.pers.parameter;
  */
 public class MoneyTransferParameter {
     public static final String REPAYMENT_TYPE = "money_transfer_repayment_type";
+    public static final String ID = "moneytransfer_id" ;
 }

@@ -6,7 +6,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by SebestyenMiklos on 2017. 04. 18..
@@ -65,8 +67,21 @@ public class LoanOfferStubTest {
 
 
     @Test
-    public void getPaymentsWeekly_CheckDeadlines() throws Exception {
-        //TODO: write test for deadlines
+    public void getPaymentsWeekly_CheckFirstDeadlines() throws Exception {
+        LoanOfferStub offer = new LoanOfferStub(transferWeekly);
+        List<RepaymentUnitStub> units = offer.getPayments();
+        Date expectedFirstPaymentDate = getDate(new Date(),7);
+        int deltaHour = getHoursBeetweenDates(units.get(0).getDeadline(), expectedFirstPaymentDate);
+        Assert.assertTrue(deltaHour < 1);
+    }
+
+    @Test
+    public void getPaymentsWeekly_CheckLastDeadline() throws Exception {
+        LoanOfferStub offer = new LoanOfferStub(transferWeekly);
+        List<RepaymentUnitStub> units = offer.getPayments();
+        Date expectedLastPaymentDate = getDate(new Date(),7 * units.size());
+        int deltaHour = getHoursBeetweenDates(units.get(units.size()-1).getDeadline(), expectedLastPaymentDate);
+        Assert.assertTrue(deltaHour < 1);
     }
 
 
@@ -84,8 +99,36 @@ public class LoanOfferStubTest {
 
 
     @Test
-    public void getPaymentsMonthly_CheckDeadlines() throws Exception {
-        //TODO: test deadlines
+    public void getPaymentsMonthly_CheckFirstDeadline() throws Exception {
+        LoanOfferStub offer = new LoanOfferStub(transferMonthly);
+        List<RepaymentUnitStub> units = offer.getPayments();
+        Date expectedFirstPaymentDate = getDate(new Date(),30);
+        int deltaHour = getHoursBeetweenDates(units.get(0).getDeadline(), expectedFirstPaymentDate);
+        Assert.assertTrue(deltaHour < 1);
+    }
+
+    @Test
+    public void getPaymentsMonthly_CheckLastDeadline() throws Exception {
+        LoanOfferStub offer = new LoanOfferStub(transferMonthly);
+        List<RepaymentUnitStub> units = offer.getPayments();
+        Date expectedLastPaymentDate = getDate(new Date(),30 * units.size());
+        int deltaHour = getHoursBeetweenDates(units.get(units.size()-1).getDeadline(), expectedLastPaymentDate);
+        Assert.assertTrue(deltaHour < 1);
+    }
+
+
+
+    private Date getDate(Date date, int plusDay){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_YEAR, plusDay);
+        return calendar.getTime();
+    }
+
+    private int getHoursBeetweenDates(Date startDate, Date endDate){
+        long secs = (endDate.getTime() - startDate.getTime()) / 1000;
+        int hours = (int)(secs / 3600);
+        return hours;
     }
 
 

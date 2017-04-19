@@ -5,4 +5,5 @@ package hu.smiklos.stmm.web.common;
  */
 public class AcceptLoanOfferAttributes {
     public static final String LOAN_OFFER_MONEY_TRANSFER_ID = "loan_offer_money_transfer_id";
+    public static final String LOAN_OFFER_STUB = "loan_offer_stub";
 }

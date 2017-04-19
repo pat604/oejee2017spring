@@ -13,30 +13,31 @@ import java.util.List;
 public class LoanOfferStub {
     MoneyTransfer transfer;
 
-    List<RepaymentUnit> payments;
+
+    List<RepaymentUnitStub> payments;
 
     public LoanOfferStub(MoneyTransfer transfer) {
         this.transfer = transfer;
     }
 
-    public List<RepaymentUnit> getPayments() {
+    public List<RepaymentUnitStub> getPayments() {
         if(payments == null){
-            payments = new ArrayList<RepaymentUnit>();
+            payments = new ArrayList<RepaymentUnitStub>();
         }
         calculatePaymentUnits(transfer,payments);
         return payments;
     }
 
-    private void calculatePaymentUnits(MoneyTransfer transfer, List<RepaymentUnit> payments) {
+    private void calculatePaymentUnits(MoneyTransfer transfer, List<RepaymentUnitStub> payments) {
         int numberOfPayments = getNumberOfPayments(transfer);
         initEmptyPaymentUnits(numberOfPayments, payments);
         setPaymentAmounts(numberOfPayments,transfer,payments);
         setPaymentDeadLines(transfer, payments);
     }
 
-    private void initEmptyPaymentUnits(int numberOfPayments, List<RepaymentUnit> payments) {
+    private void initEmptyPaymentUnits(int numberOfPayments, List<RepaymentUnitStub> payments) {
         for(int i=0; i< numberOfPayments; i++){
-            payments.add(new RepaymentUnit());
+            payments.add(new RepaymentUnitStub());
         }
     }
 
@@ -50,7 +51,7 @@ public class LoanOfferStub {
         return numberOfPayments;
     }
 
-    private void setPaymentAmounts(int numberOfPayments, MoneyTransfer transfer, List<RepaymentUnit> payments){
+    private void setPaymentAmounts(int numberOfPayments, MoneyTransfer transfer, List<RepaymentUnitStub> payments){
         float amount = transfer.getExpected_return_amount() / (float)numberOfPayments;
         for( int i=0; i < numberOfPayments; i++){
             payments.get(i).setAmount(amount);
@@ -58,7 +59,7 @@ public class LoanOfferStub {
 
     }
 
-    private void setPaymentDeadLines(MoneyTransfer transfer, List<RepaymentUnit> payments) {
+    private void setPaymentDeadLines(MoneyTransfer transfer, List<RepaymentUnitStub> payments) {
         int numberOfPayments = payments.size();
         int dayBetweenPayments = 30;
         if(transfer.getMoney_transfer_repayment_type().getRepayment_type_id() == RepaymentType.WEEK){
@@ -70,5 +71,21 @@ public class LoanOfferStub {
             calendar.add(Calendar.DAY_OF_YEAR, dayBetweenPayments);
             payments.get(i).setDeadline(calendar.getTime());
         }
+    }
+
+    public int getNetValue() {
+        return transfer.getTransfer_amount();
+    }
+
+    public int getTotalRepayAmount() {
+        return transfer.getExpected_return_amount();
+    }
+
+    public String getRePaymentMethod() {
+        return transfer.getMoney_transfer_repayment_type().getRepayment_type_name();
+    }
+
+    public int getNumberOfPayments() {
+        return this.getNumberOfPayments(transfer);
     }
 }

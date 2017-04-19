@@ -31,11 +31,12 @@ public class AppUser implements Serializable {
     private CreditCard creditCard;
 
     public AppUser(String userId, String first_name, String last_name, String password) {
+
         this.userId = userId;
         this.first_name = first_name;
         this.last_name = last_name;
         this.password = password;
-
+        this.userroles = new HashSet<UserType>();
     }
 
     public AppUser() {
@@ -55,7 +56,6 @@ public class AppUser implements Serializable {
     public void addUserRole(UserType userType) {
         if(this.userroles == null){
             this.userroles = new HashSet<UserType>();
-
         }
         this.userroles.add(userType);
     }

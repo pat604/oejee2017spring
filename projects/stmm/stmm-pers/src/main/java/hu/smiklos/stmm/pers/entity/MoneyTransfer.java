@@ -3,9 +3,13 @@ package hu.smiklos.stmm.pers.entity;
 import hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates;
 import hu.smiklos.stmm.pers.parameter.MoneyTransferParameter;
 import hu.smiklos.stmm.pers.query.MoneyTransferQuery;
+import hu.smiklos.stmm.pers.entity.RepaymentUnit;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by SebestyenMiklos on 2017. 04. 15..
@@ -14,9 +18,12 @@ import java.sql.Date;
 @Table(name = "money_transfer")
 @NamedQueries( value = {
         @NamedQuery(name = MoneyTransferQuery.GET_BY_BORROW_QUERY,
-        query = "SELECT a FROM MoneyTransfer a WHERE a.money_transfer_repayment_type.repayment_type_id =:"+ MoneyTransferParameter.REPAYMENT_TYPE)
+        query = "SELECT a FROM MoneyTransfer a WHERE a.money_transfer_repayment_type.repayment_type_id =:"+ MoneyTransferParameter.REPAYMENT_TYPE),
+        @NamedQuery(name = MoneyTransferQuery.GET_BY_ID,
+                query = "SELECT a FROM MoneyTransfer a WHERE a.moneytransfer_id =:"+ MoneyTransferParameter.ID)
 })
 public class MoneyTransfer {
+
 
     private String moneytransfer_id;
     private Wallet wallet_from;
@@ -28,6 +35,12 @@ public class MoneyTransfer {
     private int moneytransfer_investment_time_period_month;
     private RepaymentType money_transfer_repayment_type;
     private MoneyTransferStates transfer_state;
+
+    private Set<RepaymentUnit> repaymentUnits;
+
+    public MoneyTransfer() {
+        repaymentUnits = new HashSet<RepaymentUnit>();
+    }
 
     @Id
     @Column(name = "moneytransfer_id")
@@ -124,5 +137,14 @@ public class MoneyTransfer {
 
     public void setTransferState(MoneyTransferStates transfer_state) {
         this.transfer_state = transfer_state;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = RepaymentUnit.class, mappedBy = "money_transfer")
+    public Set<RepaymentUnit> getRepaymentUnits() {
+        return repaymentUnits;
+    }
+
+    public void setRepaymentUnits(Set<RepaymentUnit> repaymentUnits) {
+        this.repaymentUnits = repaymentUnits;
     }
 }

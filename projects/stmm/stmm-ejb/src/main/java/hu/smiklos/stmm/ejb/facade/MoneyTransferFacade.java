@@ -1,12 +1,11 @@
 package hu.smiklos.stmm.ejb.facade;
 
 import hu.smiklos.stmm.ejb.converter.DateConverter;
-import hu.smiklos.stmm.ejb.domain.MoneyTransferCreateStub;
+import hu.smiklos.stmm.ejb.domain.MoneyTransferStub;
 import hu.smiklos.stmm.pers.entity.MoneyTransfer;
 import hu.smiklos.stmm.pers.entity.Wallet;
 import hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
-import hu.smiklos.stmm.pers.service.AppUserService;
 import hu.smiklos.stmm.pers.service.AppUserServiceInterface;
 import hu.smiklos.stmm.pers.service.MoneyTransferServiceInterFace;
 import hu.smiklos.stmm.pers.service.WalletServiceInterface;
@@ -22,7 +21,7 @@ import java.util.Date;
  */
 @PermitAll
 @Stateless(mappedName = "ejb/MoneyTransferFacede")
-public class MoneyTransferCreateFacade implements MoneyTransferCreateFacadeInterface {
+public class MoneyTransferFacade implements MoneyTransferFacadeInterface {
 
     @EJB
     private MoneyTransferServiceInterFace mtService;
@@ -34,7 +33,7 @@ public class MoneyTransferCreateFacade implements MoneyTransferCreateFacadeInter
     private AppUserServiceInterface userService;
 
     @Override
-    public void create(MoneyTransferCreateStub mtStub, Principal principal) throws PersistenceServiceException {
+    public void create(MoneyTransferStub mtStub, Principal principal) throws PersistenceServiceException {
         if(!mtStub.isValid()){
             return;
         }
@@ -56,12 +55,22 @@ public class MoneyTransferCreateFacade implements MoneyTransferCreateFacadeInter
 
     }
 
-    public MoneyTransferCreateStub getPreparedMoneyTransferStub(Principal principal) throws PersistenceServiceException {
-        MoneyTransferCreateStub mtStub = new MoneyTransferCreateStub();
+    @Override
+    public MoneyTransferStub getPreparedMoneyTransferStub(Principal principal) throws PersistenceServiceException {
+        MoneyTransferStub mtStub = new MoneyTransferStub();
         mtStub.setWallet_from(userService.getUserByUsername(principal.getName()).getWallet());
         mtStub.setExpected_return_amount(0);
         mtStub.setTransfer_amount(0);
         mtStub.setMoney_transfer_repayment_types(mtService.getRepaymentTypes());
+        return mtStub;
+    }
+
+    @Override
+    public MoneyTransferStub getPreparedMoneyTransferStub(String moneyTtransferId) throws PersistenceServiceException {
+
+        MoneyTransfer mTransfer = mtService.read(moneyTtransferId);
+        MoneyTransferStub mtStub = new MoneyTransferStub(mTransfer);
+
         return mtStub;
     }
 }

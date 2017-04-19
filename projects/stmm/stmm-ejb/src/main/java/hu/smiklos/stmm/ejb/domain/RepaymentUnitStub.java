@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by SebestyenMiklos on 2017. 04. 18..
  */
-public class RepaymentUnit {
+public class RepaymentUnitStub {
     private Date deadline;
     private float amount;
 

@@ -1,7 +1,5 @@
 package hu.smiklos.stmm.web.servlet;
 
-import hu.smiklos.stmm.ejb.facade.MoneyTransferCreateFacadeInterface;
-import hu.smiklos.stmm.ejb.facade.WalletFacade;
 import hu.smiklos.stmm.ejb.facade.WalletFacadeInterface;
 import hu.smiklos.stmm.pers.entity.MoneyTransfer;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
@@ -13,10 +11,6 @@ import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
-import java.security.Principal;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 /**

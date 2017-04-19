@@ -13,8 +13,5 @@ import javax.ejb.Local;
 public interface BorrowFacadeInterface {
 
         OfferListOnBorrowQuery getOffers(BorrowStub borrow_filter) throws PersistenceServiceException;
-
-        OfferListOnBorrowQuery getAllOffers();
-
-        OfferListOnBorrowQuery getAllOnPlateOffers();
+        
 }

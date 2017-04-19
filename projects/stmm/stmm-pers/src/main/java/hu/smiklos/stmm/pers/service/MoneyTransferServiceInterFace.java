@@ -12,6 +12,8 @@ import java.util.List;
  */
 public interface MoneyTransferServiceInterFace {
 
+        MoneyTransfer read(String moneyTransferId) throws PersistenceServiceException;
+
         MoneyTransfer create(MoneyTransfer moneyTransfer, Principal principal) throws PersistenceServiceException;
 
         MoneyTransfer update(MoneyTransfer moneyTransfer) throws PersistenceServiceException;

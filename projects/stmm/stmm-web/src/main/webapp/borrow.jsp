@@ -5,6 +5,7 @@
 <%@ page import="hu.smiklos.stmm.ejb.domain.OfferListOnBorrowQuery" %>
 <%@ page import="hu.smiklos.stmm.pers.entity.MoneyTransfer" %>
 <%@ page import="java.util.List" %>
+<%@ page import="hu.smiklos.stmm.web.common.AcceptLoanOfferAttributes" %>
 <html lang="en">
 
 <jsp:include page="/reusablejsp/head_tag.jsp"></jsp:include>
@@ -29,7 +30,7 @@
             %>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Investments</h3>
+                    <h3 class="panel-title">Loan Offers</h3>
                 </div>
                 <div class="panel-body">
                     <table id="offer_list_table" class="display">
@@ -55,7 +56,7 @@
                                 out.println(mt.getMoney_transfer_repayment_type().getRepayment_type_name());
                                 out.println("</td>");
                                 out.println("<td>"); %>
-                                <span onclick="seeDetails('<%= mt.getMoneytransfer_id() %>', '<%= Page.OFFER_DETAILS.getUrl() %>', 'borrow_accept_form')" class="glyphicon glyphicon-eye-open action_icon" aria-hidden="true"></span>
+                                <span onclick="seeDetails('<%= AcceptLoanOfferAttributes.LOAN_OFFER_MONEY_TRANSFER_ID %>','<%= mt.getMoneytransfer_id() %>', '<%= Page.ACCEPT_LOAN_OFFER.getUrl() %>', 'borrow_accept_form','borrow_accept_modal_body')" class="glyphicon glyphicon-eye-open action_icon" aria-hidden="true"></span>
                                 <% out.println("</td>");
                                 out.println("</tr>");
                             }
@@ -67,7 +68,7 @@
             <% } else { %>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Panel title</h3>
+                    <h3 class="panel-title">Loan offers</h3>
                 </div>
                 <div class="panel-body">
                     <p> Offer list....</p>
@@ -87,7 +88,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Accept offer?</h4>
             </div>
-            <div id="borrow_accept_form_body" class="modal-body">
+            <div id="borrow_accept_modal_body" class="modal-body">
                 <p>One fine body&hellip;</p>
             </div>
             <div class="modal-footer">
