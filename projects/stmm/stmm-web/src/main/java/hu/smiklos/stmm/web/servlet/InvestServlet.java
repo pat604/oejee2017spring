@@ -3,11 +3,10 @@ package hu.smiklos.stmm.web.servlet;
 import hu.smiklos.stmm.ejb.domain.MoneyTransferStub;
 import hu.smiklos.stmm.ejb.domain.WalletStub;
 import hu.smiklos.stmm.ejb.facade.MoneyTransferFacadeInterface;
+import hu.smiklos.stmm.pers.entity.MoneyTransfer;
+import hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
-import hu.smiklos.stmm.web.common.GeneralAttributes;
-import hu.smiklos.stmm.web.common.MoneyTransferAttributes;
-import hu.smiklos.stmm.web.common.Page;
-import hu.smiklos.stmm.web.common.WalletAttributes;
+import hu.smiklos.stmm.web.common.*;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
@@ -29,6 +28,10 @@ public class InvestServlet extends BaseServlet {
 
     @Override
     public void handleGet() throws ServletException, IOException, PersistenceServiceException {
+
+        if(request.getParameter(MoneyTransferStub.MONEY_TRANSFER_ID_TO_DELETE_INVESTMENT) != null){
+            deleteInvestment(request.getParameter(MoneyTransferStub.MONEY_TRANSFER_ID_TO_DELETE_INVESTMENT));
+        }
         initAttributes();
         forward(Page.INVEST.getJspName());
     }
@@ -49,6 +52,31 @@ public class InvestServlet extends BaseServlet {
         request.setAttribute(MoneyTransferAttributes.MONEYTRANSFER_CREATE_STUB, mtStub);
         forward(Page.INVEST.getJspName());
     }
+
+    private void deleteInvestment(String investmentId) throws PersistenceServiceException {
+        if(isInvestmentDeletable(investmentId)) {
+            mtFacade.deleteInvestment(investmentId, request.getUserPrincipal());
+            Modal modal = new Modal();
+            modal.setTitle("Investment deleted!");
+            modal.setMessage("Your investment has been deleted successfully.");
+            request.setAttribute(Modal.ATTR_MODAL, modal);
+        } else {
+            Modal modal = new Modal();
+            modal.setTitle("Investment cannot be deleted!");
+            modal.setMessage("Your investment is being taken! Please refresh your browser.");
+            request.setAttribute(Modal.ATTR_MODAL, modal);
+        }
+
+    }
+
+    private boolean isInvestmentDeletable(String investmentId) throws PersistenceServiceException {
+        boolean isDeletable = mtFacade.isDeletable(investmentId, request.getUserPrincipal());
+        return isDeletable;
+
+    }
+
+
+
 
     private void createMoneyTransfer(MoneyTransferStub mtStub) throws PersistenceServiceException {
         mtFacade.create(mtStub,request.getUserPrincipal());

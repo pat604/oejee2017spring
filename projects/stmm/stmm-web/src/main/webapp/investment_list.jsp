@@ -2,8 +2,12 @@
 <%@ page import="hu.smiklos.stmm.pers.entity.MoneyTransfer" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="java.util.Iterator" %>
-<% if(request.getAttribute(MoneyTransferAttributes.INVESTMENTS) != null) { %>
-<%  Set<MoneyTransfer> mTransfers = (Set<MoneyTransfer>) request.getAttribute(MoneyTransferAttributes.INVESTMENTS);  %>
+<%@ page import="hu.smiklos.stmm.pers.entity.RepaymentType" %>
+<%@ page import="hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates" %>
+<%@ page import="hu.smiklos.stmm.web.common.Page" %>
+<%@ page import="hu.smiklos.stmm.ejb.domain.MoneyTransferStub" %>
+<% if (request.getAttribute(MoneyTransferAttributes.INVESTMENTS) != null) { %>
+<% Set<MoneyTransfer> mTransfers = (Set<MoneyTransfer>) request.getAttribute(MoneyTransferAttributes.INVESTMENTS); %>
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Investments</h3>
@@ -15,11 +19,13 @@
                 <th>Inv.</th>
                 <th>Inc.</th>
                 <th>State</th>
+                <th>Repay</th>
+                <th>X</th>
             </tr>
             </thead>
             <tbody>
             <%
-                for(MoneyTransfer mt : mTransfers){
+                for (MoneyTransfer mt : mTransfers) {
                     out.println("<tr>");
                     out.println("<td>");
                     out.println(mt.getTransfer_amount());
@@ -30,8 +36,17 @@
                     out.println("<td>");
                     out.println(mt.getTransferState());
                     out.println("</td>");
+                    out.println("<td>");
+                    out.println(mt.getMoney_transfer_repayment_type().getRepayment_type_name());
+                    out.println("</td>");
+                    out.println("<td>");
+                    if (mt.getTransferState().equals(MoneyTransferStates.ONPLATE)) {
+                    %>
+                    <a href="<%= String.format("%s?%s=%s", Page.INVEST.getUrl(), MoneyTransferStub.MONEY_TRANSFER_ID_TO_DELETE_INVESTMENT, mt.getMoneytransfer_id()) %>"> X </a>
+                    <% }
+                    out.println("</td>");
                     out.println("</tr>");
-                }
+            }
             %>
             </tbody>
         </table>
@@ -48,9 +63,9 @@
 </div>
 
 <% } %>
-<% if(request.getAttribute(MoneyTransferAttributes.INVESTMENTS) != null) { %>
+<% if (request.getAttribute(MoneyTransferAttributes.INVESTMENTS) != null) { %>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $('#investment_list').DataTable();
     });
 

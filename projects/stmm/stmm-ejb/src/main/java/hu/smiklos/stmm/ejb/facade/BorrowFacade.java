@@ -9,6 +9,7 @@ import hu.smiklos.stmm.pers.service.MoneyTransferServiceInterFace;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
@@ -23,8 +24,8 @@ public class BorrowFacade implements BorrowFacadeInterface {
     private MoneyTransferServiceInterFace mtService;
 
     @Override
-    public OfferListOnBorrowQuery getOffers(BorrowStub borrow) throws PersistenceServiceException {
-       List<MoneyTransfer> unSortedOffers =  mtService.getMoneyTransfers(borrow.getRepaymentType(),borrow.getRepaymentDurationFrom(),borrow.getGetRepaymentDurationTo());
+    public OfferListOnBorrowQuery getOffers(BorrowStub borrow, Principal principal) throws PersistenceServiceException {
+       List<MoneyTransfer> unSortedOffers =  mtService.getMoneyTransfers(borrow.getRepaymentType(),borrow.getRepaymentDurationFrom(),borrow.getGetRepaymentDurationTo(),principal);
        OfferListOnBorrowQuery list = new OfferListOnBorrowQuery();
        list.setOffers(unSortedOffers);
        return list;

@@ -112,13 +112,30 @@ public class MoneyTransferService implements MoneyTransferServiceInterFace {
     }
 
     @Override
-    public List<MoneyTransfer> getMoneyTransfers(String repaymentType, int repaymentDurationFrom, int repaymentDurationTo) {
+    public List<MoneyTransfer> getMoneyTransfers(String repaymentType, int repaymentDurationFrom, int repaymentDurationTo, Principal principal) throws PersistenceServiceException {
         if (LOGGER.isDebugEnabled()){
             LOGGER.debug("Select all MoneyTransfers tahat has: repayment_type("+repaymentType+")"+"repayment between("+repaymentDurationFrom+"-"+repaymentDurationTo+")");
         }
+        String walletId = userService.getUserByUsername(principal.getName()).getWallet().getWallet_id();
+
         List<MoneyTransfer> transfers = new ArrayList<MoneyTransfer>();
-        transfers = entityManager.createNamedQuery(MoneyTransferQuery.GET_BY_BORROW_QUERY,MoneyTransfer.class).setParameter(MoneyTransferParameter.REPAYMENT_TYPE,repaymentType).getResultList();
+        transfers = entityManager.createNamedQuery(MoneyTransferQuery.GET_BY_BORROW_QUERY,MoneyTransfer.class)
+                .setParameter(MoneyTransferParameter.REPAYMENT_TYPE,repaymentType)
+                .setParameter(MoneyTransferParameter.WALLET_ID, walletId)
+                .getResultList();
         return transfers;
+    }
+
+    @Override
+    public void delete(String moneyTransferId) throws PersistenceServiceException {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Remove MoneyTransfer by id (" + moneyTransferId + ")");
+        }
+        try {
+            this.entityManager.createNamedQuery(MoneyTransferQuery.DELETE_BY_ID).setParameter(MoneyTransferParameter.ID, moneyTransferId).executeUpdate();
+        } catch (final Exception e) {
+            throw new PersistenceServiceException("Unknown error when removing MoneyTransfer by id (" + moneyTransferId + ")! " + e.getLocalizedMessage(), e);
+        }
     }
 
     private void removeInvestedAmountFromWallet(MoneyTransfer moneyTransfer, Principal principal) throws PersistenceServiceException {

@@ -18,9 +18,12 @@ import java.util.Set;
 @Table(name = "money_transfer")
 @NamedQueries( value = {
         @NamedQuery(name = MoneyTransferQuery.GET_BY_BORROW_QUERY,
-        query = "SELECT a FROM MoneyTransfer a WHERE a.money_transfer_repayment_type.repayment_type_id =:"+ MoneyTransferParameter.REPAYMENT_TYPE),
+                query = "SELECT a FROM MoneyTransfer a WHERE a.money_transfer_repayment_type.repayment_type_id =:"+ MoneyTransferParameter.REPAYMENT_TYPE +
+                    " and a.wallet_from.wallet_id <>:"+ MoneyTransferParameter.WALLET_ID),
         @NamedQuery(name = MoneyTransferQuery.GET_BY_ID,
-                query = "SELECT a FROM MoneyTransfer a WHERE a.moneytransfer_id =:"+ MoneyTransferParameter.ID)
+                query = "SELECT a FROM MoneyTransfer a WHERE a.moneytransfer_id =:"+ MoneyTransferParameter.ID),
+        @NamedQuery(name = MoneyTransferQuery.DELETE_BY_ID,
+                query = "DELETE FROM MoneyTransfer a WHERE a.moneytransfer_id=:"+ MoneyTransferParameter.ID)
 })
 public class MoneyTransfer {
 

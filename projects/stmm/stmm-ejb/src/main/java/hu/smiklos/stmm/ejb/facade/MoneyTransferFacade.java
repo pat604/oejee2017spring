@@ -2,6 +2,7 @@ package hu.smiklos.stmm.ejb.facade;
 
 import hu.smiklos.stmm.ejb.converter.DateConverter;
 import hu.smiklos.stmm.ejb.domain.MoneyTransferStub;
+import hu.smiklos.stmm.pers.entity.AppUser;
 import hu.smiklos.stmm.pers.entity.MoneyTransfer;
 import hu.smiklos.stmm.pers.entity.Wallet;
 import hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates;
@@ -22,6 +23,9 @@ import java.util.Date;
 @PermitAll
 @Stateless(mappedName = "ejb/MoneyTransferFacede")
 public class MoneyTransferFacade implements MoneyTransferFacadeInterface {
+
+    AppUser user;
+    MoneyTransfer mTransfer;
 
     @EJB
     private MoneyTransferServiceInterFace mtService;
@@ -72,5 +76,50 @@ public class MoneyTransferFacade implements MoneyTransferFacadeInterface {
         MoneyTransferStub mtStub = new MoneyTransferStub(mTransfer);
 
         return mtStub;
+    }
+
+    @Override
+    public MoneyTransferStub read(String investmentId) throws PersistenceServiceException {
+        MoneyTransfer mTransfer = mtService.read(investmentId);
+        MoneyTransferStub stub = new MoneyTransferStub(mTransfer);
+        return stub;
+    }
+
+    @Override
+    public boolean isDeletable(String investmentId ,Principal principal) throws PersistenceServiceException {
+        MoneyTransfer stub = mtService.read(investmentId);
+        AppUser user = getUserByPrincipal(principal);
+
+        if(stub.getTransferState().equals(MoneyTransferStates.ONPLATE) && user.getWallet().getWallet_id().equals(stub.getWallet_from().getWallet_id())){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void deleteInvestment(String investmentId, Principal principal) throws PersistenceServiceException {
+        if(isDeletable(investmentId,principal)) {
+            addInvestmentAmountToUserWallet(investmentId,principal);
+            mtService.delete(investmentId);
+        }
+    }
+
+    private void addInvestmentAmountToUserWallet(String investmentId, Principal principal) throws PersistenceServiceException {
+        MoneyTransfer mTransfer = getMoneyTransferById(investmentId);
+        userService.addCredit(mTransfer.getTransfer_amount(), principal);
+    }
+
+    private MoneyTransfer getMoneyTransferById(String moneyTransferId) throws PersistenceServiceException {
+        if(mTransfer == null){
+            mTransfer = mtService.read(moneyTransferId);
+        }
+        return mTransfer;
+    }
+
+    private AppUser getUserByPrincipal(Principal principal) throws PersistenceServiceException {
+        if(user == null){
+            user = userService.getUserByUsername(principal.getName());
+        }
+        return user;
     }
 }

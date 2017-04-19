@@ -33,7 +33,7 @@ public class BorrowServlet extends BaseServlet {
     public void handlePost() throws ServletException, IOException, PersistenceServiceException {
         BorrowStub borrowStub = getBorrowStubFromRequest();
         if(borrowStub.isValid()) {
-            OfferListOnBorrowQuery offerList = borrowFacade.getOffers(borrowStub);
+            OfferListOnBorrowQuery offerList = borrowFacade.getOffers(borrowStub, request.getUserPrincipal());
             request.setAttribute(BorrowAttributes.OFFERS_ON_BORROW_QUERY, offerList);
         }else{
             request.setAttribute(GeneralAttributes.ERRORS, borrowStub.getErrors());

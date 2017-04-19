@@ -17,4 +17,10 @@ public interface MoneyTransferFacadeInterface {
     MoneyTransferStub getPreparedMoneyTransferStub(Principal principal) throws PersistenceServiceException;
 
     MoneyTransferStub getPreparedMoneyTransferStub(String moneyTtransferId) throws PersistenceServiceException;
+
+    MoneyTransferStub read(String investmentId) throws PersistenceServiceException;
+
+    boolean isDeletable(String investmentId, Principal principal) throws PersistenceServiceException;
+
+    void deleteInvestment(String investmentId, Principal principal) throws PersistenceServiceException;
 }

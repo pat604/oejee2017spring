@@ -6,4 +6,5 @@ package hu.smiklos.stmm.pers.query;
 public class MoneyTransferQuery {
     public static final String GET_BY_BORROW_QUERY = "MoneyTransfer.getByBorrowQuery";
     public static final String GET_BY_ID = "MoneyTransfer.getByIdQuery";
+    public static final java.lang.String DELETE_BY_ID = "MoneyTransfer.deleteById";
 }

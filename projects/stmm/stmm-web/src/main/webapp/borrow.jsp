@@ -39,7 +39,7 @@
                             <th>Amount</th>
                             <th>Cost</th>
                             <th>Repayment</th>
-                            <th>Actions</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>

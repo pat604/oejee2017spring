@@ -18,8 +18,7 @@ public class MoneyTransferStub {
     public static final String TRANSFER_AMOUNT = "transfer_amount";
     public static final String EXPECTED_RETURN_AMOUNT  = "expected_return_amount";
     public static final String REPAYMENT_TYPE  = "moneytransfer_repayment_type";
-
-
+    public static final String MONEY_TRANSFER_ID_TO_DELETE_INVESTMENT = "money_transfer_id_to_delete_investment" ;
 
 
     private String moneytransfer_id;
@@ -98,16 +97,16 @@ public class MoneyTransferStub {
         return money_transfer_repayment_type;
     }
 
+    public void setMoney_transfer_repayment_type(RepaymentType money_transfer_repayment_type) {
+        this.money_transfer_repayment_type = money_transfer_repayment_type;
+    }
+
     public void setMoney_transfer_repayment_type(String repaymentTypeId) {
         for(RepaymentType rType : this.getMoney_transfer_repayment_types()){
             if(rType.getRepayment_type_id().equals(repaymentTypeId)){
                 this.money_transfer_repayment_type = rType;
             }
         }
-    }
-
-    public void setMoney_transfer_repayment_type(RepaymentType money_transfer_repayment_type) {
-        this.money_transfer_repayment_type = money_transfer_repayment_type;
     }
 
     public boolean isValid() {
