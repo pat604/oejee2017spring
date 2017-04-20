@@ -15,4 +15,6 @@ public interface TodoFacade {
 	List<TodoStub> getAllTodo() throws FacadeException;
 	
 	void addTodo(TodoStub todo, String[] priorities, String[] categories, String[] subTodos) throws FacadeException;
+
+	void deleteTodo(String todoName) throws FacadeException;
 }

@@ -37,4 +37,29 @@ public class SubTodoServiceImpl implements SubTodoService {
 		}
 		return result;
 	}
+	
+	@Override
+	public void add(SubTodo subTodo) throws PersistenceServiceException{
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Add SubTodo");
+		}
+		try {
+			final SubTodo newSubTodo = new SubTodo(subTodo.getTodoId(), subTodo.getName(), subTodo.getDescription(), subTodo.getState());
+			this.entityManager.persist(newSubTodo);
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when adding subTodo! " + e.getLocalizedMessage(), e);
+		}
+	}
+
+	@Override
+	public void remove(Long todoId) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Delete SubTodoToTodo");
+		}
+		try {
+			this.entityManager.createNamedQuery(SubTodoQuery.REMOVE_BY_TODO).setParameter(TodoParameter.ID, todoId).executeUpdate();
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when removing subTodo! " + e.getLocalizedMessage(), e);
+		}
+	}
 }

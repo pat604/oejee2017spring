@@ -2,9 +2,9 @@ package hu.todomanager.weblayer.common;
 
 public enum Page {
 
-	LIST("list.jsp", "TodoList"),
-	TODO_EDIT("editTodo.jsp", "Todo"),
-	TODO_NEW("newTodo.jsp", "Todo");
+	LIST("list.jsp", "/todoList"),
+	TODO_EDIT("editTodo.jsp", "/editTodo"),
+	TODO_NEW("newTodo.jsp", "/newTodo");
 
 	private final String jspName;
 	private final String url;

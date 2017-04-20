@@ -11,9 +11,8 @@ public class TodoStub {
     private String description;
     private int state;
     private Date deadline;
-    private int priority;
-    
-    public List<SubTodoStub> subTodos;
+    private PriorityStub priority;
+    private List<SubTodoStub> subTodos;
 
     public TodoStub() {
     	this.subTodos = new ArrayList<SubTodoStub>();
@@ -25,6 +24,7 @@ public class TodoStub {
         this.description = description;
         this.state = state;
         this.deadline = deadline;
+        this.priority = null;
         this.subTodos = new ArrayList<SubTodoStub>();
     }
 
@@ -59,19 +59,31 @@ public class TodoStub {
     public void setDeadline(Date deadline){
     	this.deadline = deadline;
     }
-    
-    public int getPriority(){
-    	return this.priority;
+
+    public PriorityStub getPriority(){
+        return this.priority;
     }
-    
-    public void setPriority(int priority){
-    	this.priority = priority;
+
+    public void setPriority(PriorityStub priority){
+        this.priority = priority;
+    }
+
+    public List<SubTodoStub> getSubTodos(){
+        return this.subTodos;
+    }
+
+    public void getSubTodos(List<SubTodoStub> subTodos){
+        this.subTodos = subTodos;
+    }
+
+    public void addSubTodo(SubTodoStub subTodo){
+        this.subTodos.add(subTodo);
     }
 
     @Override
     public String toString() {
         return "TodoStub [name=" + this.name + ", description=" + this.description + 
-        		", deadline=" + this.deadline.toString() + ", priority=" + this.priority + "]";
+        		", deadline=" + this.deadline.toString() + ", priority=" + this.priority.getPriorityValue() + "]";
     }
 
 }

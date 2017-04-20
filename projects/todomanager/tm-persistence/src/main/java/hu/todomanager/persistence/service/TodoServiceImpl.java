@@ -82,4 +82,16 @@ public class TodoServiceImpl implements TodoService {
 		}
 	}
 
+	@Override
+	public void remove(Long todoId) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Delete Todo");
+		}
+		try {
+			this.entityManager.createNamedQuery(TodoQuery.REMOVE_BY_ID).setParameter(TodoParameter.ID, todoId).executeUpdate();
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when deleting Todo! " + e.getLocalizedMessage(), e);
+		}
+	}
+
 }

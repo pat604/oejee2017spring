@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.EJB;
-import hu.todomanager.ejbservice.domain.TodoStub;
+import hu.todomanager.ejbservice.domain.*;
 import hu.todomanager.ejbservice.converter.*;
 import hu.todomanager.persistence.entity.*;
 import org.apache.log4j.Logger;
@@ -25,21 +25,21 @@ public class Mapper {
 				priorityIds.add((int)priorityToTodo.getPriorityId());
 			}
 		}
-		int priorityValue = 0;
+		PriorityStub todoPriority = null;
 		for (Priority priority : priorities) {
 			if(priorityIds.size() > 0 && (int)priority.getId() == priorityIds.get(0)){
-				priorityValue = priority.getPriorityValue();
+				todoPriority = new PriorityStub(priority.getName(), priority.getPriorityValue());
 				break;
 			}
 		}
-		todoStub.setPriority(priorityValue);
+		todoStub.setPriority(todoPriority);
 	}
 	
-	public void setTodoStubSubTodos(int todoId, TodoStub todoStub,
+	public void setTodoStubSubTodos(long todoId, TodoStub todoStub,
 			List<SubTodo> subTodos){
 		for (SubTodo subTodo : subTodos) {
 			if(subTodo.getTodoId() == todoId){
-				todoStub.subTodos.add(subTodoConverter.to(subTodo));
+				todoStub.addSubTodo(subTodoConverter.to(subTodo));
 			}
 		}
 	}

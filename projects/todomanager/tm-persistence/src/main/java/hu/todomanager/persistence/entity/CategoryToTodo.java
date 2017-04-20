@@ -3,12 +3,14 @@ package hu.todomanager.persistence.entity;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.*;
+import hu.todomanager.persistence.parameter.TodoParameter;
 import hu.todomanager.persistence.query.CategoryToTodoQuery;
 
 @Entity
 @Table(name = "category_to_todo")
 @NamedQueries(value = {
 		@NamedQuery(name = CategoryToTodoQuery.GET_ALL, query = "SELECT c FROM CategoryToTodo c"),
+		@NamedQuery(name = CategoryToTodoQuery.REMOVE_BY_TODO, query = "DELETE FROM CategoryToTodo c WHERE c.todoId=:" + TodoParameter.ID)
 })
 
 public class CategoryToTodo implements Serializable {
