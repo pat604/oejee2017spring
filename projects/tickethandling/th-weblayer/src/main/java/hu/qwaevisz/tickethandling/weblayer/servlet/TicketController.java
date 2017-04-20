@@ -70,6 +70,14 @@ public class TicketController extends HttpServlet implements TicketParameter, Ti
 			throws ServletException, IOException {
 		request.setAttribute(ATTR_TICKET, ticket);
 		request.setAttribute(ATTR_ISNEW, isNew);
+
+		try {
+			request.setAttribute(ATTR_SYSTEMS, facade.getSystems());
+			request.setAttribute(ATTR_EMPLOYEES, facade.getEmployees());
+		} catch (FacadeException e) {
+			LOGGER.error(e, e);
+		}
+
 		final RequestDispatcher view = request.getRequestDispatcher(editFlag ? Page.TICKET_EDIT.getJspName() : Page.TICKET_VIEW.getJspName());
 		view.forward(request, response);
 	}
@@ -83,6 +91,8 @@ public class TicketController extends HttpServlet implements TicketParameter, Ti
 
 			SystemStub system;
 			EmployeeStub processor;
+
+			LOGGER.info(request.getParameter(SYSTEM));
 
 			system = this.facade.getSystem(request.getParameter(SYSTEM));
 			processor = this.facade.getEmployee(request.getParameter(PROCESSOR));
@@ -110,7 +120,7 @@ public class TicketController extends HttpServlet implements TicketParameter, Ti
 
 			String id = request.getParameter(ID);
 			if ("".equals(id)) {
-				String newId = system + format.format(creationdate);
+				String newId = system.getId() + format.format(creationdate);
 				id = newId.replace("-", "").replace(":", "").replace(" ", "");
 				LOGGER.info(id);
 			}

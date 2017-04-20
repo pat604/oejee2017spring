@@ -1,17 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page
+	import="java.util.ArrayList"%>
+<%@ page
 	import="hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub"%>
 <%@ page
 	import="hu.qwaevisz.tickethandling.ejbservice.domain.PriorityStub"%>
 <%@ page
 	import="hu.qwaevisz.tickethandling.ejbservice.domain.StatusStub"%>
 <%@ page
+	import="hu.qwaevisz.tickethandling.ejbservice.domain.EmployeeStub"%>	
+<%@ page
+	import="hu.qwaevisz.tickethandling.ejbservice.domain.SystemStub"%>
+<%@ page
 	import="hu.qwaevisz.tickethandling.weblayer.common.TicketAttribute"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://qwaevisz.hu/jsp/tlds/tickettag" prefix="bt"%>
 <%
 	TicketStub ticket = (TicketStub) request.getAttribute(TicketAttribute.ATTR_TICKET);
+	ArrayList<SystemStub> syss = (ArrayList<SystemStub>) request.getAttribute(TicketAttribute.ATTR_SYSTEMS);
+	ArrayList<EmployeeStub> emps = (ArrayList<EmployeeStub>) request.getAttribute(TicketAttribute.ATTR_EMPLOYEES);
 %>
 <!DOCTYPE html>
 <html>
@@ -25,6 +33,9 @@
 <title>:: Ticket ::</title>
 </head>
 <body>
+
+	<jsp:include page="navbar.html"></jsp:include>
+
 	<div class="jumbotron jumbotron-ticketing">
 		<h1>
 			<%
@@ -40,21 +51,49 @@
 		<form method="post" action="Ticket" class="form-horizontal">
 			<input type="text" name="id" id="id" hidden="hidden"
 				contenteditable="false" value="<%out.print(ticket.getId());%>" />
-
+				
 			<div class="form-group">
-				<label class="control-label col-sm-2" for="system">System: </label>
-				<div class="col-sm-10">
-					<input class="form-control"  type="text" name="system" id="system"
-						value="<%out.print(ticket.getSystem());%>" />
+				<label class="control-label col-sm-2" for="system">System:
+				</label>
+				<div class="col-sm-2">
+					<select class="form-control" name="system" id="system">
+						<%
+							for (SystemStub sys : syss) {
+						%>
+						<option value="<%out.print(sys.getId());%>"
+						<% out.print(ticket.getSystem() != null && sys.getId() == ticket.getSystem().getId() ? "selected=\"selected\"" : "");%>>
+							<%
+								out.print(sys.getId());
+							%>
+						</option>
+						<%
+							}
+						%>
+					</select>
 				</div>
 			</div>
+			
 			<div class="form-group">
-				<label class="control-label col-sm-2" for="processor">Processor:</label>
-				<div class="col-sm-10">
-					<input class="form-control"  type="text" name="processor"
-						id="processor" value="<%out.print(ticket.getProcessor());%>" />
+				<label class="control-label col-sm-2" for="processor">Processor:
+				</label>
+				<div class="col-sm-2">
+					<select class="form-control" name="processor" id="processor">
+						<%
+							for (EmployeeStub emp : emps) {
+						%>
+						<option value="<%out.print(emp.getId());%>"
+						<% out.print(ticket.getProcessor() != null && emp.getId() == ticket.getProcessor().getId() ? "selected=\"selected\"" : "");%>>
+							<%
+								out.print(emp.getId());
+							%>
+						</option>
+						<%
+							}
+						%>
+					</select>
 				</div>
 			</div>
+			
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="level">Level: </label>
 				<div class="col-sm-2">
@@ -89,7 +128,7 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="priority">Priority:
 				</label>
-				<div class="col-sm-10">
+				<div class="col-sm-2">
 					<select class="form-control" name="priority" id="priority">
 						<%
 							for (PriorityStub priority : PriorityStub.values()) {
@@ -108,7 +147,7 @@
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="status">Status: </label>
-				<div class="col-sm-10">
+				<div class="col-sm-2">
 					<select class="form-control" name="status" id="status">
 						<%
 							for (StatusStub status : StatusStub.values()) {
