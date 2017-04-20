@@ -52,4 +52,16 @@ public class PriorityToTodoServiceImpl implements PriorityToTodoService {
 			throw new PersistenceServiceException("Unknown error when adding prioToTodo! " + e.getLocalizedMessage(), e);
 		}
 	}
+
+	@Override
+	public void remove(Long todoId) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Delete PriorityToTodo");
+		}
+		try {
+			this.entityManager.createNamedQuery(PriorityToTodoQuery.REMOVE_BY_TODO).setParameter(TodoParameter.ID, todoId).executeUpdate();
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when removing priorityToTodo! " + e.getLocalizedMessage(), e);
+		}
+	}
 }

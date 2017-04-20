@@ -26,7 +26,7 @@
 </head>
 <body>
 
-	<jsp:include page="navbar.html"></jsp:include>>
+	<jsp:include page="navbar.html"></jsp:include>
 
 	<div class="jumbotron jumbotron-ticketing">
 		<bt:header>List of Tickets</bt:header>

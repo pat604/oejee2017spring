@@ -16,4 +16,6 @@ public interface TodoService {
 	List<Todo> readAll() throws PersistenceServiceException;
 	
 	void addTodo(Todo todo) throws PersistenceServiceException;
+
+	void remove(Long todoId) throws PersistenceServiceException;
 }

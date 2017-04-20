@@ -3,12 +3,14 @@ package hu.todomanager.persistence.entity;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.*;
+import hu.todomanager.persistence.parameter.TodoParameter;
 import hu.todomanager.persistence.query.SubTodoQuery;
 
 @Entity
 @Table(name = "sub_todo")
 @NamedQueries(value = {
 		@NamedQuery(name = SubTodoQuery.GET_ALL, query = "SELECT s FROM SubTodo s"),
+		@NamedQuery(name = SubTodoQuery.REMOVE_BY_TODO, query = "DELETE FROM SubTodo s WHERE s.todoId=:" + TodoParameter.ID)
 })
 
 public class SubTodo implements Serializable {
@@ -20,7 +22,7 @@ public class SubTodo implements Serializable {
 	private Long id;
 	
 	@Column(name = "todo_id", nullable = false)
-	private int todoId;
+	private Long todoId;
 	
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -33,7 +35,7 @@ public class SubTodo implements Serializable {
 	
 	public SubTodo() {}
 	
-	public SubTodo(int todoId, String name, String description, int state){
+	public SubTodo(Long todoId, String name, String description, int state){
 		this.todoId = todoId;
 		this.name = name;
 		this.description = description;
@@ -44,7 +46,7 @@ public class SubTodo implements Serializable {
 		return this.id;
 	}
 	
-	public int getTodoId(){
+	public long getTodoId(){
 		return this.todoId;
 	}
 	

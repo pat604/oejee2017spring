@@ -8,9 +8,7 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import org.apache.log4j.Logger;
-
 import hu.todomanager.persistence.entity.CategoryToTodo;
 import hu.todomanager.persistence.exception.PersistenceServiceException;
 import hu.todomanager.persistence.parameter.TodoParameter;
@@ -49,6 +47,18 @@ public class CategoryToTodoServiceImpl implements CategoryToTodoService {
 			this.entityManager.persist(new CategoryToTodo(categoryId, todoId));
 		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error when adding categoryToTodo! " + e.getLocalizedMessage(), e);
+		}
+	}
+
+	@Override
+	public void remove(Long todoId) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Delete CategoryToTodo");
+		}
+		try {
+			this.entityManager.createNamedQuery(CategoryToTodoQuery.REMOVE_BY_TODO).setParameter(TodoParameter.ID, todoId).executeUpdate();
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when removing categoryToTodo! " + e.getLocalizedMessage(), e);
 		}
 	}
 }

@@ -11,8 +11,8 @@ dependencies {
 
 test {
 	useTestNG {
-		suites 'src/test/resources/testng-unit.xml'
-		suites 'src/test/resources/testng-integration.xml'
+		// suites 'src/test/resources/testng-unit.xml'
+		// suites 'src/test/resources/testng-integration.xml'
 		// excludeGroups 'integration'
         // includeGroups 'unit'
 	}

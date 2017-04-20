@@ -161,10 +161,10 @@ public class TicketFacadeImpl implements TicketFacade {
 	@Override
 	public List<SystemStub> getSystems() throws FacadeException {
 		try {
-			List<SystemStub> stubs = this.custConverter.to(this.custService.readAll());
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Get Systems");
 			}
+			List<SystemStub> stubs = this.custConverter.to(this.custService.readAll());
 			return stubs;
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
@@ -199,5 +199,4 @@ public class TicketFacadeImpl implements TicketFacade {
 			throw new FacadeException(e.getLocalizedMessage());
 		}
 	}
-
 }

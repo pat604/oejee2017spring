@@ -32,15 +32,47 @@ public class TodoListController extends HttpServlet{
 		} catch (final FacadeException e) {
 			LOGGER.error(e, e);
 		}
-		this.forward(request, response, todos, false);
+		this.forward(request, response, todos, null, false);
 	}
 	
-	private void forward(final HttpServletRequest request, final HttpServletResponse response, final List<TodoStub> todos, boolean isNew)
+	private void forward(final HttpServletRequest request, final HttpServletResponse response,
+	final List<TodoStub> todos, final TodoStub selectedTodo, final boolean editFlag)
 			throws ServletException, IOException {
 		request.setAttribute("todos", todos);
-		//request.setAttribute(ATTR_ISNEW, isNew);
-		final RequestDispatcher view = request.getRequestDispatcher(Page.LIST.getJspName());
+		request.setAttribute("todo", selectedTodo);
+		final RequestDispatcher view = request.getRequestDispatcher(editFlag ? Page.TODO_EDIT.getJspName() : Page.LIST.getJspName());
 		view.forward(request, response);
 	}
 
+	@Override
+	protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
+	throws ServletException, IOException {
+		final String type = request.getParameter("type");
+		final String todoName = request.getParameter("todoName");
+		
+		if("delete".equals(type)){
+			try {
+				this.facade.deleteTodo(todoName);
+			} catch (final FacadeException e) {
+				LOGGER.error(e, e);
+			}
+			
+			List<TodoStub> todos = new ArrayList<TodoStub>(); 
+			try {
+				todos = this.facade.getAllTodo();
+			} catch (final FacadeException e) {
+				LOGGER.error(e, e);
+			}
+			this.forward(request, response, todos, null, false);
+		}
+		else if("edit".equals(type)){
+			TodoStub selectedTodo = null;
+			try {
+				selectedTodo = this.facade.getTodoByName(todoName);
+			} catch (final FacadeException e) {
+				LOGGER.error(e, e);
+			}
+			this.forward(request, response, null, selectedTodo, true);
+		}
+	}
 }

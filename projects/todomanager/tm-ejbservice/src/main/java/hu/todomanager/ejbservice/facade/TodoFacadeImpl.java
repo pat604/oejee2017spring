@@ -85,6 +85,7 @@ public class TodoFacadeImpl implements TodoFacade {
 			final List<TodoStub> stubs = this.converter.allTo(todos);
 			for (int i = 0; i < todos.size(); i++) {
 				mapper.setTodoStubPriority(todos.get(i).getId(), stubs.get(i), priorities, priorityToTodos);
+				mapper.setTodoStubSubTodos(todos.get(i).getId(), stubs.get(i), subTodos);
 			}
 			
 			return stubs;
@@ -102,10 +103,10 @@ public class TodoFacadeImpl implements TodoFacade {
 			}
 			todoService.addTodo(new Todo(todo.getName(), todo.getDescription(), todo.getState(), todo.getDeadline()));
 			Long todoId = todoService.readByName(todo.getName()).getId();
+			
 			LOGGER.info("todoId: " + todoId);
 
 			for (int i = 0; i < priorities.length; i++) {
-				LOGGER.info("priority: " + priorities[i]);
 				Long priorityId = priorityService.readByName(priorities[i]).getId();
 				priorityToTodoService.add(todoId, priorityId);
 				
@@ -114,10 +115,41 @@ public class TodoFacadeImpl implements TodoFacade {
 				Long categoryId = categoryService.readByName(categories[i]).getId();
 				categoryToTodoService.add(todoId, categoryId);
 			}
+			
 			for (int i = 0; i < subTodos.length; i++) {
-				Long categoryId = categoryService.readByName(categories[i]).getId();
-				categoryToTodoService.add(todoId, categoryId);
+				String[] sTodo = subTodos[i].split("::un1qe::");
+				String name = sTodo[0];
+				String desc = sTodo[1];
+				LOGGER.info("name: " + name + " desc: " + desc);
+				subTodoService.add(new SubTodo(todoId, name, desc, 0));
 			}
+			
+		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		}
+	}
+
+	@Override
+	public void deleteTodo(String todoName) throws FacadeException {
+		try {
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Delete Todo");
+			}
+			Long todoId = todoService.readByName(todoName).getId();			
+			LOGGER.info("todoId: " + todoId);
+			
+			priorityToTodoService.remove(todoId);
+			LOGGER.info("prioToTodo removed");
+
+			categoryToTodoService.remove(todoId);
+			LOGGER.info("categoryToTodo removed");
+
+			subTodoService.remove(todoId);
+			LOGGER.info("subTodo removed");
+
+			todoService.remove(todoId);
+			LOGGER.info("Todo removed");
 			
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);

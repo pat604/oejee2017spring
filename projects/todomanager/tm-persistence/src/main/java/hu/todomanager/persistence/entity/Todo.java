@@ -12,6 +12,7 @@ import hu.todomanager.persistence.query.TodoQuery;
 		@NamedQuery(name = TodoQuery.GET_BY_ID, query = "SELECT t FROM Todo t WHERE t.id=:" + TodoParameter.ID),
 		@NamedQuery(name = TodoQuery.GET_BY_NAME, query = "SELECT t FROM Todo t WHERE t.name=:" + TodoParameter.NAME),
 		@NamedQuery(name = TodoQuery.GET_ALL, query = "SELECT t FROM Todo t"),
+		@NamedQuery(name = TodoQuery.REMOVE_BY_ID, query = "DELETE FROM Todo t WHERE t.id=:" + TodoParameter.ID)
 })
 
 public class Todo implements Serializable {

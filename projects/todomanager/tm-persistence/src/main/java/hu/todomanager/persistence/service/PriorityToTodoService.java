@@ -10,4 +10,6 @@ public interface PriorityToTodoService {
 	List<PriorityToTodo> readAll() throws PersistenceServiceException;
 	
 	void add(Long todoId, Long priorityId) throws PersistenceServiceException;
+
+	void remove(Long todoId) throws PersistenceServiceException;
 }

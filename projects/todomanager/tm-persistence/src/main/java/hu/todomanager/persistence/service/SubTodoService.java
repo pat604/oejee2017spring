@@ -8,4 +8,8 @@ import hu.todomanager.persistence.exception.PersistenceServiceException;
 @Local
 public interface SubTodoService {
 	List<SubTodo> readAll() throws PersistenceServiceException;
+	
+	void add(SubTodo subTodo) throws PersistenceServiceException;
+
+	void remove(Long todoId) throws PersistenceServiceException;
 }
