@@ -5,4 +5,5 @@ package hu.smiklos.stmm.web.common;
  */
 public class BorrowAttributes {
     public static final String OFFERS_ON_BORROW_QUERY = "offers_ON_BORROW_QUERY";
+    public static final String LOAN_ACCEPTED = "loan_offer_accepted" ;
 }

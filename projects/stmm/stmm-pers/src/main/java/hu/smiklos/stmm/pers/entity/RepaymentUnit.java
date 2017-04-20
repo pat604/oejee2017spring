@@ -11,10 +11,9 @@ import java.util.Date;
 public class RepaymentUnit {
 
     private String repayment_unit_id;
-
     private MoneyTransfer money_transfer;
     private Date repayment_unit_deadline;
-    private float repayment_unit_amount;
+    private double repayment_unit_amount;
 
     public RepaymentUnit() {
 
@@ -30,17 +29,13 @@ public class RepaymentUnit {
         this.repayment_unit_id = repayment_unit_id;
     }
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "repayment_unit_money_transfer_id")
     public MoneyTransfer getMoney_transfer() {
         return money_transfer;
     }
 
     public void setMoney_transfer(MoneyTransfer money_transfer) {
-        this.money_transfer = money_transfer;
-    }
-
-    public void setMoneyTransfer(MoneyTransfer money_transfer) {
         this.money_transfer = money_transfer;
     }
 
@@ -54,11 +49,11 @@ public class RepaymentUnit {
     }
 
     @Column(name = "repayment_unit_amount", nullable = false)
-    public float getRepaymentAmount() {
+    public double getRepaymentAmount() {
         return repayment_unit_amount;
     }
 
-    public void setRepaymentAmount(float repayment_unit_amount) {
+    public void setRepaymentAmount(double repayment_unit_amount) {
         this.repayment_unit_amount = repayment_unit_amount;
     }
 }

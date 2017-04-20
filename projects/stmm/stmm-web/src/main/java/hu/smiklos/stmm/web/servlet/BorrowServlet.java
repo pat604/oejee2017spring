@@ -5,9 +5,7 @@ import hu.smiklos.stmm.ejb.domain.OfferListOnBorrowQuery;
 import hu.smiklos.stmm.ejb.facade.BorrowFacadeInterface;
 import hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
-import hu.smiklos.stmm.web.common.BorrowAttributes;
-import hu.smiklos.stmm.web.common.GeneralAttributes;
-import hu.smiklos.stmm.web.common.Page;
+import hu.smiklos.stmm.web.common.*;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
@@ -27,6 +25,11 @@ public class BorrowServlet extends BaseServlet {
 
     @Override
     public void handleGet() throws ServletException, IOException {
+        if(request.getParameter(Action.ACTION) != null
+                && request.getParameter(Action.ACTION).equals(BorrowAttributes.LOAN_ACCEPTED)){
+
+            request.setAttribute(Modal.ATTR_MODAL, getLoanAcceptedModal());
+        }
         forward(Page.BORROW.getJspName());
     }
 
@@ -55,6 +58,14 @@ public class BorrowServlet extends BaseServlet {
             borrowStub.setRepaymentDurationFrom(Integer.parseInt(request.getParameter(BorrowStub.BORROW_REPAYMENT_PERIOD_MONTH_MIN)));
         }
         return borrowStub;
+    }
+
+
+    private Modal getLoanAcceptedModal(){
+        Modal modal = new Modal();
+        modal.setTitle("Loan accepted");
+        modal.setMessage(String.format("The amount of loan is in your <a href='%s'>wallet</a> now!",Page.MB_WALLET.getUrl()));
+        return modal;
     }
 
 

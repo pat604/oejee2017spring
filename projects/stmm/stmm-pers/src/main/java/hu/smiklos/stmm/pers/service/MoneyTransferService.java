@@ -65,7 +65,16 @@ public class MoneyTransferService implements MoneyTransferServiceInterFace {
     }
 
     public MoneyTransfer update(MoneyTransfer moneyTransfer) throws PersistenceServiceException {
-        return null;
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Updating MoneyTransfer : " + moneyTransfer.getMoneytransfer_id());
+        }
+        try {
+            this.entityManager.merge(moneyTransfer);
+            return moneyTransfer;
+
+        } catch (final Exception e) {
+            throw new PersistenceServiceException("Unknown error when merging MoneyTransfer! " + e.getLocalizedMessage(), e);
+        }
     }
 
     /**

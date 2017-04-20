@@ -43,7 +43,7 @@ public class AppUser implements Serializable {
         this.userroles = new HashSet<UserType>();
     }
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany
     @JoinTable(name = "userrole", joinColumns = {@JoinColumn(name = "userrole_appuser_id", referencedColumnName = "appuser_id")}, inverseJoinColumns = {@JoinColumn(name = "userrole_usertype_id", referencedColumnName = "usertype_id")})
     public Set<UserType> getUserroles() {
         return userroles;

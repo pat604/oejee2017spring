@@ -2,15 +2,16 @@ package hu.smiklos.stmm.web.servlet;
 
 import hu.smiklos.stmm.ejb.domain.LoanOfferStub;
 import hu.smiklos.stmm.ejb.facade.LoanOfferFacadeInterface;
+import hu.smiklos.stmm.ejb.uribuilder.UriBuilder;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
-import hu.smiklos.stmm.web.common.AcceptLoanOfferAttributes;
-import hu.smiklos.stmm.web.common.Page;
+import hu.smiklos.stmm.web.common.*;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
+import java.security.Principal;
 
 /**
  * Created by SebestyenMiklos on 2017. 04. 18..
@@ -35,7 +36,11 @@ public class AcceptLoanOfferServlet extends BaseServlet {
 
     @Override
     public void handlePost() throws ServletException, IOException, PersistenceServiceException {
-        forward(Page.ACCEPT_LOAN_OFFER.getJspName());
+        String transferMoneyId = request.getParameter(AcceptLoanOfferAttributes.LOAN_OFFER_MONEY_TRANSFER_ID);
+        offerFacade.acceptOffer(transferMoneyId, request.getUserPrincipal());
+        response.sendRedirect(UriBuilder.getUrl(Page.BORROW.getUrl(), BorrowAttributes.LOAN_ACCEPTED));
     }
+
+
 
 }

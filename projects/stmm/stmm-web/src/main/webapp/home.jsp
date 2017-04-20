@@ -14,7 +14,7 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
     <div class="container">
-        <h1>Wellcome world!</h1>
+        <h1>Welcome world!</h1>
         <p>Lorem ipsum dolor sit amet, an diam tantas vis, cu prima partiendo constituto vis. Quo euismod referrentur te, in vim quot laudem minimum. An cibo deleniti quaerendum sea, duo labores scripserit no. Te pro everti impedit perfecto. Vim no audiam posidonium. Eam ne iriure fuisset.</p>
         <% if (!(request != null && request.getUserPrincipal() != null && request.getUserPrincipal().getName() != null)) { %>
         <p><a class="btn btn-primary btn-lg" href="<%= Page.USER_REGISTRATION.getUrl() %>"

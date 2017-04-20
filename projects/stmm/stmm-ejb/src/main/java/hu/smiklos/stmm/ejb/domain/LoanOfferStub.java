@@ -88,4 +88,8 @@ public class LoanOfferStub {
     public int getNumberOfPayments() {
         return this.getNumberOfPayments(transfer);
     }
+
+    public String getMoneyTransferId() {
+        return transfer.getMoneytransfer_id();
+    }
 }

@@ -376,13 +376,14 @@ ALTER TABLE ONLY userrole ALTER COLUMN userrole_id SET DEFAULT nextval('userrole
 INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, appuser_wallet_id, password, appuser_creditcard_id) VALUES (21, '20170405-5', 'nPisti', 'Pisti', 'Nagy', NULL, '$2a$10$WUpF4Rso99PJo7VsNWdS3O3tlbKvsbTDYRjuy0EszEZf.2nB6tOxW', NULL);
 INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, appuser_wallet_id, password, appuser_creditcard_id) VALUES (20, '20170405-4', 'smiklos', 'Miklós', 'Sebestyén', 'W-20170405-4', '$2a$10$pJUihxmWEAyfWGiApqqqAOvzO0LSrzUF48yK3L7fcCY/TkApld5.C', 'CC-20170405-4');
 INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, appuser_wallet_id, password, appuser_creditcard_id) VALUES (17, '20170402-2', 'pNagy', 'Péter', 'Nagy', 'W-20170402-2', '$2a$10$dQ4shd7MSrdBK7qZaCPrWO8gqKBEs2UwhAr1e9aS925lvcPSgq42K', 'CC-20170402-2');
+INSERT INTO appuser (appuser_record_id, appuser_id, username, first_name, last_name, appuser_wallet_id, password, appuser_creditcard_id) VALUES (28, '20170420-3', 'mBoy', 'Mike', 'Boy', NULL, '$2a$10$ysDAQ1V4D8jaP9y65ukI6Os39btNmTbeP.067.DFIqhO8I2pmeVcG', NULL);
 
 
 --
 -- Name: appuser_record_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('appuser_record_id_seq', 25, true);
+SELECT pg_catalog.setval('appuser_record_id_seq', 28, true);
 
 
 --
@@ -404,10 +405,10 @@ SELECT pg_catalog.setval('creditcard_credit_card_record_number_seq', 15, true);
 -- Data for Name: money_transfer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, money_transfer_state_id, money_transfer_repayment_type, money_transfer_amount, money_transfer_return_amount, money_transfer_invest_period_month, money_transfer_state) VALUES (10, 'MT-20170419-4', 'W-20170402-2', NULL, NULL, NULL, NULL, 'M', 222, 244, 12, 'ONPLATE');
 INSERT INTO money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, money_transfer_state_id, money_transfer_repayment_type, money_transfer_amount, money_transfer_return_amount, money_transfer_invest_period_month, money_transfer_state) VALUES (11, 'MT-20170419-5', 'W-20170402-2', NULL, NULL, NULL, NULL, 'W', 222, 244, 6, 'ONPLATE');
 INSERT INTO money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, money_transfer_state_id, money_transfer_repayment_type, money_transfer_amount, money_transfer_return_amount, money_transfer_invest_period_month, money_transfer_state) VALUES (14, 'MT-20170419-8', 'W-20170405-4', NULL, NULL, NULL, NULL, 'M', 111, 122, 13, 'ONPLATE');
-INSERT INTO money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, money_transfer_state_id, money_transfer_repayment_type, money_transfer_amount, money_transfer_return_amount, money_transfer_invest_period_month, money_transfer_state) VALUES (15, 'MT-20170419-9', 'W-20170405-4', NULL, NULL, NULL, NULL, 'M', 100, 110, 12, 'ONPLATE');
+INSERT INTO money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, money_transfer_state_id, money_transfer_repayment_type, money_transfer_amount, money_transfer_return_amount, money_transfer_invest_period_month, money_transfer_state) VALUES (10, 'MT-20170419-4', 'W-20170402-2', NULL, NULL, NULL, NULL, 'M', 222, 244, 12, 'TAKEN');
+INSERT INTO money_transfer (money_transfer_record_id, moneytransfer_id, wallet_from, wallet_to, transferdate, returndate, money_transfer_state_id, money_transfer_repayment_type, money_transfer_amount, money_transfer_return_amount, money_transfer_invest_period_month, money_transfer_state) VALUES (15, 'MT-20170419-9', 'W-20170405-4', NULL, NULL, NULL, NULL, 'M', 100, 110, 12, 'TAKEN');
 
 
 --
@@ -459,6 +460,7 @@ INSERT INTO registration_per_day (day, count) VALUES ('20170402', 2);
 INSERT INTO registration_per_day (day, count) VALUES ('20170405', 5);
 INSERT INTO registration_per_day (day, count) VALUES ('20170409', 3);
 INSERT INTO registration_per_day (day, count) VALUES ('20170411', 1);
+INSERT INTO registration_per_day (day, count) VALUES ('20170420', 3);
 
 
 --
@@ -473,6 +475,30 @@ INSERT INTO repayment_type (repayment_type_id, repayment_type_name) VALUES ('W',
 -- Data for Name: repayment_unit; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-05-20', 20.3333333333333, 'MT-20170419-4-0', 'MT-20170419-4');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-06-19', 20.3333333333333, 'MT-20170419-4-1', 'MT-20170419-4');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-07-19', 20.3333333333333, 'MT-20170419-4-2', 'MT-20170419-4');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-08-18', 20.3333333333333, 'MT-20170419-4-3', 'MT-20170419-4');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-09-17', 20.3333333333333, 'MT-20170419-4-4', 'MT-20170419-4');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-10-17', 20.3333333333333, 'MT-20170419-4-5', 'MT-20170419-4');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-11-16', 20.3333333333333, 'MT-20170419-4-6', 'MT-20170419-4');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-12-16', 20.3333333333333, 'MT-20170419-4-7', 'MT-20170419-4');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2018-01-15', 20.3333333333333, 'MT-20170419-4-8', 'MT-20170419-4');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2018-02-14', 20.3333333333333, 'MT-20170419-4-9', 'MT-20170419-4');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2018-03-16', 20.3333333333333, 'MT-20170419-4-10', 'MT-20170419-4');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2018-04-15', 20.3333333333333, 'MT-20170419-4-11', 'MT-20170419-4');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-05-20', 9.16666666666667, 'MT-20170419-9-0', 'MT-20170419-9');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-06-19', 9.16666666666667, 'MT-20170419-9-1', 'MT-20170419-9');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-07-19', 9.16666666666667, 'MT-20170419-9-2', 'MT-20170419-9');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-08-18', 9.16666666666667, 'MT-20170419-9-3', 'MT-20170419-9');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-09-17', 9.16666666666667, 'MT-20170419-9-4', 'MT-20170419-9');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-10-17', 9.16666666666667, 'MT-20170419-9-5', 'MT-20170419-9');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-11-16', 9.16666666666667, 'MT-20170419-9-6', 'MT-20170419-9');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2017-12-16', 9.16666666666667, 'MT-20170419-9-7', 'MT-20170419-9');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2018-01-15', 9.16666666666667, 'MT-20170419-9-8', 'MT-20170419-9');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2018-02-14', 9.16666666666667, 'MT-20170419-9-9', 'MT-20170419-9');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2018-03-16', 9.16666666666667, 'MT-20170419-9-10', 'MT-20170419-9');
+INSERT INTO repayment_unit (repayment_unit_deadline, repayment_unit_amount, repayment_unit_id, repayment_unit_money_transfer_id) VALUES ('2018-04-15', 9.16666666666667, 'MT-20170419-9-11', 'MT-20170419-9');
 
 
 --
@@ -489,6 +515,7 @@ SELECT pg_catalog.setval('role_role_id_seq', 1, false);
 INSERT INTO userrole (userrole_id, userrole_appuser_id, userrole_usertype_id) VALUES (5, '20170405-4', 'REGISTERED');
 INSERT INTO userrole (userrole_id, userrole_appuser_id, userrole_usertype_id) VALUES (6, '20170405-5', 'REGISTERED');
 INSERT INTO userrole (userrole_id, userrole_appuser_id, userrole_usertype_id) VALUES (8, '20170402-2', 'REGISTERED');
+INSERT INTO userrole (userrole_id, userrole_appuser_id, userrole_usertype_id) VALUES (9, '20170420-3', 'REGISTERED');
 
 
 --
@@ -502,7 +529,7 @@ SELECT pg_catalog.setval('userrole_userrole_id_seq', 1, false);
 -- Name: userrole_userrole_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('userrole_userrole_id_seq1', 8, true);
+SELECT pg_catalog.setval('userrole_userrole_id_seq1', 9, true);
 
 
 --
@@ -522,15 +549,15 @@ INSERT INTO usertype (usertype_record_id, usertype_id, usertype, state) VALUES (
 -- Name: usertype_record_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('usertype_record_id_seq', 15, true);
+SELECT pg_catalog.setval('usertype_record_id_seq', 17, true);
 
 
 --
 -- Data for Name: wallet; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (13, 'W-20170405-4', 3789);
-INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (15, 'W-20170402-2', 1600);
+INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (13, 'W-20170405-4', 4011);
+INSERT INTO wallet (wallet_record_id, wallet_id, amount) VALUES (15, 'W-20170402-2', 1811);
 
 
 --
