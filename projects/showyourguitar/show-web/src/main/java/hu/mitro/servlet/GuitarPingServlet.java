@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import hu.mitro.ejbservice.domain.GuitarBrandStub;
 import hu.mitro.ejbservice.domain.GuitarStub;
 import hu.mitro.ejbservice.facade.GuitarFacade;
 
@@ -28,10 +27,10 @@ public class GuitarPingServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// LOGGER.info("Get Guitar by user");
 
-		List<GuitarStub> guitar = this.facade.getGuitars(GuitarBrandStub.GIBSON);
+		List<GuitarStub> guitars = this.facade.getGuitars();
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
-		out.println(guitar.toString());
+		out.println(guitars.toString());
 		out.close();
 	}
 

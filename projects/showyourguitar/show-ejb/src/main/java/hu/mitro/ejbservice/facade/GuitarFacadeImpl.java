@@ -5,11 +5,11 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.PersistenceException;
 
 import hu.mitro.ejbservice.converter.GuitarConverter;
-import hu.mitro.ejbservice.domain.GuitarBrandStub;
-import hu.mitro.ejbservice.domain.GuitarOwnerStub;
 import hu.mitro.ejbservice.domain.GuitarStub;
+import hu.mitro.persistence.entity.Guitar;
 import hu.mitro.persistence.service.GuitarService;
 
 @Stateless
@@ -23,35 +23,34 @@ public class GuitarFacadeImpl implements GuitarFacade {
 	private GuitarConverter guitarConverter;
 
 	@Override
-	public List<GuitarStub> getGuitars(GuitarOwnerStub owner) {
-		// if (LOGGER.isDebugEnabled()) {
-		// LOGGER.debug("Get guitars (owner: " + owner + ")");
-		// }
-
-		List<GuitarStub> guitars = new ArrayList<GuitarStub>();
-		// GuitarOwnerStub guitarOwner = new GuitarOwnerStub("tamas.mitro", "blacktom73@gmail.com",
-		// "tamas1234");
-		// guitars.add(new GuitarStub(GuitarBrandStub.GIBSON, "Les Paul Standard", "Ebony", 1990,
-		// 550000.0, guitarOwner));
-		// try {
-		// guitars.add(this.guitarService.)
-		// } catch (Exception e) {
-		// }
-		return guitars;
-	}
-
-	@Override
-	public List<GuitarStub> getGuitars(GuitarBrandStub brand) {
-		List<GuitarStub> guitars = new ArrayList<GuitarStub>();
-		GuitarOwnerStub guitarOwner = new GuitarOwnerStub("tamas.mitro", "blacktom73@gmail.com", "tamas1234");
-		guitars.add(new GuitarStub(GuitarBrandStub.GIBSON, "Les Paul Standard", "Ebony", 1990, 550000.0, guitarOwner));
-		return guitars;
-		// return null;
-	}
-
-	@Override
 	public GuitarStub getGuitar(Long guitarId) {
-		GuitarStub guitar = this.guitarConverter.to(this.guitarService.read(guitarId));
+		GuitarStub guitar = null;
+		try {
+			guitar = this.guitarConverter.to(this.guitarService.read(guitarId));
+		} catch (Exception e) {
+			throw new PersistenceException(e.getLocalizedMessage());
+		}
+		return guitar;
+	}
+
+	@Override
+	public List<GuitarStub> getGuitars() {
+		List<GuitarStub> guitarStubs = new ArrayList<GuitarStub>();
+		List<Guitar> guitars = this.guitarService.readAll();
+		for (Guitar g : guitars) {
+			guitarStubs.add(this.guitarConverter.to(g));
+		}
+		return guitarStubs;
+	}
+
+	@Override
+	public GuitarStub getGuitar(String serial) {
+		GuitarStub guitar = null;
+		try {
+			guitar = this.guitarConverter.to(this.guitarService.readBySerialNumber(serial));
+		} catch (Exception e) {
+			throw new PersistenceException(e.getLocalizedMessage());
+		}
 		return guitar;
 	}
 

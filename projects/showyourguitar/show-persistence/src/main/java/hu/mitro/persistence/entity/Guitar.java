@@ -57,9 +57,8 @@ public class Guitar implements Serializable {
 	@Column(name = "guitar_price", nullable = false)
 	private double guitarPrice;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "guitar_guitarowner_id", nullable = false)
-	// @JoinColumn(name = "guitar_guitarowner_id", referencedColumnName = "guitarowner_guitar_id", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "guitar_guitarowner_id", referencedColumnName = "guitarowner_id", nullable = false)
 	private GuitarOwner guitarOwner;
 
 	public Guitar() {

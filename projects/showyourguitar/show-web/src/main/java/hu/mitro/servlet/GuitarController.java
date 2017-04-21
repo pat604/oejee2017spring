@@ -24,9 +24,9 @@ public class GuitarController extends HttpServlet {
 			throws ServletException, IOException {
 		super.doGet(request, response);
 
-		Long id = Long.valueOf(request.getParameter("id"));
+		Long guitarId = Long.valueOf(request.getParameter("id"));
 		try {
-			GuitarStub guitar = this.facade.getGuitar(id);
+			GuitarStub guitar = this.facade.getGuitar(guitarId);
 			request.setAttribute("guitar", guitar);
 		} catch (Exception e) {
 			e.printStackTrace();

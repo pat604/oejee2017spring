@@ -18,9 +18,8 @@ public class GuitarConverterImpl implements GuitarConverter {
 	public GuitarStub to(Guitar guitar) {
 		GuitarBrandStub guitarBrandStub = GuitarBrandStub.valueOf(guitar.getGuitarbrand().toString());
 		GuitarOwnerStub guitarOwnerStub = this.converter.to(guitar.getGuitarOwner());
-
-		return new GuitarStub(guitarBrandStub, guitar.getGuitartype(), guitar.getGuitarColor(),
-				guitar.getGuitarVintage(), guitar.getGuitarPrice(), guitarOwnerStub);
+		return new GuitarStub(guitarBrandStub, guitar.getGuitartype(), guitar.getGuitarSerialNumber(),
+				guitar.getGuitarColor(), guitar.getGuitarVintage(), guitar.getGuitarPrice(), guitarOwnerStub);
 	}
 
 }

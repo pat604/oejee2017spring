@@ -31,7 +31,6 @@ public class GuitarOwner implements Serializable {
 	private String ownerPassword;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Guitar.class, mappedBy = "guitarOwner")
-	// @JoinColumn(name = "guitarowner_guitar_id", referencedColumnName = "guitar_guitarowner_id")
 	private List<Guitar> guitars = new ArrayList<Guitar>();
 
 	public GuitarOwner() {

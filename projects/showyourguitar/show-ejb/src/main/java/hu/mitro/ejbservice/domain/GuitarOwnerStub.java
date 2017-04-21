@@ -29,7 +29,6 @@ public class GuitarOwnerStub {
 		this.email = email;
 	}
 
-	// El kell érnünk a password mezõ tartalmát?
 	public String getPassword() {
 		return this.password;
 	}

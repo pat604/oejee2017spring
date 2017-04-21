@@ -4,16 +4,22 @@ public class GuitarStub {
 
 	private GuitarBrandStub guitarbrand;
 	private String guitarType;
+	private String serialNumber;
 	private String color;
 	private int vintage;
 	private double price;
 	private GuitarOwnerStub owner;
 
-	public GuitarStub(GuitarBrandStub guitarbrand, String guitarType, String color, int vintage,
+	public GuitarStub() {
+		super();
+	}
+
+	public GuitarStub(GuitarBrandStub guitarbrand, String guitarType, String serialNumber, String color, int vintage,
 			double price, GuitarOwnerStub owner) {
 		super();
 		this.guitarbrand = guitarbrand;
 		this.guitarType = guitarType;
+		this.serialNumber = serialNumber;
 		this.color = color;
 		this.vintage = vintage;
 		this.price = price;
@@ -34,6 +40,14 @@ public class GuitarStub {
 
 	public void setGuitarType(String guitarType) {
 		this.guitarType = guitarType;
+	}
+
+	public String getSerialNumber() {
+		return this.serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 
 	public String getColor() {
@@ -70,8 +84,8 @@ public class GuitarStub {
 
 	@Override
 	public String toString() {
-		return "GuitarStub [guitarbrand=" + this.guitarbrand + ", guitarType=" + this.guitarType
-				+ ", color=" + this.color + ", vintage=" + this.vintage + ", price=" + this.price
+		return "GuitarStub [guitarbrand=" + this.guitarbrand + ", guitarType=" + this.guitarType + ", serialNumber="
+				+ this.serialNumber + ", color=" + this.color + ", vintage=" + this.vintage + ", price=" + this.price
 				+ ", owner=" + this.owner + "]";
 	}
 

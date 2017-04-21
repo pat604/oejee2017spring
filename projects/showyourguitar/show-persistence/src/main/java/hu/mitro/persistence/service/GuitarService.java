@@ -12,7 +12,7 @@ public interface GuitarService {
 
 	Guitar read(Long id) throws PersistenceException;
 
-	Guitar read(String serialNumber) throws PersistenceException;
+	Guitar readBySerialNumber(String serialNumber) throws PersistenceException;
 
 	List<Guitar> readAll() throws PersistenceException;
 }

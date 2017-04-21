@@ -39,7 +39,7 @@ public class GuitarServiceImp implements GuitarService {
 	}
 
 	@Override
-	public Guitar read(String serialNumber) throws PersistenceException {
+	public Guitar readBySerialNumber(String serialNumber) throws PersistenceException {
 		Guitar guitar = null;
 		try {
 			guitar = this.entityManager.createNamedQuery(GuitarQuery.GET_BY_SERIALNUMBER, Guitar.class)
@@ -53,8 +53,7 @@ public class GuitarServiceImp implements GuitarService {
 
 	@Override
 	public List<Guitar> readAll() throws PersistenceException {
-		List<Guitar> guitars = null;
-		guitars = this.entityManager.createNamedQuery(GuitarQuery.GET_ALL, Guitar.class).getResultList();
+		List<Guitar> guitars = this.entityManager.createNamedQuery(GuitarQuery.GET_ALL, Guitar.class).getResultList();
 		return guitars;
 	}
 
