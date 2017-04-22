@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import hu.mitro.ejbservice.domain.GuitarStub;
+import hu.mitro.ejbservice.exception.FacadeException;
 import hu.mitro.ejbservice.facade.GuitarFacade;
 
 @WebServlet("/GuitarPing")
@@ -20,14 +23,18 @@ public class GuitarPingServlet extends HttpServlet {
 	@EJB
 	private GuitarFacade facade;
 
-	// private static final Logger LOGGER = Logger.getLogger(GuitarPingServlet.class);
+	private static final Logger LOGGER = Logger.getLogger(GuitarPingServlet.class);
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// LOGGER.info("Get Guitar by user");
-
-		List<GuitarStub> guitars = this.facade.getGuitars();
+		LOGGER.info("Get Guitar by user");
+		List<GuitarStub> guitars = null;
+		try {
+			guitars = this.facade.getGuitars();
+		} catch (FacadeException e) {
+			e.printStackTrace();
+		}
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		out.println(guitars.toString());

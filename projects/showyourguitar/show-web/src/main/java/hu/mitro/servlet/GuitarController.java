@@ -22,8 +22,6 @@ public class GuitarController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		super.doGet(request, response);
-
 		Long guitarId = Long.valueOf(request.getParameter("id"));
 		try {
 			GuitarStub guitar = this.facade.getGuitar(guitarId);

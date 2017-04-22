@@ -7,15 +7,18 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceException;
 
+import org.apache.log4j.Logger;
+
 import hu.mitro.ejbservice.converter.GuitarConverter;
 import hu.mitro.ejbservice.domain.GuitarStub;
+import hu.mitro.ejbservice.exception.FacadeException;
 import hu.mitro.persistence.entity.Guitar;
 import hu.mitro.persistence.service.GuitarService;
 
 @Stateless
 public class GuitarFacadeImpl implements GuitarFacade {
 
-	// private static final Logger LOGGER = Logger.getLogger(GuitarFacadeImpl.class);
+	private static final Logger LOGGER = Logger.getLogger(GuitarFacadeImpl.class);
 
 	@EJB
 	private GuitarService guitarService;
@@ -23,33 +26,43 @@ public class GuitarFacadeImpl implements GuitarFacade {
 	private GuitarConverter guitarConverter;
 
 	@Override
-	public GuitarStub getGuitar(Long guitarId) {
+	public GuitarStub getGuitar(Long guitarId) throws FacadeException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Get Guitar (id: " + guitarId + ")");
+		}
 		GuitarStub guitar = null;
 		try {
 			guitar = this.guitarConverter.to(this.guitarService.read(guitarId));
-		} catch (Exception e) {
-			throw new PersistenceException(e.getLocalizedMessage());
+		} catch (PersistenceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
 		}
 		return guitar;
 	}
 
 	@Override
-	public List<GuitarStub> getGuitars() {
+	public List<GuitarStub> getGuitars() throws FacadeException {
 		List<GuitarStub> guitarStubs = new ArrayList<GuitarStub>();
-		List<Guitar> guitars = this.guitarService.readAll();
-		for (Guitar g : guitars) {
-			guitarStubs.add(this.guitarConverter.to(g));
+		try {
+			List<Guitar> guitars = this.guitarService.readAll();
+			for (Guitar g : guitars) {
+				guitarStubs.add(this.guitarConverter.to(g));
+			}
+		} catch (PersistenceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
 		}
 		return guitarStubs;
 	}
 
 	@Override
-	public GuitarStub getGuitar(String serial) {
+	public GuitarStub getGuitar(String serial) throws FacadeException {
 		GuitarStub guitar = null;
 		try {
 			guitar = this.guitarConverter.to(this.guitarService.readBySerialNumber(serial));
-		} catch (Exception e) {
-			throw new PersistenceException(e.getLocalizedMessage());
+		} catch (PersistenceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
 		}
 		return guitar;
 	}

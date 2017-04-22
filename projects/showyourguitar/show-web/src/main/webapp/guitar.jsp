@@ -10,7 +10,7 @@
 <title>:: <% out.print(guitar.getGuitarbrand() + " " + guitar.getGuitarType()); %> ::</title>
 </head>
 <body>
-	<h1><% out.print(guitar.getGuitarbrand()); %>: <% out.print(guitar.getGuitarType()); %></h1>
+	<h2><% out.print(guitar.getGuitarbrand()); %>: <% out.print(guitar.getGuitarType()); %></h2>
 	<div><label>color: </label><span><% out.print(guitar.getColor()); %></span></div>
 	<div><label>serial: </label><span><% out.print(guitar.getSerialNumber()); %></span></div>
 	<div><label>vintage: </label><span><% out.print(guitar.getVintage()); %></span></div>
