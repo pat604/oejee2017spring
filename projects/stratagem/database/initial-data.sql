@@ -125,9 +125,9 @@ INSERT INTO projects (project_id, project_name, project_description, project_sta
 (1, 'QuickExtract app', 'Develop mobile app for QuickExtract', 7, NULL, TRUE),
 (2, 'Grove BI outsourcing', '', 0, NULL, TRUE),
 (3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', 5, '2017/05/26 00:00:00', FALSE),
-(4, 'Test', 'Test 1 objective project', 0, NULL, TRUE),
-(5, 'Test', 'Test 1 objective project', 0, NULL, TRUE),
-(6, 'Test', 'Test 2 objective project', 0, NULL, TRUE);
+(4, 'Test 1', 'Test 1 objective project', 0, NULL, TRUE),
+(5, 'Test 2', 'Test 1 objective project', 0, NULL, TRUE),
+(6, 'Test 3', 'Test 2 objective project', 0, NULL, TRUE);
 SELECT SETVAL('projects_project_id_seq', COALESCE(MAX(project_id), 0) ) FROM projects;
 
 INSERT INTO project_missions (mission_id, mission_name, mission_description, mission_project, mission_stage_id) VALUES
@@ -180,13 +180,15 @@ INSERT INTO tasks (task_id, task_name, task_description, task_completion_percent
 INSERT INTO project_tasks (project_task_project_id, project_task_task_id) VALUES
 (0, 1),
 (2, 2),
+(2, 0),
+(2, 3),
 (1, 4),
 (3, 5);
 
 INSERT INTO objective_tasks (objective_task_objective_id, objective_task_task_id) VALUES
 (0, 2),
 (2, 3),
-(3, 4);
+(2, 3);
 
 -- ###########################################################################################
 

@@ -14,6 +14,7 @@ import com.kota.stratagem.persistence.entity.Task;
 import com.kota.stratagem.persistence.entity.Team;
 import com.kota.stratagem.persistence.entity.trunk.ProjectStatus;
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
+import com.kota.stratagem.persistence.util.AggregationSelector;
 
 @Local
 public interface ProjectService {
@@ -21,7 +22,7 @@ public interface ProjectService {
 	Project create(String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers,
 			Set<Impediment> impediments, Objective objective) throws PersistenceServiceException;
 
-	Project read(Long id) throws PersistenceServiceException;
+	Project read(Long id, AggregationSelector requirement) throws PersistenceServiceException;
 
 	List<Project> read(ProjectStatus status) throws PersistenceServiceException;
 

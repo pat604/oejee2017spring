@@ -31,26 +31,26 @@ public class ObjectiveConverterImpl implements ObjectiveConverter {
 		final ObjectiveRepresentor representor = objective.getId() != null
 				? new ObjectiveRepresentor(objective.getId(), objective.getName(), objective.getDescription(), objective.getPriority(), status)
 				: new ObjectiveRepresentor(objective.getName(), objective.getDescription(), objective.getPriority(), status);
-		// if (objective.getProjects() != null) {
-		// for (final Project project : objective.getProjects()) {
-		// representor.addProject(this.projectConverter.to(project));
-		// }
-		// }
-		// if (objective.getTasks() != null) {
-		// for (final Task task : objective.getTasks()) {
-		// representor.addTask(this.taskConverter.to(task));
-		// }
-		// }
-		// if (objective.getAssignedTeams() != null) {
-		// for (final Team team : objective.getAssignedTeams()) {
-		// representor.addTeam(this.teamConverter.to(team));
-		// }
-		// }
-		// if (objective.getAssignedUsers() != null) {
-		// for (final AppUser user : objective.getAssignedUsers()) {
-		// representor.addUser(this.appUserConverter.to(user));
-		// }
-		// }
+//		if (objective.getProjects() != null) {
+//			for (final Project project : objective.getProjects()) {
+//				representor.addProject(this.projectConverter.to(project));
+//			}
+//		}
+//		if (objective.getTasks() != null) {
+//			for (final Task task : objective.getTasks()) {
+//				representor.addTask(this.taskConverter.to(task));
+//			}
+//		}
+//		if (objective.getAssignedTeams() != null) {
+//			for (final Team team : objective.getAssignedTeams()) {
+//				representor.addTeam(this.teamConverter.to(team));
+//			}
+//		}
+//		if (objective.getAssignedUsers() != null) {
+//			for (final AppUser user : objective.getAssignedUsers()) {
+//				representor.addUser(this.appUserConverter.to(user));
+//			}
+//		}
 		return representor;
 	}
 

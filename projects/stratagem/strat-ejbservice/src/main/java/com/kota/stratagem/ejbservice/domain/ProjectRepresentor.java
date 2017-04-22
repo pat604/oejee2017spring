@@ -116,9 +116,9 @@ public class ProjectRepresentor {
 
 	@Override
 	public String toString() {
-		return "ProjectRepresentor [id=" + this.id + ", name=" + this.name + ", description=" + this.description + ", status=" + this.status + ", deadline="
-				+ this.deadline + ", visible=" + this.visible + ", tasks=" + this.tasks + ", assignedTeams=" + this.assignedTeams + ", assignedUsers="
-				+ this.assignedUsers + ", impediments=" + this.impediments + ", objective=" + this.objective + "]\n";
+		return "\nProjectRepresentor [id=" + this.id + ", name=" + this.name + ", description=" + this.description + ", status=" + this.status + ", deadline="
+				+ this.deadline + ", visible=" + this.visible + ", \n\ttasks=" + this.tasks + ", \n\tassignedTeams=" + this.assignedTeams
+				+ ", \n\tassignedUsers=" + this.assignedUsers + ", \n\timpediments=" + this.impediments + ", \n\tobjective=" + this.objective + "]\t";
 	}
 
 }

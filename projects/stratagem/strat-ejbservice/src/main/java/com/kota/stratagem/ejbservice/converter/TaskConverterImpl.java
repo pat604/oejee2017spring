@@ -30,39 +30,39 @@ public class TaskConverterImpl implements TaskConverter {
 	@Override
 	public TaskRepresentor to(Task task) {
 		final TaskRepresentor representor = task.getId() != null
-				? new TaskRepresentor(task.getId(), task.getName(), task.getDescription(), task.getCompletion(),
-						task.getObjective() != null ? this.objectiveConverter.to(task.getObjective()) : null,
-						task.getProject() != null ? this.projectConverter.to(task.getProject()) : null)
-				: new TaskRepresentor(task.getName(), task.getDescription(), task.getCompletion(),
-						task.getObjective() != null ? this.objectiveConverter.to(task.getObjective()) : null,
-						task.getProject() != null ? this.projectConverter.to(task.getProject()) : null);
-
-		// if(task.getAssignedTeams() != null) {
-		// for(Team team : task.getAssignedTeams()) {
-		// representor.addTeam(teamConverter.to(team));
-		// }
-		// }
-		// if(task.getAssignedUsers() != null) {
-		// for(AppUser user : task.getAssignedUsers()) {
-		// representor.addUser(appUserConverter.to(user));
-		// }
-		// }
-		// if(task.getImpediments() != null) {
-		// for(Impediment impediment : task.getImpediments()) {
-		// representor.addImpediment(impedimentConverter.to(impediment));
-		// }
-		// }
-		// if(task.getDependantTasks() != null) {
-		// for(Task dependant : task.getDependantTasks()) {
-		// representor.addDependantTask(this.to(dependant));
-		// }
-		// }
-		// if(task.getTaskDependencies() != null) {
-		// for(Task dependencies : task.getTaskDependencies()) {
-		// representor.addTaskDependency(this.to(dependencies));
-		// }
-		// }
-
+				? new TaskRepresentor(task.getId(), task.getName(), task.getDescription(), task.getCompletion())
+				: new TaskRepresentor(task.getName(), task.getDescription(), task.getCompletion());
+//		if (task.getAssignedTeams() != null) {
+//			for (final Team team : task.getAssignedTeams()) {
+//				representor.addTeam(this.teamConverter.to(team));
+//			}
+//		}
+//		if (task.getAssignedUsers() != null) {
+//			for (final AppUser user : task.getAssignedUsers()) {
+//				representor.addUser(this.appUserConverter.to(user));
+//			}
+//		}
+//		if (task.getImpediments() != null) {
+//			for (final Impediment impediment : task.getImpediments()) {
+//				representor.addImpediment(this.impedimentConverter.to(impediment));
+//			}
+//		}
+//		if (task.getDependantTasks() != null) {
+//			for (final Task dependant : task.getDependantTasks()) {
+//				representor.addDependantTask(this.to(dependant));
+//			}
+//		}
+//		if (task.getTaskDependencies() != null) {
+//			for (final Task dependencies : task.getTaskDependencies()) {
+//				representor.addTaskDependency(this.to(dependencies));
+//			}
+//		}
+		if(task.getObjective() != null) {
+			representor.setObjective(this.objectiveConverter.to(task.getObjective()));
+		}
+//		if(task.getProject() != null) {
+//			representor.setProject(this.projectConverter.to(task.getProject()));
+//		}
 		return representor;
 	}
 

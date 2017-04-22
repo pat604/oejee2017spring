@@ -10,6 +10,7 @@ import com.kota.stratagem.ejbservice.domain.ImpedimentRepresentor;
 import com.kota.stratagem.ejbservice.domain.ImpedimentStatusRepresentor;
 import com.kota.stratagem.ejbservice.domain.PriorityRepresentor;
 import com.kota.stratagem.persistence.entity.Impediment;
+import com.kota.stratagem.persistence.entity.Remedy;
 
 @Stateless
 public class ImpedimentConverterImpl implements ImpedimentConverter {
@@ -41,11 +42,11 @@ public class ImpedimentConverterImpl implements ImpedimentConverter {
 						impediment.getProcessor() != null ? this.appUserConverter.to(impediment.getProcessor()) : null,
 						impediment.getProject() != null ? this.projectConverter.to(impediment.getProject()) : null,
 						impediment.getTask() != null ? this.taskConverter.to(impediment.getTask()) : null);
-		// if (impediment.getRemedies() != null) {
-		// for (final Remedy remedy : impediment.getRemedies()) {
-		// representor.addRemedy(this.remedyConverter.to(remedy));
-		// }
-		// }
+		if (impediment.getRemedies() != null) {
+			for (final Remedy remedy : impediment.getRemedies()) {
+				representor.addRemedy(this.remedyConverter.to(remedy));
+			}
+		}
 		return representor;
 	}
 

@@ -26,6 +26,7 @@ import com.kota.stratagem.persistence.exception.CoherentPersistenceServiceExcept
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
 import com.kota.stratagem.persistence.parameter.ProjectParameter;
 import com.kota.stratagem.persistence.query.ProjectQuery;
+import com.kota.stratagem.persistence.util.AggregationSelector;
 import com.kota.stratagem.persistence.util.PersistenceApplicationError;
 
 @Stateless(mappedName = "ejb/projectService")
@@ -55,13 +56,19 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public Project read(Long id) throws PersistenceServiceException {
+	public Project read(Long id, AggregationSelector requirement) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Get Project by id (" + id + ")");
 		}
 		Project result = null;
 		try {
-			result = this.entityManager.createNamedQuery(ProjectQuery.GET_BY_ID, Project.class).setParameter(ProjectParameter.ID, id).getSingleResult();
+			String query = null;
+			switch (requirement) {
+				case ELEMENTARY: query = ProjectQuery.GET_BY_ID; break;
+				case WITH_TASKS: query = ProjectQuery.GET_BY_ID_WITH_TASKS; break;
+				default: query = ProjectQuery.GET_BY_ID; break;
+			}
+			result = this.entityManager.createNamedQuery(query, Project.class).setParameter(ProjectParameter.ID, id).getSingleResult();
 		} catch(final Exception e) {
 			throw new PersistenceServiceException("Unknown error when fetching Project by id (" + id + ")! " + e.getLocalizedMessage(), e);
 		}
@@ -103,7 +110,7 @@ public class ProjectServiceImpl implements ProjectService {
 			LOGGER.debug("Update Project (id: " + id + ", name: " + name + ", description: " + description + ", status: " + status + ", tasks: " + tasks + ", visible: " + visible + ")");
 		}
 		try {
-			final Project project = this.read(id);
+			final Project project = this.read(id, AggregationSelector.ELEMENTARY);
 			project.setName(name);
 			project.setDescription(description);
 			project.setStatus(status);
@@ -126,7 +133,7 @@ public class ProjectServiceImpl implements ProjectService {
 			LOGGER.debug("Remove Project by id (" + id + ")");
 		}
 		if(this.exists(id)) {
-			if(this.read(id).getTasks().size() == 0) {
+			if(this.read(id, AggregationSelector.ELEMENTARY).getTasks().size() == 0) {
 				try {
 					this.entityManager.createNamedQuery(ProjectQuery.REMOVE_BY_ID).setParameter(ProjectParameter.ID, id).executeUpdate();
 				} catch(final Exception e) {

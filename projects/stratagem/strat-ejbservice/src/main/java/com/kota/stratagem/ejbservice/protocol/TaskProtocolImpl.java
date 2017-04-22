@@ -31,6 +31,7 @@ import com.kota.stratagem.persistence.service.ObjectiveService;
 import com.kota.stratagem.persistence.service.ProjectService;
 import com.kota.stratagem.persistence.service.TaskService;
 import com.kota.stratagem.persistence.service.TeamService;
+import com.kota.stratagem.persistence.util.AggregationSelector;
 
 @Stateless(mappedName = "ejb/taskProtocol")
 public class TaskProtocolImpl implements TaskProtocol {
@@ -93,30 +94,31 @@ public class TaskProtocolImpl implements TaskProtocol {
 		try {
 			Task task = null;
 			if(this.taskService.exists(id)) {
-				Set<Team> teams = new HashSet<Team>();
-				Set<AppUser> users = new HashSet<AppUser>();
-				Set<Impediment> taskImpediments = new HashSet<Impediment>();
-				Set<Task> dependants = new HashSet<Task>();
-				Set<Task> dependencies = new HashSet<Task>();
-				for(TeamRepresentor team : assignedTeams) {
-					teams.add(teamService.read(team.getId()));
+				final Set<Team> teams = new HashSet<Team>();
+				final Set<AppUser> users = new HashSet<AppUser>();
+				final Set<Impediment> taskImpediments = new HashSet<Impediment>();
+				final Set<Task> dependants = new HashSet<Task>();
+				final Set<Task> dependencies = new HashSet<Task>();
+				for(final TeamRepresentor team : assignedTeams) {
+					teams.add(this.teamService.read(team.getId()));
 				}
-				for(AppUserRepresentor user : assignedUsers) {
-					users.add(appUserService.read(user.getId()));
+				for(final AppUserRepresentor user : assignedUsers) {
+					users.add(this.appUserService.read(user.getId()));
 				}
-				for(ImpedimentRepresentor impediment : impediments) {
-					taskImpediments.add(impedimentService.read(impediment.getId()));
+				for(final ImpedimentRepresentor impediment : impediments) {
+					taskImpediments.add(this.impedimentService.read(impediment.getId()));
 				}
-				for(TaskRepresentor taskRepresentor : dependantTasks) {
-					dependants.add(taskService.read(taskRepresentor.getId()));
+				for(final TaskRepresentor taskRepresentor : dependantTasks) {
+					dependants.add(this.taskService.read(taskRepresentor.getId()));
 				}
-				for(TaskRepresentor taskRepresentor : taskDependencies) {
-					dependants.add(taskService.read(taskRepresentor.getId()));
+				for(final TaskRepresentor taskRepresentor : taskDependencies) {
+					dependants.add(this.taskService.read(taskRepresentor.getId()));
 				}
-				task = this.taskService.update(id, name, description, completion, teams, users, taskImpediments, dependants, dependencies, objectiveService.read(objective.getId()),
-						projectSerivce.read(project.getId()));
+				task = this.taskService.update(id, name, description, completion, teams, users, taskImpediments, dependants, dependencies,
+						this.objectiveService.read(objective.getId()), this.projectSerivce.read(project.getId(), AggregationSelector.ELEMENTARY));
 			} else {
-				task = this.taskService.create(name, description, completion, null, null, null, null, null, objectiveService.read(objective.getId()), projectSerivce.read(project.getId()));
+				task = this.taskService.create(name, description, completion, null, null, null, null, null,
+						this.objectiveService.read(objective.getId()), this.projectSerivce.read(project.getId(), AggregationSelector.ELEMENTARY));
 			}
 			return this.converter.to(task);
 		} catch(final PersistenceServiceException e) {

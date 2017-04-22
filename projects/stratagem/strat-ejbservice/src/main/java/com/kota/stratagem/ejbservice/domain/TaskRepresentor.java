@@ -13,14 +13,14 @@ public class TaskRepresentor {
 	private final List<ImpedimentRepresentor> impediments;
 	private final List<TaskRepresentor> dependantTasks;
 	private final List<TaskRepresentor> taskDependencies;
-	private final ObjectiveRepresentor objective;
-	private final ProjectRepresentor project;
+	private ObjectiveRepresentor objective;
+	private ProjectRepresentor project;
 
 	public TaskRepresentor() {
-		this(null, "", "", 0, null, null);
+		this(null, "", "", 0);
 	}
 
-	public TaskRepresentor(Long id, String name, String description, double comlpetion, ObjectiveRepresentor objective, ProjectRepresentor project) {
+	public TaskRepresentor(Long id, String name, String description, double comlpetion) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -30,11 +30,11 @@ public class TaskRepresentor {
 		this.impediments = new ArrayList<>();
 		this.dependantTasks = new ArrayList<>();
 		this.taskDependencies = new ArrayList<>();
-		this.objective = objective;
-		this.project = project;
+		this.objective = null;
+		this.project = null;
 	}
 
-	public TaskRepresentor(String name, String description, double comlpetion, ObjectiveRepresentor objective, ProjectRepresentor project) {
+	public TaskRepresentor(String name, String description, double comlpetion) {
 		this.name = name;
 		this.description = description;
 		this.comlpetion = comlpetion;
@@ -43,8 +43,8 @@ public class TaskRepresentor {
 		this.impediments = new ArrayList<>();
 		this.dependantTasks = new ArrayList<>();
 		this.taskDependencies = new ArrayList<>();
-		this.objective = objective;
-		this.project = project;
+		this.objective = null;
+		this.project = null;
 	}
 
 	public Long getId() {
@@ -111,15 +111,25 @@ public class TaskRepresentor {
 		return this.objective;
 	}
 
+	public void setObjective(ObjectiveRepresentor objective) {
+		this.objective = objective;
+	}
+
 	public ProjectRepresentor getProject() {
 		return this.project;
 	}
 
+	public void setProject(ProjectRepresentor project) {
+		this.project = project;
+	}
+
 	@Override
 	public String toString() {
-		return "TaskRepresentor [id=" + this.id + ", name=" + this.name + ", description=" + this.description + ", comlpetion=" + this.comlpetion
+		return "\n\tTaskRepresentor [id=" + this.id + ", name=" + this.name + ", description=" + this.description + ", comlpetion=" + this.comlpetion
 				+ ", assignedTeams=" + this.assignedTeams + ", assignedUsers=" + this.assignedUsers + ", impediments=" + this.impediments + ", dependantTasks="
-				+ this.dependantTasks + ", taskDependencies=" + this.taskDependencies + ", objective=" + this.objective + ", project=" + this.project + "]\n";
+				+ this.dependantTasks + ", taskDependencies=" + this.taskDependencies
+//				+ ", objective=" + this.objective + ", project=" + this.project
+				+ "]";
 	}
 
 }

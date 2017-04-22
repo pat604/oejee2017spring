@@ -34,41 +34,41 @@ public class AppUserConverterImpl implements AppUserConverter {
 		final AppUserRepresentor representor = user.getId() != null
 				? new AppUserRepresentor(user.getId(), user.getName(), user.getPasswordHash(), user.getEmail(), role)
 				: new AppUserRepresentor(user.getName(), user.getPasswordHash(), user.getEmail(), role);
-		// if(user.getObjectives() != null) {
-		// for(Objective objective : user.getObjectives()) {
-		// representor.addObjective(objectiveConverter.to(objective));
-		// }
-		// }
-		// if(user.getProjects() != null) {
-		// for(Project project : user.getProjects()) {
-		// representor.addProject(projectConverter.to(project));
-		// }
-		// }
-		// if(user.getTasks() != null) {
-		// for(Task task : user.getTasks()) {
-		// representor.addTask(taskConverter.to(task));
-		// }
-		// }
-		// if(user.getReportedImpediments() != null) {
-		// for(Impediment impediment : user.getReportedImpediments()) {
-		// representor.addReportedImpediment(impedimentConverter.to(impediment));
-		// }
-		// }
-		// if(user.getProcessedImpediments() != null) {
-		// for(Impediment impediment : user.getProcessedImpediments()) {
-		// representor.addProcessingImpediment(impedimentConverter.to(impediment));
-		// }
-		// }
-		// if(user.getSupervisedTeams() != null) {
-		// for(Team team : user.getSupervisedTeams()) {
-		// representor.addSupervisedTeam(teamConverter.to(team));
-		// }
-		// }
-		// if(user.getTeamMemberships() != null) {
-		// for(Team team : user.getTeamMemberships()) {
-		// representor.addSupervisedTeam(teamConverter.to(team));
-		// }
-		// }
+//		if (user.getObjectives() != null) {
+//			for (final Objective objective : user.getObjectives()) {
+//				representor.addObjective(this.objectiveConverter.to(objective));
+//			}
+//		}
+//		if (user.getProjects() != null) {
+//			for (final Project project : user.getProjects()) {
+//				representor.addProject(this.projectConverter.to(project));
+//			}
+//		}
+//		if (user.getTasks() != null) {
+//			for (final Task task : user.getTasks()) {
+//				representor.addTask(this.taskConverter.to(task));
+//			}
+//		}
+//		if (user.getReportedImpediments() != null) {
+//			for (final Impediment impediment : user.getReportedImpediments()) {
+//				representor.addReportedImpediment(this.impedimentConverter.to(impediment));
+//			}
+//		}
+//		if (user.getProcessedImpediments() != null) {
+//			for (final Impediment impediment : user.getProcessedImpediments()) {
+//				representor.addProcessingImpediment(this.impedimentConverter.to(impediment));
+//			}
+//		}
+//		if (user.getSupervisedTeams() != null) {
+//			for (final Team team : user.getSupervisedTeams()) {
+//				representor.addSupervisedTeam(this.teamConverter.to(team));
+//			}
+//		}
+//		if (user.getTeamMemberships() != null) {
+//			for (final Team team : user.getTeamMemberships()) {
+//				representor.addSupervisedTeam(this.teamConverter.to(team));
+//			}
+//		}
 		return representor;
 	}
 

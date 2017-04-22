@@ -38,9 +38,10 @@ import com.kota.stratagem.persistence.query.ProjectQuery;
 @Table(name = "projects")
 @NamedQueries(value = { //
 		@NamedQuery(name = ProjectQuery.COUNT_BY_ID, query = "SELECT COUNT(p) FROM Project p WHERE p.id=:" + ProjectParameter.ID),
-		@NamedQuery(name = ProjectQuery.GET_ALL_PROJECTS, query = "SELECT p FROM Project p ORDER BY p.name"),
+		@NamedQuery(name = ProjectQuery.GET_ALL_PROJECTS, query = "SELECT p FROM Project p LEFT JOIN FETCH p.tasks t ORDER BY p.name"),
 		@NamedQuery(name = ProjectQuery.GET_ALL_BY_STATUS, query = "SELECT p FROM Project p WHERE p.status=:" + ProjectParameter.STATUS + " ORDER BY p.name"),
 		@NamedQuery(name = ProjectQuery.GET_BY_ID, query = "SELECT p FROM Project p WHERE p.id=:" + ProjectParameter.ID),
+		@NamedQuery(name = ProjectQuery.GET_BY_ID_WITH_TASKS, query = "SELECT p FROM Project p LEFT JOIN FETCH p.tasks t WHERE p.id=:" + ProjectParameter.ID),
 		@NamedQuery(name = ProjectQuery.REMOVE_BY_ID, query = "DELETE FROM Project p WHERE p.id=:" + ProjectParameter.ID)
 		//
 })
@@ -71,7 +72,7 @@ public class Project implements Serializable {
 	@Column(name = "project_visibility", nullable = false)
 	private Boolean visible;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Task.class)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, targetEntity = Task.class)
 	@JoinTable(name = "project_tasks", joinColumns = @JoinColumn(name = "project_task_project_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "project_task_task_id", nullable = false))
 	private Set<Task> tasks;
 

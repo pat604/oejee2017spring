@@ -36,6 +36,7 @@ import com.kota.stratagem.persistence.service.ObjectiveService;
 import com.kota.stratagem.persistence.service.ProjectService;
 import com.kota.stratagem.persistence.service.TaskService;
 import com.kota.stratagem.persistence.service.TeamService;
+import com.kota.stratagem.persistence.util.AggregationSelector;
 
 @Stateless(mappedName = "ejb/projectProtocol")
 public class ProjectProtocolImpl implements ProjectProtocol {
@@ -66,7 +67,7 @@ public class ProjectProtocolImpl implements ProjectProtocol {
 	@Override
 	public ProjectRepresentor getProject(Long id) throws AdaptorException {
 		try {
-			final ProjectRepresentor representor = this.converter.to(this.projectService.read(id));
+			final ProjectRepresentor representor = this.converter.to(this.projectService.read(id, AggregationSelector.WITH_TASKS));
 			if(LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Get Project (id: " + id + ") --> " + representor);
 			}
@@ -76,7 +77,7 @@ public class ProjectProtocolImpl implements ProjectProtocol {
 			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
 		}
 	}
-	
+
 	@Override
 	public List<ProjectRepresentor> getAllProjects(final ProjectCriteria criteria) {
 		List<ProjectRepresentor> representors = new ArrayList<ProjectRepresentor>();
@@ -103,26 +104,26 @@ public class ProjectProtocolImpl implements ProjectProtocol {
 		try {
 			Project project = null;
 			final ProjectStatus projectStatus = ProjectStatus.valueOf(status.name());
-			if(id != null && this.projectService.exists(id)) {
-				Set<Task> projectTasks = new HashSet<Task>();
-				Set<Team> teams = new HashSet<Team>();
-				Set<AppUser> users = new HashSet<AppUser>();
-				Set<Impediment> projectImpediments = new HashSet<Impediment>();
-				for(TaskRepresentor task : tasks) {
-					projectTasks.add(taskService.read(task.getId()));
+			if((id != null) && this.projectService.exists(id)) {
+				final Set<Task> projectTasks = new HashSet<Task>();
+				final Set<Team> teams = new HashSet<Team>();
+				final Set<AppUser> users = new HashSet<AppUser>();
+				final Set<Impediment> projectImpediments = new HashSet<Impediment>();
+				for(final TaskRepresentor task : tasks) {
+					projectTasks.add(this.taskService.read(task.getId()));
 				}
-				for(TeamRepresentor team : assignedTeams) {
-					teams.add(teamService.read(team.getId()));
+				for(final TeamRepresentor team : assignedTeams) {
+					teams.add(this.teamService.read(team.getId()));
 				}
-				for(AppUserRepresentor user : assignedUsers) {
-					users.add(appUserService.read(user.getId()));
+				for(final AppUserRepresentor user : assignedUsers) {
+					users.add(this.appUserService.read(user.getId()));
 				}
-				for(ImpedimentRepresentor impediment : impediments) {
-					projectImpediments.add(impedimentService.read(impediment.getId()));
+				for(final ImpedimentRepresentor impediment : impediments) {
+					projectImpediments.add(this.impedimentService.read(impediment.getId()));
 				}
-				project = this.projectService.update(id, name, description, projectStatus, deadline, visible, projectTasks, teams, users, projectImpediments, objectiveService.read(objective.getId()));
+				project = this.projectService.update(id, name, description, projectStatus, deadline, visible, projectTasks, teams, users, projectImpediments, this.objectiveService.read(objective.getId()));
 			} else {
-				project = this.projectService.create(name, description, projectStatus, deadline, visible, null, null, null, null, objectiveService.read(objective.getId()));
+				project = this.projectService.create(name, description, projectStatus, deadline, visible, null, null, null, null, this.objectiveService.read(objective.getId()));
 			}
 			return this.converter.to(project);
 		} catch(final PersistenceServiceException e) {

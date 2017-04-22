@@ -75,11 +75,12 @@ public class Task implements Serializable {
 	@JoinTable(name = "task_dependencies", joinColumns = @JoinColumn(name = "dependency_dependent", nullable = false), inverseJoinColumns = @JoinColumn(name = "dependency_maintainer", nullable = false))
 	private Set<Task> taskDependencies;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Objective.class)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, targetEntity = Objective.class)
 	@JoinTable(name = "objective_tasks", joinColumns = @JoinColumn(name = "objective_task_task_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "objective_task_objective_id", nullable = false))
+	@NotFound(action = NotFoundAction.IGNORE)
 	private Objective objective;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Project.class)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, targetEntity = Project.class)
 	@JoinTable(name = "project_tasks", joinColumns = @JoinColumn(name = "project_task_task_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "project_task_project_id", nullable = false))
 	@NotFound(action = NotFoundAction.IGNORE)
 	private Project project;

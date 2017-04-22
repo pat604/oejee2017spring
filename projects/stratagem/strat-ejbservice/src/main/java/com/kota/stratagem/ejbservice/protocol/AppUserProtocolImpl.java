@@ -35,6 +35,7 @@ import com.kota.stratagem.persistence.service.ObjectiveService;
 import com.kota.stratagem.persistence.service.ProjectService;
 import com.kota.stratagem.persistence.service.TaskService;
 import com.kota.stratagem.persistence.service.TeamService;
+import com.kota.stratagem.persistence.util.AggregationSelector;
 
 @Stateless(mappedName = "ejb/appUserProtocol")
 public class AppUserProtocolImpl implements AppUserProtocol {
@@ -97,34 +98,34 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 		try {
 			AppUser user = null;
 			final Role userRole = Role.valueOf(role.name());
-			if(id != null && this.appUserSerive.exists(id)) {
-				Set<Objective> userObjectives = new HashSet<Objective>();
-				Set<Project> userProjects = new HashSet<Project>();
-				Set<Task> userTasks = new HashSet<Task>();
-				Set<Impediment> impedimentsReported = new HashSet<Impediment>();
-				Set<Impediment> impedimentsProcessed = new HashSet<Impediment>();
-				Set<Team> teamsSupervised = new HashSet<Team>();
-				Set<Team> memberships = new HashSet<Team>();
-				for(ObjectiveRepresentor objective : objectives) {
-					userObjectives.add(objectiveSerive.read(objective.getId()));
+			if((id != null) && this.appUserSerive.exists(id)) {
+				final Set<Objective> userObjectives = new HashSet<Objective>();
+				final Set<Project> userProjects = new HashSet<Project>();
+				final Set<Task> userTasks = new HashSet<Task>();
+				final Set<Impediment> impedimentsReported = new HashSet<Impediment>();
+				final Set<Impediment> impedimentsProcessed = new HashSet<Impediment>();
+				final Set<Team> teamsSupervised = new HashSet<Team>();
+				final Set<Team> memberships = new HashSet<Team>();
+				for(final ObjectiveRepresentor objective : objectives) {
+					userObjectives.add(this.objectiveSerive.read(objective.getId()));
 				}
-				for(ProjectRepresentor project : projects) {
-					userProjects.add(projectSerive.read(project.getId()));
+				for(final ProjectRepresentor project : projects) {
+					userProjects.add(this.projectSerive.read(project.getId(), AggregationSelector.ELEMENTARY));
 				}
-				for(TaskRepresentor task : tasks) {
-					userTasks.add(taskService.read(task.getId()));
+				for(final TaskRepresentor task : tasks) {
+					userTasks.add(this.taskService.read(task.getId()));
 				}
-				for(ImpedimentRepresentor impediment : reportedImpediments) {
-					impedimentsReported.add(impedimnetService.read(impediment.getId()));
+				for(final ImpedimentRepresentor impediment : reportedImpediments) {
+					impedimentsReported.add(this.impedimnetService.read(impediment.getId()));
 				}
-				for(ImpedimentRepresentor impediment : processedImpediments) {
-					impedimentsProcessed.add(impedimnetService.read(impediment.getId()));
+				for(final ImpedimentRepresentor impediment : processedImpediments) {
+					impedimentsProcessed.add(this.impedimnetService.read(impediment.getId()));
 				}
-				for(TeamRepresentor team : supervisedTeams) {
-					teamsSupervised.add(teamService.read(team.getId()));
+				for(final TeamRepresentor team : supervisedTeams) {
+					teamsSupervised.add(this.teamService.read(team.getId()));
 				}
-				for(TeamRepresentor team : teamMemberships) {
-					memberships.add(teamService.read(team.getId()));
+				for(final TeamRepresentor team : teamMemberships) {
+					memberships.add(this.teamService.read(team.getId()));
 				}
 				user = this.appUserSerive.update(id, name, passwordHash, email, userRole, userObjectives, userProjects, userTasks, impedimentsReported, impedimentsProcessed, teamsSupervised,
 						memberships);
