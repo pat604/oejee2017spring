@@ -3,17 +3,19 @@ package hu.qwaevisz.tickethandling.ejbservice.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 
 import hu.qwaevisz.tickethandling.ejbservice.domain.EmployeeStub;
 import hu.qwaevisz.tickethandling.persistence.entity.Employee;
 
+@PermitAll
 @Stateless
 public class EmployeeConverterImpl implements EmployeeConverter {
 
 	@Override
 	public EmployeeStub to(Employee emp) {
-		return new EmployeeStub(emp.getId(), emp.getName(), emp.getLevel(), emp.getEmail());
+		return new EmployeeStub(emp.getId(), emp.getName(), emp.getEmail(), emp.getLevel());
 	}
 
 	@Override

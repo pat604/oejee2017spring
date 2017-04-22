@@ -64,8 +64,8 @@ public class TicketServiceImplIntegrationTest {
 
 	@Test(groups = "integration")
 	private void readSampleTicket() throws PersistenceServiceException {
-		final Ticket ticket = this.object.read("AES-324-201703160515");
-		this.assertTicket(ticket, "AES-324-201703160515", Priority.HIGH, Status.IN_PROGRESS, "E4412");
+		final Ticket ticket = this.object.read("AES32420170316051534");
+		this.assertTicket(ticket, "AES32420170316051534", Priority.HIGH, Status.IN_PROGRESS, "E4412");
 	}
 
 	private void assertTicket(final Ticket ticket, final String id, final Priority priority, final Status status, final String processor) {

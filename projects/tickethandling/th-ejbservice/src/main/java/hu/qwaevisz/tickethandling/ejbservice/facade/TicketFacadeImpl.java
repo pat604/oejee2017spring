@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -28,6 +29,7 @@ import hu.qwaevisz.tickethandling.persistence.service.CustomerService;
 import hu.qwaevisz.tickethandling.persistence.service.EmployeeService;
 import hu.qwaevisz.tickethandling.persistence.service.TicketService;
 
+@PermitAll
 @Stateless(mappedName = "ejb/tikcetFacade")
 public class TicketFacadeImpl implements TicketFacade {
 
@@ -57,42 +59,50 @@ public class TicketFacadeImpl implements TicketFacade {
 	public List<TicketStub> getTickets(TicketCriteria criteria) throws FacadeException {
 		List<TicketStub> stubs = new ArrayList<TicketStub>();
 		try {
-			List<Ticket> tickets = null;
+			List<Ticket> tickets = this.service.readAll();
+			List<Ticket> filtered = new ArrayList<Ticket>(tickets);
 
-			//
-			// No criteria
-			//
-			if (criteria.getPriority() == null && criteria.getStatus() == null) {
-				tickets = this.service.readAll();
+			for (Ticket ticket : tickets) {
 
-			} else {
-				if (criteria.getPriority() != null && criteria.getStatus() != null) {
-					//
-					// Double criteria
-					//
-					tickets = this.service.readByPriorityAndStatus(Priority.valueOf(criteria.getPriority().name()),
-							Status.valueOf(criteria.getStatus().name()));
+				if (criteria.getId() != null && criteria.getId() != ticket.getId()) {
+					filtered.remove(ticket);
+					continue;
+				}
 
-				} else {
-					if (criteria.getStatus() == null) {
-						//
-						// Searched by PRIORITY
-						//
-						tickets = this.service.readByPriority(Priority.valueOf(criteria.getPriority().name()));
-					} else {
-						//
-						// Searched by STATUS
-						//
-						tickets = this.service.readByStatus(Status.valueOf(criteria.getStatus().name()));
-					}
+				if (criteria.getPriority() != null && criteria.getPriority().toString() != ticket.getPriority().toString()) {
+					filtered.remove(ticket);
+					continue;
+				}
+
+				if (criteria.getStatus() != null && criteria.getStatus().toString() != ticket.getStatus().toString()) {
+					filtered.remove(ticket);
+					continue;
+				}
+
+				if (criteria.getProcessorId() != null && (ticket.getProcessor() == null || !criteria.getProcessorId().equals(ticket.getProcessor().getId()))) {
+					filtered.remove(ticket);
+					continue;
+				}
+
+				if (criteria.getSystem() != null && criteria.getSystem() != ticket.getSystem().getId()) {
+					filtered.remove(ticket);
+					continue;
+				}
+
+				if (criteria.getLevel() != null && criteria.getLevel() != ticket.getLevel()) {
+					filtered.remove(ticket);
+					continue;
 				}
 			}
 
-			stubs = this.converter.to(tickets);
+			stubs = this.converter.to(filtered);
+
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Get Tickets by criteria (" + criteria + ") --> " + stubs.size() + " ticket(s)");
 			}
-		} catch (final PersistenceServiceException e) {
+		} catch (
+
+		final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());
 		}

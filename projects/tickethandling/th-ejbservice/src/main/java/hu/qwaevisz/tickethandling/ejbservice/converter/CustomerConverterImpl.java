@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 
 import hu.qwaevisz.tickethandling.ejbservice.domain.ComponentStub;
@@ -11,6 +12,7 @@ import hu.qwaevisz.tickethandling.ejbservice.domain.SystemStub;
 import hu.qwaevisz.tickethandling.persistence.entity.CompInSystem;
 import hu.qwaevisz.tickethandling.persistence.entity.Customer;
 
+@PermitAll
 @Stateless
 public class CustomerConverterImpl implements CustomerConverter {
 

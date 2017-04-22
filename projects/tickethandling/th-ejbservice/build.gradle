@@ -1,5 +1,3 @@
-jar { archiveName 'th-ejbservice.jar' }
-
 dependencies {
 	compile project(':th-persistence')
 }

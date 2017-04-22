@@ -33,13 +33,10 @@ public class Customer implements Serializable {
 	@Column(name = "cust_sys_id", nullable = false)
 	private String id;
 
-	// @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = CompInSystem.class, mappedBy =
-	// "system")
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = CompInSystem.class, mappedBy = "system")
+	@OneToMany(fetch = FetchType.EAGER, targetEntity = CompInSystem.class, mappedBy = "system")
 	private final Set<CompInSystem> components;
 
-	// @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Ticket.class, mappedBy = "system")
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = Ticket.class, mappedBy = "system")
+	@OneToMany(fetch = FetchType.EAGER, targetEntity = Ticket.class, mappedBy = "system")
 	private final Set<Ticket> tickets;
 
 	@Column(name = "cust_name", nullable = false)

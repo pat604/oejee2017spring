@@ -2,7 +2,11 @@ package hu.qwaevisz.tickethandling.weblayer.common;
 
 public enum Page {
 
+	LOGIN("login.jsp", "Login"),
+	ERROR("error.jsp", "Error"),
 	LIST("list.jsp", "TicketList"),
+	HOME("home.jsp", "Home"),
+	SYSTEMLIST("systemlist.jsp", "SystemList"),
 	TICKET_VIEW("ticket.jsp", "Ticket"),
 	TICKET_EDIT("ticket-edit.jsp", "Ticket");
 

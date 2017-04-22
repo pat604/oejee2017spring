@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,33 +39,33 @@ public class Employee implements Serializable {
 	@Column(name = "emp_name", nullable = false)
 	private String name;
 
-	@Column(name = "emp_level", nullable = false)
-	private Integer level;
-
 	@Column(name = "emp_phone", nullable = false)
 	private String phone;
 
 	@Column(name = "emp_email", nullable = false)
 	private String email;
 
+	@Column(name = "emp_level", nullable = false)
+	private Integer level;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "emp_hiredate", nullable = false)
 	private Date hiredate;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Ticket.class, mappedBy = "processor")
+	@OneToMany(fetch = FetchType.EAGER, targetEntity = Ticket.class, mappedBy = "processor")
 	private final Set<Ticket> tickets;
 
 	public Employee() {
-		this("", "", 1, "", "", new Date());
+		this("", "", "", "", 0, new Date());
 	}
 
-	public Employee(String id, String name, Integer level, String phone, String email, Date hiredate) {
+	public Employee(String id, String name, String phone, String email, Integer level, Date hiredate) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.level = level;
 		this.phone = phone;
 		this.email = email;
+		this.level = level;
 		this.hiredate = hiredate;
 		this.tickets = new HashSet<>();
 	}
@@ -85,14 +84,6 @@ public class Employee implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Integer getLevel() {
-		return this.level;
-	}
-
-	public void setLevel(Integer level) {
-		this.level = level;
 	}
 
 	public String getPhone() {
@@ -123,10 +114,17 @@ public class Employee implements Serializable {
 		return this.tickets;
 	}
 
-	@Override
-	public String toString() {
-		return "Employee [id=" + this.id + ", name=" + this.name + ", level=" + this.level + ", phone=" + this.phone + ", email=" + this.email + ", hiredate="
-				+ this.hiredate + ", tickets=" + this.tickets + "]";
+	public Integer getLevel() {
+		return this.level;
 	}
 
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [id=" + this.id + ", name=" + this.name + ", phone=" + this.phone + ", email=" + this.email + ", level=" + this.level + ", hiredate="
+				+ this.hiredate + ", tickets=" + this.tickets + "]";
+	}
 }

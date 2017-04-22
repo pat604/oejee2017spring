@@ -32,6 +32,7 @@ import hu.qwaevisz.tickethandling.persistence.query.TicketQuery;
 		@NamedQuery(name = TicketQuery.COUNT_BY_ID, query = "SELECT COUNT(t) FROM Ticket t WHERE t.id=:" + TicketParameter.ID),
 		@NamedQuery(name = TicketQuery.GET_BY_ID, query = "SELECT t FROM Ticket t WHERE t.id=:" + TicketParameter.ID),
 		@NamedQuery(name = TicketQuery.GET_BY_SYSTEM, query = "SELECT t FROM Ticket t WHERE t.system=:" + TicketParameter.SYSTEM),
+		@NamedQuery(name = TicketQuery.GET_BY_PROCESSOR, query = "SELECT t FROM Ticket t WHERE t.processor=:" + TicketParameter.PROCESSOR),
 		@NamedQuery(name = TicketQuery.GET_BY_PRIORITY, query = "SELECT t FROM Ticket t WHERE t.priority=:" + TicketParameter.PRIORITY),
 		@NamedQuery(name = TicketQuery.GET_BY_STATUS, query = "SELECT t FROM Ticket t WHERE t.status=:" + TicketParameter.STATUS),
 		@NamedQuery(name = TicketQuery.GET_BY_PRIORITY_AND_STATUS, query = "SELECT t FROM Ticket t WHERE t.status=:" + TicketParameter.STATUS
@@ -73,7 +74,7 @@ public class Ticket implements Serializable {
 	private Integer level;
 
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "tic_processor_id", referencedColumnName = "emp_id", nullable = false)
+	@JoinColumn(name = "tic_processor_id", referencedColumnName = "emp_id", nullable = true)
 	private Employee processor;
 
 	@Enumerated(EnumType.ORDINAL)

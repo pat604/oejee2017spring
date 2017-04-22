@@ -5,5 +5,6 @@ public class TicketParameter {
 	public static final String ID = "id";
 	public static final String SYSTEM = "system";
 	public static final String PRIORITY = "priority";
+	public static final String PROCESSOR = "processor";
 	public static final String STATUS = "status";
 }

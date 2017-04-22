@@ -24,17 +24,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-<link rel="stylesheet" type="text/css" href="css/tickethandling.css" />
-
-<script src="js/bootstrap.js"></script>
-<title>:: Ticket ::</title>
+	<jsp:include page="header.html"></jsp:include>
 </head>
 <body>
 
-	<jsp:include page="navbar.html"></jsp:include>
+	<jsp:include page="navbar.jsp"></jsp:include>
 
 	<div class="jumbotron jumbotron-ticketing">
 		<h1>

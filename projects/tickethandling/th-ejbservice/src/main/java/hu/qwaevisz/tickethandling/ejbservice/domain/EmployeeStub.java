@@ -4,19 +4,19 @@ public class EmployeeStub {
 
 	private String id;
 	private String name;
-	private Integer level;
 	private String email;
+	private Integer level;
 
 	public EmployeeStub() {
-		this("", "", 0, "");
+		this("", "", "", 0);
 	}
 
-	public EmployeeStub(String id, String name, Integer level, String email) {
+	public EmployeeStub(String id, String name, String email, Integer level) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.level = level;
 		this.email = email;
+		this.level = level;
 	}
 
 	public String getId() {
@@ -35,14 +35,6 @@ public class EmployeeStub {
 		this.name = name;
 	}
 
-	public Integer getLevel() {
-		return this.level;
-	}
-
-	public void setLevel(Integer level) {
-		this.level = level;
-	}
-
 	public String getEmail() {
 		return this.email;
 	}
@@ -51,8 +43,17 @@ public class EmployeeStub {
 		this.email = email;
 	}
 
+	public Integer getLevel() {
+		return this.level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
 	@Override
 	public String toString() {
-		return "EmployeeStub [id=" + this.id + ", name=" + this.name + ", level=" + this.level + ", email=" + this.email + "]";
+		return "EmployeeStub [id=" + this.id + ", name=" + this.name + ", email=" + this.email + ", level=" + this.level + "]";
 	}
+
 }

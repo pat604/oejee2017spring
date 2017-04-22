@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,7 +39,7 @@ public class Component implements Serializable {
 	@Column(name = "comp_description", nullable = false)
 	private String description;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = CompInSystem.class, mappedBy = "component")
+	@OneToMany(fetch = FetchType.EAGER, targetEntity = CompInSystem.class, mappedBy = "component")
 	private final Set<CompInSystem> systems;
 
 	@Temporal(TemporalType.TIMESTAMP)

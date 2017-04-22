@@ -3,11 +3,13 @@ package hu.qwaevisz.tickethandling.ejbservice.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 
 import hu.qwaevisz.tickethandling.ejbservice.domain.ComponentStub;
 import hu.qwaevisz.tickethandling.persistence.entity.Component;
 
+@PermitAll
 @Stateless
 public class ComponentConverterImpl implements ComponentConverter {
 
