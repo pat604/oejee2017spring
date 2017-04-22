@@ -1,6 +1,7 @@
 package hu.mitro.servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -16,10 +17,10 @@ import hu.mitro.ejbservice.domain.GuitarStub;
 import hu.mitro.ejbservice.exception.FacadeException;
 import hu.mitro.ejbservice.facade.GuitarFacade;
 
-@WebServlet("/Guitar")
-public class GuitarController extends HttpServlet {
+@WebServlet("/List")
+public class GuitarListController extends HttpServlet {
 
-	private static final Logger LOGGER = Logger.getLogger(GuitarController.class);
+	private static final Logger LOGGER = Logger.getLogger(GuitarListController.class);
 
 	@EJB
 	private GuitarFacade facade;
@@ -27,15 +28,15 @@ public class GuitarController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Long guitarId = Long.valueOf(request.getParameter("id"));
+		LOGGER.info("Get Guitars");
+		List<GuitarStub> guitars = null;
 		try {
-			GuitarStub guitar = this.facade.getGuitar(guitarId);
-			request.setAttribute("guitar", guitar);
+			guitars = this.facade.getGuitars();
+			request.setAttribute("guitars", guitars);
 		} catch (FacadeException e) {
 			LOGGER.error(e, e);
 		}
-
-		RequestDispatcher view = request.getRequestDispatcher("guitar.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("list.jsp");
 		view.forward(request, response);
 	}
 
