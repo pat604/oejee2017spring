@@ -44,7 +44,7 @@ public class ProjectListController extends HttpServlet implements ProjectListAtt
 		}
 		this.forward(request, response, new ProjectCriteria(), FILTER_ALL_CATEGORY);
 	}
-	
+
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		final String statusName = request.getParameter(STATUS);

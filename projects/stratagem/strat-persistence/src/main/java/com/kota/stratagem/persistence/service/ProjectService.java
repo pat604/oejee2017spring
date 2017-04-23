@@ -1,7 +1,6 @@
 package com.kota.stratagem.persistence.service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Local;
@@ -24,9 +23,9 @@ public interface ProjectService {
 
 	Project read(Long id, AggregationSelector requirement) throws PersistenceServiceException;
 
-	List<Project> read(ProjectStatus status) throws PersistenceServiceException;
+	Set<Project> read(ProjectStatus status) throws PersistenceServiceException;
 
-	List<Project> readAll() throws PersistenceServiceException;
+	Set<Project> readAll() throws PersistenceServiceException;
 
 	Project update(Long id, String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers,
 			Set<Impediment> impediments, Objective objective) throws PersistenceServiceException;

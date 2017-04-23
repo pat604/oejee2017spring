@@ -11,6 +11,7 @@
 <title>:: Register ::</title>
 </head>
 <body>
+	<h1>Register</h1>
 	<div class="frame">
 		<form method="post" action="Register">
 			<div>
