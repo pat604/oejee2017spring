@@ -16,16 +16,16 @@
 		<form method="post" action="Register">
 			<div>
 				<label>User name: </label>
-				<input class="inputheader" type="text" name="username" value="${user.username}" />
+				<input class="inputheader" type="text" name="username" value="${user.name}" />
 				<br/><br/>
 				<label>Email address: </label>
 				<input class="inputheader" type="text" name="email" value="${user.email}" />
 				<br/><br/>
 				<label>Password: </label>
-				<input class="inputheader" type="passwrod" name="password" value="${user.password}" />
+				<input class="inputheader" type="password" name="password" value="${user.passwordHash}" />
 				<br/><br/>
 				<label>Confirm password: </label>
-				<input class="inputheader" type="passwrod" name="password_confirmation" value="${user.password}" />
+				<input class="inputheader" type="password" name="password_confirmation" value="${user.passwordHash}" />
 				<br/><br/>
 			</div>
 			<div>

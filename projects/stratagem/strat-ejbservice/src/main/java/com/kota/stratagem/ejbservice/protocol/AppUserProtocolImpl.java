@@ -41,7 +41,6 @@ import com.kota.stratagem.persistence.service.ProjectService;
 import com.kota.stratagem.persistence.service.TaskService;
 import com.kota.stratagem.persistence.service.TeamService;
 import com.kota.stratagem.persistence.util.AggregationSelector;
-import com.sun.xml.internal.messaging.saaj.util.Base64;
 
 @Stateless(mappedName = "ejb/appUserProtocol")
 public class AppUserProtocolImpl implements AppUserProtocol {
@@ -162,17 +161,17 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 	public String calculateHash(String passwordToHash) throws UnsupportedEncodingException, NoSuchProviderException {
 		String generatedPassword = null;
 		try {
-			MessageDigest md = MessageDigest.getInstance("SHA-512");
+			final MessageDigest md = MessageDigest.getInstance("SHA-512");
 			SecureRandom.getInstance("SHA1PRNG", "SUN");
 
-			SecureRandom saltRandomizer = SecureRandom.getInstance("SHA1PRNG", "SUN");
-			byte[] salt = new byte[64];
+			final SecureRandom saltRandomizer = SecureRandom.getInstance("SHA1PRNG", "SUN");
+			final byte[] salt = new byte[64];
 			saltRandomizer.nextBytes(salt);
-			byte[] encodedSalt = Base64.encode(salt);
+			final String encodedSalt = new String(salt);
 
-			md.update((byte) salt.length);
-			byte[] bytes = md.digest(passwordToHash.getBytes("UTF-8"));
-			StringBuilder sb = new StringBuilder();
+			md.update(encodedSalt.getBytes("UTF-8"));
+			final byte[] bytes = md.digest(passwordToHash.getBytes("UTF-8"));
+			final StringBuilder sb = new StringBuilder();
 			for(int i = 0; i < bytes.length; i++) {
 				sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
 			}

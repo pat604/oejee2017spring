@@ -35,7 +35,7 @@ public class RegistrationServlet extends HttpServlet implements RegistrationPara
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AppUserRepresentor user = new AppUserRepresentor("", "", "", RoleRepresentor.PRISTINE_USER);
+		final AppUserRepresentor user = new AppUserRepresentor("", "", "", RoleRepresentor.PRISTINE_USER);
 		this.forward(request, response, user, false);
 	}
 
@@ -56,20 +56,22 @@ public class RegistrationServlet extends HttpServlet implements RegistrationPara
 			final String email = request.getParameter(EMAIL);
 			final String password = request.getParameter(PASSWORD);
 			final String password_confirmation = request.getParameter(PASSWORD_CONFIRMATION);
-			if(username == null || password == null || password != password_confirmation) {
-				LOGGER.info("Registration failed");
+			LOGGER.info("Registration attempt");
+			if(((username == null) || "".equals(username)) || ((password == null) || "".equals(password)) || !(password.equals(password_confirmation))) {
+				LOGGER.info("Registration failed, -- " + username + ", " + password + ", " + password_confirmation);
 				final AppUserRepresentor user = new AppUserRepresentor(username, "", email, RoleRepresentor.PRISTINE_USER);
 				this.forward(request, response, user, false);
 			} else {
 				AppUserRepresentor user = null;
 				try {
 					LOGGER.info("Registration successful for user: " + username);
-					user = this.protocol.saveAppUser(null, username, password, email, RoleRepresentor.PRISTINE_USER, null, null, null, null, null, null, null);
+					user = this.protocol.saveAppUser(null, username, this.protocol.calculateHash(password), email, RoleRepresentor.PRISTINE_USER, null, null, null, null, null, null, null);
 				} catch(final AdaptorException e) {
 					LOGGER.error(e, e);
 				}
+				this.forward(request, response, user, true);
 			}
-		} catch(Exception e) {
+		} catch(final Exception e) {
 			e.printStackTrace();
 		}
 	}
