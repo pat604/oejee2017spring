@@ -1,5 +1,7 @@
 package com.kota.stratagem.ejbservice.protocol;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchProviderException;
 import java.util.List;
 import java.util.Set;
 
@@ -26,5 +28,7 @@ public interface AppUserProtocol {
 			Set<TeamRepresentor> teamMemberships) throws AdaptorException;
 
 	void removeAppUser(Long id) throws AdaptorException;
+
+	String calculateHash(String password) throws UnsupportedEncodingException, NoSuchProviderException;
 
 }
