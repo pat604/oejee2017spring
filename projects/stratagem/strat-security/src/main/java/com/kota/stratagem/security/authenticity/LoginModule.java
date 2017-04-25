@@ -1,19 +1,17 @@
 package com.kota.stratagem.security.authenticity;
 
-import javax.ejb.EJB;
-
 import org.jboss.security.auth.spi.DatabaseServerLoginModule;
 
-import com.kota.stratagem.security.encryption.PasswordCorrelationService;
+import com.kota.stratagem.security.encryption.PasswordManager;
 
 public class LoginModule extends DatabaseServerLoginModule {
 
-	@EJB
-	private PasswordCorrelationService passwordService;
+	private PasswordManager passwordManager;
 
 	@Override
 	protected boolean validatePassword(String inputPassword, String expectedPassword) {
-		return passwordService.BCryptCorrelation(inputPassword, expectedPassword);
+		this.passwordManager = new PasswordManager();
+		return this.passwordManager.BCryptCorrelation(inputPassword, expectedPassword);
 	}
 
 }

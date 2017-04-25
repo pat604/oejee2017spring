@@ -8,6 +8,11 @@
                     <jaas name="strat-security-db-domain"/>
                 </authentication>
             </security-realm>
+            <security-realm name="strat-secure-realm">
+                <authentication>
+                    <jaas name="strat-secure-domain"/>
+                </authentication>
+            </security-realm>
         </security-realms>
 	</management>
 	...
@@ -73,7 +78,7 @@
                 </security-domain>
                 <security-domain name="strat-secure-domain">
                     <authentication>
-                        <login-module code="com.kota.stratagem.security.LoginModule" flag="required">
+                        <login-module code="com.kota.stratagem.security.authenticity.LoginModule" flag="required">
                             <module-option name="dsJndiName" value="java:jboss/datasources/stratagemds"/>
                             <module-option name="principalsQuery" value="SELECT user_password_hash FROM app_users WHERE user_name = ?"/>
                             <module-option name="rolesQuery" value="SELECT role_name, 'Roles' FROM authorizations INNER JOIN app_users ON (user_id = authorization_user_id) INNER JOIN roles ON (role_id = authorization_role_id) WHERE user_name = ?"/>
