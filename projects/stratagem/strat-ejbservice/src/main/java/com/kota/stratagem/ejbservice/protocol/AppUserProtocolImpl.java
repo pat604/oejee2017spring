@@ -1,10 +1,5 @@
 package com.kota.stratagem.ejbservice.protocol;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -41,6 +36,7 @@ import com.kota.stratagem.persistence.service.ProjectService;
 import com.kota.stratagem.persistence.service.TaskService;
 import com.kota.stratagem.persistence.service.TeamService;
 import com.kota.stratagem.persistence.util.AggregationSelector;
+import com.kota.stratagem.security.encryption.PasswordGenerationService;
 
 @Stateless(mappedName = "ejb/appUserProtocol")
 public class AppUserProtocolImpl implements AppUserProtocol {
@@ -67,6 +63,9 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 
 	@EJB
 	private AppUserConverter converter;
+
+	@EJB
+	private PasswordGenerationService passwordGenerator;
 
 	@Override
 	public AppUserRepresentor getAppUser(Long id) throws AdaptorException {
@@ -97,7 +96,7 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 	}
 
 	@Override
-	public AppUserRepresentor saveAppUser(Long id, String name, String passwordHash, String email, RoleRepresentor role, Set<ObjectiveRepresentor> objectives, Set<ProjectRepresentor> projects,
+	public AppUserRepresentor saveAppUser(Long id, String name, String password, String email, RoleRepresentor role, Set<ObjectiveRepresentor> objectives, Set<ProjectRepresentor> projects,
 			Set<TaskRepresentor> tasks, Set<ImpedimentRepresentor> reportedImpediments, Set<ImpedimentRepresentor> processedImpediments, Set<TeamRepresentor> supervisedTeams,
 			Set<TeamRepresentor> teamMemberships) throws AdaptorException {
 		try {
@@ -132,10 +131,9 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 				for(final TeamRepresentor team : teamMemberships) {
 					memberships.add(this.teamService.read(team.getId()));
 				}
-				user = this.appUserSerive.update(id, name, passwordHash, email, userRole, userObjectives, userProjects, userTasks, impedimentsReported, impedimentsProcessed, teamsSupervised,
-						memberships);
+				user = this.appUserSerive.update(id, name, password, email, userRole, userObjectives, userProjects, userTasks, impedimentsReported, impedimentsProcessed, teamsSupervised, memberships);
 			} else {
-				user = this.appUserSerive.create(name, passwordHash, email, userRole, null, null, null, null, null, null, null);
+				user = this.appUserSerive.create(name, this.passwordGenerator.GenerateBCryptPassword(password), email, userRole, null, null, null, null, null, null, null);
 			}
 			return this.converter.to(user);
 		} catch(final PersistenceServiceException e) {
@@ -155,31 +153,6 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 			LOGGER.error(e, e);
 			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
 		}
-	}
-
-	@Override
-	public String calculateHash(String passwordToHash) throws UnsupportedEncodingException, NoSuchProviderException {
-		String generatedPassword = null;
-		try {
-			final MessageDigest md = MessageDigest.getInstance("SHA-512");
-			SecureRandom.getInstance("SHA1PRNG", "SUN");
-
-			final SecureRandom saltRandomizer = SecureRandom.getInstance("SHA1PRNG", "SUN");
-			final byte[] salt = new byte[64];
-			saltRandomizer.nextBytes(salt);
-			final String encodedSalt = new String(salt);
-
-			md.update(encodedSalt.getBytes("UTF-8"));
-			final byte[] bytes = md.digest(passwordToHash.getBytes("UTF-8"));
-			final StringBuilder sb = new StringBuilder();
-			for(int i = 0; i < bytes.length; i++) {
-				sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-			}
-			generatedPassword = sb.toString();
-		} catch(NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return generatedPassword;
 	}
 
 }

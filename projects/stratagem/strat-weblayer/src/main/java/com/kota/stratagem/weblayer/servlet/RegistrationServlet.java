@@ -27,9 +27,6 @@ public class RegistrationServlet extends HttpServlet implements RegistrationPara
 
 	private static final Logger LOGGER = Logger.getLogger(RegistrationServlet.class);
 
-	private static final String TRUE_VALUE = "1";
-	private static final String NEW_PROJECT_ID_FLAG = "-1";
-
 	@EJB
 	private AppUserProtocol protocol;
 
@@ -65,7 +62,7 @@ public class RegistrationServlet extends HttpServlet implements RegistrationPara
 				AppUserRepresentor user = null;
 				try {
 					LOGGER.info("Registration successful for user: " + username);
-					user = this.protocol.saveAppUser(null, username, this.protocol.calculateHash(password), email, RoleRepresentor.PRISTINE_USER, null, null, null, null, null, null, null);
+					user = this.protocol.saveAppUser(null, username, password, email, RoleRepresentor.PRISTINE_USER, null, null, null, null, null, null, null);
 				} catch(final AdaptorException e) {
 					LOGGER.error(e, e);
 				}

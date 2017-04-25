@@ -4,6 +4,8 @@ war { archiveName webapplicationName }
 
 dependencies {
 	providedCompile project(':strat-ejbservice')
+	providedCompile project(':strat-security')
 	providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: servletapiVersion
-	providedCompile group: 'jstl', name: 'jstl', version: jstlVersion	
+	providedCompile group: 'org.mindrot', name: 'jbcrypt', version: '0.3m', ext: 'jar'
+	providedCompile group: 'jstl', name: 'jstl', version: jstlVersion
 }
