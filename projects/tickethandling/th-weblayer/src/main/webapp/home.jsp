@@ -123,10 +123,8 @@
 							<c:out value="${ticket.lastchanged}" />
 						</div>
 						<div class="col-sm-1">
-							<a href="TicketDelete?id=<c:out value="${ticket.id}" />"><span
-								class="glyphicon glyphicon-trash"></span></a> <a
-								href="Ticket?id=<c:out value="${ticket.id}" />&edit=1"><span
-								class="glyphicon glyphicon-edit"></span></a>
+							<a href="TicketProcess?id=<c:out value="${ticket.id}" />">
+							<span class="glyphicon glyphicon-folder-open"></span></a>
 						</div>
 					</div>
 				</c:forEach>

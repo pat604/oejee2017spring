@@ -62,3 +62,8 @@ a:HOVER {
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
+
+.message-ticketing {
+	border: solid crimson 1px;
+	padding: 10px;
+}

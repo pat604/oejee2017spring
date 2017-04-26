@@ -1,6 +1,9 @@
 package hu.qwaevisz.tickethandling.ejbservice.domain;
 
 import java.util.Date;
+import java.util.List;
+
+import hu.qwaevisz.tickethandling.persistence.entity.Message;
 
 public class TicketStub {
 
@@ -15,13 +18,14 @@ public class TicketStub {
 	private EmployeeStub processor;
 	private StatusStub status;
 	private Date lastchanged;
+	private List<Message> conversation;
 
 	public TicketStub() {
-		this("", null, "", null, "", "", new Date(), 0, null, null, new Date());
+		this("", null, "", null, "", "", new Date(), 0, null, null, new Date(), null);
 	}
 
 	public TicketStub(String id, SystemStub system, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep, Date creationdate,
-			Integer level, EmployeeStub processor, StatusStub status, Date lastchanged) {
+			Integer level, EmployeeStub processor, StatusStub status, Date lastchanged, List<Message> conversation) {
 		super();
 		this.id = id;
 		this.system = system;
@@ -34,7 +38,7 @@ public class TicketStub {
 		this.processor = processor;
 		this.status = status;
 		this.lastchanged = lastchanged;
-		;
+		this.conversation = conversation;
 	}
 
 	public String getId() {
@@ -125,11 +129,20 @@ public class TicketStub {
 		this.lastchanged = lastchanged;
 	}
 
+	public List<Message> getConversation() {
+		return this.conversation;
+	}
+
+	public void setConversation(List<Message> conversation) {
+		this.conversation = conversation;
+	}
+
 	@Override
 	public String toString() {
 		return "TicketStub [id=" + this.id + ", system=" + this.system + ", sender_name=" + this.sender_name + ", priority=" + this.priority
 				+ ", business_impact=" + this.business_impact + ", steps_to_rep=" + this.steps_to_rep + ", creationdate=" + this.creationdate + ", level="
-				+ this.level + ", processor=" + this.processor + ", status=" + this.status + ", lastchanged=" + this.lastchanged + "]";
+				+ this.level + ", processor=" + this.processor + ", status=" + this.status + ", lastchanged=" + this.lastchanged + ", conversation="
+				+ this.conversation + "]";
 	}
 
 }

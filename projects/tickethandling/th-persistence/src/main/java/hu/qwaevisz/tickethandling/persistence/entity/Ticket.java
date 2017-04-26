@@ -74,7 +74,7 @@ public class Ticket implements Serializable {
 	private Integer level;
 
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "tic_processor_id", referencedColumnName = "emp_id", nullable = true)
+	@JoinColumn(name = "tic_processor_id", referencedColumnName = "emp_id", nullable = false)
 	private Employee processor;
 
 	@Enumerated(EnumType.ORDINAL)

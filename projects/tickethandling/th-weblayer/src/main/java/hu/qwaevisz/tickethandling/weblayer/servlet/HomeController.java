@@ -45,7 +45,7 @@ public class HomeController extends HttpServlet implements ListAttribute, ListPa
 			final List<TicketStub> tickets = this.facade.getTickets(criteria);
 			request.setAttribute(ATTR_TICKETS, tickets);
 
-			criteria.setProcessorId(null);
+			criteria.setProcessorId("UNASS");
 			criteria.setLevel(user.getLevel());
 
 			final List<TicketStub> unassigned = this.facade.getTickets(criteria);

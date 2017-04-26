@@ -1,3 +1,4 @@
 include 'th-ejbservice'
 include 'th-weblayer'
+include 'th-webservice'
 include 'th-persistence'

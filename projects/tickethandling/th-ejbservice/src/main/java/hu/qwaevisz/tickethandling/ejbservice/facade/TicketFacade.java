@@ -12,6 +12,7 @@ import hu.qwaevisz.tickethandling.ejbservice.domain.SystemStub;
 import hu.qwaevisz.tickethandling.ejbservice.domain.TicketCriteria;
 import hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
+import hu.qwaevisz.tickethandling.persistence.entity.Message;
 
 @Local
 public interface TicketFacade {
@@ -21,7 +22,7 @@ public interface TicketFacade {
 	List<TicketStub> getTickets(TicketCriteria criteria) throws FacadeException;
 
 	TicketStub saveTicket(String id, SystemStub system, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep,
-			Date creationdate, Integer level, EmployeeStub processor, StatusStub status, Date lastchanged) throws FacadeException;
+			Date creationdate, Integer level, EmployeeStub processor, StatusStub status, Date lastchanged, List<Message> conversation) throws FacadeException;
 
 	void removeTicket(String id) throws FacadeException;
 

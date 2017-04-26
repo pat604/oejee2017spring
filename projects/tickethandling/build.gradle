@@ -7,8 +7,12 @@ ext {
 	jeeVersion = '6.0'  
 	servletapiVersion = '3.0.1'
 	hibernateVersion = '4.3.10.Final'
+	jaxrsVersion = '2.0.1'
+	resteasyVersion = '2.3.7.Final'
 	jstlVersion = '1.2'
     postgresqlVersion = '9.4+'
+	jbossjee6Version = '3.0.3.Final'  
+	commonsloggingVersion = '1.2'
 }
 
 allprojects {
@@ -43,4 +47,5 @@ dependencies {
 	deploy project('th-ejbservice')
 	deploy project('th-persistence')
 	deploy project(path: 'th-weblayer', configuration: 'archives')
+	deploy project(path: 'th-webservice', configuration: 'archives')
 }

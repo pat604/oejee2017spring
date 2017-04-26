@@ -68,18 +68,20 @@ public class TicketController extends HttpServlet implements TicketParameter, Ti
 
 	private void forward(final HttpServletRequest request, final HttpServletResponse response, final boolean editFlag, final TicketStub ticket, boolean isNew)
 			throws ServletException, IOException {
-		request.setAttribute(ATTR_TICKET, ticket);
-		request.setAttribute(ATTR_ISNEW, isNew);
-
 		try {
-			request.setAttribute(ATTR_SYSTEMS, facade.getSystems());
-			request.setAttribute(ATTR_EMPLOYEES, facade.getEmployees());
+
+			request.setAttribute(ATTR_TICKET, ticket);
+			request.setAttribute(ATTR_ISNEW, isNew);
+
+			request.setAttribute(ATTR_SYSTEMS, this.facade.getSystems());
+			request.setAttribute(ATTR_EMPLOYEES, this.facade.getEmployees());
+
+			final RequestDispatcher view = request.getRequestDispatcher(editFlag ? Page.TICKET_EDIT.getJspName() : Page.TICKET_VIEW.getJspName());
+			view.forward(request, response);
+
 		} catch (FacadeException e) {
 			LOGGER.error(e, e);
 		}
-
-		final RequestDispatcher view = request.getRequestDispatcher(editFlag ? Page.TICKET_EDIT.getJspName() : Page.TICKET_VIEW.getJspName());
-		view.forward(request, response);
 	}
 
 	@Override
@@ -125,12 +127,8 @@ public class TicketController extends HttpServlet implements TicketParameter, Ti
 				LOGGER.info(id);
 			}
 
-			final TicketStub ticket = new TicketStub(id, system, sender_name, priority, business_impact, steps_to_rep, creationdate, level, processor, status,
-					lastchanged);
-
-			LOGGER.info("Saving new ticket: " + ticket.toString());
-
-			this.facade.saveTicket(id, system, sender_name, priority, business_impact, steps_to_rep, creationdate, level, processor, status, lastchanged);
+			this.facade.saveTicket(id, system, sender_name, priority, business_impact, steps_to_rep, creationdate, level, processor, status, lastchanged, null);
+			final TicketStub ticket = this.facade.getTicket(id);
 
 			LOGGER.info("Ticket saved!");
 
