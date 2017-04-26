@@ -39,7 +39,7 @@ public class RegistrationServlet extends HttpServlet implements RegistrationPara
 	private void forward(final HttpServletRequest request, final HttpServletResponse response, final AppUserRepresentor user, final boolean finishFlag) throws ServletException, IOException {
 		request.setAttribute(ATTR_USER, user);
 		if(finishFlag) {
-			response.sendRedirect(Page.LOGIN.getUrl());
+			response.sendRedirect(Page.PROJECT_LIST.getUrl());
 		} else {
 			final RequestDispatcher view = request.getRequestDispatcher(Page.REGISTER.getJspName());
 			view.forward(request, response);

@@ -101,7 +101,7 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 			Set<TeamRepresentor> teamMemberships) throws AdaptorException {
 		try {
 			AppUser user = null;
-			final Role userRole = Role.valueOf(role.name());
+			final Role userRole = Role.valueOf(role.getName());
 			if((id != null) && this.appUserSerive.exists(id)) {
 				final Set<Objective> userObjectives = new HashSet<Objective>();
 				final Set<Project> userProjects = new HashSet<Project>();
