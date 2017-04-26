@@ -1,3 +1,4 @@
 include 'strat-ejbservice'
 include 'strat-weblayer'
 include 'strat-persistence'
+include 'strat-security'

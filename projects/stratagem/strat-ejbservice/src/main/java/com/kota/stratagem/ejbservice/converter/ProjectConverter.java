@@ -1,6 +1,6 @@
 package com.kota.stratagem.ejbservice.converter;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Local;
 
@@ -9,9 +9,9 @@ import com.kota.stratagem.persistence.entity.Project;
 
 @Local
 public interface ProjectConverter {
-	
+
 	ProjectRepresentor to(Project project);
-	
-	List<ProjectRepresentor> to(List<Project> projects);
-	
+
+	Set<ProjectRepresentor> to(Set<Project> projects);
+
 }

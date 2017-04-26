@@ -36,6 +36,7 @@ import com.kota.stratagem.persistence.service.ProjectService;
 import com.kota.stratagem.persistence.service.TaskService;
 import com.kota.stratagem.persistence.service.TeamService;
 import com.kota.stratagem.persistence.util.AggregationSelector;
+import com.kota.stratagem.security.encryption.PasswordGenerationService;
 
 @Stateless(mappedName = "ejb/appUserProtocol")
 public class AppUserProtocolImpl implements AppUserProtocol {
@@ -62,6 +63,9 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 
 	@EJB
 	private AppUserConverter converter;
+
+	@EJB
+	private PasswordGenerationService passwordGenerator;
 
 	@Override
 	public AppUserRepresentor getAppUser(Long id) throws AdaptorException {
@@ -92,7 +96,7 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 	}
 
 	@Override
-	public AppUserRepresentor saveAppUser(Long id, String name, String passwordHash, String email, RoleRepresentor role, Set<ObjectiveRepresentor> objectives, Set<ProjectRepresentor> projects,
+	public AppUserRepresentor saveAppUser(Long id, String name, String password, String email, RoleRepresentor role, Set<ObjectiveRepresentor> objectives, Set<ProjectRepresentor> projects,
 			Set<TaskRepresentor> tasks, Set<ImpedimentRepresentor> reportedImpediments, Set<ImpedimentRepresentor> processedImpediments, Set<TeamRepresentor> supervisedTeams,
 			Set<TeamRepresentor> teamMemberships) throws AdaptorException {
 		try {
@@ -127,10 +131,9 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 				for(final TeamRepresentor team : teamMemberships) {
 					memberships.add(this.teamService.read(team.getId()));
 				}
-				user = this.appUserSerive.update(id, name, passwordHash, email, userRole, userObjectives, userProjects, userTasks, impedimentsReported, impedimentsProcessed, teamsSupervised,
-						memberships);
+				user = this.appUserSerive.update(id, name, password, email, userRole, userObjectives, userProjects, userTasks, impedimentsReported, impedimentsProcessed, teamsSupervised, memberships);
 			} else {
-				user = this.appUserSerive.create(name, passwordHash, email, userRole, null, null, null, null, null, null, null);
+				user = this.appUserSerive.create(name, this.passwordGenerator.GenerateBCryptPassword(password), email, userRole, null, null, null, null, null, null, null);
 			}
 			return this.converter.to(user);
 		} catch(final PersistenceServiceException e) {

@@ -1,6 +1,6 @@
 package com.kota.stratagem.weblayer.common;
 
-public class RegistrationParameter {
+public interface RegistrationParameter {
 
 	public static final String ID = "id";
 	public static final String USERNAME = "username";

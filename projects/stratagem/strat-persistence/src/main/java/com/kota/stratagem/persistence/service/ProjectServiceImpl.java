@@ -2,7 +2,6 @@ package com.kota.stratagem.persistence.service;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Stateless;
@@ -40,8 +39,8 @@ public class ProjectServiceImpl implements ProjectService {
 	private EntityManager entityManager;
 
 	@Override
-	public Project create(String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers,
-			Set<Impediment> impediments, Objective objective) throws PersistenceServiceException {
+	public Project create(String name, String description, ProjectStatus status, Date deadline, Boolean visible,
+			Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Objective objective) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Create Project (name: " + name + ", description: " + description + ", status: " + status + ", tasks: " + tasks + ", visible: " + visible + ")");
 		}
@@ -76,13 +75,14 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public List<Project> read(ProjectStatus status) throws PersistenceServiceException {
+	public Set<Project> read(ProjectStatus status) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Get Projects by Status");
 		}
-		List<Project> result = null;
+		Set<Project> result = null;
 		try {
-			result = this.entityManager.createNamedQuery(ProjectQuery.GET_ALL_BY_STATUS, Project.class).setParameter(ProjectParameter.STATUS, status).getResultList();
+			result = new HashSet<Project>(this.entityManager.createNamedQuery(ProjectQuery.GET_ALL_BY_STATUS, Project.class)
+					.setParameter(ProjectParameter.STATUS, status).getResultList());
 		} catch(final Exception e) {
 			throw new PersistenceServiceException("Unknown error when fetching Projects! " + e.getLocalizedMessage(), e);
 		}
@@ -90,13 +90,13 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public List<Project> readAll() throws PersistenceServiceException {
+	public Set<Project> readAll() throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Fetching all Projects");
 		}
-		List<Project> result = null;
+		Set<Project> result = null;
 		try {
-			result = this.entityManager.createNamedQuery(ProjectQuery.GET_ALL_PROJECTS, Project.class).getResultList();
+			result = new HashSet<Project>(this.entityManager.createNamedQuery(ProjectQuery.GET_ALL_PROJECTS, Project.class).getResultList());
 		} catch(final Exception e) {
 			throw new PersistenceServiceException("Unknown error occured while fetching Projects" + e.getLocalizedMessage(), e);
 		}
@@ -104,8 +104,8 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public Project update(Long id, String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers,
-			Set<Impediment> impediments, Objective objective) throws PersistenceServiceException {
+	public Project update(Long id, String name, String description, ProjectStatus status, Date deadline, Boolean visible,
+			Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Objective objective) throws PersistenceServiceException {
 		if(LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Update Project (id: " + id + ", name: " + name + ", description: " + description + ", status: " + status + ", tasks: " + tasks + ", visible: " + visible + ")");
 		}

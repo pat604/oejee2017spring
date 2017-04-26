@@ -73,7 +73,6 @@ public class ProjectActionController extends HttpServlet implements ProjectParam
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		try {
 			Long id = null;
-
 			if(request.getParameter(ID) != "" && request.getParameter(ID) != null) {
 				id = Long.parseLong(request.getParameter(ID));
 			}

@@ -80,9 +80,9 @@ public class ProjectProtocolImpl implements ProjectProtocol {
 
 	@Override
 	public List<ProjectRepresentor> getAllProjects(final ProjectCriteria criteria) {
-		List<ProjectRepresentor> representors = new ArrayList<ProjectRepresentor>();
+		Set<ProjectRepresentor> representors = new HashSet<ProjectRepresentor>();
 		try {
-			List<Project> projects = null;
+			Set<Project> projects = null;
 			if(criteria.getStatus() == null) {
 				projects = this.projectService.readAll();
 			} else {
@@ -95,7 +95,8 @@ public class ProjectProtocolImpl implements ProjectProtocol {
 		} catch(final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 		}
-		return representors;
+		final List<ProjectRepresentor> projects = new ArrayList<ProjectRepresentor>(representors);
+		return projects;
 	}
 
 	@Override

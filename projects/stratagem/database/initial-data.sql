@@ -22,24 +22,22 @@ INSERT INTO roles (role_id, role_name) VALUES
 (5, 'system_administrator');
 SELECT SETVAL('roles_role_id_seq', COALESCE(MAX(role_id), 0) ) FROM roles;
 
-INSERT INTO app_users (user_id, user_name, user_password_hash, user_role) VALUES 
-(0, 'adam', 'a123', 3),
-(1, 'brent', 'b123', 3),
-(2, 'chris', 'c123', 1),
-(3, 'dennis', 'd123', 1),
-(4, 'ellie', 'e123', 1),
-(5, 'frank', 'f123', 1),
-(6, 'gabrille', 'g123', 1),
-(7, 'holly', 'h123', 1),
-(8, 'ike', 'i123', 1),
-(9, 'jenny', 'j123', 1),
-(10, 'Kevin', 'k123', 1);
+INSERT INTO app_users (user_id, user_name, user_password_hash) VALUES 
+(0, 'adam', 'a123'),
+(1, 'brent', 'b123'),
+(2, 'chris', 'c123'),
+(3, 'dennis', 'd123'),
+(4, 'ellie', 'e123'),
+(5, 'frank', 'f123'),
+(6, 'gabrille', 'g123'),
+(7, 'holly', 'h123'),
+(8, 'ike', 'i123'),
+(9, 'jenny', 'j123'),
+(10, 'Kevin', 'k123');
 SELECT SETVAL('app_users_user_id_seq', COALESCE(MAX(user_id), 0) ) FROM app_users;
 
 INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES 
-(0, 1),
 (0, 3),
-(1, 1),
 (1, 3),
 (2, 1),
 (3, 1),

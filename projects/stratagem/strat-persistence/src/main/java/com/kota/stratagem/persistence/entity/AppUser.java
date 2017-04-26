@@ -55,7 +55,7 @@ public class AppUser implements Serializable {
 	private String email;
 
 	@Enumerated(EnumType.ORDINAL)
-	@Column(name = "user_role", nullable = false)
+	@JoinTable(name = "authorizations", joinColumns = @JoinColumn(name = "authorization_role_id", referencedColumnName = "role_id"), inverseJoinColumns = @JoinColumn(name = "authorization_user_id", referencedColumnName = "user_id"))
 	private Role role;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Objective.class)

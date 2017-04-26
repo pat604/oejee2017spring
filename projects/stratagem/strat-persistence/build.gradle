@@ -1,4 +1,6 @@
-jar { archiveName 'strat-persistence.jar' }
+jar { 
+	archiveName 'strat-persistence.jar' 
+}
 
 dependencies {
 	compile group: 'log4j', name: 'log4j', version: log4jVersion
