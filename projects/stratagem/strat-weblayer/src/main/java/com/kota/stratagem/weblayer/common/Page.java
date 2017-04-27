@@ -2,6 +2,7 @@ package com.kota.stratagem.weblayer.common;
 
 public enum Page {
 
+	HOME("home.jsp", "Home"), //
 	LOGIN("login.jsp", "Login"), //
 	ERROR("error.jsp", "Error"), //
 	REGISTER("register.jsp", "Register"), //
