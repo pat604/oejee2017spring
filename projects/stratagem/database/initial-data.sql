@@ -22,18 +22,18 @@ INSERT INTO roles (role_id, role_name) VALUES
 (5, 'system_administrator');
 SELECT SETVAL('roles_role_id_seq', COALESCE(MAX(role_id), 0) ) FROM roles;
 
-INSERT INTO app_users (user_id, user_name, user_password_hash) VALUES 
-(0, 'adam', 'a123'),
-(1, 'brent', 'b123'),
-(2, 'chris', 'c123'),
-(3, 'dennis', 'd123'),
-(4, 'ellie', 'e123'),
-(5, 'frank', 'f123'),
-(6, 'gabrille', 'g123'),
-(7, 'holly', 'h123'),
-(8, 'ike', 'i123'),
-(9, 'jenny', 'j123'),
-(10, 'Kevin', 'k123');
+INSERT INTO app_users (user_id, user_name, user_password_hash, user_role) VALUES 
+(0, 'adam', '$2a$10$FPiPKeyDIYEHTu1Nx7GCJOO5.A4agR15rHiham3pgzhE5yNjshBJ.', 3),
+(1, 'brent', '$2a$10$cRxiTtzegqpCu6ArnTNQ2et3l2bPIHzTuCvnyd89T/93VwZTW4jim', 3),
+(2, 'chris', '$2a$10$Oer1r4GqXVbtjc5auNJcTeUaCmis2gVUmO1UiDitM5GkhQdenJHmm', 1),
+(3, 'dennis', '$2a$10$xjom.FGpOcDDCoa2YcrFhuvR6W/hgHEwRJu4oFJ.Do6D8eMu8gN/m', 1),
+(4, 'ellie', '$2a$10$3TxZKVQuSD.s9K.P/i1uX.vIk9HG9Q2vzjL0xanTZuEBqbsXwJBpm', 1),
+(5, 'frank', '$2a$10$0Z9B1Z5GiJ0DFXwVHpYCBOkannkyArcKeZX1.DHDwNX/kweZ.vOTy', 1),
+(6, 'gabrille', '$2a$10$g3tlhM1JGx.rckAiFiWT.Ok5xyvz1a878l41lVZuIilRzBa/FFjfa', 1),
+(7, 'holly', '$2a$10$W/nRkIKvfZ.3cCbJCxghKujWqAIzf/meL2g2DEQKv9pLpkPq9YvaC', 1),
+(8, 'ike', '$2a$10$q2DRoc37d30C9i2t6gLCGO7vAA2bJw2b4cjxZyD0Df9PDCTP0LWC2', 1),
+(9, 'jenny', '$2a$10$R80wTRvd1xSdlyafWnt4HeVKaF7z239JY9Gb6G5WPIUShlMyWGLwq', 1),
+(10, 'Kevin', '$2a$10$a3/8TbXxSBpDBk4kX1BJ1uVWqOTRT5DWcxULlUXHeri0t.xHh48BW', 1);
 SELECT SETVAL('app_users_user_id_seq', COALESCE(MAX(user_id), 0) ) FROM app_users;
 
 INSERT INTO authorizations (authorization_user_id, authorization_role_id) VALUES 
