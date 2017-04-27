@@ -11,7 +11,6 @@ import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.DOMException;
@@ -55,7 +54,14 @@ public class TicketFacadeImpl implements TicketFacade {
 	@Override
 	public TicketStub getTicket(String id) throws FacadeException {
 		try {
+			// This is just for ease the work on the two notebooks
+			if (stub.getConversation() == null) {
+				this.msgService.createConversation(id);
+			}
+			//
+
 			final TicketStub stub = this.converter.to(this.service.read(id));
+
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Get Ticket by id (" + id + ") --> " + stub);
 			}
@@ -183,9 +189,6 @@ public class TicketFacadeImpl implements TicketFacade {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());
 		} catch (ParseException e) {
-			LOGGER.error(e, e);
-			throw new FacadeException(e.getLocalizedMessage());
-		} catch (TransformerException e) {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());
 		}

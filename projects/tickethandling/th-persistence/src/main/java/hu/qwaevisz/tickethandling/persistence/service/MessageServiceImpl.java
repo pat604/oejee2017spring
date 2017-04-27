@@ -1,6 +1,7 @@
 package hu.qwaevisz.tickethandling.persistence.service;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -19,7 +20,6 @@ import javax.persistence.PersistenceException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.DOMException;
@@ -78,7 +78,7 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public void createConversation(String ticketId) throws ParserConfigurationException, TransformerException, IOException {
+	public void createConversation(String ticketId) throws FileNotFoundException, IOException {
 
 		LOGGER.info("Creating conversation XML for Ticket(" + ticketId + ") ...");
 
