@@ -1,12 +1,17 @@
 apply plugin: 'eclipse'
 apply plugin: 'ear'
 
+version = '1.0'
 
 ext {
 	testngVersion = '6.9.+'
 	jeeVersion = '6.0'
 	servletapiVersion = '3.0.1'
 	log4jVersion = '1.2.17'
+	jaxrsVersion = '2.0.1'
+	
+	webserviceArchiveName = 'show-webservice.war'
+	webserviceContextPath = 'guitarmania'
 }
 
 subprojects {
@@ -22,8 +27,15 @@ subprojects {
 	}
 }
 
+ear {
+    deploymentDescriptor { 
+    	webModule( webserviceArchiveName, webserviceContextPath ) 
+    }
+}
+
 dependencies {
 	deploy project('show-persistence')
 	deploy project('show-ejb')	
 	deploy project(path: 'show-web', configuration: 'archives')
+	deploy project(path: 'show-webservice', configuration: 'archives')
 }
