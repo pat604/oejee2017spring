@@ -11,10 +11,10 @@
 </head>
 <body>
 	<h2><% out.print(guitar.getGuitarbrand()); %>: <% out.print(guitar.getGuitarType()); %></h2>
-	<div><label>color: </label><span><% out.print(guitar.getColor()); %></span></div>
-	<div><label>serial: </label><span><% out.print(guitar.getSerialNumber()); %></span></div>
-	<div><label>vintage: </label><span><% out.print(guitar.getVintage()); %></span></div>
-	<div><label>price: </label><span><%	out.print(guitar.getPrice()); %> Ft</span></div>
-<%-- 	<div><label>owner: </label><span><% out.print(guitar.getOwner().getUsername()); %></span></div> --%>
+	<div><label>color: </label><span><% out.print(guitar.getColor()); %></span><br>
+	<label>serial: </label><span><% out.print(guitar.getSerialNumber()); %></span><br>
+	<label>vintage: </label><span><% out.print(guitar.getVintage()); %></span><br>
+	<label>price: </label><span><%	out.print(guitar.getPrice()); %> HUF</span><br>
+	<label>owner: </label><span><% out.print(guitar.getOwner().getUsername()); %></span></div>
 </body>
 </html>

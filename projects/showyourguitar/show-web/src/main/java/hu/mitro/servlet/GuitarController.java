@@ -33,6 +33,7 @@ public class GuitarController extends HttpServlet {
 			request.setAttribute("guitar", guitar);
 		} catch (FacadeException e) {
 			LOGGER.error(e, e);
+			e.printStackTrace();
 		}
 
 		RequestDispatcher view = request.getRequestDispatcher("guitar.jsp");
