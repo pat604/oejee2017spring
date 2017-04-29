@@ -12,13 +12,13 @@ import hu.mitro.ejbservice.domain.GuitarStub;
 @Path("/guitar")
 public interface GuitarRestService {
 
-	// @GET
-	// @Path("/{id}")
-	// @Produces("application/json")
-	// GuitarStub getGuitar(@PathParam("id") Long id);
+	@GET
+	@Path("/id/{id}")
+	@Produces("application/json")
+	GuitarStub getGuitar(@PathParam("id") Long id);
 
 	@GET
-	@Path("/{serial}")
+	@Path("/serial/{serial}")
 	@Produces("application/json")
 	GuitarStub getGuitar(@PathParam("serial") String serialNumber);
 

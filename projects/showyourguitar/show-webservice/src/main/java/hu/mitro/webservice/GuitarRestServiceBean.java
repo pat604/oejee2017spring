@@ -15,16 +15,16 @@ public class GuitarRestServiceBean implements GuitarRestService {
 	@EJB
 	private GuitarFacade facade;
 
-	// @Override
-	// public GuitarStub getGuitar(Long id) {
-	// GuitarStub stub = null;
-	// try {
-	// stub = this.facade.getGuitar(id);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// return stub;
-	// }
+	@Override
+	public GuitarStub getGuitar(Long id) {
+		GuitarStub stub = null;
+		try {
+			stub = this.facade.getGuitar(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return stub;
+	}
 
 	@Override
 	public GuitarStub getGuitar(String serialNumber) {
