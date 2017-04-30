@@ -66,7 +66,7 @@
 				</form>
 			</div>
 			<div class="col-md-4" style="text-align: right;">
-				<a href="Ticket?id=-1&edit=1">Create</a> a brand new ticket.
+				<a href="TicketCreate">Create</a> a brand new ticket.
 			</div>
 		</div>
 		<span class="line-ticketing"></span>

@@ -8,7 +8,7 @@ public enum Page {
 	HOME("home.jsp", "Home"),
 	SYSTEMLIST("systemlist.jsp", "SystemList"),
 	TICKET_VIEW("ticket.jsp", "Ticket"),
-	TICKET_EDIT("ticket-edit.jsp", "Ticket");
+	TICKET_CREATE("ticket-create.jsp", "TicketCreate");
 
 	private final String jspName;
 	private final String url;

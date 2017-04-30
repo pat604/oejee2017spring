@@ -2,7 +2,7 @@ package hu.qwaevisz.tickethandling.persistence.entity;
 
 import java.util.Date;
 
-public class Message {
+public class Message implements Comparable<Message> {
 
 	String id;
 	String from;
@@ -61,6 +61,15 @@ public class Message {
 	@Override
 	public String toString() {
 		return "Message [id=" + this.id + ", from=" + this.from + ", to=" + this.to + ", date=" + this.date + ", text=" + this.text + "]";
+	}
+
+	@Override
+	public int compareTo(Message other) {
+		if (this.date.after(other.date)) {
+			return -1;
+		} else {
+			return 1;
+		}
 	}
 
 }

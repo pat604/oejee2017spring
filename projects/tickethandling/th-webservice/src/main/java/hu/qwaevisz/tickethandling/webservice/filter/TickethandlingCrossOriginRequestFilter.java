@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-@WebFilter(filterName = "SchoolCrossOriginRequestFilter", urlPatterns = { "/*" })
+@WebFilter(filterName = "TicketCrossOriginRequestFilter", urlPatterns = { "/*" })
 public class TickethandlingCrossOriginRequestFilter implements Filter {
 
 	private static final Logger LOGGER = Logger.getLogger(TickethandlingCrossOriginRequestFilter.class);

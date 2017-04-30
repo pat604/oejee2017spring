@@ -8,7 +8,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import hu.qwaevisz.tickethandling.ejbservice.domain.TicketCriteria;
 import hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.AdaptorException;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
@@ -22,14 +21,14 @@ public interface TicketRestService {
 	List<TicketStub> getTickets() throws AdaptorException, FacadeException;
 
 	@POST
-	@Path("/level")
-	@Produces("application/json")
-	List<TicketStub> getTickets(Integer level) throws AdaptorException, FacadeException;
-
-	@POST
-	@Path("/filtered")
+	@Path("/processor")
 	@Consumes("application/json")
 	@Produces("application/json")
-	List<TicketStub> getTickets(TicketCriteria criteria) throws AdaptorException, FacadeException;
+	List<TicketStub> getTicket(String processor) throws AdaptorException, FacadeException;
 
+	@POST
+	@Path("/create")
+	@Consumes("application/json")
+	@Produces("application/json")
+	TicketStub createTicket(TicketStub newTicket) throws AdaptorException, FacadeException;
 }

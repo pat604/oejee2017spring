@@ -1,6 +1,5 @@
 package hu.qwaevisz.tickethandling.ejbservice.facade;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -21,20 +20,11 @@ public interface TicketFacade {
 
 	List<TicketStub> getTickets(TicketCriteria criteria) throws FacadeException;
 
-	TicketStub saveTicket(String id, SystemStub system, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep,
-			Date creationdate, Integer level, EmployeeStub processor, StatusStub status, Date lastchanged, List<Message> conversation) throws FacadeException;
+	TicketStub saveTicket(TicketStub ticket) throws FacadeException;
+
+	TicketStub saveTicket(String id, SystemStub system, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep, Integer level,
+			EmployeeStub processor, StatusStub status, List<Message> conversation) throws FacadeException;
 
 	void removeTicket(String id) throws FacadeException;
 
-	//
-	// Place to another file later
-	//
-
-	SystemStub getSystem(String id) throws FacadeException;
-
-	List<SystemStub> getSystems() throws FacadeException;
-
-	EmployeeStub getEmployee(String id) throws FacadeException;
-
-	List<EmployeeStub> getEmployees() throws FacadeException;
 }

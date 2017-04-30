@@ -20,8 +20,14 @@ import javax.persistence.PersistenceException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
+import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -36,9 +42,9 @@ import hu.qwaevisz.tickethandling.persistence.entity.Message;
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class MessageServiceImpl implements MessageService {
 
-	private static final Logger LOGGER = Logger.getLogger(EmployeeServiceImpl.class);
+	private static final Logger LOGGER = Logger.getLogger(MessageServiceImpl.class);
 
-	private static final String XMLFILESPATH = "D:\\Java EE\\TicketingMessages";
+	private static final String XMLFILESPATH = "C:\\TicketingMessages";
 	private static final String MESSAGEDATEFORMAT = "yyyy-mm-dd hh:mm:ss";
 	private static final String INITIALMESSAGE = "<conversation id=\"%1s\"><message id=\"%2s-0001\"><from>System</from><to>Customer</to><date>%3s</date><text>Initial message</text></message></conversation>";
 
@@ -48,6 +54,13 @@ public class MessageServiceImpl implements MessageService {
 		String filepath = XMLFILESPATH + "\\" + ticketId + ".xml";
 		LOGGER.info("Read conversation: " + filepath);
 		File xmlFile = new File(filepath);
+
+		// This is just to ease the work on two notebooks because of the different paths
+		if (!xmlFile.exists()) {
+			this.createConversation(ticketId);
+		}
+		//
+
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(xmlFile);
@@ -98,45 +111,64 @@ public class MessageServiceImpl implements MessageService {
 		} else {
 			throw new PersistenceException("File already Exists!");
 		}
+	}
 
-		// DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstanticketce();
-		// DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		//
-		// Document doc = docBuilder.newDocument();
-		// Element rootElement = doc.createElement("conversation");
-		// doc.appendChild(rootElement);
-		//
-		// Attr attr = doc.createAttribute("ticket");
-		// attr.setValue(ticketId);
-		// rootElement.setAttributeNode(attr);
-		//
-		// Element messageElement = doc.createElement("message");
-		// Attr messageIdAttr = doc.createAttribute("id");
-		// messageIdAttr.setValue(ticketId + "-0001");
-		// messageElement.setAttributeNode(messageIdAttr);
-		// rootElement.appendChild(messageElement);
-		//
-		// Element fromElement = doc.createElement("from");
-		// fromElement.setNodeValue("System");
-		// Element toElement = doc.createElement("to");
-		// toElement.setNodeValue("Customer");
-		// Element dateElement = doc.createElement("date");
-		// dateElement.setNodeValue(new Date().toLocaleString());
-		// Element textElement = doc.createElement("text");
-		// textElement.setNodeValue("Initial message");
-		//
-		// messageElement.appendChild(fromElement);
-		// messageElement.appendChild(toElement);
-		// messageElement.appendChild(dateElement);
-		// messageElement.appendChild(textElement);
-		//
-		// TransformerFactory transformerFactory = TransformerFactory.newInstance();
-		// Transformer transformer = transformerFactory.newTransformer();
-		// DOMSource source = new DOMSource(doc);
-		// File file = new File(XMLFILESPATH + "\\" + ticketId + ".xml");
-		// LOGGER.info(file.createNewFile());
-		// StreamResult result = new StreamResult(file);
-		//
-		// transformer.transform(source, result);
+	@Override
+	public void saveConversation(List<Message> conversation, String ticketId)
+			throws FileNotFoundException, IOException, ParserConfigurationException, SAXException, TransformerException {
+
+		LOGGER.info("Saving conversation XML for Ticket(" + ticketId + ") ...");
+
+		String filepath = XMLFILESPATH + "\\" + ticketId + ".xml";
+
+		DateFormat format = new SimpleDateFormat(MESSAGEDATEFORMAT);
+
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+		Document doc = docBuilder.newDocument();
+		Element rootElement = doc.createElement("conversation");
+		doc.appendChild(rootElement);
+
+		Attr attr = doc.createAttribute("ticket");
+		attr.setValue(ticketId);
+		rootElement.setAttributeNode(attr);
+
+		for (Message message : conversation) {
+
+			Element messageElement = doc.createElement("message");
+			Attr messageIdAttr = doc.createAttribute("id");
+			messageIdAttr.setValue(message.getId());
+			messageElement.setAttributeNode(messageIdAttr);
+			rootElement.appendChild(messageElement);
+
+			Element fromElement = doc.createElement("from");
+			Node fromNode = doc.createTextNode(message.getFrom());
+			fromElement.appendChild(fromNode);
+			Element toElement = doc.createElement("to");
+			Node toNode = doc.createTextNode(message.getTo());
+			toElement.appendChild(toNode);
+			Element dateElement = doc.createElement("date");
+			Node dateNode = doc.createTextNode(format.format(message.getDate()));
+			dateElement.appendChild(dateNode);
+			Element textElement = doc.createElement("text");
+			Node textNode = doc.createTextNode(message.getText());
+			textElement.appendChild(textNode);
+
+			messageElement.appendChild(fromElement);
+			messageElement.appendChild(toElement);
+			messageElement.appendChild(dateElement);
+			messageElement.appendChild(textElement);
+
+		}
+
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		DOMSource source = new DOMSource(doc);
+		File file = new File(filepath);
+		LOGGER.info(file.createNewFile());
+		StreamResult result = new StreamResult(file);
+
+		transformer.transform(source, result);
 	}
 }

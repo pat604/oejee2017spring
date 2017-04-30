@@ -13,13 +13,13 @@
 <%@ page
 	import="hu.qwaevisz.tickethandling.ejbservice.domain.SystemStub"%>
 <%@ page
-	import="hu.qwaevisz.tickethandling.weblayer.common.TicketAttribute"%>
+	import="hu.qwaevisz.tickethandling.weblayer.common.TicketCreateAttribute"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://qwaevisz.hu/jsp/tlds/tickettag" prefix="bt"%>
 <%
-	TicketStub ticket = (TicketStub) request.getAttribute(TicketAttribute.ATTR_TICKET);
-	ArrayList<SystemStub> syss = (ArrayList<SystemStub>) request.getAttribute(TicketAttribute.ATTR_SYSTEMS);
-	ArrayList<EmployeeStub> emps = (ArrayList<EmployeeStub>) request.getAttribute(TicketAttribute.ATTR_EMPLOYEES);
+	TicketStub ticket = (TicketStub) request.getAttribute(TicketCreateAttribute.ATTR_TICKET);
+	ArrayList<SystemStub> syss = (ArrayList<SystemStub>) request.getAttribute(TicketCreateAttribute.ATTR_SYSTEMS);
+	ArrayList<EmployeeStub> emps = (ArrayList<EmployeeStub>) request.getAttribute(TicketCreateAttribute.ATTR_EMPLOYEES);
 %>
 <!DOCTYPE html>
 <html>
@@ -42,7 +42,7 @@
 		</h1>
 	</div>
 	<div class="container">
-		<form method="post" action="Ticket" class="form-horizontal">
+		<form method="post" action="TicketCreate" class="form-horizontal">
 			<input type="text" name="id" id="id" hidden="hidden"
 				contenteditable="false" value="<%out.print(ticket.getId());%>" />
 				
@@ -68,31 +68,16 @@
 			</div>
 			
 			<div class="form-group">
-				<label class="control-label col-sm-2" for="processor">Processor:
-				</label>
+				<label class="control-label col-sm-2" for="processor">Processor:</label>
 				<div class="col-sm-2">
-					<select class="form-control" name="processor" id="processor">
-						<%
-							for (EmployeeStub emp : emps) {
-						%>
-						<option value="<%out.print(emp.getId());%>"
-						<% out.print(ticket.getProcessor() != null && emp.getId() == ticket.getProcessor().getId() ? "selected=\"selected\"" : "");%>>
-							<%
-								out.print(emp.getId());
-							%>
-						</option>
-						<%
-							}
-						%>
-					</select>
+					<input class="form-control" name="processor" id="processor" disabled="disabled" value="<%out.print(ticket.getProcessor().getName() + " / " + ticket.getProcessor().getId()); %>" />				
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="level">Level: </label>
 				<div class="col-sm-2">
-					<input class="form-control" type="number" name="level" id="level" max="3" min="1"
-						value="<%out.print(ticket.getLevel());%>" />
+					<input class="form-control" type="number" name="level" id="level" disabled="disabled"  max="3" min="1" value="<%out.print(ticket.getProcessor().getLevel());%>" />
 				</div>
 			</div>
 			<div class="form-group">

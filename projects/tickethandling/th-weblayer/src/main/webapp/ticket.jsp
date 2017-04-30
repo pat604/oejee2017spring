@@ -1,7 +1,9 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Collections" %>
 <%@ page
 	import="hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub"%>
 <%@ page
@@ -15,13 +17,14 @@
 <%@ page
 	import="hu.qwaevisz.tickethandling.weblayer.common.TicketAttribute"%>
 <%@ page
+	import="hu.qwaevisz.tickethandling.weblayer.common.TicketParameter"%>
+<%@ page
 	import="hu.qwaevisz.tickethandling.persistence.entity.Message"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://qwaevisz.hu/jsp/tlds/tickettag" prefix="bt"%>
 <%
 	TicketStub ticket = (TicketStub) request.getAttribute(TicketAttribute.ATTR_TICKET);
-	ArrayList<SystemStub> syss = (ArrayList<SystemStub>) request.getAttribute(TicketAttribute.ATTR_SYSTEMS);
-	ArrayList<EmployeeStub> emps = (ArrayList<EmployeeStub>) request.getAttribute(TicketAttribute.ATTR_EMPLOYEES);
+	boolean isProcessor = ticket.getProcessor().getId().equals(request.getUserPrincipal().getName());
 %>
 <!DOCTYPE html>
 <html>
@@ -44,81 +47,66 @@
 			<div class="col-md-6">
 				<h3>Overview</h3>
 				<span class="line-ticketing"></span>
-				<form>
-					<input type="text" name="id" id="id" hidden="hidden"
-						contenteditable="false" value="<%out.print(ticket.getId());%>" />
+				<form method="POST" action="Ticket">
+					<input type="text" name="id" id="id" hidden="hidden" contenteditable="false" value="<%out.print(ticket.getId());%>" />
 
 					<div class="form-group">
-						<label class="control-label" for="system">System: </label> <select
-							class="form-control" name="system" id="system"
-							disabled="disabled">
-							<%
-								for (SystemStub sys : syss) {
-							%>
-							<option value="<%out.print(sys.getId());%>"
-								<%out.print(ticket.getSystem() != null && sys.getId().equals(ticket.getSystem().getId()) ? "selected=\"selected\"" : "");%>>
-								<%
-									out.print(sys.getId());
-								%>
-							</option>
-							<%
-								}
-							%>
-						</select>
+						<label class="control-label" for="system">System: </label>
+						<input class="form-control"  type="text" name="system" id="system" disabled="disabled" value="<%out.print(ticket.getSystem().getId());%>"/>
+					</div>
+					
+					<div class="form-group">
+						<label class="control-label" for="company">Company: </label>
+						<input class="form-control"  type="text" name="company" id="company" disabled="disabled" value="<%out.print(ticket.getSystem().getCompany_name());%>"/>
 					</div>
 
 					<div class="form-group">
-						<label class="control-label" for="processor">Processor: </label> <select
-							class="form-control" name="processor" id="processor"
-							disabled="disabled">
-							<%
-								for (EmployeeStub emp : emps) {
-							%>
-							<option value="<%out.print(emp.getId());%>"
-								<%out.print(ticket.getProcessor() != null && emp.getId().equals(ticket.getProcessor().getId()) ? "selected=\"selected\"" : "");%>>
-								<%
-									out.print(emp.getId());
-								%>
-							</option>
-							<%
-								}
-							%>
-						</select>
+						<label class="control-label" for="sender_name">Sender name: </label>
+						<input class="form-control" type="text" name="sender_name" id="sender_name" disabled="disabled" value="<%out.print(ticket.getSender_name());%>"/>
 					</div>
 
 					<div class="form-group">
-						<label class="control-label" for="level">Level: </label> <input
-							class="form-control" type="number" name="level" id="level"
-							max="3" min="1" value="<%out.print(ticket.getLevel());%>"
-							disabled="disabled" />
+						<label class="control-label" for="processor">Processor: </label>
+						<input class="form-control"  type="text" name="processor" id="processor" disabled="disabled" value="<%out.print(ticket.getProcessor().getName() + " / " + ticket.getProcessor().getId());%>"/>
 					</div>
+					
 					<div class="form-group">
-						<label class="control-label" for="sender_name">Sender
-							name: </label> <input class="form-control" type="text" name="sender_name"
-							id="sender_name" value="<%out.print(ticket.getSender_name());%>"
-							disabled="disabled" />
-
+						<label class="control-label" for="business_impact">Business	impact: </label>
+						<input class="form-control" type="text" name="business_impact" id="business_impact" disabled="disabled" value="<%out.print(ticket.getBusiness_impact());%>"/>
 					</div>
-					<div class="form-group">
-						<label class="control-label" for="business_impact">Business
-							impact: </label> <input class="form-control" type="text"
-							name="business_impact" id="business_impact"
-							value="<%out.print(ticket.getBusiness_impact());%>"
-							disabled="disabled" />
-
-					</div>
+					
 					<div class="form-group">
 						<label class="control-label" for="steps_to_rep">Steps to
 							reproduce the issue: </label> <input class="form-control" type="text"
 							name="steps_to_rep" id="steps_to_rep"
 							value="<%out.print(ticket.getSteps_to_rep());%>"
 							disabled="disabled" />
-
 					</div>
+					
 					<div class="form-group">
-						<label class="control-label" for="priority">Priority: </label> <select
-							class="form-control" name="priority" id="priority"
-							disabled="disabled">
+						<label class="control-label" for="creationdate">Creation date: </label>
+						<input class="form-control" type="text" name="creationdate" id="creationdate" disabled="disabled" value="<%out.print(ticket.getCreationdate());%>"/>
+					</div>
+					
+					<div class="form-group">
+						<label class="control-label" for="lastchanged">Last changed: </label>
+						<input class="form-control" type="text" name="lastchanged" id="lastchanged" disabled="disabled" value="<%out.print(ticket.getLastchanged());%>"/>
+					</div>
+					
+					<div class="form-group">
+						<label class="control-label" for="level">Level: </label>
+						<input class="form-control" type="number" name="level" id="level" max="3" min="1" value="<%out.print(ticket.getLevel());%>" <% out.print(isProcessor ? "" : "disabled=\"disabled\""); %>/>
+						<% if (isProcessor) { %>
+						<p><br /><i>Note that, if you change the level you will be no longer the processor of the ticket!</i></p>
+						<%
+							}
+						%>
+					</div>
+					
+					
+					<div class="form-group">
+						<label class="control-label" for="priority">Priority: </label>
+						<select	class="form-control" name="priority" id="priority" <% out.print(isProcessor ? "" : "disabled=\"disabled\""); %>>
 							<%
 								for (PriorityStub priority : PriorityStub.values()) {
 							%>
@@ -132,12 +120,11 @@
 								}
 							%>
 						</select>
-
 					</div>
+					
 					<div class="form-group">
-						<label class="control-label" for="status">Status: </label> <select
-							class="form-control" name="status" id="status"
-							disabled="disabled">
+						<label class="control-label" for="status">Status: </label>
+						<select	class="form-control" name="status" id="status" <% out.print(isProcessor ? "" : "disabled=\"disabled\""); %>>
 							<%
 								for (StatusStub status : StatusStub.values()) {
 							%>
@@ -153,29 +140,57 @@
 						</select>
 
 					</div>
+					<% if (isProcessor) { %>
 					<div class="form-group">
-
-						<a href="Ticket?id=<%out.print(ticket.getId());%>&edit=1">Edit</a>&nbsp;|&nbsp;<a
-							href="TicketList">Back</a>
-
+						<button type="submit" class="btn btn-default">Submit changes</button>
 					</div>
+					<%
+					}
+					%>
 				</form>
 			</div>
 			<div class="col-md-6">
-				<h3>Messages</h3>
+				<h3>Messages
+				<% if (isProcessor) { %>
+				<span class="glyphicon glyphicon-plus newmessage-button" style="float:right"; onclick="$('#newmessagebox-ticketing').slideToggle()"></span>
+				<% } %>
+				</h3>
 				<span class="line-ticketing"></span>
+				<% if (isProcessor) { %>
+				<div id="newmessagebox-ticketing">
+						<form method="POST" action="Ticket" class="form-horizontal">
+							<input type="text" name="id" id="id" hidden="hidden" contenteditable="false" value="<%out.print(ticket.getId());%>" />
+						
+							<div class="form-group">
+								<div class="col-sm-12">
+									<textarea class="form-control" rows="5" id="newmessage" name="newmessage" style="resize: none;"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-12">
+									<button type="submit" class="btn btn-default" style="float: right;">Send</button>
+								</div>
+							</div>
+						</form>
+				</div>
 				<%
-					for (Message message : ticket.getConversation()) {
+					}
+					List<Message> conversation = ticket.getConversation();
+					Collections.sort(conversation);						
+				
+					for (Message message : conversation) {
 				%>
 				<div class="message-ticketing">
 					<div class="row">
-						<div class="col-sm-12"><h4><% out.print(message.getDate().toLocaleString()); %></h4></div>
+						<div class="col-sm-12"><h4><% out.print(message.getDate()); %></h4></div>
 						<div class="col-sm-2"><strong>From:</strong></div>
 						<div class="col-sm-10"><% out.print(message.getFrom()); %></div>
 						<div class="col-sm-2"><strong>To:</strong></div>
 						<div class="col-sm-10"><% out.print(message.getTo()); %></div>
-						<div class="col-sm-12"><strong>Text:</strong></div>
-						<div class="col-sm-12"><% out.print(message.getText()); %></div>
+						<div class="col-sm-12">
+							<br/>
+							<% out.print(message.getText()); %>
+							</div>
 					</div>
 				</div>
 				<%		

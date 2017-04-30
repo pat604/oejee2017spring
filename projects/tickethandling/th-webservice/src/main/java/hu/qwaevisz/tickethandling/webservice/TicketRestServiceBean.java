@@ -16,7 +16,7 @@ import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
 @Stateless
 public class TicketRestServiceBean implements TicketRestService {
 
-	private static final Logger LOGGER = Logger.getLogger(StudentRestServiceBean.class);
+	private static final Logger LOGGER = Logger.getLogger(TicketRestServiceBean.class);
 
 	@EJB
 	private TicketFacade facade;
@@ -28,16 +28,19 @@ public class TicketRestServiceBean implements TicketRestService {
 	}
 
 	@Override
-	public List<TicketStub> getTickets(Integer level) throws AdaptorException, FacadeException {
-		LOGGER.info("Get Tickets by level (" + level + ")");
+	public List<TicketStub> getTicket(String processor) throws AdaptorException, FacadeException {
+		LOGGER.info("Get all Tickets of processor --> " + processor);
+
 		TicketCriteria criteria = new TicketCriteria();
-		criteria.setLevel(level);
-		return this.facade.getTickets(new TicketCriteria());
+		criteria.setProcessorId(processor);
+
+		return this.facade.getTickets(criteria);
 	}
 
 	@Override
-	public List<TicketStub> getTickets(TicketCriteria criteria) throws AdaptorException, FacadeException {
-		LOGGER.info("Get all Tickets");
-		return this.facade.getTickets(new TicketCriteria());
+	public TicketStub createTicket(TicketStub newTicket) throws AdaptorException, FacadeException {
+		LOGGER.info("Create new Ticket");
+		return this.facade.saveTicket(newTicket);
 	}
+
 }

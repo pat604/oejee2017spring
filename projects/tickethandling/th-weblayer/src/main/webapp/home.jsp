@@ -1,16 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.util.Set"%>
-<%@ page import="java.util.List"%>
 <%@ page
-	import="hu.qwaevisz.tickethandling.weblayer.common.ListAttribute"%>
-<%@ page import="hu.qwaevisz.tickethandling.weblayer.common.FormValue"%>
-<%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub"%>
-<%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.PriorityStub"%>
-<%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.StatusStub"%>
+	import="hu.qwaevisz.tickethandling.weblayer.common.HomeAttribute"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://qwaevisz.hu/jsp/tlds/tickettag" prefix="bt"%>
 <!DOCTYPE html>
@@ -24,6 +15,17 @@
 
 	<div class="jumbotron jumbotron-ticketing">
 		<h1>Home</h1>
+	</div>
+	<div>
+		<c:choose>
+			<c:when test="${requestScope.message != null}">
+				<div class="row">
+					<div class="col-md-12">
+						<c:out value="${ticket.message}" />
+					</div>
+				</div>
+			</c:when>
+		</c:choose>
 	</div>
 	<div class="container table-ticketing">
 		<h3>My tickets</h3>
@@ -69,10 +71,8 @@
 							<c:out value="${ticket.lastchanged}" />
 						</div>
 						<div class="col-sm-1">
-							<a href="TicketDelete?id=<c:out value="${ticket.id}" />"><span
-								class="glyphicon glyphicon-trash"></span></a> <a
-								href="Ticket?id=<c:out value="${ticket.id}" />&edit=1"><span
-								class="glyphicon glyphicon-edit"></span></a>
+							<a href="TicketDelete?id=<c:out value="${ticket.id}" />"><span class="glyphicon glyphicon-trash"></span></a>
+							<a href="UserAction?ticket_id=<c:out value="${ticket.id}" />&give_back=1"><span class="glyphicon glyphicon-arrow-down"></span></a>
 						</div>
 					</div>
 				</c:forEach>
@@ -123,8 +123,8 @@
 							<c:out value="${ticket.lastchanged}" />
 						</div>
 						<div class="col-sm-1">
-							<a href="TicketProcess?id=<c:out value="${ticket.id}" />">
-							<span class="glyphicon glyphicon-folder-open"></span></a>
+							<a href="UserAction?ticket_id=<c:out value="${ticket.id}" />&assign=1">
+							<span class="glyphicon glyphicon-arrow-up"></span></a>
 						</div>
 					</div>
 				</c:forEach>

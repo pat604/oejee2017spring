@@ -66,4 +66,17 @@ a:HOVER {
 .message-ticketing {
 	border: solid crimson 1px;
 	padding: 10px;
+	margin-bottom: 10px;
+	background-color: white;
 }
+
+ #newmessagebox-ticketing {
+ 	padding: 10px;
+ 	margin-bottom: 10px;
+ 	display: none;
+ }
+ 
+ .newmessage-button:HOVER {
+ 	color: crimson;
+ 	cursor: pointer;
+ }

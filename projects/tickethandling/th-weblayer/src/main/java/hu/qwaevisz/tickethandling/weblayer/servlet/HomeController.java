@@ -17,38 +17,40 @@ import hu.qwaevisz.tickethandling.ejbservice.domain.EmployeeStub;
 import hu.qwaevisz.tickethandling.ejbservice.domain.TicketCriteria;
 import hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
+import hu.qwaevisz.tickethandling.ejbservice.facade.EmployeeFacade;
 import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
-import hu.qwaevisz.tickethandling.weblayer.common.FormValue;
-import hu.qwaevisz.tickethandling.weblayer.common.ListAttribute;
-import hu.qwaevisz.tickethandling.weblayer.common.ListParameter;
+import hu.qwaevisz.tickethandling.weblayer.common.HomeAttribute;
 import hu.qwaevisz.tickethandling.weblayer.common.Page;
 
 @WebServlet("/Home")
-public class HomeController extends HttpServlet implements ListAttribute, ListParameter, FormValue {
+public class HomeController extends HttpServlet implements HomeAttribute {
 
 	private static final long serialVersionUID = -1977646750178615187L;
 
-	private static final Logger LOGGER = Logger.getLogger(TicketListController.class);
+	private static final Logger LOGGER = Logger.getLogger(HomeController.class);
 
 	@EJB
-	private TicketFacade facade;
+	private TicketFacade ticFacade;
+
+	@EJB
+	private EmployeeFacade empFacade;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LOGGER.info("Get Tickets for Home page");
 		try {
-			EmployeeStub user = this.facade.getEmployee(request.getUserPrincipal().getName());
+			EmployeeStub user = this.empFacade.getEmployee(request.getUserPrincipal().getName());
 
 			TicketCriteria criteria = new TicketCriteria();
 			criteria.setProcessorId(user.getId());
 
-			final List<TicketStub> tickets = this.facade.getTickets(criteria);
+			final List<TicketStub> tickets = this.ticFacade.getTickets(criteria);
 			request.setAttribute(ATTR_TICKETS, tickets);
 
 			criteria.setProcessorId("UNASS");
 			criteria.setLevel(user.getLevel());
 
-			final List<TicketStub> unassigned = this.facade.getTickets(criteria);
+			final List<TicketStub> unassigned = this.ticFacade.getTickets(criteria);
 			request.setAttribute(ATTR_UNASSIGNED, unassigned);
 
 		} catch (final FacadeException e) {

@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 
 import hu.qwaevisz.tickethandling.ejbservice.domain.SystemStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
-import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
+import hu.qwaevisz.tickethandling.ejbservice.facade.SystemFacade;
 import hu.qwaevisz.tickethandling.weblayer.common.FormValue;
 import hu.qwaevisz.tickethandling.weblayer.common.ListAttribute;
 import hu.qwaevisz.tickethandling.weblayer.common.ListParameter;
@@ -29,13 +29,13 @@ public class SystemListController extends HttpServlet implements ListAttribute, 
 	private static final Logger LOGGER = Logger.getLogger(TicketListController.class);
 
 	@EJB
-	private TicketFacade facade;
+	private SystemFacade sysFacade;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LOGGER.info("Get All Customers");
 		try {
-			final List<SystemStub> systems = this.facade.getSystems();
+			final List<SystemStub> systems = this.sysFacade.getSystems();
 			request.setAttribute(ATTR_SYSTEMS, systems);
 		} catch (final FacadeException e) {
 			LOGGER.error(e, e);

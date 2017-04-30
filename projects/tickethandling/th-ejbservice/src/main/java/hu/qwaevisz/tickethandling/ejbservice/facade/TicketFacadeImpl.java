@@ -4,20 +4,18 @@ package hu.qwaevisz.tickethandling.ejbservice.facade;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
-import hu.qwaevisz.tickethandling.ejbservice.converter.CustomerConverter;
-import hu.qwaevisz.tickethandling.ejbservice.converter.EmployeeConverter;
 import hu.qwaevisz.tickethandling.ejbservice.converter.TicketConverter;
 import hu.qwaevisz.tickethandling.ejbservice.domain.EmployeeStub;
 import hu.qwaevisz.tickethandling.ejbservice.domain.PriorityStub;
@@ -31,8 +29,6 @@ import hu.qwaevisz.tickethandling.persistence.entity.Ticket;
 import hu.qwaevisz.tickethandling.persistence.entity.trunk.Priority;
 import hu.qwaevisz.tickethandling.persistence.entity.trunk.Status;
 import hu.qwaevisz.tickethandling.persistence.exception.PersistenceServiceException;
-import hu.qwaevisz.tickethandling.persistence.service.CustomerService;
-import hu.qwaevisz.tickethandling.persistence.service.EmployeeService;
 import hu.qwaevisz.tickethandling.persistence.service.MessageService;
 import hu.qwaevisz.tickethandling.persistence.service.TicketService;
 
@@ -54,12 +50,6 @@ public class TicketFacadeImpl implements TicketFacade {
 	@Override
 	public TicketStub getTicket(String id) throws FacadeException {
 		try {
-			// This is just for ease the work on the two notebooks
-			if (stub.getConversation() == null) {
-				this.msgService.createConversation(id);
-			}
-			//
-
 			final TicketStub stub = this.converter.to(this.service.read(id));
 
 			if (LOGGER.isDebugEnabled()) {
@@ -158,21 +148,29 @@ public class TicketFacadeImpl implements TicketFacade {
 	}
 
 	@Override
+	public TicketStub saveTicket(TicketStub newTicket) throws FacadeException {
+		return this.saveTicket(newTicket.getId(), newTicket.getSystem(), newTicket.getSender_name(), newTicket.getPriority(), newTicket.getBusiness_impact(),
+				newTicket.getSteps_to_rep(), newTicket.getLevel(), newTicket.getProcessor(), newTicket.getStatus(), newTicket.getConversation());
+	}
+
+	@Override
 	public TicketStub saveTicket(String id, SystemStub system, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep,
-			Date creationdate, Integer level, EmployeeStub processor, StatusStub status, Date lastchanged, List<Message> conversatio) throws FacadeException {
+			Integer level, EmployeeStub processor, StatusStub status, List<Message> conversation) throws FacadeException {
 		try {
 			Ticket ticket = null;
 			if (this.service.exists(id)) {
-				ticket = this.service.update(id, system.getId(), sender_name, Priority.valueOf(priority.name()), business_impact, steps_to_rep, creationdate,
-						level, processor.getId(), Status.valueOf(status.name()), lastchanged);
+				ticket = this.service.update(id, Priority.valueOf(priority.name()), level, processor.getId(), Status.valueOf(status.name()));
+
+				this.msgService.saveConversation(conversation, id);
 
 			} else {
-				this.msgService.createConversation(id);
+				ticket = this.service.create(system.getId(), sender_name, Priority.valueOf(priority.name()), business_impact, steps_to_rep, level,
+						processor.getId(), Status.valueOf(status.name()));
 
-				ticket = this.service.create(id, system.getId(), sender_name, Priority.valueOf(priority.name()), business_impact, steps_to_rep, creationdate,
-						level, processor.getId(), Status.valueOf(status.name()), lastchanged);
+				this.msgService.createConversation(ticket.getId());
 			}
 			return this.converter.to(ticket);
+
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());
@@ -191,6 +189,9 @@ public class TicketFacadeImpl implements TicketFacade {
 		} catch (ParseException e) {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());
+		} catch (TransformerException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
 		}
 	}
 
@@ -198,78 +199,6 @@ public class TicketFacadeImpl implements TicketFacade {
 	public void removeTicket(String id) throws FacadeException {
 		try {
 			this.service.delete(id);
-		} catch (final PersistenceServiceException e) {
-			LOGGER.error(e, e);
-			throw new FacadeException(e.getLocalizedMessage());
-		}
-	}
-
-	//
-	// Place to another file later
-	//
-
-	@EJB
-	private CustomerService custService;
-
-	@EJB
-	private CustomerConverter custConverter;
-
-	@EJB
-	private EmployeeService empService;
-
-	@EJB
-	private EmployeeConverter empConverter;
-
-	@Override
-	public SystemStub getSystem(String id) throws FacadeException {
-		try {
-			final SystemStub stub = this.custConverter.to(this.custService.read(id));
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("Get System by id (" + id + ") --> " + stub);
-			}
-			return stub;
-		} catch (final PersistenceServiceException e) {
-			LOGGER.error(e, e);
-			throw new FacadeException(e.getLocalizedMessage());
-		}
-	}
-
-	@Override
-	public List<SystemStub> getSystems() throws FacadeException {
-		try {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("Get Systems");
-			}
-			List<SystemStub> stubs = this.custConverter.to(this.custService.readAll());
-			return stubs;
-		} catch (final PersistenceServiceException e) {
-			LOGGER.error(e, e);
-			throw new FacadeException(e.getLocalizedMessage());
-		}
-	}
-
-	@Override
-	public EmployeeStub getEmployee(String id) throws FacadeException {
-		try {
-			final EmployeeStub stub = this.empConverter.to(this.empService.read(id));
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("Get Employee by id (" + id + ") --> " + stub);
-			}
-			return stub;
-		} catch (final PersistenceServiceException e) {
-			LOGGER.error(e, e);
-			throw new FacadeException(e.getLocalizedMessage());
-		}
-	}
-
-	@Override
-	public List<EmployeeStub> getEmployees() throws FacadeException {
-		try {
-			List<EmployeeStub> stubs = this.empConverter.to(this.empService.readAll());
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("Get Employees");
-			}
-			return stubs;
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());
