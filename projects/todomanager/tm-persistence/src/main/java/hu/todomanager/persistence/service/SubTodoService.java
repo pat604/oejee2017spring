@@ -11,5 +11,7 @@ public interface SubTodoService {
 	
 	void add(SubTodo subTodo) throws PersistenceServiceException;
 
+	void update(SubTodo subTodo) throws PersistenceServiceException;
+
 	void remove(Long todoId) throws PersistenceServiceException;
 }

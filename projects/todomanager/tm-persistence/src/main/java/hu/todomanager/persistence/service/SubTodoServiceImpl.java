@@ -52,6 +52,18 @@ public class SubTodoServiceImpl implements SubTodoService {
 	}
 
 	@Override
+	public void update(SubTodo subTodo) throws PersistenceServiceException{
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Update SubTodo");
+		}
+		try {
+			this.entityManager.merge(subTodo);
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when updating subTodo! " + e.getLocalizedMessage(), e);
+		}
+	}
+
+	@Override
 	public void remove(Long todoId) throws PersistenceServiceException {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Delete SubTodoToTodo");

@@ -72,7 +72,8 @@ public class TodoListController extends HttpServlet{
 			} catch (final FacadeException e) {
 				LOGGER.error(e, e);
 			}
-			this.forward(request, response, null, selectedTodo, true);
+			//this.forward(request, response, null, selectedTodo, true);
+			response.sendRedirect("/tm-weblayer/editTodo?todoName=" + todoName);
 		}
 	}
 }

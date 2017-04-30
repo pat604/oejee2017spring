@@ -13,6 +13,19 @@
 <script src="script/page.js"></script>
 <title>:: Todos ::</title>
 </head>
+<header>
+	<nav class="navbar navbar-default">
+	<div class="container">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="https://en.wikipedia.org/wiki/Wikipedia:To-do_list">Todo</a>
+		</div>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="/tm-weblayer/todoList"><i class="fa fa-home"></i>Home</a></li>
+			<li><a href="/tm-weblayer/newTodo"><i class="fa fa-home"></i>New Todo</a></li>
+		</ul>
+	</div>
+	</nav>
+</header>
 <body>
 	<div class="container">
 	    <table class="table">
