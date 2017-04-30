@@ -83,6 +83,20 @@ public class TodoServiceImpl implements TodoService {
 	}
 
 	@Override
+	public void update(Todo todo) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Update Todo");
+		}
+		try {
+			Todo updateTodo = readByName(todo.getName());
+			updateTodo.setDescription(todo.getDescription());
+			this.entityManager.merge(updateTodo);
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when updating todo! " + e.getLocalizedMessage(), e);
+		}
+	}
+
+	@Override
 	public void remove(Long todoId) throws PersistenceServiceException {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Delete Todo");

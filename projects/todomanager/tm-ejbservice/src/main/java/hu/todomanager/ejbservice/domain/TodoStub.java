@@ -72,7 +72,7 @@ public class TodoStub {
         return this.subTodos;
     }
 
-    public void getSubTodos(List<SubTodoStub> subTodos){
+    public void setSubTodos(List<SubTodoStub> subTodos){
         this.subTodos = subTodos;
     }
 

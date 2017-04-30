@@ -63,4 +63,16 @@ public class Todo implements Serializable {
 	public Date getDeadline(){
 		return this.deadline;
 	}
+
+	public void setDescription(String description){
+		this.description = description;
+	}
+	
+	public void setState(int state){
+		this.state = state;
+	}
+	
+	public void setDeadline(Date deadline){
+		this.deadline = deadline;
+	}
 }

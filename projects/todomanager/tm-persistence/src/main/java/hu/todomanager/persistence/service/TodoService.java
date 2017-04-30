@@ -18,4 +18,6 @@ public interface TodoService {
 	void addTodo(Todo todo) throws PersistenceServiceException;
 
 	void remove(Long todoId) throws PersistenceServiceException;
+
+	void update(Todo todo) throws PersistenceServiceException;
 }

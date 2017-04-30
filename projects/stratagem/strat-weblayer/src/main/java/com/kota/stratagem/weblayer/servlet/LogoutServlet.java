@@ -20,14 +20,14 @@ public class LogoutServlet extends HttpServlet {
 		response.setHeader("Cache-Control", "no-cache, no-store");
 		response.setHeader("Pragma", "no-cache");
 		response.setHeader("Expires", new java.util.Date().toString());
-		if(request.getSession(false) != null) {
+		if (request.getSession(false) != null) {
 			request.getSession(false).invalidate();
 		}
-		if(request.getSession() != null) {
+		if (request.getSession() != null) {
 			request.getSession().invalidate();
 		}
 		request.logout();
-		response.sendRedirect(Page.PROJECT_LIST.getUrl());
+		response.sendRedirect(Page.HOME.getUrl());
 	}
 
 }

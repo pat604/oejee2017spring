@@ -14,13 +14,27 @@
 <title>:: Edit Todo ::</title>
 </head>
 <body>
+<header>
+	<nav class="navbar navbar-default">
+	<div class="container">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="https://en.wikipedia.org/wiki/Wikipedia:To-do_list">Todo</a>
+		</div>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="/tm-weblayer/todoList"><i class="fa fa-home"></i>Home</a></li>
+			<li><a href="/tm-weblayer/newTodo"><i class="fa fa-home"></i>New Todo</a></li>
+		</ul>
+	</div>
+	</nav>
+</header>
+
 <div class="container">
 	<div class="row">
-	<div class="col-xs-6">
+	<div class="col-xs-6 col-xs-offset-3">
 	<form method="post" action="editTodo">
 		<div class="form-group">
 			<label>Name</label>
-	    	<input class="form-control" type="text" name="name" value="${requestScope.todo.name}" />	
+	    	<input class="form-control" type="text" name="name" value="${requestScope.todo.name}" readonly/>	
 		</div>
 		
 		<div class="form-group">
@@ -28,7 +42,7 @@
 	    	<input class="form-control" type="text" name="description" value="${requestScope.todo.description}" />	
 		</div>
 		
-		<!--<div class="form-group">
+		<div class="form-group">
 			<label>Priority</label>
 	    	<select id="prioSelector" class="form-control" name="priorities">
 			  	<c:forEach items="${requestScope.priorities}" var="priority">
@@ -40,6 +54,10 @@
 			<div class="form-group">
 				<button type="button" id="pButton" class="btn btn-default">Add Priority</button>
 				<ul id="pList">
+					<c:forEach items="${requestScope.todoPriorities}" var="priority">
+						<li>${priority.name}</li>
+						<input type="hidden" name="selPriorities2" value="${priority.name}" />
+					</c:forEach>
 				</ul>
 			</div>
 		</div>
@@ -56,6 +74,10 @@
 			<div class="form-group">
 				<button type="button" id="cButton" class="btn btn-default">Add Category</button>
 				<ul id="cList">
+					<c:forEach items="${requestScope.todoCategories}" var="category">
+						<li>${category.name}</li>
+						<input type="hidden" name="selCategories2" value="${category.name}" />
+					</c:forEach>
 				</ul>
 			</div>
 		</div>
@@ -64,7 +86,7 @@
 			<div class="row">
 				<div class="col-xs-6">
 					<label>SubTodo Name</label>
-					<input id="subTodoName" type="text" class="form-control" />
+					<input id="subTodoName" type="text" class="form-control"/>
 				</div>
 				<div class="col-xs-6">
 					<label>SubTodo Description</label>
@@ -73,8 +95,12 @@
 			</div>
 			<button type="button" id="sButton" class="btn btn-default">Add SubTodo</button>
 			<ul id="sList">
+				<c:forEach items="${requestScope.todo.subTodos}" var="subTodo">
+					<li>${subTodo.name}: ${subTodo.description}</li>
+					<input type="hidden" name="selSubTodos2" value="${subTodo.name}::un1qe::${subTodo.description}" />
+				</c:forEach>
 			</ul>
-		</div>-->
+		</div>
 	
 		<div class="form-group">
 			<input class="form-control" class="btn btn-success" type="submit" value="Save" />&nbsp;

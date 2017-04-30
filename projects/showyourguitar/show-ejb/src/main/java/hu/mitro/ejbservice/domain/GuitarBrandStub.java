@@ -2,15 +2,15 @@ package hu.mitro.ejbservice.domain;
 
 public enum GuitarBrandStub {
 
-	GIBSON,
-	FENDER,
-	KRAMER,
-	IBANEZ,
 	CORT,
+	EPIPHONE,
+	FENDER,
+	GIBSON,
 	GREG_BENNETT,
-	OVATION,
-	SCHECTER,
+	IBANEZ,
+	KRAMER,
 	MUSIC_MAN,
-	EPIPHONE;
+	OVATION,
+	SCHECTER;
 
 }
