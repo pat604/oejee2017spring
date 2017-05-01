@@ -1,6 +1,6 @@
 package com.kota.stratagem.ejbservice.util;
 
-import com.kota.stratagem.ejbservice.domain.ErrorRepresentor;;
+import com.kota.stratagem.ejbservice.domain.ErrorRepresentor;
 
 public enum ApplicationError {
 

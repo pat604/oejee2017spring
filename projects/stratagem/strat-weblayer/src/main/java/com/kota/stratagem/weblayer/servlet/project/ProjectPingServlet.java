@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.kota.stratagem.ejbservice.domain.ProjectCriteria;
-import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
 import com.kota.stratagem.ejbservice.protocol.ProjectProtocol;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectCriteria;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectRepresentor;
 
 @WebServlet("/ProjectPing")
 public class ProjectPingServlet extends HttpServlet {
@@ -34,12 +34,12 @@ public class ProjectPingServlet extends HttpServlet {
 		final PrintWriter out = response.getWriter();
 		try {
 			final List<ProjectRepresentor> projects = this.protocol.getAllProjects(new ProjectCriteria());
-			for(final ProjectRepresentor representor : projects) {
+			for (final ProjectRepresentor representor : projects) {
 				out.println(representor.toString());
 			}
 			final ProjectRepresentor project = this.protocol.getProject(2L);
 			out.println(project.toString());
-		} catch(final Exception e) {
+		} catch (final Exception e) {
 			LOGGER.error(e, e);
 			out.println(e.getLocalizedMessage());
 		}

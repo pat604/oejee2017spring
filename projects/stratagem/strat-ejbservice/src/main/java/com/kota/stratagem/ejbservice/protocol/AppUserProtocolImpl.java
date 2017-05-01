@@ -11,15 +11,15 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import com.kota.stratagem.ejbservice.converter.AppUserConverter;
-import com.kota.stratagem.ejbservice.domain.AppUserRepresentor;
-import com.kota.stratagem.ejbservice.domain.ImpedimentRepresentor;
-import com.kota.stratagem.ejbservice.domain.ObjectiveRepresentor;
-import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
-import com.kota.stratagem.ejbservice.domain.RoleRepresentor;
-import com.kota.stratagem.ejbservice.domain.TaskRepresentor;
-import com.kota.stratagem.ejbservice.domain.TeamRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
 import com.kota.stratagem.ejbservice.util.ApplicationError;
+import com.kota.stratagem.ejbserviceclient.domain.AppUserRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ImpedimentRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ObjectiveRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.RoleRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.TaskRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.TeamRepresentor;
 import com.kota.stratagem.persistence.entity.AppUser;
 import com.kota.stratagem.persistence.entity.Impediment;
 import com.kota.stratagem.persistence.entity.Objective;
@@ -71,11 +71,11 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 	public AppUserRepresentor getAppUser(Long id) throws AdaptorException {
 		try {
 			final AppUserRepresentor representor = this.converter.to(this.appUserSerive.read(id));
-			if(LOGGER.isDebugEnabled()) {
+			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Get AppUser (id: " + id + ") --> " + representor);
 			}
 			return representor;
-		} catch(final PersistenceServiceException e) {
+		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
 		}
@@ -86,23 +86,24 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 		List<AppUserRepresentor> representors = new ArrayList<AppUserRepresentor>();
 		try {
 			representors = this.converter.to(this.appUserSerive.readAll());
-			if(LOGGER.isDebugEnabled()) {
+			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Fetch all AppUsers : " + representors.size() + " projects(s)");
 			}
-		} catch(final PersistenceServiceException e) {
+		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 		}
 		return representors;
 	}
 
 	@Override
-	public AppUserRepresentor saveAppUser(Long id, String name, String password, String email, RoleRepresentor role, Set<ObjectiveRepresentor> objectives, Set<ProjectRepresentor> projects,
-			Set<TaskRepresentor> tasks, Set<ImpedimentRepresentor> reportedImpediments, Set<ImpedimentRepresentor> processedImpediments, Set<TeamRepresentor> supervisedTeams,
-			Set<TeamRepresentor> teamMemberships) throws AdaptorException {
+	public AppUserRepresentor saveAppUser(Long id, String name, String password, String email, RoleRepresentor role, Set<ObjectiveRepresentor> objectives,
+			Set<ProjectRepresentor> projects, Set<TaskRepresentor> tasks, Set<ImpedimentRepresentor> reportedImpediments,
+			Set<ImpedimentRepresentor> processedImpediments, Set<TeamRepresentor> supervisedTeams, Set<TeamRepresentor> teamMemberships)
+			throws AdaptorException {
 		try {
 			AppUser user = null;
 			final Role userRole = Role.valueOf(role.getName());
-			if((id != null) && this.appUserSerive.exists(id)) {
+			if ((id != null) && this.appUserSerive.exists(id)) {
 				final Set<Objective> userObjectives = new HashSet<Objective>();
 				final Set<Project> userProjects = new HashSet<Project>();
 				final Set<Task> userTasks = new HashSet<Task>();
@@ -110,33 +111,35 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 				final Set<Impediment> impedimentsProcessed = new HashSet<Impediment>();
 				final Set<Team> teamsSupervised = new HashSet<Team>();
 				final Set<Team> memberships = new HashSet<Team>();
-				for(final ObjectiveRepresentor objective : objectives) {
+				for (final ObjectiveRepresentor objective : objectives) {
 					userObjectives.add(this.objectiveSerive.read(objective.getId()));
 				}
-				for(final ProjectRepresentor project : projects) {
+				for (final ProjectRepresentor project : projects) {
 					userProjects.add(this.projectSerive.read(project.getId(), AggregationSelector.ELEMENTARY));
 				}
-				for(final TaskRepresentor task : tasks) {
+				for (final TaskRepresentor task : tasks) {
 					userTasks.add(this.taskService.read(task.getId()));
 				}
-				for(final ImpedimentRepresentor impediment : reportedImpediments) {
+				for (final ImpedimentRepresentor impediment : reportedImpediments) {
 					impedimentsReported.add(this.impedimnetService.read(impediment.getId()));
 				}
-				for(final ImpedimentRepresentor impediment : processedImpediments) {
+				for (final ImpedimentRepresentor impediment : processedImpediments) {
 					impedimentsProcessed.add(this.impedimnetService.read(impediment.getId()));
 				}
-				for(final TeamRepresentor team : supervisedTeams) {
+				for (final TeamRepresentor team : supervisedTeams) {
 					teamsSupervised.add(this.teamService.read(team.getId()));
 				}
-				for(final TeamRepresentor team : teamMemberships) {
+				for (final TeamRepresentor team : teamMemberships) {
 					memberships.add(this.teamService.read(team.getId()));
 				}
-				user = this.appUserSerive.update(id, name, password, email, userRole, userObjectives, userProjects, userTasks, impedimentsReported, impedimentsProcessed, teamsSupervised, memberships);
+				user = this.appUserSerive.update(id, name, password, email, userRole, userObjectives, userProjects, userTasks, impedimentsReported,
+						impedimentsProcessed, teamsSupervised, memberships);
 			} else {
-				user = this.appUserSerive.create(name, this.passwordGenerator.GenerateBCryptPassword(password), email, userRole, null, null, null, null, null, null, null);
+				user = this.appUserSerive.create(name, this.passwordGenerator.GenerateBCryptPassword(password), email, userRole, null, null, null, null, null,
+						null, null);
 			}
 			return this.converter.to(user);
-		} catch(final PersistenceServiceException e) {
+		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
 		}
@@ -146,10 +149,10 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 	public void removeAppUser(Long id) throws AdaptorException {
 		try {
 			this.appUserSerive.delete(id);
-		} catch(final CoherentPersistenceServiceException e) {
+		} catch (final CoherentPersistenceServiceException e) {
 			final ApplicationError error = ApplicationError.valueOf(e.getError().name());
 			throw new AdaptorException(error, e.getLocalizedMessage(), e.getField());
-		} catch(final PersistenceServiceException e) {
+		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
 		}

@@ -11,14 +11,14 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import com.kota.stratagem.ejbservice.converter.TaskConverter;
-import com.kota.stratagem.ejbservice.domain.AppUserRepresentor;
-import com.kota.stratagem.ejbservice.domain.ImpedimentRepresentor;
-import com.kota.stratagem.ejbservice.domain.ObjectiveRepresentor;
-import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
-import com.kota.stratagem.ejbservice.domain.TaskRepresentor;
-import com.kota.stratagem.ejbservice.domain.TeamRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
 import com.kota.stratagem.ejbservice.util.ApplicationError;
+import com.kota.stratagem.ejbserviceclient.domain.AppUserRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ImpedimentRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ObjectiveRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.TaskRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.TeamRepresentor;
 import com.kota.stratagem.persistence.entity.AppUser;
 import com.kota.stratagem.persistence.entity.Impediment;
 import com.kota.stratagem.persistence.entity.Task;
@@ -63,11 +63,11 @@ public class TaskProtocolImpl implements TaskProtocol {
 	public TaskRepresentor getTask(Long id) throws AdaptorException {
 		try {
 			final TaskRepresentor representor = this.converter.to(this.taskService.read(id));
-			if(LOGGER.isDebugEnabled()) {
+			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Get Task (id: " + id + ") --> " + representor);
 			}
 			return representor;
-		} catch(final PersistenceServiceException e) {
+		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
 		}
@@ -78,50 +78,50 @@ public class TaskProtocolImpl implements TaskProtocol {
 		List<TaskRepresentor> representors = new ArrayList<>();
 		try {
 			representors = this.converter.to(this.taskService.readAll());
-			if(LOGGER.isDebugEnabled()) {
+			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Fetch all tasks --> " + representors.size() + " item(s)");
 			}
-		} catch(final PersistenceServiceException e) {
+		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 		}
 		return representors;
 	}
 
 	@Override
-	public TaskRepresentor saveTask(Long id, String name, String description, double completion, Set<TeamRepresentor> assignedTeams, Set<AppUserRepresentor> assignedUsers,
-			Set<ImpedimentRepresentor> impediments, Set<TaskRepresentor> dependantTasks, Set<TaskRepresentor> taskDependencies, ObjectiveRepresentor objective, ProjectRepresentor project)
-			throws AdaptorException {
+	public TaskRepresentor saveTask(Long id, String name, String description, double completion, Set<TeamRepresentor> assignedTeams,
+			Set<AppUserRepresentor> assignedUsers, Set<ImpedimentRepresentor> impediments, Set<TaskRepresentor> dependantTasks,
+			Set<TaskRepresentor> taskDependencies, ObjectiveRepresentor objective, ProjectRepresentor project) throws AdaptorException {
 		try {
 			Task task = null;
-			if(this.taskService.exists(id)) {
+			if (this.taskService.exists(id)) {
 				final Set<Team> teams = new HashSet<Team>();
 				final Set<AppUser> users = new HashSet<AppUser>();
 				final Set<Impediment> taskImpediments = new HashSet<Impediment>();
 				final Set<Task> dependants = new HashSet<Task>();
 				final Set<Task> dependencies = new HashSet<Task>();
-				for(final TeamRepresentor team : assignedTeams) {
+				for (final TeamRepresentor team : assignedTeams) {
 					teams.add(this.teamService.read(team.getId()));
 				}
-				for(final AppUserRepresentor user : assignedUsers) {
+				for (final AppUserRepresentor user : assignedUsers) {
 					users.add(this.appUserService.read(user.getId()));
 				}
-				for(final ImpedimentRepresentor impediment : impediments) {
+				for (final ImpedimentRepresentor impediment : impediments) {
 					taskImpediments.add(this.impedimentService.read(impediment.getId()));
 				}
-				for(final TaskRepresentor taskRepresentor : dependantTasks) {
+				for (final TaskRepresentor taskRepresentor : dependantTasks) {
 					dependants.add(this.taskService.read(taskRepresentor.getId()));
 				}
-				for(final TaskRepresentor taskRepresentor : taskDependencies) {
+				for (final TaskRepresentor taskRepresentor : taskDependencies) {
 					dependants.add(this.taskService.read(taskRepresentor.getId()));
 				}
 				task = this.taskService.update(id, name, description, completion, teams, users, taskImpediments, dependants, dependencies,
 						this.objectiveService.read(objective.getId()), this.projectSerivce.read(project.getId(), AggregationSelector.ELEMENTARY));
 			} else {
-				task = this.taskService.create(name, description, completion, null, null, null, null, null,
-						this.objectiveService.read(objective.getId()), this.projectSerivce.read(project.getId(), AggregationSelector.ELEMENTARY));
+				task = this.taskService.create(name, description, completion, null, null, null, null, null, this.objectiveService.read(objective.getId()),
+						this.projectSerivce.read(project.getId(), AggregationSelector.ELEMENTARY));
 			}
 			return this.converter.to(task);
-		} catch(final PersistenceServiceException e) {
+		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
 		}
@@ -131,10 +131,10 @@ public class TaskProtocolImpl implements TaskProtocol {
 	public void removeTask(Long id) throws AdaptorException {
 		try {
 			this.taskService.delete(id);
-		} catch(final CoherentPersistenceServiceException e) {
+		} catch (final CoherentPersistenceServiceException e) {
 			final ApplicationError error = ApplicationError.valueOf(e.getError().name());
 			throw new AdaptorException(error, e.getLocalizedMessage(), e.getField());
-		} catch(final PersistenceServiceException e) {
+		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
 		}

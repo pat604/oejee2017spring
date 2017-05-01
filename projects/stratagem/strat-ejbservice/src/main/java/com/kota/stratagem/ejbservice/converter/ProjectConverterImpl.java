@@ -6,8 +6,8 @@ import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
-import com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectStatusRepresentor;
 import com.kota.stratagem.persistence.entity.Project;
 import com.kota.stratagem.persistence.entity.Task;
 
@@ -42,21 +42,21 @@ public class ProjectConverterImpl implements ProjectConverter {
 				representor.addTask(this.taskConverter.to(task));
 			}
 		}
-//		if (project.getAssignedTeams() != null) {
-//			for (final Team team : project.getAssignedTeams()) {
-//				representor.addTeam(this.teamConverter.to(team));
-//			}
-//		}
-//		if (project.getAssignedUsers() != null) {
-//			for (final AppUser user : project.getAssignedUsers()) {
-//				representor.addUser(this.appUserConverter.to(user));
-//			}
-//		}
-//		if (project.getImpediments() != null) {
-//			for (final Impediment impediment : project.getImpediments()) {
-//				representor.addImpediment(this.impedimentConverter.to(impediment));
-//			}
-//		}
+		// if (project.getAssignedTeams() != null) {
+		// for (final Team team : project.getAssignedTeams()) {
+		// representor.addTeam(this.teamConverter.to(team));
+		// }
+		// }
+		// if (project.getAssignedUsers() != null) {
+		// for (final AppUser user : project.getAssignedUsers()) {
+		// representor.addUser(this.appUserConverter.to(user));
+		// }
+		// }
+		// if (project.getImpediments() != null) {
+		// for (final Impediment impediment : project.getImpediments()) {
+		// representor.addImpediment(this.impedimentConverter.to(impediment));
+		// }
+		// }
 		return representor;
 	}
 
