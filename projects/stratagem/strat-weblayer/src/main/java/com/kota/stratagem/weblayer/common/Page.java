@@ -3,9 +3,7 @@ package com.kota.stratagem.weblayer.common;
 public enum Page {
 
 	HOME("home.jsp", "Home"), //
-	LOGIN("login.jsp", "Login"), //
 	ERROR("error.jsp", "Error"), //
-	REGISTER("register.jsp", "Register"), //
 	PROJECT_LIST("/project/project-list.jsp", "ProjectList"), //
 	PROJECT_VIEW("/project/project-detail.jsp", "Project"), //
 	PROJECT_EDIT("/project/project-edit.jsp", "Project"); //

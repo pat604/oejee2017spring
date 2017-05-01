@@ -3,7 +3,6 @@ body,
 .view {
     height: 100%;
 }
-/* Navigation*/
 
 .navbar {
     background-color: transparent;
@@ -17,17 +16,17 @@ body,
 }
 
 .top-nav-collapse {
-    background-color: #141a23;
+    background-color: #293547;
 }
 
 footer.page-footer {
-    background-color: #141a23;
+    background-color: #293547;
     margin-top: 2rem;
 }
 
 @media only screen and (max-width: 768px) {
     .navbar {
-        background-color: #1C2331;
+        background-color: #2e3850;
     }
 }
 
@@ -60,4 +59,32 @@ footer.page-footer {
     color: #fff !important;
 	opacity: 0.6;
     min-width: 330px;
+}
+
+#alertErrorMessage {
+    position: fixed;
+    top: 10%;
+    right: 2%;
+    width: 20%;
+    background: #CC0000;
+}
+#inner-message {
+    margin: 0 auto;
+    color: #ffffff;
+}
+
+#alertSuccessMessage {
+	position: fixed;
+    top: 10%;
+    right: 2%;
+    width: 20%;
+    background: #00d555;
+}
+#inner-message {
+    margin: 0 auto;
+    color: #ffffff;
+}
+
+.close {
+	color: #ffffff !important;
 }

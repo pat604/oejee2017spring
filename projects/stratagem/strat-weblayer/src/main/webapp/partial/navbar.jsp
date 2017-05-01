@@ -10,7 +10,12 @@
             <strong>Navbar</strong>
         </a>
         -->
+        
         <div class="collapse navbar-collapse" id="navbarNav1">
+
+        
+        <% if (request == null || request.getUserPrincipal() == null || request.getUserPrincipal().getName() == null) { %>
+        
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="Home"><strong>Home </strong><span class="sr-only">(current)</span></a>
@@ -26,23 +31,65 @@
 
                 </li>
             </ul>
-            <!--
+            <!-- Search bar -->
+            <!-- 
             <form class="form-inline waves-effect waves-light">
                 <input class="form-control" type="text" placeholder="Search">
             </form>
-            -->
+             -->
+            <!-- /Search bar -->
+
             <ul class="navbar-nav float-right">
             	<li class="nav-item">
-            		<a class="nav-link" href="<%= Page.REGISTER.getUrl() %>">
+            		<a class="nav-link" data-toggle="modal" data-target="#modalRegister">
             			<i class="fa fa-user-plus" aria-hidden="true"></i><span class="icon-companion"> Register</span>
            			</a>
             	</li>
 				<li class="nav-item">
-					<a class="nav-link" href="<%= Page.LOGIN.getUrl() %>">
-						<i class="fa fa-sign-in" aria-hidden="true"></i><span class="icon-companion"> Login</span>
+					<a class="nav-link" data-toggle="modal" data-target="#modalLogin">
+						<i class="fa fa-sign-in" aria-hidden="true"></i><span class="icon-companion"> Log in</span>
 					</a>
 				</li>
             </ul>
+        
+        <% } else { %>
+        
+             <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="Home"><strong>Home </strong><span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#best-features">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact</a>
+
+                </li>
+            </ul>
+            <!-- Search bar -->
+            <!-- 
+            <form class="form-inline waves-effect waves-light">
+                <input class="form-control" type="text" placeholder="Search">
+            </form>
+             -->
+            <!-- /Search bar -->
+        
+            <ul class="navbar-nav float-right">
+            	<li class="nav-item">
+           			<span class="nav-link"> Welcome <strong><%= request.getUserPrincipal().getName() %></strong>!</span>
+            	</li>
+				<li class="nav-item">
+					<a class="nav-link" href="Logout">
+						<i class="fa fa-sign-out" aria-hidden="true"></i><span class="icon-companion"> Logout</span>
+					</a>
+				</li>
+            </ul>
+        
+        <% } %>
+        
         </div>
     </div>
 </nav>

@@ -36,14 +36,11 @@ public class RegistrationServlet extends HttpServlet implements RegistrationPara
 		this.forward(request, response, user, false);
 	}
 
-	private void forward(final HttpServletRequest request, final HttpServletResponse response, final AppUserRepresentor user, final boolean finishFlag) throws ServletException, IOException {
-		request.setAttribute(ATTR_USER, user);
-		if(finishFlag) {
-			response.sendRedirect(Page.PROJECT_LIST.getUrl());
-		} else {
-			final RequestDispatcher view = request.getRequestDispatcher(Page.REGISTER.getJspName());
-			view.forward(request, response);
-		}
+	private void forward(final HttpServletRequest request, final HttpServletResponse response, final AppUserRepresentor user, final boolean finishFlag)
+			throws ServletException, IOException {
+		request.setAttribute(ATTR_REG_USER, user);
+		final RequestDispatcher view = request.getRequestDispatcher(Page.HOME.getJspName());
+		view.forward(request, response);
 	}
 
 	@Override
@@ -54,21 +51,29 @@ public class RegistrationServlet extends HttpServlet implements RegistrationPara
 			final String password = request.getParameter(PASSWORD);
 			final String password_confirmation = request.getParameter(PASSWORD_CONFIRMATION);
 			LOGGER.info("Registration attempt");
-			if(((username == null) || "".equals(username)) || ((password == null) || "".equals(password)) || !(password.equals(password_confirmation))) {
+			if (((username == null) || "".equals(username)) || ((password == null) || "".equals(password)) || !(password.equals(password_confirmation))) {
 				LOGGER.info("Registration failed, -- " + username + ", " + password + ", " + password_confirmation);
+				if ((username == null) || "".equals(username)) {
+					request.setAttribute(ATTR_REG_ERROR, "Username required");
+				} else if ((password == null) || "".equals(password)) {
+					request.setAttribute(ATTR_REG_ERROR, "Password required");
+				} else if (!(password.equals(password_confirmation))) {
+					request.setAttribute(ATTR_REG_ERROR, "Passwords do not match");
+				}
 				final AppUserRepresentor user = new AppUserRepresentor(username, "", email, RoleRepresentor.PRISTINE_USER);
 				this.forward(request, response, user, false);
 			} else {
 				AppUserRepresentor user = null;
 				try {
 					LOGGER.info("Registration successful for user: " + username);
+					request.setAttribute(ATTR_REG_SUCCESS, "Registration successful!");
 					user = this.protocol.saveAppUser(null, username, password, email, RoleRepresentor.PRISTINE_USER, null, null, null, null, null, null, null);
-				} catch(final AdaptorException e) {
+				} catch (final AdaptorException e) {
 					LOGGER.error(e, e);
 				}
 				this.forward(request, response, user, true);
 			}
-		} catch(final Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
