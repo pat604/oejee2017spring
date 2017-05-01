@@ -1,0 +1,5 @@
+jar { archiveName 'th-ejbservice-client.jar' }
+
+dependencies {
+	compile group: 'javax', name: 'javaee-api', version: jeeVersion
+}

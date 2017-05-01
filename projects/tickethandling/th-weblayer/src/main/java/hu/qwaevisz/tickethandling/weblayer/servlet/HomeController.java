@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import hu.qwaevisz.tickethandling.ejbservice.domain.EmployeeStub;
 import hu.qwaevisz.tickethandling.ejbservice.domain.TicketCriteria;
-import hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbservice.facade.EmployeeFacade;
 import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.EmployeeStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub;
 import hu.qwaevisz.tickethandling.weblayer.common.HomeAttribute;
 import hu.qwaevisz.tickethandling.weblayer.common.Page;
 

@@ -6,7 +6,7 @@ import java.util.List;
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 
-import hu.qwaevisz.tickethandling.ejbservice.domain.EmployeeStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.EmployeeStub;
 import hu.qwaevisz.tickethandling.persistence.entity.Employee;
 
 @PermitAll

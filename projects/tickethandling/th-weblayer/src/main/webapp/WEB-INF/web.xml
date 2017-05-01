@@ -40,6 +40,7 @@
 			<url-pattern>/js/*</url-pattern>
 			<url-pattern>/Logout</url-pattern>
 			<http-method>GET</http-method>
+
 		</web-resource-collection>
 	</security-constraint>	
 

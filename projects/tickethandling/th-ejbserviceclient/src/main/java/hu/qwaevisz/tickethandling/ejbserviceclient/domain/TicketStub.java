@@ -1,11 +1,12 @@
-package hu.qwaevisz.tickethandling.ejbservice.domain;
+package hu.qwaevisz.tickethandling.ejbserviceclient.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import hu.qwaevisz.tickethandling.persistence.entity.Message;
+public class TicketStub implements Serializable {
 
-public class TicketStub {
+	private static final long serialVersionUID = 1232681963319950862L;
 
 	private String id;
 	private SystemStub system;
@@ -18,14 +19,14 @@ public class TicketStub {
 	private EmployeeStub processor;
 	private StatusStub status;
 	private Date lastchanged;
-	private List<Message> conversation;
+	private List<MessageStub> conversation;
 
 	public TicketStub() {
 		this("", null, "", null, "", "", new Date(), 0, null, null, new Date(), null);
 	}
 
 	public TicketStub(String id, SystemStub system, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep, Date creationdate,
-			Integer level, EmployeeStub processor, StatusStub status, Date lastchanged, List<Message> conversation) {
+			Integer level, EmployeeStub processor, StatusStub status, Date lastchanged, List<MessageStub> conversation) {
 		super();
 		this.id = id;
 		this.system = system;
@@ -129,11 +130,11 @@ public class TicketStub {
 		this.lastchanged = lastchanged;
 	}
 
-	public List<Message> getConversation() {
+	public List<MessageStub> getConversation() {
 		return this.conversation;
 	}
 
-	public void setConversation(List<Message> conversation) {
+	public void setConversation(List<MessageStub> conversation) {
 		this.conversation = conversation;
 	}
 

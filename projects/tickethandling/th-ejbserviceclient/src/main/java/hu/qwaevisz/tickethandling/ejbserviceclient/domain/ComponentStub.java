@@ -1,6 +1,10 @@
-package hu.qwaevisz.tickethandling.ejbservice.domain;
+package hu.qwaevisz.tickethandling.ejbserviceclient.domain;
 
-public class ComponentStub {
+import java.io.Serializable;
+
+public class ComponentStub implements Serializable {
+
+	private static final long serialVersionUID = 4743633315322604281L;
 
 	private String id;
 	private String description;

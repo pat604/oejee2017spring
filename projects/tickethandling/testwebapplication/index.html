@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script src="js/jquery-3.2.1.min.js"></script>
+		<style>
+			body {
+				font-family: "Arial", Verdana, Sans-Serif;
+			}
+			
+			#status {
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+		var SYSTEMID = 'AES-324';
+		
+		$(document).ready(function(){
+			$("#sysId").html($("#sysId").html() + SYSTEMID);
+			getMyTickets();
+		});
+		
+		function getMyTickets() {
+			$.ajax({
+				type: 'get',
+				url: 'http://localhost:8080/th-webservice/api/ticket/system/' + SYSTEMID,
+				success: function(result){
+					$('#status').html("Tickets successfully loaded!");
+					$('#ticketContainer').html("");
+					for (var i = 0; i < result.length; i++) {
+						$('#ticketContainer').html($('#ticketContainer').html() + "<li>" + result[i].id + "</li>");
+					}					
+				},
+				error: function(result) {
+					$('#status').html("Sorry, we can't reach your tickets right now :(");
+				}
+			});	
+		}
+		
+		function sendMessage() {
+			
+			data = { ticketId : $('#ticketId').val(), message : $('#message').val() };
+
+			$.ajax({
+				type: 'post',
+				headers: { 'Access-Control-Allow-Origin': 'http://localhost:8080/th-weblayer/', 'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS', 'Access-Control-Max-Age': '1209600', 'Access-Control-Allow-Headers': 'x-requested-with, origin, content-type, accept, X-Codingpedia, authorization', 'Access-Control-Allow-Credentials': 'true' },
+				url: 'http://localhost:8080/th-webservice/api/ticket/send',
+				data: data,
+				contentType: 'application/json',
+				success: function(result){
+					$('#status').html("Your message was successfully delivered!");					
+				},
+				error: function(result) {
+					$('#status').html("Something happened, your message was not delivered!");
+				}
+			});
+		}
+		
+		</script>
+	
+		<h2>REST TEST WEBAPPLICATION</h2>
+		<h4 id="sysId">Your system id is: </h4>
+		<h4 id="status">Loading your tickets...</h4>
+				
+		<ul id="ticketContainer"></ul>
+
+		<label for="ticketId">Ticket ID:</label>
+		<input type="text" id="ticketId" name="ticketId" />
+		<label for="message">Message:</label>
+		<input type="text" id="message" name="message" />
+		<button onclick="sendMessage()">Send</button>		
+		
+	</body>
+</html>

@@ -52,7 +52,7 @@ public class Employee implements Serializable {
 	@Column(name = "emp_hiredate", nullable = false)
 	private Date hiredate;
 
-	@OneToMany(fetch = FetchType.EAGER, targetEntity = Ticket.class, mappedBy = "processor")
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = Ticket.class, mappedBy = "processor")
 	private final Set<Ticket> tickets;
 
 	public Employee() {

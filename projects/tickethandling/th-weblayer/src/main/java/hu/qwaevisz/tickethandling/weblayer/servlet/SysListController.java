@@ -13,16 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import hu.qwaevisz.tickethandling.ejbservice.domain.SystemStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbservice.facade.SystemFacade;
-import hu.qwaevisz.tickethandling.weblayer.common.FormValue;
-import hu.qwaevisz.tickethandling.weblayer.common.ListAttribute;
-import hu.qwaevisz.tickethandling.weblayer.common.ListParameter;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.SystemStub;
 import hu.qwaevisz.tickethandling.weblayer.common.Page;
+import hu.qwaevisz.tickethandling.weblayer.common.SysListAttribute;
 
 @WebServlet("/SystemList")
-public class SystemListController extends HttpServlet implements ListAttribute, ListParameter, FormValue {
+public class SysListController extends HttpServlet implements SysListAttribute {
 
 	private static final long serialVersionUID = -1977646750178615187L;
 

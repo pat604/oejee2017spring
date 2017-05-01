@@ -1,5 +1,8 @@
 package hu.qwaevisz.tickethandling.ejbservice.domain;
 
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.PriorityStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.StatusStub;
+
 public class TicketCriteria {
 
 	private String id;

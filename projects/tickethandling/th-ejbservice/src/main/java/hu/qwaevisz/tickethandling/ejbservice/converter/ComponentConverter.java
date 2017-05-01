@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import hu.qwaevisz.tickethandling.ejbservice.domain.ComponentStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.ComponentStub;
 import hu.qwaevisz.tickethandling.persistence.entity.Component;
 
 @Local

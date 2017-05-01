@@ -12,12 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import hu.qwaevisz.tickethandling.ejbservice.domain.EmployeeStub;
-import hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbservice.facade.EmployeeFacade;
 import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
-import hu.qwaevisz.tickethandling.persistence.entity.Message;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.EmployeeStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.MessageStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.ServiceException;
 import hu.qwaevisz.tickethandling.weblayer.common.Page;
 import hu.qwaevisz.tickethandling.weblayer.common.UserActionParameter;
 
@@ -46,7 +47,7 @@ public class UserActionController extends HttpServlet implements UserActionParam
 			TicketStub ticket = this.ticFacade.getTicket(ticket_id);
 			EmployeeStub user = this.empFacade.getEmployee(user_id);
 
-			Message newMessage = new Message("-", "System", "Customer", new Date(), "");
+			MessageStub newMessage = new MessageStub("System", "Customer", new Date(), "");
 
 			if (TRUE_VALUE.equals(request.getParameter(GIVE_BACK_FLAG)) && ticket.getProcessor().getId().equals(user_id)) {
 
@@ -66,6 +67,8 @@ public class UserActionController extends HttpServlet implements UserActionParam
 		} catch (
 
 		final FacadeException e) {
+			LOGGER.error(e, e);
+		} catch (ServiceException e) {
 			LOGGER.error(e, e);
 		}
 

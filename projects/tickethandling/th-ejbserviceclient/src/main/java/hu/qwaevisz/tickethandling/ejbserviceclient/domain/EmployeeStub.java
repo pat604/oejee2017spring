@@ -1,6 +1,10 @@
-package hu.qwaevisz.tickethandling.ejbservice.domain;
+package hu.qwaevisz.tickethandling.ejbserviceclient.domain;
 
-public class EmployeeStub {
+import java.io.Serializable;
+
+public class EmployeeStub implements Serializable {
+
+	private static final long serialVersionUID = 7800019955248688362L;
 
 	private String id;
 	private String name;

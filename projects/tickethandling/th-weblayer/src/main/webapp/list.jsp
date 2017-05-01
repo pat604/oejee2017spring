@@ -3,14 +3,15 @@
 <%@ page import="java.util.Set"%>
 <%@ page import="java.util.List"%>
 <%@ page
+	import="hu.qwaevisz.tickethandling.weblayer.common.FormValue"%>
+<%@ page
 	import="hu.qwaevisz.tickethandling.weblayer.common.ListAttribute"%>
-<%@ page import="hu.qwaevisz.tickethandling.weblayer.common.FormValue"%>
 <%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub"%>
+	import="hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub"%>
 <%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.PriorityStub"%>
+	import="hu.qwaevisz.tickethandling.ejbserviceclient.domain.PriorityStub"%>
 <%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.StatusStub"%>
+	import="hu.qwaevisz.tickethandling.ejbserviceclient.domain.StatusStub"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://qwaevisz.hu/jsp/tlds/tickettag" prefix="bt"%>
 <!DOCTYPE html>
@@ -28,15 +29,14 @@
 	<div class="container table-ticketing">
 		<div class="row filterrow-ticketing">
 			<div class="col-md-8">
-				<form method="post" action="TicketList" class="form-inline">
+				<form method="get" action="TicketList" class="form-inline">
 					<div class="form-group">
 						<label for="priority">Priority:</label> <select name="priority"
 							class="form-control" id="priority">
 							<%
 								String priorityName = (String) request.getAttribute(ListAttribute.ATTR_PRIORITY);
 							%>
-							<option value="-1"
-								<%out.print(FormValue.FILTER_ALL_PRIORITY.equals(priorityName) ? "selected=\"selected\"" : "");%>>-</option>
+							<option value="-1" <% out.print( FormValue.FILTER_ALL_PRIORITY.equals(priorityName) ? "selected=\"selected\"" : "" ); %>>-</option>
 							<c:set var="priorityValues" value="<%=PriorityStub.values()%>" />
 							<c:forEach items="${priorityValues}" var="priority">
 								<option value="${priority.name}"
@@ -46,17 +46,33 @@
 					</div>
 					&nbsp;&nbsp;
 					<div class="form-group">
-						<label for="status">Status: </label> <select name="status"
+						<label for="status">Status: </label>
+						<select name="status"
 							class="form-control" id="status">
 							<%
 								String statusName = (String) request.getAttribute(ListAttribute.ATTR_STATUS);
 							%>
-							<option value="-1"
-								<%out.print(FormValue.FILTER_ALL_STATUS.equals(statusName) ? "selected=\"selected\"" : "");%>>-</option>
+							<option value="-1" <% out.print( FormValue.FILTER_ALL_STATUS.equals(statusName) ? "selected=\"selected\"" : "" ); %>>-</option>
 							<c:set var="statusValues" value="<%=StatusStub.values()%>" />
 							<c:forEach items="${statusValues}" var="status">
 								<option value="${status.name}"
 									${status.name eq requestScope.status ? "selected=\"selected\"" : ""}>${status.label}
+								</option>
+							</c:forEach>
+						</select>
+					</div>
+					&nbsp;&nbsp;
+					<div class="form-group">
+						<label for="system">System: </label>
+						<select name="system"
+							class="form-control" id="system">
+							<%
+								String sysName = (String) request.getAttribute(ListAttribute.ATTR_SYSTEM);
+							%>
+							<option value="-1" <% out.print( FormValue.FILTER_ALL_SYSTEM.equals(sysName) ? "selected=\"selected\"" : "" ); %>>-</option>
+							<c:forEach items="${requestScope.system_list}" var="system">
+								<option value="${system}"
+									${sysName eq system ? "selected=\"selected\"" : ""}>${system}
 								</option>
 							</c:forEach>
 						</select>

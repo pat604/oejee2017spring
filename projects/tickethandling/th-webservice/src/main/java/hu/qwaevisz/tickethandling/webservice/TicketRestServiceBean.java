@@ -1,5 +1,6 @@
 package hu.qwaevisz.tickethandling.webservice;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -8,10 +9,14 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import hu.qwaevisz.tickethandling.ejbservice.domain.TicketCriteria;
-import hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.AdaptorException;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.MessageStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.ServiceException;
+import hu.qwaevisz.tickethandling.webservice.domain.MessageCreateRemoteStub;
+import hu.qwaevisz.tickethandling.webservice.domain.TicketCreateRemoteStub;
 
 @Stateless
 public class TicketRestServiceBean implements TicketRestService {
@@ -28,19 +33,26 @@ public class TicketRestServiceBean implements TicketRestService {
 	}
 
 	@Override
-	public List<TicketStub> getTicket(String processor) throws AdaptorException, FacadeException {
-		LOGGER.info("Get all Tickets of processor --> " + processor);
+	public TicketStub createTicket(TicketCreateRemoteStub ticket) throws AdaptorException, FacadeException {
+		LOGGER.info("Create new Ticket");
+		return this.facade.createTicket(ticket.getSystemId(), ticket.getSender_name(), ticket.getPriority(), ticket.getBusiness_impact(),
+				ticket.getSteps_to_rep(), ticket.getInitialMessage());
+	}
 
+	@Override
+	public List<TicketStub> getTickets(String systemid) throws AdaptorException, FacadeException {
+		LOGGER.info("Get Tickets of System " + systemid);
 		TicketCriteria criteria = new TicketCriteria();
-		criteria.setProcessorId(processor);
-
+		criteria.setSystem(systemid);
 		return this.facade.getTickets(criteria);
 	}
 
 	@Override
-	public TicketStub createTicket(TicketStub newTicket) throws AdaptorException, FacadeException {
-		LOGGER.info("Create new Ticket");
-		return this.facade.saveTicket(newTicket);
+	public boolean sendMessage(MessageCreateRemoteStub message) throws AdaptorException, FacadeException, ServiceException {
+		LOGGER.info("Send new message for Ticket " + message.getTicketId());
+		TicketStub ticket = this.facade.getTicket(message.getTicketId());
+		ticket.getConversation().add(new MessageStub("Customer", ticket.getProcessor().getName(), new Date(), message.getMessage()));
+		this.facade.saveTicket(ticket);
+		return true;
 	}
-
 }

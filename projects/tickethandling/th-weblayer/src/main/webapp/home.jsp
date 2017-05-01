@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page
-	import="hu.qwaevisz.tickethandling.weblayer.common.HomeAttribute"%>
+	import="hu.qwaevisz.tickethandling.weblayer.common.HomeAttribute"%> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://qwaevisz.hu/jsp/tlds/tickettag" prefix="bt"%>
 <!DOCTYPE html>

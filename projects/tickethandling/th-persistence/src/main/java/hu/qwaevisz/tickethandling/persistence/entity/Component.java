@@ -39,7 +39,7 @@ public class Component implements Serializable {
 	@Column(name = "comp_description", nullable = false)
 	private String description;
 
-	@OneToMany(fetch = FetchType.EAGER, targetEntity = CompInSystem.class, mappedBy = "component")
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = CompInSystem.class, mappedBy = "component")
 	private final Set<CompInSystem> systems;
 
 	@Temporal(TemporalType.TIMESTAMP)

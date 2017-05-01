@@ -1,4 +1,4 @@
-package hu.qwaevisz.tickethandling.ejbservice.domain;
+package hu.qwaevisz.tickethandling.ejbserviceclient.domain;
 
 public enum PriorityStub {
 

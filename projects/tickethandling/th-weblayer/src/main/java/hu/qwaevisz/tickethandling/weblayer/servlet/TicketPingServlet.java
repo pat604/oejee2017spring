@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub;
-import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.ServiceException;
 
 @WebServlet("/TicketPing")
 public class TicketPingServlet extends HttpServlet {
@@ -34,7 +34,7 @@ public class TicketPingServlet extends HttpServlet {
 		try {
 			final TicketStub ticket = this.facade.getTicket("AES-324-201703160515");
 			out.println(ticket.toString());
-		} catch (final FacadeException e) {
+		} catch (final ServiceException e) {
 			LOGGER.error(e, e);
 			out.println(e.getLocalizedMessage());
 		}
