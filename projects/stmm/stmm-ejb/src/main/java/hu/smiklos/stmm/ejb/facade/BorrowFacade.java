@@ -24,10 +24,18 @@ public class BorrowFacade implements BorrowFacadeInterface {
 
     @Override
     public OfferListOnBorrowQuery getOffers(BorrowStub borrow, Principal principal) throws PersistenceServiceException {
-       List<MoneyTransfer> unSortedOffers =  mtService.getOnPlateMoneyTransfersThatNotPrincipalOwns(borrow.getRepaymentType(),borrow.getRepaymentDurationFrom(),borrow.getRepaymentDurationTo(),principal);
+       List<MoneyTransfer> unSortedOffers =  mtService.getOnPlateMoneyTransfersByRepaymentType(borrow.getRepaymentType(),borrow.getRepaymentDurationFrom(),borrow.getRepaymentDurationTo(),principal);
        OfferListOnBorrowQuery list = new OfferListOnBorrowQuery();
        list.setOffers(unSortedOffers);
        return list;
+    }
+
+    @Override
+    public OfferListOnBorrowQuery getOffers(String repayment_type) {
+        List<MoneyTransfer> unSortedOffers =  mtService.getOnPlateMoneyTransfersByRepaymentType(repayment_type);
+        OfferListOnBorrowQuery list = new OfferListOnBorrowQuery();
+        list.setOffers(unSortedOffers);
+        return list;
     }
 
 }

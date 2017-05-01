@@ -5,6 +5,7 @@ import hu.smiklos.stmm.pers.parameter.MoneyTransferParameter;
 import hu.smiklos.stmm.pers.query.MoneyTransferQuery;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,9 +24,11 @@ import java.util.Set;
         @NamedQuery(name = MoneyTransferQuery.GET_BY_ID,
                 query = "SELECT a FROM MoneyTransfer a WHERE a.moneytransfer_id =:" + MoneyTransferParameter.ID),
         @NamedQuery(name = MoneyTransferQuery.DELETE_BY_ID,
-                query = "DELETE FROM MoneyTransfer a WHERE a.moneytransfer_id=:" + MoneyTransferParameter.ID)
+                query = "DELETE FROM MoneyTransfer a WHERE a.moneytransfer_id=:" + MoneyTransferParameter.ID),
+        @NamedQuery(name = MoneyTransferQuery.GET_BY_REPAYMENT_TYPE,
+                query = "SELECT a FROM MoneyTransfer a WHERE a.money_transfer_repayment_type.repayment_type_id =:" + MoneyTransferParameter.REPAYMENT_TYPE)
 })
-public class MoneyTransfer {
+public class MoneyTransfer implements Serializable {
 
 
     private String moneytransfer_id;
