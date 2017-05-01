@@ -1771,7 +1771,7 @@
 	
 	
 	/**
-	 * Provide backwards compatibility for the main DT options. Note that the new
+	 * Provide backwards compatibility for the mainfolder DT options. Note that the new
 	 * options are mapped onto the old parameters, so this is an external interface
 	 * change only.
 	 *  @param {object} init Object to map
@@ -5540,7 +5540,7 @@
 			// node in the data, assign any user defined widths, then insert it into
 			// the DOM and allow the browser to do all the hard work of calculating
 			// table widths
-			var tmpTable = $(table).clone() // don't use cloneNode - IE8 will remove events on the main table
+			var tmpTable = $(table).clone() // don't use cloneNode - IE8 will remove events on the mainfolder table
 				.css( 'visibility', 'hidden' )
 				.removeAttr( 'id' );
 	
@@ -13316,7 +13316,7 @@
 		"sTableId": "",
 	
 		/**
-		 * The TABLE node for the main table
+		 * The TABLE node for the mainfolder table
 		 *  @type node
 		 *  @default null
 		 */
@@ -13902,7 +13902,7 @@
 		 * * {boolean} Include the row in the searched result set (true) or not
 		 *   (false)
 		 *
-		 * Note that as with the main search ability in DataTables, technically this
+		 * Note that as with the mainfolder search ability in DataTables, technically this
 		 * is "filtering", since it is subtractive. However, for consistency in
 		 * naming we call it searching here.
 		 *

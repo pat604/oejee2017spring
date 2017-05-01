@@ -14,5 +14,6 @@ import java.security.Principal;
 public interface BorrowFacadeInterface {
 
         OfferListOnBorrowQuery getOffers(BorrowStub borrow_filter, Principal principal) throws PersistenceServiceException;
-        
+
+        OfferListOnBorrowQuery getOffers(String repayment_type);
 }
