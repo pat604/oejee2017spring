@@ -1,11 +1,8 @@
 group 'hu.smiklos.stmm'
 version '1.0-SNAPSHOT'
-
+apply plugin: 'idea'
 apply plugin: 'ear'
 
-ear {
-    archiveName 'stmm.ear'
-}
 
 ext {
     log4jVersion = '1.2.17'
@@ -14,7 +11,18 @@ ext {
     servletapiVersion = '3.0.1'
     hibernateVersion = '4.3.10.Final'
     jstlVersion = '1.2'
+
+    servletapiVersion = '3.0.1'
+    jaxrsVersion = '2.0.1'
+
+    webserviceArchiveName = 'stmm-restservice.war'
+    webserviceContextPath = 'restservice'
 }
+
+ear {
+    archiveName 'stmm.ear'
+}
+
 
 allprojects {
     apply plugin: 'idea'
@@ -42,6 +50,7 @@ dependencies {
     deploy project('stmm-ejb')
     deploy project(path: 'stmm-web', configuration: 'archives')
     deploy project(path: 'stmm-webadmin', configuration: 'archives')
+    deploy project(path: 'stmm-restservice', configuration: 'archives')
     earlib group: 'org.mindrot', name: 'jbcrypt', version: '0.3m', ext: 'jar'
     earlib group: 'org.picketbox', name: 'picketbox', version: '4.1.5.Final'
 

@@ -4,5 +4,5 @@ include 'stmm-webadmin'
 include 'stmm-ejb'
 include 'stmm-pers'
 include 'stmm-security'
-
+include 'stmm-restservice'
 

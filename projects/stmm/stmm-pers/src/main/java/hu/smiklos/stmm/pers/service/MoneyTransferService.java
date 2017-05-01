@@ -122,7 +122,7 @@ public class MoneyTransferService implements MoneyTransferServiceInterFace {
     }
 
     @Override
-    public List<MoneyTransfer> getOnPlateMoneyTransfersThatNotPrincipalOwns(String repaymentType, int repaymentDurationFrom, int repaymentDurationTo, Principal principal) throws PersistenceServiceException {
+    public List<MoneyTransfer> getOnPlateMoneyTransfersByRepaymentType(String repaymentType, int repaymentDurationFrom, int repaymentDurationTo, Principal principal) throws PersistenceServiceException {
         if (LOGGER.isDebugEnabled()){
             LOGGER.debug("Select all on plate MoneyTransfers tahat has: repayment_type("+repaymentType+")"+"repayment between("+repaymentDurationFrom+"-"+repaymentDurationTo+")");
         }
@@ -149,6 +149,19 @@ public class MoneyTransferService implements MoneyTransferServiceInterFace {
         } catch (final Exception e) {
             throw new PersistenceServiceException("Unknown error when removing MoneyTransfer by id (" + moneyTransferId + ")! " + e.getLocalizedMessage(), e);
         }
+    }
+
+    @Override
+    public List<MoneyTransfer> getOnPlateMoneyTransfersByRepaymentType(String repayment_type) {
+        if (LOGGER.isDebugEnabled()){
+            LOGGER.debug("Select all on plate MoneyTransfers that has: repayment_type("+repayment_type+")");
+        }
+
+        List<MoneyTransfer> transfers = new ArrayList<MoneyTransfer>();
+        transfers = entityManager.createNamedQuery(MoneyTransferQuery.GET_BY_REPAYMENT_TYPE,MoneyTransfer.class)
+                .setParameter(MoneyTransferParameter.REPAYMENT_TYPE,repayment_type)
+                .getResultList();
+        return transfers;
     }
 
     private void removeInvestedAmountFromWallet(MoneyTransfer moneyTransfer, Principal principal) throws PersistenceServiceException {
