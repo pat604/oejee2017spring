@@ -1,0 +1,10 @@
+jar { archiveName 'tm-client.jar' }
+
+repositories { 
+	flatDir { dirs 'lib' }
+}
+
+dependencies {
+	compile project(':tm-ejbserviceclient')
+	compile name: 'jboss-client-4.0.2', ext: 'jar'
+}

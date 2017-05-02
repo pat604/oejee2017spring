@@ -4,13 +4,24 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import hu.todomanager.ejbservice.domain.*;
+import javax.xml.bind.annotation.*;
 
+@XmlRootElement(name = "Todo")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class TodoStub {
 
+	@XmlAttribute(name = "name")
     private String name;
+	
+	@XmlAttribute(name = "description")
     private String description;
+	
+	@XmlAttribute(name = "state")
     private int state;
+	
+	@XmlAttribute(name = "deadline")
     private Date deadline;
+	
     private PriorityStub priority;
     private List<SubTodoStub> subTodos;
 

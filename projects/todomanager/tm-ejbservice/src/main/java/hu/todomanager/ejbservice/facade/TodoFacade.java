@@ -4,7 +4,7 @@ import javax.ejb.Local;
 import java.util.Date;
 import java.util.List;
 import hu.todomanager.ejbservice.domain.*;
-import hu.todomanager.ejbservice.exception.FacadeException;
+import hu.todomanager.ejbservice.exception.*;
 
 public interface TodoFacade {
 
