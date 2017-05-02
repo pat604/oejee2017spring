@@ -28,7 +28,7 @@
 	</div>
 	<div class="container table-ticketing">
 		<div class="row filterrow-ticketing">
-			<div class="col-md-8">
+			<div class="col-md-12">
 				<form method="get" action="TicketList" class="form-inline">
 					<div class="form-group">
 						<label for="priority">Priority:</label> <select name="priority"
@@ -36,7 +36,7 @@
 							<%
 								String priorityName = (String) request.getAttribute(ListAttribute.ATTR_PRIORITY);
 							%>
-							<option value="-1" <% out.print( FormValue.FILTER_ALL_PRIORITY.equals(priorityName) ? "selected=\"selected\"" : "" ); %>>-</option>
+							<option value="-1" <% out.print( FormValue.FILTER_ALL.equals(priorityName) ? "selected=\"selected\"" : "" ); %>>-</option>
 							<c:set var="priorityValues" value="<%=PriorityStub.values()%>" />
 							<c:forEach items="${priorityValues}" var="priority">
 								<option value="${priority.name}"
@@ -52,7 +52,7 @@
 							<%
 								String statusName = (String) request.getAttribute(ListAttribute.ATTR_STATUS);
 							%>
-							<option value="-1" <% out.print( FormValue.FILTER_ALL_STATUS.equals(statusName) ? "selected=\"selected\"" : "" ); %>>-</option>
+							<option value="-1" <% out.print( FormValue.FILTER_ALL.equals(statusName) ? "selected=\"selected\"" : "" ); %>>-</option>
 							<c:set var="statusValues" value="<%=StatusStub.values()%>" />
 							<c:forEach items="${statusValues}" var="status">
 								<option value="${status.name}"
@@ -69,20 +69,51 @@
 							<%
 								String sysName = (String) request.getAttribute(ListAttribute.ATTR_SYSTEM);
 							%>
-							<option value="-1" <% out.print( FormValue.FILTER_ALL_SYSTEM.equals(sysName) ? "selected=\"selected\"" : "" ); %>>-</option>
+							<option value="-1" <% out.print( FormValue.FILTER_ALL.equals(sysName) ? "selected=\"selected\"" : "" ); %>>-</option>
 							<c:forEach items="${requestScope.system_list}" var="system">
 								<option value="${system}"
-									${sysName eq system ? "selected=\"selected\"" : ""}>${system}
+									${system eq requestScope.system ? "selected=\"selected\"" : ""}>${system}
 								</option>
 							</c:forEach>
 						</select>
 					</div>
 					&nbsp;&nbsp;
-					<button type="submit" class="btn btn-default">Filter</button>
+					<div class="form-group">
+						<label for="processor">Processor: </label>
+						<select name="processor"
+							class="form-control" id="processor">
+							<%
+								String processorId = (String) request.getAttribute(ListAttribute.ATTR_PROCESSOR);
+							%>
+							<option value="-1" <% out.print( FormValue.FILTER_ALL.equals(processorId) ? "selected=\"selected\"" : "" ); %>>-</option>
+							<c:forEach items="${requestScope.employee_list}" var="employeeId">
+								<option value="${employeeId}"
+									${employeeId eq requestScope.processor ? "selected=\"selected\"" : ""}>${employeeId}
+								</option>
+							</c:forEach>
+						</select>
+					</div>
+					&nbsp;&nbsp;
+					<div class="form-group">
+						<label for="level">Level: </label>
+						<select name="level"
+							class="form-control" id="level">
+							<%
+								String level = (String) request.getAttribute(ListAttribute.ATTR_LEVEL); 
+							%>
+							<option value="-1" <% out.print( FormValue.FILTER_ALL.equals(level) ? "selected=\"selected\"" : "" ); %>>-</option>
+							<option value="1" ${1 eq requestScope.level ? "selected=\"selected\"" : ""}>1</option>
+							<option value="2" ${2 eq requestScope.level ? "selected=\"selected\"" : ""}>2</option>
+							<option value="3" ${3 eq requestScope.level ? "selected=\"selected\"" : ""}>3</option>
+						</select>
+					</div>
+					&nbsp;&nbsp;
+					<div style="float: right;">
+						<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-filter"></span>&nbsp;<strong>Filter</strong></button>
+						&nbsp;&nbsp;&nbsp;
+						<a style="text-align: right;" href="TicketList">Clear</a>
+					</div>
 				</form>
-			</div>
-			<div class="col-md-4" style="text-align: right;">
-				<a href="TicketCreate">Create</a> a brand new ticket.
 			</div>
 		</div>
 		<span class="line-ticketing"></span>

@@ -25,6 +25,7 @@ import hu.qwaevisz.tickethandling.persistence.query.EmployeeQuery;
 		@NamedQuery(name = EmployeeQuery.COUNT_BY_ID, query = "SELECT COUNT(e) FROM Employee e WHERE e.id=:" + EmployeeParameter.ID),
 		@NamedQuery(name = EmployeeQuery.GET_BY_ID, query = "SELECT e FROM Employee e WHERE e.id=:" + EmployeeParameter.ID),
 		@NamedQuery(name = EmployeeQuery.GET_ALL, query = "SELECT e FROM Employee e ORDER BY e.id"),
+		@NamedQuery(name = EmployeeQuery.GET_EMPLABELS, query = "SELECT e.id FROM Employee e ORDER BY e.id"),
 		@NamedQuery(name = EmployeeQuery.REMOVE_BY_ID, query = "DELETE FROM Employee e WHERE e.id=:" + EmployeeParameter.ID)
 		//
 })

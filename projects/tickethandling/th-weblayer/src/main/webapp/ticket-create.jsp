@@ -146,7 +146,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" class="btn btn-default">Submit</button>
-					&nbsp;<a href="Ticket?id=<%out.print(ticket.getId());%>">Cancel</a>
+					&nbsp;<a href="Home">Cancel</a>
 				</div>
 			</div>
 		</form>

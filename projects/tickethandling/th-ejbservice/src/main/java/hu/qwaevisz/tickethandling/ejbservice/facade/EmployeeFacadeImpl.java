@@ -55,4 +55,18 @@ public class EmployeeFacadeImpl implements EmployeeFacade {
 		}
 	}
 
+	@Override
+	public List<String> getEmpLabels() throws FacadeException {
+		try {
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Get Employee labels");
+			}
+			List<String> labels = this.empService.readEmpLabels();
+			return labels;
+		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		}
+	}
+
 }

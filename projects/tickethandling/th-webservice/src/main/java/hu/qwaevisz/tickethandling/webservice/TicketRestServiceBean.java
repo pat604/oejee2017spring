@@ -48,11 +48,16 @@ public class TicketRestServiceBean implements TicketRestService {
 	}
 
 	@Override
-	public boolean sendMessage(MessageCreateRemoteStub message) throws AdaptorException, FacadeException, ServiceException {
+	public TicketStub sendMessage(MessageCreateRemoteStub message) throws AdaptorException, FacadeException, ServiceException {
 		LOGGER.info("Send new message for Ticket " + message.getTicketId());
 		TicketStub ticket = this.facade.getTicket(message.getTicketId());
 		ticket.getConversation().add(new MessageStub("Customer", ticket.getProcessor().getName(), new Date(), message.getMessage()));
-		this.facade.saveTicket(ticket);
-		return true;
+		return this.facade.saveTicket(ticket);
+	}
+
+	@Override
+	public TicketStub getTicket(String ticketId) throws AdaptorException, FacadeException, ServiceException {
+		LOGGER.info("Get Ticket by ID " + ticketId);
+		return this.facade.getTicket(ticketId);
 	}
 }

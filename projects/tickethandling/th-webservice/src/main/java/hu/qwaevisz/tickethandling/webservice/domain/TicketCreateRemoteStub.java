@@ -16,6 +16,7 @@ public class TicketCreateRemoteStub implements Serializable {
 	private String initialMessage;
 
 	public TicketCreateRemoteStub() {
+		this("", PriorityStub.NORMAL, "", "", "", "");
 	}
 
 	public TicketCreateRemoteStub(String systemId, PriorityStub priority, String sender_name, String business_impact, String steps_to_rep,

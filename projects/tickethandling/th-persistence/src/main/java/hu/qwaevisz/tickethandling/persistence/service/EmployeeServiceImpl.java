@@ -79,4 +79,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return result;
 	}
 
+	@Override
+	public List<String> readEmpLabels() throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Get Employee labels");
+		}
+		List<String> result = null;
+		try {
+			result = this.entityManager.createNamedQuery(EmployeeQuery.GET_EMPLABELS, String.class).getResultList();
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when fetching Employee labels! " + e.getLocalizedMessage(), e);
+		}
+		return result;
+	}
+
 }

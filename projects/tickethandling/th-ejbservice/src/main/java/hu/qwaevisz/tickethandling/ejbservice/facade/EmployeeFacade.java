@@ -13,4 +13,6 @@ public interface EmployeeFacade {
 	EmployeeStub getEmployee(String id) throws FacadeException;
 
 	List<EmployeeStub> getEmployees() throws FacadeException;
+
+	List<String> getEmpLabels() throws FacadeException;
 }

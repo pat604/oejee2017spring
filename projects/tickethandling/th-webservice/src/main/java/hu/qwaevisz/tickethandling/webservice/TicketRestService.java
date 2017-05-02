@@ -25,6 +25,11 @@ public interface TicketRestService {
 	List<TicketStub> getTickets() throws AdaptorException, FacadeException;
 
 	@GET
+	@Path("/id/{ticketId}")
+	@Produces("application/json")
+	TicketStub getTicket(@PathParam("ticketId") String ticketId) throws AdaptorException, FacadeException, ServiceException;
+
+	@GET
 	@Path("/system/{systemid}")
 	@Produces("application/json")
 	List<TicketStub> getTickets(@PathParam("systemid") String systemid) throws AdaptorException, FacadeException;
@@ -38,5 +43,5 @@ public interface TicketRestService {
 	@POST
 	@Path("/send")
 	@Consumes("application/json")
-	boolean sendMessage(MessageCreateRemoteStub message) throws AdaptorException, FacadeException, ServiceException;
+	TicketStub sendMessage(MessageCreateRemoteStub message) throws AdaptorException, FacadeException, ServiceException;
 }

@@ -27,6 +27,13 @@
 			</c:when>
 		</c:choose>
 	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12" style="text-align: right; margin-bottom: 5px;">
+				<a href="TicketCreate"><strong>Create</strong></a> new ticket.
+			</div>
+		</div>
+	</div>
 	<div class="container table-ticketing">
 		<h3>My tickets</h3>
 		<span class="line-ticketing"></span>
@@ -44,7 +51,7 @@
 					<div class="col-sm-1 strong">System</div>
 					<div class="col-sm-1 strong">Priority</div>
 					<div class="col-sm-2 strong">Status</div>
-					<div class="col-sm-2 strong">Sender</div>
+					<div class="col-sm-2 strong">Created on</div>
 					<div class="col-sm-2 strong">Last changed on</div>
 					<div class="col-sm-1 strong">Actions</div>
 				</div>
@@ -65,7 +72,7 @@
 							<c:out value="${ticket.status.label}" />
 						</div>
 						<div class="col-sm-2">
-							<c:out value="${ticket.sender_name}" />
+							<c:out value="${ticket.creationdate}" />
 						</div>
 						<div class="col-sm-2">
 							<c:out value="${ticket.lastchanged}" />

@@ -4,12 +4,13 @@ import java.io.Serializable;
 
 public class MessageCreateRemoteStub implements Serializable {
 
-	private static final long serialVersionUID = 4562127909486614840L;
+	private static final long serialVersionUID = 3164987237490135272L;
 
 	private String ticketId;
 	private String message;
 
 	public MessageCreateRemoteStub() {
+		this("", "");
 	}
 
 	public MessageCreateRemoteStub(String ticketId, String message) {
