@@ -1,24 +1,29 @@
 package com.kota.stratagem.ejbserviceclient.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ObjectiveRepresentor {
+public class ObjectiveRepresentor implements Serializable {
+
+	private static final long serialVersionUID = -4038127838789105749L;
+
 	private Long id;
-	private final String name;
-	private final String description;
-	private final int priority;
-	private final ObjectiveStatusRepresentor status;
-	private final List<ProjectRepresentor> projects;
-	private final List<TaskRepresentor> tasks;
-	private final List<TeamRepresentor> assignedTeams;
-	private final List<AppUserRepresentor> assignedUsers;
+	private String name;
+	private String description;
+	private int priority;
+	private ObjectiveStatusRepresentor status;
+	private List<ProjectRepresentor> projects;
+	private List<TaskRepresentor> tasks;
+	private List<TeamRepresentor> assignedTeams;
+	private List<AppUserRepresentor> assignedUsers;
 
 	public ObjectiveRepresentor() {
 		this(null, "", "", 10, ObjectiveStatusRepresentor.PLANNED);
 	}
 
 	public ObjectiveRepresentor(Long id, String name, String description, int priority, ObjectiveStatusRepresentor status) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -31,6 +36,7 @@ public class ObjectiveRepresentor {
 	}
 
 	public ObjectiveRepresentor(String name, String description, int priority, ObjectiveStatusRepresentor status) {
+		super();
 		this.name = name;
 		this.description = description;
 		this.priority = priority;
@@ -53,44 +59,76 @@ public class ObjectiveRepresentor {
 		return this.name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getDescription() {
 		return this.description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public int getPriority() {
 		return this.priority;
 	}
 
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+
 	public ObjectiveStatusRepresentor getStatus() {
 		return this.status;
+	}
+
+	public void setStatus(ObjectiveStatusRepresentor status) {
+		this.status = status;
 	}
 
 	public List<ProjectRepresentor> getProjects() {
 		return this.projects;
 	}
 
-	public void addProject(ProjectRepresentor project) {
-		this.projects.add(project);
+	public void setProjects(List<ProjectRepresentor> projects) {
+		this.projects = projects;
 	}
 
 	public List<TaskRepresentor> getTasks() {
 		return this.tasks;
 	}
 
-	public void addTask(TaskRepresentor task) {
-		this.tasks.add(task);
+	public void setTasks(List<TaskRepresentor> tasks) {
+		this.tasks = tasks;
 	}
 
 	public List<TeamRepresentor> getAssignedTeams() {
 		return this.assignedTeams;
 	}
 
-	public void addTeam(TeamRepresentor team) {
-		this.assignedTeams.add(team);
+	public void setAssignedTeams(List<TeamRepresentor> assignedTeams) {
+		this.assignedTeams = assignedTeams;
 	}
 
 	public List<AppUserRepresentor> getAssignedUsers() {
 		return this.assignedUsers;
+	}
+
+	public void setAssignedUsers(List<AppUserRepresentor> assignedUsers) {
+		this.assignedUsers = assignedUsers;
+	}
+
+	public void addProject(ProjectRepresentor project) {
+		this.projects.add(project);
+	}
+
+	public void addTask(TaskRepresentor task) {
+		this.tasks.add(task);
+	}
+
+	public void addTeam(TeamRepresentor team) {
+		this.assignedTeams.add(team);
 	}
 
 	public void addUser(AppUserRepresentor user) {

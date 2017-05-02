@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="com.kota.stratagem.ejbservice.domain.ProjectRepresentor" %>
+<%@ page import="com.kota.stratagem.ejbserviceclient.domain.ProjectRepresentor" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -9,7 +9,7 @@
 <title>:: Project ::</title>
 </head>
 <body>
-    <jsp:useBean id="project" class="com.kota.stratagem.ejbservice.domain.ProjectRepresentor" scope="request" />
+    <jsp:useBean id="project" class="com.kota.stratagem.ejbserviceclient.domain.ProjectRepresentor" scope="request" />
     <h1><jsp:getProperty name="project" property="name" /></h1>
     <c:if test="${not empty requestScope.project.description}"><h4><jsp:getProperty name="project" property="description" /></h4></c:if>
     <div><label>Status: </label><span>${requestScope.project.status.label}</span></div>

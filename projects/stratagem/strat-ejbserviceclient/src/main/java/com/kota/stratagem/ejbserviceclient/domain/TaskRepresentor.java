@@ -1,9 +1,13 @@
 package com.kota.stratagem.ejbserviceclient.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskRepresentor {
+public class TaskRepresentor implements Serializable {
+
+	private static final long serialVersionUID = -552279169521037564L;
+
 	private Long id;
 	private final String name;
 	private final String description;
@@ -128,7 +132,7 @@ public class TaskRepresentor {
 		return "\n\tTaskRepresentor [id=" + this.id + ", name=" + this.name + ", description=" + this.description + ", comlpetion=" + this.comlpetion
 				+ ", assignedTeams=" + this.assignedTeams + ", assignedUsers=" + this.assignedUsers + ", impediments=" + this.impediments + ", dependantTasks="
 				+ this.dependantTasks + ", taskDependencies=" + this.taskDependencies
-//				+ ", objective=" + this.objective + ", project=" + this.project
+				// + ", objective=" + this.objective + ", project=" + this.project
 				+ "]";
 	}
 

@@ -8,8 +8,6 @@ import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 
-import com.kota.stratagem.ejbserviceclient.domain.ObjectiveRepresentor;
-
 import com.kota.stratagem.ejbserviceclient.ObjectiveProtocolRemote;
 import com.kota.stratagem.ejbserviceclient.domain.ObjectiveRepresentor;
 import com.kota.stratagem.ejbserviceclient.exception.ServiceException;
@@ -43,14 +41,15 @@ public class StratagemObjectiveClient {
 		return objective;
 	}
 
-	private DiskFacadeRemote lookup() throws NamingException {
+	private ObjectiveProtocolRemote lookup() throws NamingException {
 		final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
 		jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, JBOSS_INITIAL_CONTEXT_FACTORY);
 		jndiProperties.put(Context.PROVIDER_URL, JBOSS_PROVIDER_URL);
 		jndiProperties.put(Context.URL_PKG_PREFIXES, JBOSS_URL_PKG_PREFIXES);
 		jndiProperties.put(JBOSS_NAMING_CLIENT_EJB_CONTEXT_KEY, JBOSS_NAMING_CLIENT_EJB_CONTEXT_VALUE);
 		final Context context = new InitialContext(jndiProperties);
-		return (ObjectiveProtocolRemote) context.lookup("stratagem/strat-ejbservice/ObjectiveProtocolImpl!com.kota.stratagem.ejbserviceclient.DiskFacadeRemote");
+		return (ObjectiveProtocolRemote) context
+				.lookup("stratagem/strat-ejbservice/ObjectiveProtocolImpl!com.kota.stratagem.ejbserviceclient.ObjectiveProtocolRemote");
 	}
 
 }
