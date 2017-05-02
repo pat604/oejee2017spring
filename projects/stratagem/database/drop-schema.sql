@@ -24,6 +24,7 @@ DROP TABLE tasks;
 
 DROP TABLE objective_projects;
 DROP TABLE project_status_alterations;
+DROP TABLE product_owners;
 DROP TABLE project_managers;
 DROP TABLE project_missions;
 DROP TABLE projects;

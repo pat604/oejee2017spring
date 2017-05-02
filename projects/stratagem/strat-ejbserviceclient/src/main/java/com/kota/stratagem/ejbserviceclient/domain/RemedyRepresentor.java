@@ -1,4 +1,4 @@
-package com.kota.stratagem.ejbservice.domain;
+package com.kota.stratagem.ejbserviceclient.domain;
 
 import java.util.Date;
 

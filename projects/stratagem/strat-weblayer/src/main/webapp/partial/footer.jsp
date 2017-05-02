@@ -51,9 +51,8 @@
     <!--Call to action-->
     <div class="call-to-action">
         <ul>
-            <li>
-                <h5>Get productive and register now for free!</h5></li>
-            <li><a href="" class="btn btn-danger">Register</a></li>
+            <li><h5>Get productive and register now for free!</h5></li>
+            <li><a data-toggle="modal" data-target="#modalRegister" class="btn btn-danger">Register</a></li>
         </ul>
     </div>
     <!--/.Call to action-->

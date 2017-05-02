@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.kota.stratagem.ejbservice.domain.AppUserRepresentor;
 import com.kota.stratagem.ejbservice.protocol.AppUserProtocol;
+import com.kota.stratagem.ejbserviceclient.domain.AppUserRepresentor;
 
 @WebServlet("/AppUserPing")
 public class AppUserPingServlet extends HttpServlet {
@@ -33,10 +33,10 @@ public class AppUserPingServlet extends HttpServlet {
 		final PrintWriter out = response.getWriter();
 		try {
 			final List<AppUserRepresentor> users = this.protocol.getAllAppUsers();
-			for(AppUserRepresentor representor : users) {
+			for (final AppUserRepresentor representor : users) {
 				out.println(representor.toString());
 			}
-		} catch(final Exception e) {
+		} catch (final Exception e) {
 			LOGGER.error(e, e);
 			out.println(e.getLocalizedMessage());
 		}

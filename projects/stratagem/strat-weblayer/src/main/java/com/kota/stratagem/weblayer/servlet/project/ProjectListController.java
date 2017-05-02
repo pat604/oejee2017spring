@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.kota.stratagem.ejbservice.domain.ProjectCriteria;
-import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
-import com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
 import com.kota.stratagem.ejbservice.protocol.ProjectProtocol;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectCriteria;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectStatusRepresentor;
 import com.kota.stratagem.weblayer.common.FormValue;
 import com.kota.stratagem.weblayer.common.Page;
 import com.kota.stratagem.weblayer.common.project.ProjectListAttribute;
@@ -39,7 +39,7 @@ public class ProjectListController extends HttpServlet implements ProjectListAtt
 		try {
 			final List<ProjectRepresentor> projects = this.protocol.getAllProjects(new ProjectCriteria());
 			request.setAttribute(ATTR_PROJECTS, projects);
-		} catch(final AdaptorException e) {
+		} catch (final AdaptorException e) {
 			LOGGER.error(e, e);
 		}
 		this.forward(request, response, new ProjectCriteria(), FILTER_ALL_CATEGORY);
@@ -55,11 +55,12 @@ public class ProjectListController extends HttpServlet implements ProjectListAtt
 		this.forward(request, response, criteria, statusName);
 	}
 
-	private void forward(final HttpServletRequest request, final HttpServletResponse response, ProjectCriteria criteria, String categoryValue) throws ServletException, IOException {
+	private void forward(final HttpServletRequest request, final HttpServletResponse response, ProjectCriteria criteria, String categoryValue)
+			throws ServletException, IOException {
 		try {
 			final List<ProjectRepresentor> projects = this.protocol.getAllProjects(criteria);
 			request.setAttribute(ATTR_PROJECTS, projects);
-		} catch(final AdaptorException e) {
+		} catch (final AdaptorException e) {
 			LOGGER.error(e, e);
 		}
 		request.setAttribute(ATTR_STATUS, categoryValue);

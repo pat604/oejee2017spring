@@ -5,14 +5,14 @@ import java.util.Set;
 
 import javax.ejb.Local;
 
-import com.kota.stratagem.ejbservice.domain.AppUserRepresentor;
-import com.kota.stratagem.ejbservice.domain.ImpedimentRepresentor;
-import com.kota.stratagem.ejbservice.domain.ObjectiveRepresentor;
-import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
-import com.kota.stratagem.ejbservice.domain.RoleRepresentor;
-import com.kota.stratagem.ejbservice.domain.TaskRepresentor;
-import com.kota.stratagem.ejbservice.domain.TeamRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
+import com.kota.stratagem.ejbserviceclient.domain.AppUserRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ImpedimentRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ObjectiveRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.RoleRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.TaskRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.TeamRepresentor;
 
 @Local
 public interface AppUserProtocol {
@@ -21,9 +21,10 @@ public interface AppUserProtocol {
 
 	List<AppUserRepresentor> getAllAppUsers() throws AdaptorException;
 
-	AppUserRepresentor saveAppUser(Long id, String name, String passwordHash, String email, RoleRepresentor role, Set<ObjectiveRepresentor> objectives, Set<ProjectRepresentor> projects,
-			Set<TaskRepresentor> tasks, Set<ImpedimentRepresentor> reportedImpediments, Set<ImpedimentRepresentor> processedImpediments, Set<TeamRepresentor> supervisedTeams,
-			Set<TeamRepresentor> teamMemberships) throws AdaptorException;
+	AppUserRepresentor saveAppUser(Long id, String name, String passwordHash, String email, RoleRepresentor role, Set<ObjectiveRepresentor> objectives,
+			Set<ProjectRepresentor> projects, Set<TaskRepresentor> tasks, Set<ImpedimentRepresentor> reportedImpediments,
+			Set<ImpedimentRepresentor> processedImpediments, Set<TeamRepresentor> supervisedTeams, Set<TeamRepresentor> teamMemberships)
+			throws AdaptorException;
 
 	void removeAppUser(Long id) throws AdaptorException;
 

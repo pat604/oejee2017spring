@@ -44,6 +44,9 @@ dependencies {
 	deploy project('strat-persistence')
 	deploy project('strat-security')
 	deploy project(path: 'strat-weblayer', configuration: 'archives')
+	earlib ( project('strat-ejbserviceclient') ) {
+		transitive = false
+	}
 	earlib group: 'org.mindrot', name: 'jbcrypt', version: '0.3m', ext: 'jar'
 	earlib group: 'org.picketbox', name: 'picketbox', version: '4.1.5.Final'
 }

@@ -12,16 +12,16 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import com.kota.stratagem.ejbservice.converter.ProjectConverter;
-import com.kota.stratagem.ejbservice.domain.AppUserRepresentor;
-import com.kota.stratagem.ejbservice.domain.ImpedimentRepresentor;
-import com.kota.stratagem.ejbservice.domain.ObjectiveRepresentor;
-import com.kota.stratagem.ejbservice.domain.ProjectCriteria;
-import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
-import com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor;
-import com.kota.stratagem.ejbservice.domain.TaskRepresentor;
-import com.kota.stratagem.ejbservice.domain.TeamRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
 import com.kota.stratagem.ejbservice.util.ApplicationError;
+import com.kota.stratagem.ejbserviceclient.domain.AppUserRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ImpedimentRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ObjectiveRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectCriteria;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectStatusRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.TaskRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.TeamRepresentor;
 import com.kota.stratagem.persistence.entity.AppUser;
 import com.kota.stratagem.persistence.entity.Impediment;
 import com.kota.stratagem.persistence.entity.Project;
@@ -68,11 +68,11 @@ public class ProjectProtocolImpl implements ProjectProtocol {
 	public ProjectRepresentor getProject(Long id) throws AdaptorException {
 		try {
 			final ProjectRepresentor representor = this.converter.to(this.projectService.read(id, AggregationSelector.WITH_TASKS));
-			if(LOGGER.isDebugEnabled()) {
+			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Get Project (id: " + id + ") --> " + representor);
 			}
 			return representor;
-		} catch(final PersistenceServiceException e) {
+		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
 		}
@@ -83,16 +83,16 @@ public class ProjectProtocolImpl implements ProjectProtocol {
 		Set<ProjectRepresentor> representors = new HashSet<ProjectRepresentor>();
 		try {
 			Set<Project> projects = null;
-			if(criteria.getStatus() == null) {
+			if (criteria.getStatus() == null) {
 				projects = this.projectService.readAll();
 			} else {
 				projects = this.projectService.read(ProjectStatus.valueOf(criteria.getStatus().name()));
 			}
 			representors = this.converter.to(projects);
-			if(LOGGER.isDebugEnabled()) {
+			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Fetch all projects by criteria (" + criteria + ") --> " + representors.size() + " projects(s)");
 			}
-		} catch(final PersistenceServiceException e) {
+		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 		}
 		final List<ProjectRepresentor> projects = new ArrayList<ProjectRepresentor>(representors);
@@ -100,34 +100,37 @@ public class ProjectProtocolImpl implements ProjectProtocol {
 	}
 
 	@Override
-	public ProjectRepresentor saveProject(Long id, String name, String description, ProjectStatusRepresentor status, Date deadline, Boolean visible, Set<TaskRepresentor> tasks,
-			Set<TeamRepresentor> assignedTeams, Set<AppUserRepresentor> assignedUsers, Set<ImpedimentRepresentor> impediments, ObjectiveRepresentor objective) throws AdaptorException {
+	public ProjectRepresentor saveProject(Long id, String name, String description, ProjectStatusRepresentor status, Date deadline, Boolean visible,
+			Set<TaskRepresentor> tasks, Set<TeamRepresentor> assignedTeams, Set<AppUserRepresentor> assignedUsers, Set<ImpedimentRepresentor> impediments,
+			ObjectiveRepresentor objective) throws AdaptorException {
 		try {
 			Project project = null;
 			final ProjectStatus projectStatus = ProjectStatus.valueOf(status.name());
-			if((id != null) && this.projectService.exists(id)) {
+			if ((id != null) && this.projectService.exists(id)) {
 				final Set<Task> projectTasks = new HashSet<Task>();
 				final Set<Team> teams = new HashSet<Team>();
 				final Set<AppUser> users = new HashSet<AppUser>();
 				final Set<Impediment> projectImpediments = new HashSet<Impediment>();
-				for(final TaskRepresentor task : tasks) {
+				for (final TaskRepresentor task : tasks) {
 					projectTasks.add(this.taskService.read(task.getId()));
 				}
-				for(final TeamRepresentor team : assignedTeams) {
+				for (final TeamRepresentor team : assignedTeams) {
 					teams.add(this.teamService.read(team.getId()));
 				}
-				for(final AppUserRepresentor user : assignedUsers) {
+				for (final AppUserRepresentor user : assignedUsers) {
 					users.add(this.appUserService.read(user.getId()));
 				}
-				for(final ImpedimentRepresentor impediment : impediments) {
+				for (final ImpedimentRepresentor impediment : impediments) {
 					projectImpediments.add(this.impedimentService.read(impediment.getId()));
 				}
-				project = this.projectService.update(id, name, description, projectStatus, deadline, visible, projectTasks, teams, users, projectImpediments, this.objectiveService.read(objective.getId()));
+				project = this.projectService.update(id, name, description, projectStatus, deadline, visible, projectTasks, teams, users, projectImpediments,
+						this.objectiveService.read(objective.getId()));
 			} else {
-				project = this.projectService.create(name, description, projectStatus, deadline, visible, null, null, null, null, this.objectiveService.read(objective.getId()));
+				project = this.projectService.create(name, description, projectStatus, deadline, visible, null, null, null, null,
+						this.objectiveService.read(objective.getId()));
 			}
 			return this.converter.to(project);
-		} catch(final PersistenceServiceException e) {
+		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
 		}
@@ -137,10 +140,10 @@ public class ProjectProtocolImpl implements ProjectProtocol {
 	public void removeProject(Long id) throws AdaptorException {
 		try {
 			this.projectService.delete(id);
-		} catch(final CoherentPersistenceServiceException e) {
+		} catch (final CoherentPersistenceServiceException e) {
 			final ApplicationError error = ApplicationError.valueOf(e.getError().name());
 			throw new AdaptorException(error, e.getLocalizedMessage(), e.getField());
-		} catch(final PersistenceServiceException e) {
+		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
 		}

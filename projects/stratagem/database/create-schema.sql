@@ -141,11 +141,20 @@ CREATE TABLE project_managers (
 	project_manager_id SERIAL NOT NULL,
 	project_manager_project_id INTEGER NOT NULL,
 	project_manager_user_id INTEGER NOT NULL,
-	project_manager_owner BOOLEAN NOT NULL,
 	CONSTRAINT PK_PROJECT_MANAGER_ID PRIMARY KEY (project_manager_id),
 	CONSTRAINT FK_PROJECT_MANAGER_PROJECT FOREIGN KEY (project_manager_project_id)
 	  REFERENCES projects (project_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
 	CONSTRAINT FK_PROJECT_MANAGER_USER FOREIGN KEY (project_manager_user_id)
+	  REFERENCES app_users (user_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+CREATE TABLE product_owners (
+	product_owner_id SERIAL NOT NULL,
+	product_owner_project_id INTEGER NOT NULL,
+	product_owner_user_id INTEGER NOT NULL,
+	CONSTRAINT PK_PRODUCT_OWNER_ID PRIMARY KEY (product_owner_id),
+	CONSTRAINT FK_PRODUCT_OWNER_PROJECT FOREIGN KEY (product_owner_project_id)
+	  REFERENCES projects (project_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT FK_PRODUCT_OWNER_USER FOREIGN KEY (product_owner_user_id)
 	  REFERENCES app_users (user_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 CREATE TABLE project_status_alterations (
@@ -431,6 +440,7 @@ ALTER TABLE project_impediments OWNER TO postgres;
 ALTER TABLE task_impediments OWNER TO postgres;
 ALTER TABLE remedies OWNER TO postgres;
 ALTER TABLE project_managers OWNER TO postgres;
+ALTER TABLE product_owners OWNER TO postgres;
 ALTER TABLE task_dependencies OWNER TO postgres;
 ALTER TABLE task_estimations OWNER TO postgres;
 ALTER TABLE user_objective_assignments OWNER TO postgres;

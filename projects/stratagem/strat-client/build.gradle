@@ -1,0 +1,10 @@
+jar { archiveName 'strat-client.jar' }
+
+repositories { 
+	flatDir { dirs 'lib' }
+}
+
+dependencies {
+	compile project(':strat-ejbserviceclient')
+	compile name: 'jboss-client', ext: 'jar'
+}

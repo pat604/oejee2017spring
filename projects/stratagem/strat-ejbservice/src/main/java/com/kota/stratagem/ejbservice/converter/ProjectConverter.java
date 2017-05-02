@@ -4,7 +4,7 @@ import java.util.Set;
 
 import javax.ejb.Local;
 
-import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectRepresentor;
 import com.kota.stratagem.persistence.entity.Project;
 
 @Local

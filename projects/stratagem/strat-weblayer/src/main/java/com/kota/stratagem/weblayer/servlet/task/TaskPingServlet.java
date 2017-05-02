@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.kota.stratagem.ejbservice.domain.TaskRepresentor;
 import com.kota.stratagem.ejbservice.protocol.TaskProtocol;
+import com.kota.stratagem.ejbserviceclient.domain.TaskRepresentor;
 
 @WebServlet("/TaskPing")
 public class TaskPingServlet extends HttpServlet {
@@ -33,10 +33,10 @@ public class TaskPingServlet extends HttpServlet {
 		final PrintWriter out = response.getWriter();
 		try {
 			final List<TaskRepresentor> tasks = this.protocol.getAllTasks();
-			for(TaskRepresentor representor : tasks) {
+			for (final TaskRepresentor representor : tasks) {
 				out.println(representor.toString());
 			}
-		} catch(final Exception e) {
+		} catch (final Exception e) {
 			LOGGER.error(e, e);
 			out.println(e.getLocalizedMessage());
 		}

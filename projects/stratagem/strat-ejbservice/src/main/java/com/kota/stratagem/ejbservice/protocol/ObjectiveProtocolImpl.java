@@ -9,9 +9,9 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import com.kota.stratagem.ejbservice.converter.ObjectiveConverter;
-import com.kota.stratagem.ejbservice.domain.ObjectiveRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
 import com.kota.stratagem.ejbservice.util.ApplicationError;
+import com.kota.stratagem.ejbserviceclient.domain.ObjectiveRepresentor;
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
 import com.kota.stratagem.persistence.service.ObjectiveService;
 
