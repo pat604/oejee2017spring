@@ -96,6 +96,7 @@
 						$('#tic-det-id').html(result.id);
 						$('#tic-det-prio').html(result.priority);
 						$('#tic-det-status').html(result.status);
+						$('#tic-det-proc').html(result.processor.name);
 						$('#tic-det-last').html(last.toLocaleDateString() + " " + last.toLocaleTimeString());
 						$('#tic-det-created').html(created.toLocaleDateString() + " " + created.toLocaleTimeString());
 						
@@ -123,21 +124,6 @@
 			}
 		}
 		
-		function formatDate(date) {
-			  var monthNames = [
-			    "January", "February", "March",
-			    "April", "May", "June", "July",
-			    "August", "September", "October",
-			    "November", "December"
-			  ];
-
-			  var day = date.getDate();
-			  var monthIndex = date.getMonth();
-			  var year = date.getFullYear();
-
-			  return day + ' ' + monthNames[monthIndex] + ' ' + year;
-			}
-		
 		</script>
 	
 		<h2>REST TEST WEBAPPLICATION</h2>
@@ -150,6 +136,7 @@
 			<h3 id="tic-det-id">Click a ticket ID above to see details!</h3>
 			<strong>Priority: </strong><div id="tic-det-prio"></div>
 			<strong>Status: </strong><div id="tic-det-status"></div>
+			<strong>Processor: </strong><div id="tic-det-proc"></div>
 			<strong>Last changed: </strong><div id="tic-det-last"></div>
 			<strong>Created on: </strong><div id="tic-det-created"></div>
 			<strong>Messages: </strong><br /><br />
