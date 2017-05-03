@@ -4,10 +4,16 @@ apply plugin: 'ear'
 ext {
 	log4jVersion = '1.2.17'
 	testngVersion = '6.9.+'
+	jbossjee6Version = '3.0.3.Final'
 	jeeVersion = '6.0'  
 	servletapiVersion = '3.0.1'
 	hibernateVersion = '4.3.10.Final'
 	jstlVersion = '1.2'
+	jaxrsVersion = '2.0.1'
+	resteasyVersion = '2.3.7.Final'
+	
+	webserviceArchiveName = 'tm-webservice.war'
+	webserviceContextPath = 'todomanager'
 }
 
 allprojects {
@@ -28,8 +34,19 @@ subprojects {
 	}
 }
 
+ear {
+    deploymentDescriptor { 
+    	webModule( webserviceArchiveName, webserviceContextPath ) 
+    }
+}
+
 dependencies {
 	deploy project('tm-ejbservice')
 	deploy project('tm-persistence')
 	deploy project(path: 'tm-weblayer', configuration: 'archives')
+	deploy project(path: 'tm-webservice', configuration: 'archives')
+	//deploy project(path: 'tm-webservicesoap', configuration: 'archives')
+	earlib ( project('tm-ejbserviceclient') ) {
+		transitive = false
+	}
 }

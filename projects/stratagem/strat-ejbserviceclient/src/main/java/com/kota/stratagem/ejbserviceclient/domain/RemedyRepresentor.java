@@ -1,8 +1,12 @@
 package com.kota.stratagem.ejbserviceclient.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class RemedyRepresentor {
+public class RemedyRepresentor implements Serializable {
+
+	private static final long serialVersionUID = -1021682612168904034L;
+
 	private Long id;
 	private final String description;
 	private final ImpedimentRepresentor impediment;
@@ -29,7 +33,7 @@ public class RemedyRepresentor {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -37,24 +41,25 @@ public class RemedyRepresentor {
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public ImpedimentRepresentor getImpediment() {
-		return impediment;
+		return this.impediment;
 	}
 
 	public Date getSubmissionDate() {
-		return submissionDate;
+		return this.submissionDate;
 	}
 
 	public AppUserRepresentor getProvider() {
-		return provider;
+		return this.provider;
 	}
 
 	@Override
 	public String toString() {
-		return "RemedyRepresentor [id=" + id + ", description=" + description + ", impediment=" + impediment + ", submissionDate=" + submissionDate + ", provider=" + provider + "]";
+		return "RemedyRepresentor [id=" + this.id + ", description=" + this.description + ", impediment=" + this.impediment + ", submissionDate="
+				+ this.submissionDate + ", provider=" + this.provider + "]";
 	}
 
 }

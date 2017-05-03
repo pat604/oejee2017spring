@@ -1,9 +1,13 @@
 package com.kota.stratagem.ejbserviceclient.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamRepresentor {
+public class TeamRepresentor implements Serializable {
+
+	private static final long serialVersionUID = -1370141284024070447L;
+
 	private Long id;
 	private final String name;
 	private final AppUserRepresentor leader;
@@ -36,7 +40,7 @@ public class TeamRepresentor {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -44,15 +48,15 @@ public class TeamRepresentor {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public AppUserRepresentor getLeader() {
-		return leader;
+		return this.leader;
 	}
 
 	public List<AppUserRepresentor> getMembers() {
-		return members;
+		return this.members;
 	}
 
 	public void addMember(AppUserRepresentor user) {
@@ -60,7 +64,7 @@ public class TeamRepresentor {
 	}
 
 	public List<ObjectiveRepresentor> getObjectives() {
-		return objectives;
+		return this.objectives;
 	}
 
 	public void addObjective(ObjectiveRepresentor objective) {
@@ -68,7 +72,7 @@ public class TeamRepresentor {
 	}
 
 	public List<ProjectRepresentor> getProjects() {
-		return projects;
+		return this.projects;
 	}
 
 	public void addProject(ProjectRepresentor project) {
@@ -76,7 +80,7 @@ public class TeamRepresentor {
 	}
 
 	public List<TaskRepresentor> getTasks() {
-		return tasks;
+		return this.tasks;
 	}
 
 	public void addTask(TaskRepresentor task) {
@@ -85,7 +89,8 @@ public class TeamRepresentor {
 
 	@Override
 	public String toString() {
-		return "TeamRepresentor [id=" + id + ", name=" + name + ", leader=" + leader + ", members=" + members + ", objectives=" + objectives + ", projects=" + projects + ", tasks=" + tasks + "]";
+		return "TeamRepresentor [id=" + this.id + ", name=" + this.name + ", leader=" + this.leader + ", members=" + this.members + ", objectives="
+				+ this.objectives + ", projects=" + this.projects + ", tasks=" + this.tasks + "]";
 	}
 
 }

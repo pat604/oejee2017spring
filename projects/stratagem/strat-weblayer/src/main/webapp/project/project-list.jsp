@@ -1,4 +1,4 @@
-<%@page import="com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor"%>
+<%@page import="com.kota.stratagem.ejbserviceclient.domain.ProjectStatusRepresentor"%>
 <%@page import="com.kota.stratagem.weblayer.common.FormValue"%>
 <%@page import="com.kota.stratagem.weblayer.common.project.ListAttribute"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>

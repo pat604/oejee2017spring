@@ -10,13 +10,14 @@ import org.apache.log4j.Logger;
 
 import com.kota.stratagem.ejbservice.converter.ObjectiveConverter;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
-import com.kota.stratagem.ejbservice.util.ApplicationError;
+import com.kota.stratagem.ejbserviceclient.ObjectiveProtocolRemote;
 import com.kota.stratagem.ejbserviceclient.domain.ObjectiveRepresentor;
+import com.kota.stratagem.ejbserviceclient.exception.ServiceException;
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
 import com.kota.stratagem.persistence.service.ObjectiveService;
 
-@Stateless
-public class ObjectiveProtocolImpl implements ObjectiveProtocol {
+@Stateless(mappedName = "ejb/objectiveProtocol")
+public class ObjectiveProtocolImpl implements ObjectiveProtocol, ObjectiveProtocolRemote {
 
 	private static final Logger LOGGER = Logger.getLogger(ObjectiveProtocolImpl.class);
 
@@ -27,7 +28,7 @@ public class ObjectiveProtocolImpl implements ObjectiveProtocol {
 	private ObjectiveConverter converter;
 
 	@Override
-	public ObjectiveRepresentor getObjective(Long id) throws AdaptorException {
+	public ObjectiveRepresentor getObjective(Long id) throws ServiceException {
 		try {
 			final ObjectiveRepresentor representor = this.converter.to(this.objectiveService.read(id));
 			if (LOGGER.isDebugEnabled()) {
@@ -36,7 +37,7 @@ public class ObjectiveProtocolImpl implements ObjectiveProtocol {
 			return representor;
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
-			throw new AdaptorException(ApplicationError.UNEXPECTED, e.getLocalizedMessage());
+			throw new ServiceException(e.getLocalizedMessage());
 		}
 	}
 

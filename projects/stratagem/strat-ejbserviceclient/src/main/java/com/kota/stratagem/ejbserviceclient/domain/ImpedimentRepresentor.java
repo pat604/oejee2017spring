@@ -1,10 +1,14 @@
 package com.kota.stratagem.ejbserviceclient.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ImpedimentRepresentor {
+public class ImpedimentRepresentor implements Serializable {
+
+	private static final long serialVersionUID = 3043909154399999429L;
+
 	private Long id;
 	private final String name;
 	private final String description;
@@ -21,8 +25,8 @@ public class ImpedimentRepresentor {
 		this(null, "", "", PriorityRepresentor.MEDIUM, ImpedimentStatusRepresentor.OPEN, new Date(), null, null, null, null);
 	}
 
-	public ImpedimentRepresentor(Long id, String name, String description, PriorityRepresentor priority, ImpedimentStatusRepresentor status, Date reportDate, AppUserRepresentor reporter,
-			AppUserRepresentor processor, ProjectRepresentor project, TaskRepresentor task) {
+	public ImpedimentRepresentor(Long id, String name, String description, PriorityRepresentor priority, ImpedimentStatusRepresentor status, Date reportDate,
+			AppUserRepresentor reporter, AppUserRepresentor processor, ProjectRepresentor project, TaskRepresentor task) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -36,8 +40,8 @@ public class ImpedimentRepresentor {
 		this.task = task;
 	}
 
-	public ImpedimentRepresentor(String name, String description, PriorityRepresentor priority, ImpedimentStatusRepresentor status, Date reportDate, AppUserRepresentor reporter,
-			AppUserRepresentor processor, ProjectRepresentor project, TaskRepresentor task) {
+	public ImpedimentRepresentor(String name, String description, PriorityRepresentor priority, ImpedimentStatusRepresentor status, Date reportDate,
+			AppUserRepresentor reporter, AppUserRepresentor processor, ProjectRepresentor project, TaskRepresentor task) {
 		this.name = name;
 		this.description = description;
 		this.priority = priority;
@@ -51,7 +55,7 @@ public class ImpedimentRepresentor {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -59,35 +63,35 @@ public class ImpedimentRepresentor {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public PriorityRepresentor getPriority() {
-		return priority;
+		return this.priority;
 	}
 
 	public ImpedimentStatusRepresentor getStatus() {
-		return status;
+		return this.status;
 	}
 
 	public Date getReportDate() {
-		return reportDate;
+		return this.reportDate;
 	}
 
 	public AppUserRepresentor getReporter() {
-		return reporter;
+		return this.reporter;
 	}
 
 	public AppUserRepresentor getProcessor() {
-		return processor;
+		return this.processor;
 	}
 
 	public List<RemedyRepresentor> getRemedies() {
-		return remedies;
+		return this.remedies;
 	}
 
 	public void addRemedy(RemedyRepresentor remedy) {
@@ -95,17 +99,18 @@ public class ImpedimentRepresentor {
 	}
 
 	public ProjectRepresentor getProject() {
-		return project;
+		return this.project;
 	}
 
 	public TaskRepresentor getTask() {
-		return task;
+		return this.task;
 	}
 
 	@Override
 	public String toString() {
-		return "ImpedimentRepresentor [id=" + id + ", name=" + name + ", description=" + description + ", priority=" + priority + ", status=" + status + ", reportDate=" + reportDate + ", reporter="
-				+ reporter + ", processor=" + processor + ", remedies=" + remedies + ", project=" + project + ", task=" + task + "]";
+		return "ImpedimentRepresentor [id=" + this.id + ", name=" + this.name + ", description=" + this.description + ", priority=" + this.priority
+				+ ", status=" + this.status + ", reportDate=" + this.reportDate + ", reporter=" + this.reporter + ", processor=" + this.processor
+				+ ", remedies=" + this.remedies + ", project=" + this.project + ", task=" + this.task + "]";
 	}
 
 }

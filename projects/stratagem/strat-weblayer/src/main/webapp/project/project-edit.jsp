@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="com.kota.stratagem.ejbservice.domain.ProjectRepresentor" %>
-<%@ page import="com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor" %>
+<%@ page import="com.kota.stratagem.ejbserviceclient.domain.ProjectRepresentor" %>
+<%@ page import="com.kota.stratagem.ejbserviceclient.domain.ProjectStatusRepresentor" %>
 <%@ page import="com.kota.stratagem.weblayer.common.project.ProjectAttribute" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <% ProjectRepresentor project = (ProjectRepresentor) request.getAttribute(ProjectAttribute.ATTR_PROJECT); %>

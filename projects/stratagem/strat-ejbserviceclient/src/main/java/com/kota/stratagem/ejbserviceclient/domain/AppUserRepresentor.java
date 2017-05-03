@@ -1,9 +1,12 @@
 package com.kota.stratagem.ejbserviceclient.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppUserRepresentor {
+public class AppUserRepresentor implements Serializable {
+
+	private static final long serialVersionUID = -6915593956157741427L;
 
 	private Long id;
 	private final String name;
