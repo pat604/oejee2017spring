@@ -10,8 +10,8 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import hu.qwaevisz.tickethandling.ejbservice.converter.CustomerConverter;
-import hu.qwaevisz.tickethandling.ejbservice.domain.SystemStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.SystemStub;
 import hu.qwaevisz.tickethandling.persistence.exception.PersistenceServiceException;
 import hu.qwaevisz.tickethandling.persistence.service.CustomerService;
 
@@ -49,6 +49,20 @@ public class SystemFacadeImpl implements SystemFacade {
 			}
 			List<SystemStub> stubs = this.custConverter.to(this.custService.readAll());
 			return stubs;
+		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		}
+	}
+
+	@Override
+	public List<String> getSysLabels() throws FacadeException {
+		try {
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Get System labels");
+			}
+			List<String> labels = this.custService.readSysLabels();
+			return labels;
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());

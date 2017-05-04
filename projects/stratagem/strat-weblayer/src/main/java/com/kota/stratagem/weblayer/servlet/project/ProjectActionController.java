@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.kota.stratagem.ejbservice.domain.ProjectRepresentor;
-import com.kota.stratagem.ejbservice.domain.ProjectStatusRepresentor;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
 import com.kota.stratagem.ejbservice.protocol.ProjectProtocol;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ProjectStatusRepresentor;
 import com.kota.stratagem.weblayer.common.Page;
 import com.kota.stratagem.weblayer.common.project.ProjectAttribute;
 import com.kota.stratagem.weblayer.common.project.ProjectParameter;
@@ -37,19 +37,19 @@ public class ProjectActionController extends HttpServlet implements ProjectParam
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		final String id = request.getParameter(ID);
 		LOGGER.info("Get Project by id (" + id + ")");
-		if(id == null || "".equals(id)) {
+		if ((id == null) || "".equals(id)) {
 			response.sendRedirect(Page.PROJECT_LIST.getUrl());
 		} else {
 			final boolean editFlag = TRUE_VALUE.equals(request.getParameter(EDIT_FLAG));
 			ProjectRepresentor project = null;
 			boolean isNew = false;
-			if(NEW_PROJECT_ID_FLAG.equals(id)) {
+			if (NEW_PROJECT_ID_FLAG.equals(id)) {
 				project = new ProjectRepresentor(null, "", "", ProjectStatusRepresentor.PROPOSED, null, true, null);
 				isNew = true;
 			} else {
 				try {
 					project = this.protocol.getProject(Long.parseLong(id));
-				} catch(final AdaptorException e) {
+				} catch (final AdaptorException e) {
 					LOGGER.error(e, e);
 				}
 			}
@@ -57,11 +57,11 @@ public class ProjectActionController extends HttpServlet implements ProjectParam
 		}
 	}
 
-	private void forward(final HttpServletRequest request, final HttpServletResponse response, final boolean editFlag, final ProjectRepresentor project, boolean isNew, boolean finishFlag)
-			throws ServletException, IOException {
+	private void forward(final HttpServletRequest request, final HttpServletResponse response, final boolean editFlag, final ProjectRepresentor project,
+			boolean isNew, boolean finishFlag) throws ServletException, IOException {
 		request.setAttribute(ATTR_PROJECT, project);
 		request.setAttribute(ATTR_ISNEW, isNew);
-		if(finishFlag) {
+		if (finishFlag) {
 			response.sendRedirect(Page.PROJECT_LIST.getUrl());
 		} else {
 			final RequestDispatcher view = request.getRequestDispatcher(editFlag ? Page.PROJECT_EDIT.getJspName() : Page.PROJECT_VIEW.getJspName());
@@ -73,14 +73,14 @@ public class ProjectActionController extends HttpServlet implements ProjectParam
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		try {
 			Long id = null;
-			if(request.getParameter(ID) != "" && request.getParameter(ID) != null) {
+			if ((request.getParameter(ID) != "") && (request.getParameter(ID) != null)) {
 				id = Long.parseLong(request.getParameter(ID));
 			}
 			final String name = request.getParameter(NAME);
 			final String description = request.getParameter(DESCRIPTION);
 			final ProjectStatusRepresentor status = ProjectStatusRepresentor.valueOf(request.getParameter(STATUS));
 			final Boolean visible = Boolean.valueOf(request.getParameter(VISIBLE));
-			if(name == null || "".equals(name)) {
+			if ((name == null) || "".equals(name)) {
 				LOGGER.info("Failed attempt to modify project : (" + name + ")");
 				final ProjectRepresentor project = new ProjectRepresentor(id, name, description, status, null, visible, null);
 				this.forward(request, response, true, project, true, false);
@@ -89,15 +89,15 @@ public class ProjectActionController extends HttpServlet implements ProjectParam
 				try {
 					LOGGER.info(id == null ? "Create project : (" + name + ")" : "Update project : (" + id + ")");
 
-					// Representor collection 
+					// Representor collection
 
 					project = this.protocol.saveProject(id, name, description, status, null, visible, null, null, null, null, null);
-				} catch(final AdaptorException e) {
+				} catch (final AdaptorException e) {
 					LOGGER.error(e, e);
 				}
 				this.forward(request, response, false, project, false, true);
 			}
-		} catch(Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}

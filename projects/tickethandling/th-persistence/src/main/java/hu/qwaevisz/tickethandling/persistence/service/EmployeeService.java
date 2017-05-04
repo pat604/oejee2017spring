@@ -14,5 +14,7 @@ public interface EmployeeService {
 
 	Employee read(String id) throws PersistenceServiceException;
 
+	List<String> readEmpLabels() throws PersistenceServiceException;
+
 	List<Employee> readAll() throws PersistenceServiceException;
 }

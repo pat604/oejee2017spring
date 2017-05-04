@@ -6,7 +6,6 @@ public enum Page {
 	ERROR("error.jsp", "Error"),
 	LIST("list.jsp", "TicketList"),
 	HOME("home.jsp", "Home"),
-	SYSTEMLIST("systemlist.jsp", "SystemList"),
 	TICKET_VIEW("ticket.jsp", "Ticket"),
 	TICKET_CREATE("ticket-create.jsp", "TicketCreate");
 

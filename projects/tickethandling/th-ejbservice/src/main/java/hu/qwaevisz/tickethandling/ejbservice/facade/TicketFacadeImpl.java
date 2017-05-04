@@ -4,6 +4,7 @@ package hu.qwaevisz.tickethandling.ejbservice.facade;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
@@ -16,15 +17,18 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
+import hu.qwaevisz.tickethandling.ejbservice.converter.MessageConverter;
 import hu.qwaevisz.tickethandling.ejbservice.converter.TicketConverter;
-import hu.qwaevisz.tickethandling.ejbservice.domain.EmployeeStub;
-import hu.qwaevisz.tickethandling.ejbservice.domain.PriorityStub;
-import hu.qwaevisz.tickethandling.ejbservice.domain.StatusStub;
-import hu.qwaevisz.tickethandling.ejbservice.domain.SystemStub;
 import hu.qwaevisz.tickethandling.ejbservice.domain.TicketCriteria;
-import hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
-import hu.qwaevisz.tickethandling.persistence.entity.Message;
+import hu.qwaevisz.tickethandling.ejbserviceclient.TicketFacadeRemote;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.EmployeeStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.MessageStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.PriorityStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.StatusStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.SystemStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.ServiceException;
 import hu.qwaevisz.tickethandling.persistence.entity.Ticket;
 import hu.qwaevisz.tickethandling.persistence.entity.trunk.Priority;
 import hu.qwaevisz.tickethandling.persistence.entity.trunk.Status;
@@ -33,8 +37,8 @@ import hu.qwaevisz.tickethandling.persistence.service.MessageService;
 import hu.qwaevisz.tickethandling.persistence.service.TicketService;
 
 @PermitAll
-@Stateless(mappedName = "ejb/tikcetFacade")
-public class TicketFacadeImpl implements TicketFacade {
+@Stateless(mappedName = "ejb/ticketFacade")
+public class TicketFacadeImpl implements TicketFacade, TicketFacadeRemote {
 
 	private static final Logger LOGGER = Logger.getLogger(TicketFacadeImpl.class);
 
@@ -47,8 +51,11 @@ public class TicketFacadeImpl implements TicketFacade {
 	@EJB
 	private TicketConverter converter;
 
+	@EJB
+	private MessageConverter msgConverter;
+
 	@Override
-	public TicketStub getTicket(String id) throws FacadeException {
+	public TicketStub getTicket(String id) throws ServiceException {
 		try {
 			final TicketStub stub = this.converter.to(this.service.read(id));
 
@@ -59,22 +66,22 @@ public class TicketFacadeImpl implements TicketFacade {
 			return stub;
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
-			throw new FacadeException(e.getLocalizedMessage());
+			throw new ServiceException(e.getLocalizedMessage());
 		} catch (DOMException e) {
 			LOGGER.error(e, e);
-			throw new FacadeException(e.getLocalizedMessage());
+			throw new ServiceException(e.getLocalizedMessage());
 		} catch (ParserConfigurationException e) {
 			LOGGER.error(e, e);
-			throw new FacadeException(e.getLocalizedMessage());
+			throw new ServiceException(e.getLocalizedMessage());
 		} catch (SAXException e) {
 			LOGGER.error(e, e);
-			throw new FacadeException(e.getLocalizedMessage());
+			throw new ServiceException(e.getLocalizedMessage());
 		} catch (IOException e) {
 			LOGGER.error(e, e);
-			throw new FacadeException(e.getLocalizedMessage());
+			throw new ServiceException(e.getLocalizedMessage());
 		} catch (ParseException e) {
 			LOGGER.error(e, e);
-			throw new FacadeException(e.getLocalizedMessage());
+			throw new ServiceException(e.getLocalizedMessage());
 		}
 	}
 
@@ -87,7 +94,7 @@ public class TicketFacadeImpl implements TicketFacade {
 
 			for (Ticket ticket : tickets) {
 
-				if (criteria.getId() != null && criteria.getId() != ticket.getId()) {
+				if (criteria.getId() != null && !criteria.getId().toLowerCase().equals(ticket.getId().toLowerCase())) {
 					filtered.remove(ticket);
 					continue;
 				}
@@ -102,12 +109,13 @@ public class TicketFacadeImpl implements TicketFacade {
 					continue;
 				}
 
-				if (criteria.getProcessorId() != null && (ticket.getProcessor() == null || !criteria.getProcessorId().equals(ticket.getProcessor().getId()))) {
+				if (criteria.getProcessorId() != null
+						&& (ticket.getProcessor() == null || !criteria.getProcessorId().toLowerCase().equals(ticket.getProcessor().getId().toLowerCase()))) {
 					filtered.remove(ticket);
 					continue;
 				}
 
-				if (criteria.getSystem() != null && criteria.getSystem() != ticket.getSystem().getId()) {
+				if (criteria.getSystem() != null && !criteria.getSystem().toLowerCase().equals(ticket.getSystem().getId().toLowerCase())) {
 					filtered.remove(ticket);
 					continue;
 				}
@@ -155,13 +163,13 @@ public class TicketFacadeImpl implements TicketFacade {
 
 	@Override
 	public TicketStub saveTicket(String id, SystemStub system, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep,
-			Integer level, EmployeeStub processor, StatusStub status, List<Message> conversation) throws FacadeException {
+			Integer level, EmployeeStub processor, StatusStub status, List<MessageStub> conversation) throws FacadeException {
 		try {
 			Ticket ticket = null;
 			if (this.service.exists(id)) {
 				ticket = this.service.update(id, Priority.valueOf(priority.name()), level, processor.getId(), Status.valueOf(status.name()));
 
-				this.msgService.saveConversation(conversation, id);
+				this.msgService.saveConversation(this.msgConverter.from(conversation, id), id);
 
 			} else {
 				ticket = this.service.create(system.getId(), sender_name, Priority.valueOf(priority.name()), business_impact, steps_to_rep, level,
@@ -200,6 +208,44 @@ public class TicketFacadeImpl implements TicketFacade {
 		try {
 			this.service.delete(id);
 		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		}
+	}
+
+	@Override
+	public TicketStub createTicket(String systemId, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep,
+			String initialMessage) throws FacadeException {
+		try {
+			Ticket ticket = this.service.create(systemId, sender_name, Priority.valueOf(priority.name()), business_impact, steps_to_rep, 1, "UNASS",
+					Status.NEW);
+			this.msgService.createConversation(ticket.getId());
+
+			TicketStub stub = this.converter.to(ticket);
+			stub.getConversation().add(new MessageStub("Customer", "Processor", new Date(), initialMessage));
+			this.msgService.saveConversation(this.msgConverter.from(stub.getConversation(), stub.getId()), stub.getId());
+
+			return stub;
+
+		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		} catch (DOMException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		} catch (ParserConfigurationException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		} catch (SAXException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		} catch (IOException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		} catch (ParseException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		} catch (TransformerException e) {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());
 		}

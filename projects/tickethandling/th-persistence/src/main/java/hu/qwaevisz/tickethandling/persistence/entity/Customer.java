@@ -22,7 +22,9 @@ import hu.qwaevisz.tickethandling.persistence.query.CustomerQuery;
 		@NamedQuery(name = CustomerQuery.COUNT_BY_ID, query = "SELECT COUNT(c) FROM Customer c WHERE c.id=:" + CustomerParameter.ID),
 		@NamedQuery(name = CustomerQuery.GET_BY_ID, query = "SELECT c FROM Customer c WHERE c.id=:" + CustomerParameter.ID),
 		@NamedQuery(name = CustomerQuery.GET_ALL, query = "SELECT c FROM Customer c ORDER BY c.id"),
+		@NamedQuery(name = CustomerQuery.GET_SYSLABELS, query = "SELECT c.id FROM Customer c ORDER BY c.id"),
 		@NamedQuery(name = CustomerQuery.REMOVE_BY_ID, query = "DELETE FROM Customer c WHERE c.id=:" + CustomerParameter.ID)
+
 		//
 })
 public class Customer implements Serializable {

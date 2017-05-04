@@ -2,6 +2,7 @@ package hu.qwaevisz.tickethandling.persistence.service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -20,6 +21,7 @@ import javax.persistence.PersistenceException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -45,7 +47,7 @@ public class MessageServiceImpl implements MessageService {
 	private static final Logger LOGGER = Logger.getLogger(MessageServiceImpl.class);
 
 	private static final String XMLFILESPATH = "C:\\TicketingMessages";
-	private static final String MESSAGEDATEFORMAT = "yyyy-mm-dd hh:mm:ss";
+	private static final String MESSAGEDATEFORMAT = "yyyy-MM-dd HH:mm:ss";
 	private static final String INITIALMESSAGE = "<conversation id=\"%1s\"><message id=\"%2s-0001\"><from>System</from><to>Customer</to><date>%3s</date><text>Initial message</text></message></conversation>";
 
 	@Override
@@ -164,11 +166,12 @@ public class MessageServiceImpl implements MessageService {
 
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
+		transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		DOMSource source = new DOMSource(doc);
 		File file = new File(filepath);
-		LOGGER.info(file.createNewFile());
-		StreamResult result = new StreamResult(file);
+		FileOutputStream out = new FileOutputStream(file);
 
-		transformer.transform(source, result);
+		transformer.transform(source, new StreamResult(out));
 	}
 }

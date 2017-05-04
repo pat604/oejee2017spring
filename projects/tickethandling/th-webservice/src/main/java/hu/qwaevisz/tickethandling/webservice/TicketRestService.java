@@ -6,11 +6,15 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.AdaptorException;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.ServiceException;
+import hu.qwaevisz.tickethandling.webservice.domain.MessageCreateRemoteStub;
+import hu.qwaevisz.tickethandling.webservice.domain.TicketCreateRemoteStub;
 
 @Path("/ticket")
 public interface TicketRestService {
@@ -20,15 +24,24 @@ public interface TicketRestService {
 	@Produces("application/json")
 	List<TicketStub> getTickets() throws AdaptorException, FacadeException;
 
-	@POST
-	@Path("/processor")
-	@Consumes("application/json")
+	@GET
+	@Path("/id/{ticketId}")
 	@Produces("application/json")
-	List<TicketStub> getTicket(String processor) throws AdaptorException, FacadeException;
+	TicketStub getTicket(@PathParam("ticketId") String ticketId) throws AdaptorException, FacadeException, ServiceException;
+
+	@GET
+	@Path("/system/{systemid}")
+	@Produces("application/json")
+	List<TicketStub> getTickets(@PathParam("systemid") String systemid) throws AdaptorException, FacadeException;
 
 	@POST
 	@Path("/create")
 	@Consumes("application/json")
 	@Produces("application/json")
-	TicketStub createTicket(TicketStub newTicket) throws AdaptorException, FacadeException;
+	TicketStub createTicket(TicketCreateRemoteStub ticket) throws AdaptorException, FacadeException;
+
+	@POST
+	@Path("/send")
+	@Consumes("application/json")
+	TicketStub sendMessage(MessageCreateRemoteStub message) throws AdaptorException, FacadeException, ServiceException;
 }

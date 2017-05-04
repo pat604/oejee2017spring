@@ -5,15 +5,17 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Collections" %>
 <%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub"%>
+	import="hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub"%>
 <%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.PriorityStub"%>
+	import="hu.qwaevisz.tickethandling.ejbserviceclient.domain.PriorityStub"%>
+	<%@ page
+	import="hu.qwaevisz.tickethandling.ejbserviceclient.domain.MessageStub"%>
 <%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.StatusStub"%>
+	import="hu.qwaevisz.tickethandling.ejbserviceclient.domain.StatusStub"%>
 <%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.EmployeeStub"%>
+	import="hu.qwaevisz.tickethandling.ejbserviceclient.domain.EmployeeStub"%>
 <%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.SystemStub"%>
+	import="hu.qwaevisz.tickethandling.ejbserviceclient.domain.SystemStub"%>
 <%@ page
 	import="hu.qwaevisz.tickethandling.weblayer.common.TicketAttribute"%>
 <%@ page
@@ -175,10 +177,10 @@
 				</div>
 				<%
 					}
-					List<Message> conversation = ticket.getConversation();
-					Collections.sort(conversation);						
+					List<MessageStub> conversation = ticket.getConversation();
+					Collections.sort(conversation); 						
 				
-					for (Message message : conversation) {
+					for (MessageStub message : conversation) {
 				%>
 				<div class="message-ticketing">
 					<div class="row">

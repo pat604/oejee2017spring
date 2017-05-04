@@ -10,7 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
-import hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub;
 import hu.qwaevisz.tickethandling.persistence.entity.Ticket;
 
 @Local

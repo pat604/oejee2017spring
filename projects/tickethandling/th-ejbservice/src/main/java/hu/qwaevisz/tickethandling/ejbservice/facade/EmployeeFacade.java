@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import hu.qwaevisz.tickethandling.ejbservice.domain.EmployeeStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.EmployeeStub;
 
 @Local
 public interface EmployeeFacade {
@@ -13,4 +13,6 @@ public interface EmployeeFacade {
 	EmployeeStub getEmployee(String id) throws FacadeException;
 
 	List<EmployeeStub> getEmployees() throws FacadeException;
+
+	List<String> getEmpLabels() throws FacadeException;
 }

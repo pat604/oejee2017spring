@@ -21,7 +21,7 @@ public class LoginServlet extends HttpServlet implements LoginAttribute {
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute(ATTR_USERNAME, "");
 		request.setAttribute(ATTR_ERROR, "");
-		final RequestDispatcher view = request.getRequestDispatcher(Page.LOGIN.getJspName());
+		final RequestDispatcher view = request.getRequestDispatcher(Page.HOME.getJspName());
 		view.forward(request, response);
 	}
 }

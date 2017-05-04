@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import com.kota.stratagem.ejbservice.domain.ImpedimentRepresentor;
+import com.kota.stratagem.ejbserviceclient.domain.ImpedimentRepresentor;
 import com.kota.stratagem.persistence.entity.Impediment;
 
 @Local

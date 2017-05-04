@@ -10,8 +10,8 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import hu.qwaevisz.tickethandling.ejbservice.converter.EmployeeConverter;
-import hu.qwaevisz.tickethandling.ejbservice.domain.EmployeeStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.EmployeeStub;
 import hu.qwaevisz.tickethandling.persistence.exception.PersistenceServiceException;
 import hu.qwaevisz.tickethandling.persistence.service.EmployeeService;
 
@@ -49,6 +49,20 @@ public class EmployeeFacadeImpl implements EmployeeFacade {
 				LOGGER.debug("Get Employees");
 			}
 			return stubs;
+		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		}
+	}
+
+	@Override
+	public List<String> getEmpLabels() throws FacadeException {
+		try {
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Get Employee labels");
+			}
+			List<String> labels = this.empService.readEmpLabels();
+			return labels;
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());

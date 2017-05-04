@@ -1,3 +1,6 @@
 include 'tm-ejbservice'
+include 'tm-ejbserviceclient'
 include 'tm-weblayer'
+include 'tm-webservice'
 include 'tm-persistence'
+include 'tm-client'

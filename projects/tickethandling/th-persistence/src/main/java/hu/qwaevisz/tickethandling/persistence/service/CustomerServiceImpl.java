@@ -78,4 +78,18 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		return result;
 	}
+
+	@Override
+	public List<String> readSysLabels() throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Get customer-system labels");
+		}
+		List<String> result = null;
+		try {
+			result = this.entityManager.createNamedQuery(CustomerQuery.GET_SYSLABELS, String.class).getResultList();
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when fetching customer-system labels! " + e.getLocalizedMessage(), e);
+		}
+		return result;
+	}
 }

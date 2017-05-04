@@ -6,9 +6,12 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
+
+import hu.todomanager.ejbservice.exception.AdaptorException;
+import hu.todomanager.ejbservice.util.ApplicationError;
 import hu.todomanager.ejbservice.converter.*;
 import hu.todomanager.ejbservice.domain.*;
-import hu.todomanager.ejbservice.exception.FacadeException;
+import hu.todomanager.ejbservice.exception.*;
 import hu.todomanager.persistence.entity.*;
 import hu.todomanager.persistence.service.*;
 import hu.todomanager.persistence.exception.PersistenceServiceException;
@@ -59,7 +62,7 @@ public class TodoFacadeImpl implements TodoFacade {
 	}
 	
 	@Override
-	public TodoStub getTodoByName(String name) throws FacadeException {
+	public TodoStub getTodoByName(String name) throws FacadeException{
 		try {
 			final TodoStub stub = this.converter.to(this.todoService.readByName(name));
 			if (LOGGER.isDebugEnabled()) {
@@ -70,6 +73,7 @@ public class TodoFacadeImpl implements TodoFacade {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());
 		}
+		
 	}
 	
 	@Override

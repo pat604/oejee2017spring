@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,6 +28,7 @@
             </ul>
         </div>
     </div>
+    
 	<!--/.Mask-->
 	
 	<div class="container">
@@ -183,7 +185,12 @@
 
         </section>
         <!--/Section: Best features-->
-
+        
+        <!-- Modals -->
+		<jsp:include page="/modal/login.jsp"></jsp:include>
+		<jsp:include page="/modal/register.jsp"></jsp:include>
+		<jsp:include page="/partial/alert.jsp"></jsp:include>
+		<!-- /Modals -->
     </div>
 	
 	<jsp:include page="/partial/footer.jsp"></jsp:include>

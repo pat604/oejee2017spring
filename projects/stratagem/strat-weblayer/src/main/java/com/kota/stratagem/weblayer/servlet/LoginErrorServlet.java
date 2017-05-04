@@ -24,7 +24,7 @@ public class LoginErrorServlet extends HttpServlet implements LoginAttribute {
 		request.setAttribute(ATTR_USERNAME, userName);
 		request.setAttribute(ATTR_ERROR, "Login failed");
 
-		final RequestDispatcher view = request.getRequestDispatcher(Page.LOGIN.getJspName());
+		final RequestDispatcher view = request.getRequestDispatcher(Page.HOME.getJspName());
 		view.forward(request, response);
 	}
 

@@ -3,15 +3,15 @@
 <%@ page
 	import="java.util.ArrayList"%>
 <%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub"%>
+	import="hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub"%>
 <%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.PriorityStub"%>
+	import="hu.qwaevisz.tickethandling.ejbserviceclient.domain.PriorityStub"%>
 <%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.StatusStub"%>
+	import="hu.qwaevisz.tickethandling.ejbserviceclient.domain.StatusStub"%>
 <%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.EmployeeStub"%>	
+	import="hu.qwaevisz.tickethandling.ejbserviceclient.domain.EmployeeStub"%>	
 <%@ page
-	import="hu.qwaevisz.tickethandling.ejbservice.domain.SystemStub"%>
+	import="hu.qwaevisz.tickethandling.ejbserviceclient.domain.SystemStub"%>
 <%@ page
 	import="hu.qwaevisz.tickethandling.weblayer.common.TicketCreateAttribute"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -146,7 +146,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" class="btn btn-default">Submit</button>
-					&nbsp;<a href="Ticket?id=<%out.print(ticket.getId());%>">Cancel</a>
+					&nbsp;<a href="Home">Cancel</a>
 				</div>
 			</div>
 		</form>

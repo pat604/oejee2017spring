@@ -125,20 +125,25 @@ INSERT INTO projects (project_id, project_name, project_description, project_sta
 (3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', 5, '2017/05/26 00:00:00', FALSE),
 (4, 'Test 1', 'Test 1 objective project', 0, NULL, TRUE),
 (5, 'Test 2', 'Test 1 objective project', 0, NULL, TRUE),
-(6, 'Test 3', 'Test 2 objective project', 0, NULL, TRUE);
+(6, 'Test 3', 'Test 2 objective project', 0, NULL, TRUE),
+(7, 'Codename -ISOCHRONE-', 'Recursive inlay of project system implementation', 5, NULL, FALSE);
 SELECT SETVAL('projects_project_id_seq', COALESCE(MAX(project_id), 0) ) FROM projects;
 
 INSERT INTO project_missions (mission_id, mission_name, mission_description, mission_project, mission_stage_id) VALUES
 (0, 'Employee data visualization requests', '', 3, 2);
 
-INSERT INTO project_managers (project_manager_id, project_manager_project_id, project_manager_user_id, project_manager_owner) VALUES
-(0, 0, 0, TRUE),
-(1, 1, 1, FALSE),
-(2, 2, 2, FALSE),
-(3, 2, 3, FALSE),
-(4, 3, 0, FALSE),
-(5, 3, 10, TRUE),
-(6, 1, 0, TRUE);
+INSERT INTO project_managers (project_manager_project_id, project_manager_user_id) VALUES
+(1, 1),
+(2, 2),
+(2, 3),
+(3, 0),
+(7, 0);
+
+INSERT INTO product_owners (product_owner_project_id, product_owner_user_id) VALUES
+(0, 0),
+(3, 10),
+(1, 0),
+(7, 0);
 
 INSERT INTO project_status_alterations (alteration_id, alteration_project_id, alteration_status_id, alteration_user_id, alteration_date) VALUES 
 (0, 0, 1, 2, '2015/06/03 10:15:00'),
@@ -171,7 +176,10 @@ INSERT INTO tasks (task_id, task_name, task_description, task_completion_percent
 (2, 'Extraction planning', 'Planning extraction approach', 60, NULL),
 (3, 'Backup system allocation', 'Allocating backup systems for overload evasion', 100, '2016/09/10 00:00:00'),
 (4, 'Incident wrap up', 'Closing all end-to-end test incidents', 0, NULL),
-(5, 'Stable build', 'Create maintainable build on CI server for ease of rollback', 100, NULL);
+(5, 'Stable build', 'Create maintainable build on CI server for ease of rollback', 100, NULL),
+(6, 'Tab-like modal navigation', 'Investigate possibility to navigate between login and registration forms, in a tab-like manner. This might be a possible solution to the noticed UI bug.', 0, '2017/12/01 00:00:00'),
+(7, 'REST', 'Create REST API module', 0, '2017/12/01 00:00:00'),
+(8, 'RMI', 'Create Remote EJB module', 0, '2017/12/01 00:00:00');
 
 -- INSERT INTO task_alterations
 
@@ -181,7 +189,10 @@ INSERT INTO project_tasks (project_task_project_id, project_task_task_id) VALUES
 (2, 0),
 (2, 3),
 (1, 4),
-(3, 5);
+(3, 5),
+(7, 6),
+(7, 7),
+(7, 8);
 
 INSERT INTO objective_tasks (objective_task_objective_id, objective_task_task_id) VALUES
 (0, 2),
@@ -211,8 +222,8 @@ INSERT INTO project_impediments (project_impediment_project_id, project_impedime
 INSERT INTO task_impediments (task_impediment_task_id, task_impediment_impediment_id) VALUES
 (4, 2);
 
--- INSERT INTO remedies (remedy_id, remedy_description, remedy_impediment_id, remedy_submission_date, remedy_provider) VALUES
--- (0, 'Use service control tool to generate project structure from existing endpoint meta data', 1, '2015/12/13 14:20:00', 1); 
+INSERT INTO remedies (remedy_id, remedy_description, remedy_impediment_id, remedy_submission_date, remedy_provider) VALUES
+(0, 'Use service control tool to generate project structure from existing endpoint meta data', 1, '2015/12/13 14:20:00', 1); 
 
 -- ###########################################################################################
 

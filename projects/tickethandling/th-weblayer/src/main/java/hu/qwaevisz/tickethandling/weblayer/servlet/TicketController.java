@@ -13,15 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import hu.qwaevisz.tickethandling.ejbservice.domain.EmployeeStub;
-import hu.qwaevisz.tickethandling.ejbservice.domain.PriorityStub;
-import hu.qwaevisz.tickethandling.ejbservice.domain.StatusStub;
-import hu.qwaevisz.tickethandling.ejbservice.domain.TicketStub;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbservice.facade.EmployeeFacade;
 import hu.qwaevisz.tickethandling.ejbservice.facade.SystemFacade;
 import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
-import hu.qwaevisz.tickethandling.persistence.entity.Message;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.EmployeeStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.MessageStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.PriorityStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.StatusStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.ServiceException;
 import hu.qwaevisz.tickethandling.weblayer.common.Page;
 import hu.qwaevisz.tickethandling.weblayer.common.TicketAttribute;
 import hu.qwaevisz.tickethandling.weblayer.common.TicketParameter;
@@ -51,7 +52,7 @@ public class TicketController extends HttpServlet implements TicketParameter, Ti
 
 		try {
 			ticket = this.ticFacade.getTicket(id);
-		} catch (final FacadeException e) {
+		} catch (final ServiceException e) {
 			LOGGER.error(e, e);
 		}
 
@@ -75,7 +76,7 @@ public class TicketController extends HttpServlet implements TicketParameter, Ti
 
 			if (message == null) {
 
-				message = "The following changes were made to this ticket: ";
+				message = "";
 
 				PriorityStub oldPrio = ticket.getPriority();
 				StatusStub oldStat = ticket.getStatus();
@@ -104,13 +105,21 @@ public class TicketController extends HttpServlet implements TicketParameter, Ti
 					ticket.setStatus(newStat);
 					message += "<br /> - status changed from " + oldStat + " to " + newStat;
 				}
+
+				if (!message.equals("")) {
+					message = "The following changes were made to this ticket:" + message;
+				}
 			}
 
-			ticket.getConversation().add(new Message("", user.getName(), "Customer", currentDate, message));
-			ticket.setLastchanged(currentDate);
-			this.ticFacade.saveTicket(ticket);
+			if (!message.equals("")) {
+				ticket.getConversation().add(new MessageStub(user.getName(), "Customer", currentDate, message));
+				ticket.setLastchanged(currentDate);
+				this.ticFacade.saveTicket(ticket);
+			}
 
 		} catch (FacadeException e) {
+			LOGGER.error(e, e);
+		} catch (ServiceException e) {
 			LOGGER.error(e, e);
 		}
 
