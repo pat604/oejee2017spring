@@ -1,5 +1,7 @@
 package hu.smiklos.stmm.remoteclient;
 
+import hu.smiklos.stmm.remotelibrary.LoanOffersRemoteBean;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,6 +16,7 @@ public class RemoteClientUI implements Runnable, ActionListener {
     private JPanel centerPanel;
     private JFrame frame;
     private JPanel mainPanel;
+    private LoanOffersRemoteBean remoteEjb;
 
     public RemoteClientUI() {
         frame = new JFrame("Remote loan query");
@@ -22,7 +25,9 @@ public class RemoteClientUI implements Runnable, ActionListener {
         centerPanel = new JPanel();
     }
 
-    public void init(Object remoteEjb)  {
+    public void init(LoanOffersRemoteBean remoteEjb)  {
+        this.remoteEjb = remoteEjb;
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(640,480));
         this.addFrameElements();

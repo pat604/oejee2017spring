@@ -1,5 +1,7 @@
 package hu.smiklos.stmm.remoteclient;
 
+import hu.smiklos.stmm.remotelibrary.LoanOffersRemoteBean;
+import hu.smiklos.stmm.remotelibrary.exception.ServiceException;
 import org.apache.log4j.Logger;
 
 import javax.naming.Context;
@@ -27,10 +29,10 @@ public class LoanClient {
 
     public void run() throws NamingException {
         try {
-            Object o = lookup();
-            LOGGER.info("Remote client OK: "+ o);
+            LoanOffersRemoteBean remoteBean = (LoanOffersRemoteBean)lookup();
+            LOGGER.info("Remote client OK: "+ remoteBean);
             RemoteClientUI ui= new RemoteClientUI();
-            ui.init(o);
+            ui.init(remoteBean);
         }catch (NamingException e) {
             LOGGER.error("Naming exception: " + e.getExplanation());
         }
