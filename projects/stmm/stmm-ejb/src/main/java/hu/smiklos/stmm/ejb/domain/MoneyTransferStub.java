@@ -1,13 +1,11 @@
 package hu.smiklos.stmm.ejb.domain;
 
 import hu.smiklos.stmm.ejb.common.Errors;
-import hu.smiklos.stmm.ejb.converter.DateConverter;
 import hu.smiklos.stmm.pers.entity.MoneyTransfer;
 import hu.smiklos.stmm.pers.entity.RepaymentType;
 import hu.smiklos.stmm.pers.entity.Wallet;
 import hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates;
 
-import java.sql.Date;
 import java.util.List;
 
 /**

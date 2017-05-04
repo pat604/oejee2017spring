@@ -1,0 +1,15 @@
+apply plugin: 'idea'
+
+jar { archiveName 'stmm-remoteclient.jar' }
+
+repositories {
+	mavenCentral()
+	maven { url "http://central.maven.org/maven2/" }
+	flatDir { dirs 'lib' }
+}
+
+dependencies {
+	compile project(':stmm-remotelibrary')
+	//compile group: 'org.jboss.spec', name: 'jboss-javaee-6.0', version: '1.0.0.Final'
+	runtime name: 'jboss-client', ext: 'jar'
+}

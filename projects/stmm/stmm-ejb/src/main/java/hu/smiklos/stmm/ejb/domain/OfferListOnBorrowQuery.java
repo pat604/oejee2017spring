@@ -1,5 +1,7 @@
 package hu.smiklos.stmm.ejb.domain;
 
+
+
 import hu.smiklos.stmm.pers.entity.MoneyTransfer;
 
 import java.io.Serializable;

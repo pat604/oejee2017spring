@@ -1,8 +1,8 @@
 package hu.smiklos.stmm.pers.service;
 
-import hu.smiklos.stmm.pers.entity.MoneyTransfer;
 import hu.smiklos.stmm.pers.entity.RepaymentType;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
+import hu.smiklos.stmm.pers.entity.MoneyTransfer;
 
 import java.security.Principal;
 import java.util.List;

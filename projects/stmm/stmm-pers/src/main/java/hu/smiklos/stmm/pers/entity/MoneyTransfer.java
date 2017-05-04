@@ -1,5 +1,8 @@
 package hu.smiklos.stmm.pers.entity;
 
+import hu.smiklos.stmm.pers.entity.RepaymentType;
+import hu.smiklos.stmm.pers.entity.RepaymentUnit;
+import hu.smiklos.stmm.pers.entity.Wallet;
 import hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates;
 import hu.smiklos.stmm.pers.parameter.MoneyTransferParameter;
 import hu.smiklos.stmm.pers.query.MoneyTransferQuery;

@@ -3,7 +3,6 @@ package hu.smiklos.stmm.web.servlet;
 import hu.smiklos.stmm.ejb.domain.BorrowStub;
 import hu.smiklos.stmm.ejb.domain.OfferListOnBorrowQuery;
 import hu.smiklos.stmm.ejb.facade.BorrowFacadeInterface;
-import hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.web.common.*;
 
