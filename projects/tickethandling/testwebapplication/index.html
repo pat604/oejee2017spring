@@ -87,7 +87,7 @@
 			if (SYSTEMS.indexOf(ticketId.trim().toUpperCase()) != -1) {
 				$.ajax({
 					type: 'get',
-					url: 'http://localhost:8080/th-webservice/api/ticket/id/' + ticketId,
+					url: 'http://localhost:8080/th-webservice/api/ticket/' + ticketId,
 					success: function(result){
 						
 						last = new Date(result.lastchanged);
@@ -99,6 +99,7 @@
 						$('#tic-det-proc').html(result.processor.name);
 						$('#tic-det-last').html(last.toLocaleDateString() + " " + last.toLocaleTimeString());
 						$('#tic-det-created').html(created.toLocaleDateString() + " " + created.toLocaleTimeString());
+						$('#tic-det-del').click(function() {deleteTicket(ticketId);});
 						
 						$('#tic-det-msgs').html("");
 						
@@ -124,6 +125,30 @@
 			}
 		}
 		
+		function deleteTicket(ticketId) {
+			if (SYSTEMS.indexOf(ticketId.trim().toUpperCase()) != -1) {
+				
+				alert("Your ticket will be removed!");
+				
+				$.ajax({
+					type: 'delete',
+					url: 'http://localhost:8080/th-webservice/api/ticket/' + ticketId,
+					success: function(result){
+						
+						$('#status').html("The ticket was successfully deleted!");
+						
+						getMyTickets();
+											
+					},
+					error: function(result) {
+						$('#status').html("Sorry, we can't delete your ticket right now :(");
+					}
+				});					
+			} else {
+				$('#status').html("The Ticket ID you specified is not on the list!");
+			}
+		}
+		
 		</script>
 	
 		<h2>REST TEST WEBAPPLICATION</h2>
@@ -134,6 +159,7 @@
 	
 		<div id="tic-det">
 			<h3 id="tic-det-id">Click a ticket ID above to see details!</h3>
+			<div id="tic-det-del" style="color: red; cursor: pointer;"><strong>DELETE</strong></div>
 			<strong>Priority: </strong><div id="tic-det-prio"></div>
 			<strong>Status: </strong><div id="tic-det-status"></div>
 			<strong>Processor: </strong><div id="tic-det-proc"></div>

@@ -3,6 +3,7 @@ package hu.qwaevisz.tickethandling.webservice;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -25,7 +26,7 @@ public interface TicketRestService {
 	List<TicketStub> getTickets() throws AdaptorException, FacadeException;
 
 	@GET
-	@Path("/id/{ticketId}")
+	@Path("/{ticketId}")
 	@Produces("application/json")
 	TicketStub getTicket(@PathParam("ticketId") String ticketId) throws AdaptorException, FacadeException, ServiceException;
 
@@ -44,4 +45,8 @@ public interface TicketRestService {
 	@Path("/send")
 	@Consumes("application/json")
 	TicketStub sendMessage(MessageCreateRemoteStub message) throws AdaptorException, FacadeException, ServiceException;
+
+	@DELETE
+	@Path("/{ticketId}")
+	void deleteTicket(String ticketId) throws AdaptorException, FacadeException;
 }

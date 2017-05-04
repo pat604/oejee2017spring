@@ -60,4 +60,10 @@ public class TicketRestServiceBean implements TicketRestService {
 		LOGGER.info("Get Ticket by ID " + ticketId);
 		return this.facade.getTicket(ticketId);
 	}
+
+	@Override
+	public void deleteTicket(String ticketId) throws AdaptorException, FacadeException {
+		LOGGER.info("Remove Ticket by ID " + ticketId);
+		this.facade.removeTicket(ticketId);
+	}
 }

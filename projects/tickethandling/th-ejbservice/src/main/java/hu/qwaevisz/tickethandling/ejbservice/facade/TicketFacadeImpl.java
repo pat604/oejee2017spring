@@ -2,6 +2,7 @@
 package hu.qwaevisz.tickethandling.ejbservice.facade;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,7 +39,9 @@ import hu.qwaevisz.tickethandling.persistence.service.TicketService;
 
 @PermitAll
 @Stateless(mappedName = "ejb/ticketFacade")
-public class TicketFacadeImpl implements TicketFacade, TicketFacadeRemote {
+public class TicketFacadeImpl implements TicketFacade, TicketFacadeRemote, Serializable {
+
+	private static final long serialVersionUID = -884509807360941797L;
 
 	private static final Logger LOGGER = Logger.getLogger(TicketFacadeImpl.class);
 

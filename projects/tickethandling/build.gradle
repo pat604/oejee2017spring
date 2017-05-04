@@ -20,7 +20,7 @@ allprojects {
 		mavenCentral() 
 		maven { url "http://repository.pentaho.org/artifactory/repo" }
 		maven { url "https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/" }
-	}
+	}	
 }
 
 subprojects {
