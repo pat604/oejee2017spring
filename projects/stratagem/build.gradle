@@ -18,7 +18,7 @@ ext {
 	webapplicationName = 'strat-weblayer.war'
 	webapplicationContextPath = 'stratagem'
 	webserviceArchiveName = 'strat-webservice.war'
-	webserviceContextPath = 'stratagem'
+	webserviceContextPath = 'stratagem-svc'
 }
 
 allprojects {
@@ -36,7 +36,8 @@ allprojects {
 		runtime group: 'org.mindrot', name: 'jbcrypt', version: '0.3m', ext: 'jar'
         compile group: 'org.picketbox', name: 'picketbox', version: '4.1.5.Final'
 		compile group: 'log4j', name: 'log4j', version: log4jVersion
-		compile group: 'javax', name: 'javaee-api', version: jeeVersion
+		// compile group: 'javax', name: 'javaee-api', version: jeeVersion
+		compile group: 'org.jboss.spec', name: 'jboss-javaee-6.0', version: '1.0.0.Final'
 		compile group: 'org.apache.activemq', name: 'activemq-jaas', version: '5.14.4'
 	}
 }
@@ -44,6 +45,7 @@ allprojects {
 ear {
     deploymentDescriptor { 
     	webModule( webapplicationName, webapplicationContextPath ) 
+    	webModule( webserviceArchiveName, webserviceContextPath )
     }
 }
 
