@@ -5,4 +5,5 @@ include 'stmm-ejb'
 include 'stmm-pers'
 include 'stmm-security'
 include 'stmm-restservice'
-
+include 'stmm-remotelibrary'
+include 'stmm-remoteclient'

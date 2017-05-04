@@ -1,15 +1,13 @@
 package hu.smiklos.stmm.pers.service;
 
 import hu.smiklos.stmm.pers.entity.*;
-import hu.smiklos.stmm.pers.entity.trunk.MoneyTransferStates;
 import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.pers.parameter.MoneyTransferParameter;
 import hu.smiklos.stmm.pers.parameter.MoneyTransferPerDayParameter;
-import hu.smiklos.stmm.pers.parameter.RegPerDayParameter;
 import hu.smiklos.stmm.pers.query.MoneyTransferPerDayQuery;
 import hu.smiklos.stmm.pers.query.MoneyTransferQuery;
-import hu.smiklos.stmm.pers.query.RegPerDayQuery;
 import hu.smiklos.stmm.pers.query.RepaymentTypeQuery;
+import hu.smiklos.stmm.pers.entity.MoneyTransfer;
 import org.apache.log4j.Logger;
 
 import javax.ejb.*;
@@ -17,9 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by SebestyenMiklos on 2017. 04. 15..
