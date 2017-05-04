@@ -4,3 +4,7 @@ version '1.0-SNAPSHOT'
 jar {
     archiveName 'stmm-pers.jar'
 }
+
+dependencies {
+    compile group: 'javax', name: 'javaee-api', version: jeeVersion
+}

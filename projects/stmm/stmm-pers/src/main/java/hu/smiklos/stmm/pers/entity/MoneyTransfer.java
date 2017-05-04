@@ -158,7 +158,4 @@ public class MoneyTransfer implements Serializable {
         this.repaymentUnits = repaymentUnits;
     }
 
-    public double getCost() {
-        return this.expected_return_amount-this.getTransfer_amount();
-    }
 }

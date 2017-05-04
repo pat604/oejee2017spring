@@ -10,6 +10,7 @@ import hu.smiklos.stmm.remotelibrary.entity.LoanOfferRemote;
 import hu.smiklos.stmm.remotelibrary.exception.ServiceException;
 
 import javax.annotation.security.PermitAll;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.security.Principal;
@@ -48,7 +49,10 @@ public class BorrowFacade implements BorrowFacadeInterface, LoanOffersRemoteBean
         List<MoneyTransfer> unSortedOffers =  mtService.getOnPlateMoneyTransfersByRepaymentType(repayment_type);
         List<LoanOfferRemote> list= new ArrayList<LoanOfferRemote>();
         for(MoneyTransfer transfer: unSortedOffers){
-            list.add(new LoanOfferRemote(transfer.getMoney_transfer_repayment_type().getRepayment_type_name(),transfer.getMoneytransfer_investment_time_period_month(),transfer.getTransfer_amount(),transfer.getCost()));
+            list.add(new LoanOfferRemote(transfer.getMoney_transfer_repayment_type().getRepayment_type_name(),
+                    transfer.getMoneytransfer_investment_time_period_month(),
+                    transfer.getTransfer_amount(),
+                    transfer.getExpected_return_amount()-transfer.getTransfer_amount()));
         }
         return (LoanOfferRemote[])list.toArray();
     }
