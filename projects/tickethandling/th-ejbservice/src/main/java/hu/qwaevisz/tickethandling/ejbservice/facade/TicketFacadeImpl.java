@@ -85,6 +85,9 @@ public class TicketFacadeImpl implements TicketFacade, TicketFacadeRemote, Seria
 		} catch (ParseException e) {
 			LOGGER.error(e, e);
 			throw new ServiceException(e.getLocalizedMessage());
+		} catch (FacadeException e) {
+			LOGGER.error(e, e);
+			throw new ServiceException(e.getLocalizedMessage());
 		}
 	}
 

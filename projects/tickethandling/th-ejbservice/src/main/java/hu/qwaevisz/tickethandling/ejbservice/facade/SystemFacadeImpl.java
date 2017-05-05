@@ -87,7 +87,7 @@ public class SystemFacadeImpl implements SystemFacade {
 
 			Customer cust = this.custService.read(system.getId());
 
-			// this.cisService.remove(cust);
+			this.cisService.remove(cust);
 
 			for (ComponentStub comp : new_comps) {
 				this.cisService.create(cust, Component.valueOf(comp.getName()), "");

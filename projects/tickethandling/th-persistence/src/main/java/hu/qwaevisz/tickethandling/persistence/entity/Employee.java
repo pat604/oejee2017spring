@@ -2,16 +2,12 @@ package hu.qwaevisz.tickethandling.persistence.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -53,9 +49,6 @@ public class Employee implements Serializable {
 	@Column(name = "emp_hiredate", nullable = false)
 	private Date hiredate;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = Ticket.class, mappedBy = "processor")
-	private final Set<Ticket> tickets;
-
 	public Employee() {
 		this("", "", "", "", 0, new Date());
 	}
@@ -68,7 +61,6 @@ public class Employee implements Serializable {
 		this.email = email;
 		this.level = level;
 		this.hiredate = hiredate;
-		this.tickets = new HashSet<>();
 	}
 
 	public String getId() {
@@ -111,10 +103,6 @@ public class Employee implements Serializable {
 		this.hiredate = hiredate;
 	}
 
-	public Set<Ticket> getTickets() {
-		return this.tickets;
-	}
-
 	public Integer getLevel() {
 		return this.level;
 	}
@@ -126,6 +114,6 @@ public class Employee implements Serializable {
 	@Override
 	public String toString() {
 		return "Employee [id=" + this.id + ", name=" + this.name + ", phone=" + this.phone + ", email=" + this.email + ", level=" + this.level + ", hiredate="
-				+ this.hiredate + ", tickets=" + this.tickets + "]";
+				+ this.hiredate + "]";
 	}
 }

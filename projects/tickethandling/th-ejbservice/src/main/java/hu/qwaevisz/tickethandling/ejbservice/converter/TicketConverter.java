@@ -10,14 +10,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
+import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub;
 import hu.qwaevisz.tickethandling.persistence.entity.Ticket;
 
 @Local
 public interface TicketConverter {
 
-	TicketStub to(Ticket ticket) throws DOMException, ParserConfigurationException, SAXException, IOException, ParseException;
+	TicketStub to(Ticket ticket) throws DOMException, ParserConfigurationException, SAXException, IOException, ParseException, FacadeException;
 
-	List<TicketStub> to(List<Ticket> tickets) throws DOMException, ParserConfigurationException, SAXException, IOException, ParseException;
+	List<TicketStub> to(List<Ticket> tickets) throws DOMException, ParserConfigurationException, SAXException, IOException, ParseException, FacadeException;
 
 }

@@ -1,6 +1,7 @@
 package hu.qwaevisz.tickethandling.persistence.service;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -44,8 +45,7 @@ public class CompInSystemServiceImpl implements CompInSystemService {
 		}
 		try {
 			final CompInSystem cis = new CompInSystem(customer, component, description, new Date());
-			this.entityManager.merge(cis);
-			this.entityManager.flush();
+			this.entityManager.persist(cis);
 
 			return cis;
 		} catch (final Exception e) {
@@ -79,5 +79,19 @@ public class CompInSystemServiceImpl implements CompInSystemService {
 			throw new PersistenceServiceException("Unknown error during deleting Connection!" + e.getLocalizedMessage(), e);
 		}
 
+	}
+
+	@Override
+	public List<CompInSystem> getByCustomer(Customer customer) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Get Connections of System");
+		}
+		try {
+			return this.entityManager.createNamedQuery(CompInSystemQuery.GET_BY_SYS, CompInSystem.class).setParameter(CompInSystemParameter.CUSTOMER, customer)
+					.getResultList();
+
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error during deleting Connection!" + e.getLocalizedMessage(), e);
+		}
 	}
 }

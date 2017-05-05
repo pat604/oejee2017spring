@@ -74,7 +74,6 @@ public class TicketServiceImplIntegrationTest {
 		final Employee emp = this.object2.read("E4412");
 
 		Assert.assertEquals(emp.getId(), "E4412");
-		Assert.assertEquals(emp.getTickets().size(), 1);
 	}
 
 	@Test(groups = "integration")
@@ -82,7 +81,6 @@ public class TicketServiceImplIntegrationTest {
 		final Customer cust = this.object3.read("AES-324");
 
 		Assert.assertEquals(cust.getId(), "AES-324");
-		Assert.assertEquals(cust.getComponents().size(), 2);
 	}
 
 	@AfterClass

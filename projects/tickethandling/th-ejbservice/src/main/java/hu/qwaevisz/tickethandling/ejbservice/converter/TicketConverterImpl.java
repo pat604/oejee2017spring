@@ -13,6 +13,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
+import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.EmployeeStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.MessageStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.PriorityStub;
@@ -38,7 +39,7 @@ public class TicketConverterImpl implements TicketConverter {
 	private MessageConverter msgConv;
 
 	@Override
-	public TicketStub to(Ticket ticket) throws DOMException, ParserConfigurationException, SAXException, IOException, ParseException {
+	public TicketStub to(Ticket ticket) throws DOMException, ParserConfigurationException, SAXException, IOException, ParseException, FacadeException {
 
 		final StatusStub status = StatusStub.valueOf(ticket.getStatus().toString());
 		final PriorityStub priority = PriorityStub.valueOf(ticket.getPriority().toString());
@@ -51,7 +52,8 @@ public class TicketConverterImpl implements TicketConverter {
 	}
 
 	@Override
-	public List<TicketStub> to(List<Ticket> tickets) throws DOMException, ParserConfigurationException, SAXException, IOException, ParseException {
+	public List<TicketStub> to(List<Ticket> tickets)
+			throws DOMException, ParserConfigurationException, SAXException, IOException, ParseException, FacadeException {
 		final List<TicketStub> result = new ArrayList<TicketStub>();
 		for (final Ticket ticket : tickets) {
 			result.add(this.to(ticket));

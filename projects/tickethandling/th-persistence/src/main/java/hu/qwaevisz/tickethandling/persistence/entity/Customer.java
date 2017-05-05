@@ -1,16 +1,12 @@
 package hu.qwaevisz.tickethandling.persistence.entity;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import hu.qwaevisz.tickethandling.persistence.parameter.CustomerParameter;
@@ -34,9 +30,6 @@ public class Customer implements Serializable {
 	@Id
 	@Column(name = "cust_sys_id", nullable = false)
 	private String id;
-
-	@OneToMany(fetch = FetchType.EAGER, targetEntity = CompInSystem.class, mappedBy = "system")
-	private final Set<CompInSystem> components;
 
 	@Column(name = "cust_name", nullable = false)
 	private String name;
@@ -65,7 +58,6 @@ public class Customer implements Serializable {
 		this.contact_name = contact_name;
 		this.contact_phone = contact_phone;
 		this.contact_mail = contact_mail;
-		this.components = new HashSet<>();
 	}
 
 	public String getId() {
@@ -116,14 +108,10 @@ public class Customer implements Serializable {
 		this.contact_mail = contact_mail;
 	}
 
-	public Set<CompInSystem> getComponents() {
-		return this.components;
-	}
-
 	@Override
 	public String toString() {
-		return "Customer [id=" + this.id + ", components=" + this.components + ", name=" + this.name + ", address=" + this.address + ", contact_name="
-				+ this.contact_name + ", contact_phone=" + this.contact_phone + ", contact_mail=" + this.contact_mail + "]";
+		return "Customer [id=" + this.id + ", name=" + this.name + ", address=" + this.address + ", contact_name=" + this.contact_name + ", contact_phone="
+				+ this.contact_phone + ", contact_mail=" + this.contact_mail + "]";
 	}
 
 }

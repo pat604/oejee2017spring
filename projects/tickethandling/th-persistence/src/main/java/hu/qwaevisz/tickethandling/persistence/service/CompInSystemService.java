@@ -1,5 +1,7 @@
 package hu.qwaevisz.tickethandling.persistence.service;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import hu.qwaevisz.tickethandling.persistence.entity.CompInSystem;
@@ -9,6 +11,8 @@ import hu.qwaevisz.tickethandling.persistence.exception.PersistenceServiceExcept
 
 @Local
 public interface CompInSystemService {
+
+	List<CompInSystem> getByCustomer(Customer customer) throws PersistenceServiceException;
 
 	CompInSystem create(Customer customer, Component component, String description) throws PersistenceServiceException;
 
