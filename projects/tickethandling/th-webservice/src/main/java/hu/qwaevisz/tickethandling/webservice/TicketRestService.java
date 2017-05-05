@@ -48,5 +48,5 @@ public interface TicketRestService {
 
 	@DELETE
 	@Path("/{ticketId}")
-	void deleteTicket(String ticketId) throws AdaptorException, FacadeException;
+	void deleteTicket(@PathParam("ticketId") String ticketId) throws AdaptorException, FacadeException, ServiceException;
 }

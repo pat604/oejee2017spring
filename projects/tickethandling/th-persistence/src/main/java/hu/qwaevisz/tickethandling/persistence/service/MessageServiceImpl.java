@@ -48,7 +48,7 @@ public class MessageServiceImpl implements MessageService {
 
 	private static final String XMLFILESPATH = "C:\\TicketingMessages";
 	private static final String MESSAGEDATEFORMAT = "yyyy-MM-dd HH:mm:ss";
-	private static final String INITIALMESSAGE = "<conversation id=\"%1s\"><message id=\"%2s-0001\"><from>System</from><to>Customer</to><date>%3s</date><text>Initial message</text></message></conversation>";
+	private static final String INITIALMESSAGE = "<conversation id=\"%1s\"><message id=\"%2s-0001\"><from>System</from><to>Customer</to><date>%3s</date><text>%4s</text></message></conversation>";
 
 	@Override
 	public List<Message> readConversation(String ticketId) throws ParserConfigurationException, SAXException, IOException, DOMException, ParseException {
@@ -94,6 +94,12 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	public void createConversation(String ticketId) throws FileNotFoundException, IOException {
+		this.createConversation(ticketId, "Initial message");
+
+	}
+
+	@Override
+	public void createConversation(String ticketId, String initialMessage) throws FileNotFoundException, IOException {
 
 		LOGGER.info("Creating conversation XML for Ticket(" + ticketId + ") ...");
 
@@ -107,7 +113,7 @@ public class MessageServiceImpl implements MessageService {
 
 			DateFormat format = new SimpleDateFormat(MESSAGEDATEFORMAT);
 			PrintWriter out = new PrintWriter(filepath);
-			out.write(String.format(INITIALMESSAGE, ticketId, ticketId, format.format(new Date())));
+			out.write(String.format(INITIALMESSAGE, ticketId, ticketId, format.format(new Date()), initialMessage));
 			out.close();
 
 		} else {
@@ -174,4 +180,5 @@ public class MessageServiceImpl implements MessageService {
 
 		transformer.transform(source, new StreamResult(out));
 	}
+
 }

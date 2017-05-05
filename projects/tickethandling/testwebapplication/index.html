@@ -3,173 +3,59 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<script src="js/jquery-3.2.1.min.js"></script>
-		<style>
-			body {
-				font-family: "Arial", Verdana, Sans-Serif;
-			}
-			
-			#status {
-				color: red;
-			}
-			
-			#ticketContainer>li {
-				cursor: pointer;
-			}
-			
-			#ticketContainer>li:HOVER {
-				color: red;
-			}
-		</style>
+		<script src="js/test.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/test.css" />
+		
+		<script>
+			$(document).ready(function(){
+				$("#sysId").html($("#sysId").html() + SYSTEMID);
+				getMyTickets();
+				
+				delPressed = 0;
+			});
+		</script>
+
 	</head>
 	<body>
-		<script>
-		var SYSTEMID = 'AES-324';
-		var SYSTEMS = [];
-		
-		$(document).ready(function(){
-			$("#sysId").html($("#sysId").html() + SYSTEMID);
-			getMyTickets();
-		});
-		
-		function getMyTickets() {
-			$.ajax({
-				type: 'get',
-				url: 'http://localhost:8080/th-webservice/api/ticket/system/' + SYSTEMID,
-				success: function(result){
-					$('#status').html("Tickets successfully loaded!");
-					$('#ticketContainer').html("");
-					for (var i = 0; i < result.length; i++) {
-						$('#ticketContainer').html($('#ticketContainer').html() + "<li onclick='showTicketDetails(\"" + result[i].id + "\")'>" + result[i].id + "</li>");
-						SYSTEMS.push(result[i].id);
-					}					
-				},
-				error: function(result) {
-					$('#status').html("Sorry, we can't reach your tickets right now :(");
-				}
-			});	
-		}
-		
-		function sendMessage() {
-			
-			var ticketId = $('#tic-det-id').html();
-			var message = $('#message').val();
-			
-			if (SYSTEMS.indexOf(ticketId.trim().toUpperCase()) != -1) {		
-				if (message.trim() !=  "") {		
-					data = { 'ticketId' : ticketId, 'message' : message },
-					
-					$.ajax({
-						url: 'http://localhost:8080/th-webservice/api/ticket/send',
-						type: 'POST', 
-					    dataType: 'json', 
-					    data: JSON.stringify(data), 
-					    contentType: 'application/json',
-						success: function(result){
-							$('#status').html("Your message was successfully delivered!");	
-							$('#ticketId').val("");
-							$('#message').val("");
-							
-							showTicketDetails(ticketId);
-						},
-						error: function(result) {
-							$('#status').html("Something happened, your message was not delivered!");
-						}
-					});
-				} else {
-					$('#status').html("Message field cannot be blank!");
-				}		
-			} else {
-				$('#status').html("Choose a ticket ID from list!");
-			}
-		}
-		
-		function showTicketDetails(ticketId) {
-			if (SYSTEMS.indexOf(ticketId.trim().toUpperCase()) != -1) {
-				$.ajax({
-					type: 'get',
-					url: 'http://localhost:8080/th-webservice/api/ticket/' + ticketId,
-					success: function(result){
-						
-						last = new Date(result.lastchanged);
-						created = new Date(result.creationdate);
-						
-						$('#tic-det-id').html(result.id);
-						$('#tic-det-prio').html(result.priority);
-						$('#tic-det-status').html(result.status);
-						$('#tic-det-proc').html(result.processor.name);
-						$('#tic-det-last').html(last.toLocaleDateString() + " " + last.toLocaleTimeString());
-						$('#tic-det-created').html(created.toLocaleDateString() + " " + created.toLocaleTimeString());
-						$('#tic-det-del').click(function() {deleteTicket(ticketId);});
-						
-						$('#tic-det-msgs').html("");
-						
-						for (i = 0; i < result.conversation.length; i++) {
-							msg = result.conversation[i];
-							
-							on = new Date(msg.date);
-							$('#tic-det-msgs').html(
-									$('#tic-det-msgs').html() +
-									"From: " + msg.from + 
-									" To: " + msg.to + 
-									" on " + on.toLocaleTimeString() +" "+on.toLocaleDateString() + "<br />" +
-									"<i>" + msg.text + "</i><br /><br />")
-						}
-											
-					},
-					error: function(result) {
-						$('#status').html("Sorry, we can't reach your ticket's details right now :(");
-					}
-				});					
-			} else {
-				$('#status').html("The Ticket ID you specified is not on the list!");
-			}
-		}
-		
-		function deleteTicket(ticketId) {
-			if (SYSTEMS.indexOf(ticketId.trim().toUpperCase()) != -1) {
-				
-				alert("Your ticket will be removed!");
-				
-				$.ajax({
-					type: 'delete',
-					url: 'http://localhost:8080/th-webservice/api/ticket/' + ticketId,
-					success: function(result){
-						
-						$('#status').html("The ticket was successfully deleted!");
-						
-						getMyTickets();
-											
-					},
-					error: function(result) {
-						$('#status').html("Sorry, we can't delete your ticket right now :(");
-					}
-				});					
-			} else {
-				$('#status').html("The Ticket ID you specified is not on the list!");
-			}
-		}
-		
-		</script>
-	
-		<h2>REST TEST WEBAPPLICATION</h2>
-		<h4 id="sysId">Your system id is: </h4>
-		<h4 id="status">Loading your tickets...</h4>
-				
-		<ul id="ticketContainer"></ul>
-	
-		<div id="tic-det">
-			<h3 id="tic-det-id">Click a ticket ID above to see details!</h3>
-			<div id="tic-det-del" style="color: red; cursor: pointer;"><strong>DELETE</strong></div>
-			<strong>Priority: </strong><div id="tic-det-prio"></div>
-			<strong>Status: </strong><div id="tic-det-status"></div>
-			<strong>Processor: </strong><div id="tic-det-proc"></div>
-			<strong>Last changed: </strong><div id="tic-det-last"></div>
-			<strong>Created on: </strong><div id="tic-det-created"></div>
-			<strong>Messages: </strong><br /><br />
-			<div id="tic-det-msgs">
-			</div>
-			<input type="text" id="message" name="message" />
-		 	<button onclick="sendMessage()">Send new</button><br />	
-		</div>		
+        <table border="1">        
+              <tr>
+                <th colspan="2"><h1>REST TEST WEBAPPLICATION</h1></th>
+              </tr>
+              <tr>
+                <td colspan="2" id="status">Loading your tickets...</td>
+              </tr>
+              <tr>
+                <td><h4 id="sysId">Your system id is: </h4></td>
+                <td style="width: 30%;"><h3 id="tic-det-id">Click a ticket ID to see details!</h3></td>
+              </tr>
+              <tr>
+                <td><a href="create.html" style="color: green; text-decoration: none;"><strong>CREATE</strong></a></td>
+                <td style="width: 70%;"><div id="tic-det-del" style="color: red; cursor: pointer;"><strong>DELETE</strong></div></td>
+              </tr>
+              <tr>
+               <td rowspan="8" style="text-align: left; vertical-align: top;"><strong>Your tickets:</strong><ul id="ticketContainer"></ul></td>
+              </tr>
+              <tr>
+                <td><strong>Priority: </strong><div id="tic-det-prio"></div></td>
+              </tr>
+              <tr>
+                <td><strong>Status: </strong><div id="tic-det-status"></div></td>
+              </tr>
+              <tr>
+                <td><strong>Processor: </strong><div id="tic-det-proc"></div></td>
+              </tr>
+              <tr>
+                <td><strong>Last changed: </strong><div id="tic-det-last"></div></td>
+              </tr>
+              <tr>
+                <td><strong>Created on: </strong><div id="tic-det-created"></div></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="message" name="message" /><button onclick="sendMessage()">Send new</button><br /></td>
+              </tr>
+              <tr>
+                <td><strong>Messages:</strong><br /><br /><div id="tic-det-msgs"></div></td>
+              </tr>
+        </table>	
 	</body>
 </html>

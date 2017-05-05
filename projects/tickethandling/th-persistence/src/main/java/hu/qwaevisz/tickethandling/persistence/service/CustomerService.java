@@ -17,4 +17,7 @@ public interface CustomerService {
 	List<String> readSysLabels() throws PersistenceServiceException;
 
 	List<Customer> readAll() throws PersistenceServiceException;
+
+	Customer create(String systemId, String name, String address, String contact_name, String contact_phone, String contact_mail)
+			throws PersistenceServiceException;
 }

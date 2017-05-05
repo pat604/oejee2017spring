@@ -62,8 +62,8 @@ public class TicketRestServiceBean implements TicketRestService {
 	}
 
 	@Override
-	public void deleteTicket(String ticketId) throws AdaptorException, FacadeException {
+	public void deleteTicket(String ticketId) throws AdaptorException, FacadeException, ServiceException {
 		LOGGER.info("Remove Ticket by ID " + ticketId);
-		this.facade.removeTicket(ticketId);
+		this.facade.removeTicket(ticketId, "Deleted by Customer");
 	}
 }

@@ -4,14 +4,14 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import hu.qwaevisz.tickethandling.ejbserviceclient.domain.SystemStub;
+import hu.qwaevisz.tickethandling.ejbservice.domain.CustomerStub;
 import hu.qwaevisz.tickethandling.persistence.entity.Customer;
 
 @Local
 public interface CustomerConverter {
 
-	SystemStub to(Customer customer);
+	CustomerStub to(Customer customer);
 
-	List<SystemStub> to(List<Customer> customers);
+	List<CustomerStub> to(List<Customer> customers);
 
 }

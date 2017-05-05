@@ -99,8 +99,6 @@ public class TicketServiceImpl implements TicketService {
 			final Date currentDate = new Date();
 			final String id = (system_id + format.format(currentDate)).replace("-", "").replace(" ", "");
 
-			LOGGER.info(id);
-
 			final Ticket ticket = new Ticket(id, this.customerService.read(system_id), sender_name, priority, business_impact, steps_to_rep, currentDate, level,
 					this.employeeService.read(processor_id), status, currentDate);
 			this.entityManager.persist(ticket);

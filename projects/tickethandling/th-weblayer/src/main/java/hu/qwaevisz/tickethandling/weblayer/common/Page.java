@@ -6,8 +6,11 @@ public enum Page {
 	ERROR("error.jsp", "Error"),
 	LIST("list.jsp", "TicketList"),
 	HOME("home.jsp", "Home"),
+	SYSTEMLIST("system-list.jsp", "SystemList"),
 	TICKET_VIEW("ticket.jsp", "Ticket"),
-	TICKET_CREATE("ticket-create.jsp", "TicketCreate");
+	TICKET_CREATE("ticket-create.jsp", "TicketCreate"),
+	CUSTOMER_CREATE("customer-create.jsp", "CustomerCreate"),
+	COMPONENT_ASSIGN("component-assign.jsp", "ComponentAssign");
 
 	private final String jspName;
 	private final String url;

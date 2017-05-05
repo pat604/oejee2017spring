@@ -9,10 +9,14 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 
-import hu.qwaevisz.tickethandling.ejbservice.converter.CustomerConverter;
+import hu.qwaevisz.tickethandling.ejbservice.converter.SystemConverter;
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.ComponentStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.SystemStub;
+import hu.qwaevisz.tickethandling.persistence.entity.Customer;
+import hu.qwaevisz.tickethandling.persistence.entity.trunk.Component;
 import hu.qwaevisz.tickethandling.persistence.exception.PersistenceServiceException;
+import hu.qwaevisz.tickethandling.persistence.service.CompInSystemService;
 import hu.qwaevisz.tickethandling.persistence.service.CustomerService;
 
 @PermitAll
@@ -25,12 +29,15 @@ public class SystemFacadeImpl implements SystemFacade {
 	private CustomerService custService;
 
 	@EJB
-	private CustomerConverter custConverter;
+	private CompInSystemService cisService;
+
+	@EJB
+	private SystemConverter sysConverter;
 
 	@Override
 	public SystemStub getSystem(String id) throws FacadeException {
 		try {
-			final SystemStub stub = this.custConverter.to(this.custService.read(id));
+			final SystemStub stub = this.sysConverter.to(this.custService.read(id));
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Get System by id (" + id + ") --> " + stub);
 			}
@@ -47,7 +54,7 @@ public class SystemFacadeImpl implements SystemFacade {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Get Systems");
 			}
-			List<SystemStub> stubs = this.custConverter.to(this.custService.readAll());
+			List<SystemStub> stubs = this.sysConverter.to(this.custService.readAll());
 			return stubs;
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
@@ -63,6 +70,29 @@ public class SystemFacadeImpl implements SystemFacade {
 			}
 			List<String> labels = this.custService.readSysLabels();
 			return labels;
+		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		}
+	}
+
+	@Override
+	public void SaveComponents(SystemStub system) throws FacadeException {
+		try {
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Save System Components");
+			}
+
+			List<ComponentStub> new_comps = system.getComponents();
+
+			Customer cust = this.custService.read(system.getId());
+
+			// this.cisService.remove(cust);
+
+			for (ComponentStub comp : new_comps) {
+				this.cisService.create(cust, Component.valueOf(comp.getName()), "");
+			}
+
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());

@@ -1,42 +1,25 @@
 package hu.qwaevisz.tickethandling.ejbserviceclient.domain;
 
-import java.io.Serializable;
+public enum ComponentStub {
 
-public class ComponentStub implements Serializable {
+	XX4CASD0("XX-4C-ASD0"),
+	YY66WERT("YY-66-WERT"),
+	GZ52TZUU("GZ-52-TZUU"),
+	AF21HJKG("AF-21-HJKG"),
+	GR44LLKJ("GR-44-LLKJ"),
+	TV8GMNBV("TV-8G-MNBV");
 
-	private static final long serialVersionUID = 4743633315322604281L;
+	private final String label;
 
-	private String id;
-	private String description;
-
-	public ComponentStub() {
-		this("", "");
+	private ComponentStub(String label) {
+		this.label = label;
 	}
 
-	public ComponentStub(String id, String description) {
-		super();
-		this.id = id;
-		this.description = description;
+	public String getLabel() {
+		return this.label;
 	}
 
-	public String getId() {
-		return this.id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	@Override
-	public String toString() {
-		return "ComponentStub [id=" + this.id + ", description=" + this.description + "]";
+	public String getName() {
+		return this.name();
 	}
 }

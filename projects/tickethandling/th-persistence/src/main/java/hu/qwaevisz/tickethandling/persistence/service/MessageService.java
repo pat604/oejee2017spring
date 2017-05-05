@@ -21,6 +21,8 @@ public interface MessageService {
 
 	void createConversation(String ticketId) throws FileNotFoundException, IOException;
 
+	void createConversation(String ticketId, String initialMessage) throws FileNotFoundException, IOException;
+
 	void saveConversation(List<Message> conversation, String ticketId)
 			throws FileNotFoundException, IOException, ParserConfigurationException, SAXException, TransformerException;
 }

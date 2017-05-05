@@ -13,8 +13,9 @@ import org.apache.log4j.Logger;
 
 import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
-import hu.qwaevisz.tickethandling.weblayer.common.TicketParameter;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.ServiceException;
 import hu.qwaevisz.tickethandling.weblayer.common.Page;
+import hu.qwaevisz.tickethandling.weblayer.common.TicketParameter;
 
 @WebServlet("/TicketDelete")
 public class TicketDeleteServlet extends HttpServlet implements TicketParameter {
@@ -31,11 +32,13 @@ public class TicketDeleteServlet extends HttpServlet implements TicketParameter 
 		final String id = request.getParameter(ID);
 		LOGGER.info("Delete Ticket by id (" + id + ")");
 		try {
-			this.facade.removeTicket(id);
+			this.facade.removeTicket(id, "Deleted by " + request.getUserPrincipal().getName());
 		} catch (final FacadeException e) {
 			LOGGER.error(e, e);
+		} catch (ServiceException e) {
+			LOGGER.error(e, e);
 		}
-		response.sendRedirect(Page.LIST.getUrl());
+		response.sendRedirect(Page.HOME.getUrl());
 	}
 
 }

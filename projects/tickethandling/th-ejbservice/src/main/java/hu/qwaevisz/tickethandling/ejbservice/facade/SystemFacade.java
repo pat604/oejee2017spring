@@ -15,4 +15,6 @@ public interface SystemFacade {
 	List<SystemStub> getSystems() throws FacadeException;
 
 	List<String> getSysLabels() throws FacadeException;
+
+	void SaveComponents(SystemStub system) throws FacadeException;
 }

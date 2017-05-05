@@ -29,6 +29,6 @@ public interface TicketFacade {
 	TicketStub createTicket(String systemId, String sender_name, PriorityStub priority, String business_impact, String steps_to_rep, String initialMessage)
 			throws FacadeException;
 
-	void removeTicket(String id) throws FacadeException;
+	void removeTicket(String id, String message) throws FacadeException, ServiceException;
 
 }

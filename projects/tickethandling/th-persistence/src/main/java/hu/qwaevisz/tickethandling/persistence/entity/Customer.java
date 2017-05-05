@@ -38,9 +38,6 @@ public class Customer implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = CompInSystem.class, mappedBy = "system")
 	private final Set<CompInSystem> components;
 
-	@OneToMany(fetch = FetchType.EAGER, targetEntity = Ticket.class, mappedBy = "system")
-	private final Set<Ticket> tickets;
-
 	@Column(name = "cust_name", nullable = false)
 	private String name;
 
@@ -69,7 +66,6 @@ public class Customer implements Serializable {
 		this.contact_phone = contact_phone;
 		this.contact_mail = contact_mail;
 		this.components = new HashSet<>();
-		this.tickets = new HashSet<>();
 	}
 
 	public String getId() {
@@ -124,14 +120,10 @@ public class Customer implements Serializable {
 		return this.components;
 	}
 
-	public Set<Ticket> getTickets() {
-		return this.tickets;
-	}
-
 	@Override
 	public String toString() {
-		return "Customer [id=" + this.id + ", components=" + this.components + ", tickets=" + this.tickets + ", name=" + this.name + ", address=" + this.address
-				+ ", contact_name=" + this.contact_name + ", contact_phone=" + this.contact_phone + ", contact_mail=" + this.contact_mail + "]";
+		return "Customer [id=" + this.id + ", components=" + this.components + ", name=" + this.name + ", address=" + this.address + ", contact_name="
+				+ this.contact_name + ", contact_phone=" + this.contact_phone + ", contact_mail=" + this.contact_mail + "]";
 	}
 
 }

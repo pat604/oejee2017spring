@@ -207,8 +207,11 @@ public class TicketFacadeImpl implements TicketFacade, TicketFacadeRemote, Seria
 	}
 
 	@Override
-	public void removeTicket(String id) throws FacadeException {
+	public void removeTicket(String id, String message) throws FacadeException, ServiceException {
 		try {
+			TicketStub ticket = this.getTicket(id);
+			ticket.getConversation().add(new MessageStub("System", "System", new Date(), message));
+			this.saveTicket(ticket);
 			this.service.delete(id);
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
@@ -222,10 +225,9 @@ public class TicketFacadeImpl implements TicketFacade, TicketFacadeRemote, Seria
 		try {
 			Ticket ticket = this.service.create(systemId, sender_name, Priority.valueOf(priority.name()), business_impact, steps_to_rep, 1, "UNASS",
 					Status.NEW);
-			this.msgService.createConversation(ticket.getId());
+			this.msgService.createConversation(ticket.getId(), initialMessage);
 
 			TicketStub stub = this.converter.to(ticket);
-			stub.getConversation().add(new MessageStub("Customer", "Processor", new Date(), initialMessage));
 			this.msgService.saveConversation(this.msgConverter.from(stub.getConversation(), stub.getId()), stub.getId());
 
 			return stub;

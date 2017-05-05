@@ -32,7 +32,7 @@ public class TicketConverterImpl implements TicketConverter {
 	private EmployeeConverter empConv;
 
 	@EJB
-	private CustomerConverter custConv;
+	private SystemConverter sysConv;
 
 	@EJB
 	private MessageConverter msgConv;
@@ -46,7 +46,7 @@ public class TicketConverterImpl implements TicketConverter {
 		EmployeeStub processor = this.empConv.to(ticket.getProcessor());
 		List<MessageStub> conversation = this.msgConv.to(this.msgService.readConversation(ticket.getId()));
 
-		return new TicketStub(ticket.getId(), this.custConv.to(ticket.getSystem()), ticket.getSender_name(), priority, ticket.getBusiness_impact(),
+		return new TicketStub(ticket.getId(), this.sysConv.to(ticket.getSystem()), ticket.getSender_name(), priority, ticket.getBusiness_impact(),
 				ticket.getSteps_to_rep(), ticket.getCreationdate(), ticket.getLevel(), processor, status, ticket.getLastchanged(), conversation);
 	}
 

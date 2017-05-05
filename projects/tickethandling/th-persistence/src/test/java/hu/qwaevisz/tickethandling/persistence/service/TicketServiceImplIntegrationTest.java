@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Enumeration;
 
 import javax.persistence.EntityManager;
@@ -17,7 +16,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import hu.qwaevisz.tickethandling.persistence.entity.Component;
 import hu.qwaevisz.tickethandling.persistence.entity.Customer;
 import hu.qwaevisz.tickethandling.persistence.entity.Employee;
 import hu.qwaevisz.tickethandling.persistence.entity.Ticket;
@@ -32,7 +30,6 @@ public class TicketServiceImplIntegrationTest {
 	private TicketServiceImpl object;
 	private EmployeeServiceImpl object2;
 	private CustomerServiceImpl object3;
-	private ComponentServiceImpl object4;
 
 	@BeforeClass
 	private void setUp() {
@@ -57,9 +54,6 @@ public class TicketServiceImplIntegrationTest {
 
 		this.object3 = new CustomerServiceImpl();
 		this.object3.setEntityManager(entityManager);
-
-		this.object4 = new ComponentServiceImpl();
-		this.object4.setEntityManager(entityManager);
 	}
 
 	@Test(groups = "integration")
@@ -89,31 +83,6 @@ public class TicketServiceImplIntegrationTest {
 
 		Assert.assertEquals(cust.getId(), "AES-324");
 		Assert.assertEquals(cust.getComponents().size(), 2);
-	}
-
-	@Test(groups = "integration")
-	private void createAComponent() throws PersistenceServiceException {
-		if (this.object4.exists("TEST-COMP")) {
-			this.object4.getEntityManager().getTransaction().begin();
-			this.object4.delete("TEST-COMP");
-			this.object4.getEntityManager().getTransaction().commit();
-		}
-
-		this.object4.getEntityManager().getTransaction().begin();
-		final Date currentDate = new Date();
-		this.object4.create("TEST-COMP", "Test Component", currentDate);
-		this.object4.getEntityManager().getTransaction().commit();
-
-		final Component comp = this.object4.read("TEST-COMP");
-
-		Assert.assertEquals(comp.getId(), "TEST-COMP");
-		Assert.assertEquals(comp.getDescription(), "Test Component");
-		Assert.assertEquals(comp.getCreationdate(), currentDate);
-
-		this.object4.getEntityManager().getTransaction().begin();
-		this.object4.delete("TEST-COMP");
-		this.object4.getEntityManager().getTransaction().commit();
-
 	}
 
 	@AfterClass

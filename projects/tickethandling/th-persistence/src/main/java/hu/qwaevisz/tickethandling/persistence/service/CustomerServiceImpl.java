@@ -92,4 +92,20 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		return result;
 	}
+
+	@Override
+	public Customer create(String systemId, String name, String address, String contact_name, String contact_phone, String contact_mail)
+			throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Create new Customer");
+		}
+		try {
+
+			final Customer customer = new Customer(systemId, name, address, contact_name, contact_phone, contact_mail);
+			this.entityManager.persist(customer);
+			return customer;
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error during persisting new Customer!" + e.getLocalizedMessage(), e);
+		}
+	}
 }

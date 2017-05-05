@@ -31,15 +31,7 @@
 	<jsp:include page="navbar.jsp"></jsp:include>
 
 	<div class="jumbotron jumbotron-ticketing">
-		<h1>
-			<%
-				if ("".equals(ticket.getId())) {
-					out.print("New ticket");
-				} else {
-					out.print(ticket.getId());
-				}
-			%>
-		</h1>
+		<h1>New ticket</h1>
 	</div>
 	<div class="container">
 		<form method="post" action="TicketCreate" class="form-horizontal">
