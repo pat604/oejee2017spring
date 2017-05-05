@@ -4,9 +4,12 @@ public enum Page {
 
 	HOME("home.jsp", "Home"), //
 	ERROR("error.jsp", "Error"), //
-	PROJECT_LIST("/project/project-list.jsp", "ProjectList"), //
-	PROJECT_VIEW("/project/project-detail.jsp", "Project"), //
-	PROJECT_EDIT("/project/project-edit.jsp", "Project"); //
+	OBJECTIVE_LIST("/control/objective/objective-list.jsp", "ObjectiveList"), //
+	OBJECTIVE_VIEW("/control/objective/objective-detail.jsp", "Objective"), //
+	OBJECTIVE_EDIT("/control/objective/objective-edit.jsp", "Objective"), //
+	PROJECT_LIST("/control/project/project-list.jsp", "ProjectList"), //
+	PROJECT_VIEW("/control/project/project-detail.jsp", "Project"), //
+	PROJECT_EDIT("/control/project/project-edit.jsp", "Project"); //
 
 	private final String jspName;
 	private final String url;

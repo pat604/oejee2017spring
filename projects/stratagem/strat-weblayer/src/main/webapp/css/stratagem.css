@@ -4,6 +4,10 @@ body,
     height: 100%;
 }
 
+.control-view {
+    height: 50%;
+}
+
 .navbar {
     background-color: transparent;
 }
@@ -42,8 +46,21 @@ footer.page-footer {
     background-size: cover;
 }
 
+.control-view {
+    background: url("../img/connections.jpg")no-repeat center center fixed;
+    height: 50%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 .brand-name {
     font-size: 4rem;
+}
+
+.brand-control {
+    font-size: 3rem;
 }
 
 .font-bold {

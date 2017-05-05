@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -194,9 +193,7 @@
     </div>
 	
 	<jsp:include page="/partial/footer.jsp"></jsp:include>
+	<jsp:include page="/partial/wow.jsp"></jsp:include>
 	
-    <script>
-        new WOW().init();
-    </script>
 </body>
 </html>

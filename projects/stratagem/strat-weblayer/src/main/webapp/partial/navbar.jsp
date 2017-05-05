@@ -28,7 +28,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">Contact</a>
-
                 </li>
             </ul>
             <!-- Search bar -->
@@ -66,7 +65,12 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">Contact</a>
-
+                </li>
+				<li class="nav-item">
+                    <a class="nav-link" href="ObjectiveList">Objectives</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="ProjectList">Projects</a>
                 </li>
             </ul>
             <!-- Search bar -->
