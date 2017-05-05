@@ -25,7 +25,6 @@ import com.kota.stratagem.persistence.exception.CoherentPersistenceServiceExcept
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
 import com.kota.stratagem.persistence.parameter.ProjectParameter;
 import com.kota.stratagem.persistence.query.ProjectQuery;
-import com.kota.stratagem.persistence.util.AggregationSelector;
 import com.kota.stratagem.persistence.util.PersistenceApplicationError;
 
 @Stateless(mappedName = "ejb/projectService")
@@ -39,51 +38,62 @@ public class ProjectServiceImpl implements ProjectService {
 	private EntityManager entityManager;
 
 	@Override
-	public Project create(String name, String description, ProjectStatus status, Date deadline, Boolean visible,
-			Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Objective objective) throws PersistenceServiceException {
-		if(LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Create Project (name: " + name + ", description: " + description + ", status: " + status + ", tasks: " + tasks + ", visible: " + visible + ")");
+	public Project create(String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams,
+			Set<AppUser> assignedUsers, Set<Impediment> impediments, Objective objective) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Create Project (name: " + name + ", description: " + description + ", status: " + status + ", tasks: " + tasks + ", visible: "
+					+ visible + ")");
 		}
 		try {
-			final Project project = new Project(name, description, status, deadline, visible, tasks, assignedTeams, assignedUsers, impediments, objective);
+			final Project project = new Project(name, description, status, deadline, visible, tasks, assignedTeams, assignedUsers, impediments,
+					objective != null ? objective : null);
 			this.entityManager.persist(project);
 			this.entityManager.flush();
 			return project;
-		} catch(final Exception e) {
+		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error during persisting Project (" + name + ")! " + e.getLocalizedMessage(), e);
 		}
 	}
 
 	@Override
-	public Project read(Long id, AggregationSelector requirement) throws PersistenceServiceException {
-		if(LOGGER.isDebugEnabled()) {
+	public Project readElementary(Long id) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Get Project by id (" + id + ")");
 		}
 		Project result = null;
 		try {
-			String query = null;
-			switch (requirement) {
-				case ELEMENTARY: query = ProjectQuery.GET_BY_ID; break;
-				case WITH_TASKS: query = ProjectQuery.GET_BY_ID_WITH_TASKS; break;
-				default: query = ProjectQuery.GET_BY_ID; break;
-			}
-			result = this.entityManager.createNamedQuery(query, Project.class).setParameter(ProjectParameter.ID, id).getSingleResult();
-		} catch(final Exception e) {
+			result = this.entityManager.createNamedQuery(ProjectQuery.GET_BY_ID, Project.class).setParameter(ProjectParameter.ID, id).getSingleResult();
+		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error when fetching Project by id (" + id + ")! " + e.getLocalizedMessage(), e);
 		}
 		return result;
 	}
 
 	@Override
-	public Set<Project> read(ProjectStatus status) throws PersistenceServiceException {
-		if(LOGGER.isDebugEnabled()) {
+	public Project readWithTasks(Long id) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Get Project with Tasks by id (" + id + ")");
+		}
+		Project result = null;
+		try {
+			result = this.entityManager.createNamedQuery(ProjectQuery.GET_BY_ID_WITH_TASKS, Project.class).setParameter(ProjectParameter.ID, id)
+					.getSingleResult();
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when fetching Project by id (" + id + ")! " + e.getLocalizedMessage(), e);
+		}
+		return result;
+	}
+
+	@Override
+	public Set<Project> readByStatus(ProjectStatus status) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Get Projects by Status");
 		}
 		Set<Project> result = null;
 		try {
 			result = new HashSet<Project>(this.entityManager.createNamedQuery(ProjectQuery.GET_ALL_BY_STATUS, Project.class)
 					.setParameter(ProjectParameter.STATUS, status).getResultList());
-		} catch(final Exception e) {
+		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error when fetching Projects! " + e.getLocalizedMessage(), e);
 		}
 		return result;
@@ -91,26 +101,27 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public Set<Project> readAll() throws PersistenceServiceException {
-		if(LOGGER.isDebugEnabled()) {
+		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Fetching all Projects");
 		}
 		Set<Project> result = null;
 		try {
 			result = new HashSet<Project>(this.entityManager.createNamedQuery(ProjectQuery.GET_ALL_PROJECTS, Project.class).getResultList());
-		} catch(final Exception e) {
+		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error occured while fetching Projects" + e.getLocalizedMessage(), e);
 		}
 		return result;
 	}
 
 	@Override
-	public Project update(Long id, String name, String description, ProjectStatus status, Date deadline, Boolean visible,
-			Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Objective objective) throws PersistenceServiceException {
-		if(LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Update Project (id: " + id + ", name: " + name + ", description: " + description + ", status: " + status + ", tasks: " + tasks + ", visible: " + visible + ")");
+	public Project update(Long id, String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks,
+			Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Objective objective) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Update Project (id: " + id + ", name: " + name + ", description: " + description + ", status: " + status + ", tasks: " + tasks
+					+ ", visible: " + visible + ")");
 		}
 		try {
-			final Project project = this.read(id, AggregationSelector.ELEMENTARY);
+			final Project project = this.readElementary(id);
 			project.setName(name);
 			project.setDescription(description);
 			project.setStatus(status);
@@ -122,21 +133,21 @@ public class ProjectServiceImpl implements ProjectService {
 			project.setImpediments(impediments != null ? impediments : new HashSet<Impediment>());
 			project.setObjective(objective);
 			return this.entityManager.merge(project);
-		} catch(final Exception e) {
+		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error when merging Project! " + e.getLocalizedMessage(), e);
 		}
 	}
 
 	@Override
 	public void delete(Long id) throws PersistenceServiceException {
-		if(LOGGER.isDebugEnabled()) {
+		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Remove Project by id (" + id + ")");
 		}
-		if(this.exists(id)) {
-			if(this.read(id, AggregationSelector.ELEMENTARY).getTasks().size() == 0) {
+		if (this.exists(id)) {
+			if (this.readElementary(id).getTasks().size() == 0) {
 				try {
 					this.entityManager.createNamedQuery(ProjectQuery.REMOVE_BY_ID).setParameter(ProjectParameter.ID, id).executeUpdate();
-				} catch(final Exception e) {
+				} catch (final Exception e) {
 					throw new PersistenceServiceException("Unknown error when removing Project by id (" + id + ")! " + e.getLocalizedMessage(), e);
 				}
 			} else {
@@ -150,12 +161,12 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean exists(Long id) throws PersistenceServiceException {
-		if(LOGGER.isDebugEnabled()) {
+		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Check Project by id (" + id + ")");
 		}
 		try {
 			return this.entityManager.createNamedQuery(ProjectQuery.COUNT_BY_ID, Long.class).setParameter(ProjectParameter.ID, id).getSingleResult() == 1;
-		} catch(final Exception e) {
+		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error during counting Tasks by Project (" + id + ")! " + e.getLocalizedMessage(), e);
 		}
 	}

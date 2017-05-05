@@ -76,7 +76,7 @@
     <!--Copyright-->
     <div class="footer-copyright">
         <div class="container-fluid">
-            © 2017 Copyright: A Forge Works product </a>
+            © 2017 Copyright: A Forge Works product
         </div>
     </div>
     <!--/.Copyright-->

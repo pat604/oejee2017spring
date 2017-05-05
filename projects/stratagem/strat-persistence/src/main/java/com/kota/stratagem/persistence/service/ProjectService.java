@@ -13,22 +13,23 @@ import com.kota.stratagem.persistence.entity.Task;
 import com.kota.stratagem.persistence.entity.Team;
 import com.kota.stratagem.persistence.entity.trunk.ProjectStatus;
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
-import com.kota.stratagem.persistence.util.AggregationSelector;
 
 @Local
 public interface ProjectService {
 
-	Project create(String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers,
-			Set<Impediment> impediments, Objective objective) throws PersistenceServiceException;
+	Project create(String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams,
+			Set<AppUser> assignedUsers, Set<Impediment> impediments, Objective objective) throws PersistenceServiceException;
 
-	Project read(Long id, AggregationSelector requirement) throws PersistenceServiceException;
+	Project readElementary(Long id) throws PersistenceServiceException;
 
-	Set<Project> read(ProjectStatus status) throws PersistenceServiceException;
+	Project readWithTasks(Long id) throws PersistenceServiceException;
+
+	Set<Project> readByStatus(ProjectStatus status) throws PersistenceServiceException;
 
 	Set<Project> readAll() throws PersistenceServiceException;
 
-	Project update(Long id, String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams, Set<AppUser> assignedUsers,
-			Set<Impediment> impediments, Objective objective) throws PersistenceServiceException;
+	Project update(Long id, String name, String description, ProjectStatus status, Date deadline, Boolean visible, Set<Task> tasks, Set<Team> assignedTeams,
+			Set<AppUser> assignedUsers, Set<Impediment> impediments, Objective objective) throws PersistenceServiceException;
 
 	void delete(Long id) throws PersistenceServiceException;
 

@@ -35,7 +35,6 @@ import com.kota.stratagem.persistence.service.ObjectiveService;
 import com.kota.stratagem.persistence.service.ProjectService;
 import com.kota.stratagem.persistence.service.TaskService;
 import com.kota.stratagem.persistence.service.TeamService;
-import com.kota.stratagem.persistence.util.AggregationSelector;
 import com.kota.stratagem.security.encryption.PasswordGenerationService;
 
 @Stateless(mappedName = "ejb/appUserProtocol")
@@ -115,7 +114,7 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 					userObjectives.add(this.objectiveSerive.read(objective.getId()));
 				}
 				for (final ProjectRepresentor project : projects) {
-					userProjects.add(this.projectSerive.read(project.getId(), AggregationSelector.ELEMENTARY));
+					userProjects.add(this.projectSerive.readElementary(project.getId()));
 				}
 				for (final TaskRepresentor task : tasks) {
 					userTasks.add(this.taskService.read(task.getId()));

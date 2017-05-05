@@ -157,4 +157,5 @@ public class MoneyTransfer implements Serializable {
     public void setRepaymentUnits(Set<RepaymentUnit> repaymentUnits) {
         this.repaymentUnits = repaymentUnits;
     }
+
 }

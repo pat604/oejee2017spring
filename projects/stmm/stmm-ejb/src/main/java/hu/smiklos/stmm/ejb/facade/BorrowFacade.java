@@ -6,12 +6,15 @@ import hu.smiklos.stmm.pers.exception.PersistenceServiceException;
 import hu.smiklos.stmm.pers.service.MoneyTransferServiceInterFace;
 import hu.smiklos.stmm.remotelibrary.LoanOffersRemoteBean;
 import hu.smiklos.stmm.ejb.domain.OfferListOnBorrowQuery;
+import hu.smiklos.stmm.remotelibrary.entity.LoanOfferRemote;
 import hu.smiklos.stmm.remotelibrary.exception.ServiceException;
 
 import javax.annotation.security.PermitAll;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,8 +43,17 @@ public class BorrowFacade implements BorrowFacadeInterface, LoanOffersRemoteBean
         return list;
     }
 
+
     @Override
-    public String getOffer(String repayment_type) throws ServiceException {
-        return "Ez a remote szarból jött. a következő paraméterrel: " + repayment_type;
+    public LoanOfferRemote[] getOffers(String repayment_type, String durationFrom, String durationTo) throws ServiceException {
+        List<MoneyTransfer> unSortedOffers =  mtService.getOnPlateMoneyTransfersByRepaymentType(repayment_type);
+        List<LoanOfferRemote> list= new ArrayList<LoanOfferRemote>();
+        for(MoneyTransfer transfer: unSortedOffers){
+            list.add(new LoanOfferRemote(transfer.getMoney_transfer_repayment_type().getRepayment_type_name(),
+                    transfer.getMoneytransfer_investment_time_period_month(),
+                    transfer.getTransfer_amount(),
+                    transfer.getExpected_return_amount()-transfer.getTransfer_amount()));
+        }
+        return (LoanOfferRemote[])list.toArray();
     }
 }

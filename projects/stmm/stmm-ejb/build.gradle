@@ -4,4 +4,5 @@ version '1.0-SNAPSHOT'
 dependencies {
     compile project(':stmm-pers')
     compile project(':stmm-remotelibrary')
+    compile group: 'javax', name: 'javaee-api', version: jeeVersion
 }

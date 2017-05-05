@@ -1,6 +1,8 @@
 package com.kota.stratagem.persistence.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -12,10 +14,19 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
+import com.kota.stratagem.persistence.entity.AppUser;
 import com.kota.stratagem.persistence.entity.Objective;
+import com.kota.stratagem.persistence.entity.Project;
+import com.kota.stratagem.persistence.entity.Task;
+import com.kota.stratagem.persistence.entity.Team;
+import com.kota.stratagem.persistence.entity.trunk.ObjectiveStatus;
+import com.kota.stratagem.persistence.exception.CoherentPersistenceServiceException;
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
 import com.kota.stratagem.persistence.parameter.ObjectiveParameter;
+import com.kota.stratagem.persistence.parameter.ProjectParameter;
 import com.kota.stratagem.persistence.query.ObjectiveQuery;
+import com.kota.stratagem.persistence.query.ProjectQuery;
+import com.kota.stratagem.persistence.util.PersistenceApplicationError;
 
 @Stateless(mappedName = "ejb/objectiveService")
 @TransactionManagement(TransactionManagementType.CONTAINER)
@@ -26,6 +37,23 @@ public class ObjectiveServiceImpl implements ObjectiveService {
 
 	@PersistenceContext(unitName = "strat-persistence-unit")
 	private EntityManager entityManager;
+
+	@Override
+	public Objective create(String name, String description, int priority, ObjectiveStatus status, Set<Project> projects, Set<Task> tasks,
+			Set<Team> assignedTeams, Set<AppUser> assignedUsers) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Create Objective (name: " + name + ", description: " + description + ", priority: " + priority + ", status: " + status + ", tasks: "
+					+ tasks + ")");
+		}
+		try {
+			final Objective objective = new Objective(name, description, priority, status, projects, tasks, assignedTeams, assignedUsers);
+			this.entityManager.persist(objective);
+			this.entityManager.flush();
+			return objective;
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error during persisting Objective (" + name + ")! " + e.getLocalizedMessage(), e);
+		}
+	}
 
 	@Override
 	public Objective read(Long id) throws PersistenceServiceException {
@@ -53,6 +81,56 @@ public class ObjectiveServiceImpl implements ObjectiveService {
 			throw new PersistenceServiceException("Unknown error occured while fetching AppUsers" + e.getLocalizedMessage(), e);
 		}
 		return result;
+	}
+
+	@Override
+	public Objective update(Long id, String name, String description, int priority, ObjectiveStatus status, Set<Project> projects, Set<Task> tasks,
+			Set<Team> assignedTeams, Set<AppUser> assignedUsers) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Update Objective (id: " + id + ", name: " + name + ", description: " + description + ", priority: " + priority + ", status: " + status
+					+ ", tasks: " + tasks + ")");
+		}
+		try {
+			final Objective objective = this.read(id);
+			objective.setName(name);
+			objective.setDescription(description);
+			objective.setPriority(priority);
+			objective.setStatus(status);
+			objective.setProjects(projects != null ? projects : new HashSet<Project>());
+			objective.setTasks(tasks != null ? tasks : new HashSet<Task>());
+			objective.setAssignedTeams(assignedTeams != null ? assignedTeams : new HashSet<Team>());
+			objective.setAssignedUsers(assignedUsers != null ? assignedUsers : new HashSet<AppUser>());
+			return this.entityManager.merge(objective);
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when merging Project! " + e.getLocalizedMessage(), e);
+		}
+	}
+
+	@Override
+	public void delete(Long id) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Remove Objective by id (" + id + ")");
+		}
+		if (this.exists(id)) {
+			if ((this.read(id).getTasks().size() == 0) && (this.read(id).getTasks().size() == 0)) {
+				try {
+					this.entityManager.createNamedQuery(ProjectQuery.REMOVE_BY_ID).setParameter(ProjectParameter.ID, id).executeUpdate();
+				} catch (final Exception e) {
+					throw new PersistenceServiceException("Unknown error when removing Objective by id (" + id + ")! " + e.getLocalizedMessage(), e);
+				}
+			} else {
+				throw new CoherentPersistenceServiceException(PersistenceApplicationError.HAS_DEPENDENCY, "Objective has undeleted dependency(s)",
+						id.toString());
+			}
+		} else {
+			throw new CoherentPersistenceServiceException(PersistenceApplicationError.NON_EXISTANT, "Objective doesn't exist", id.toString());
+		}
+	}
+
+	@Override
+	public boolean exists(Long id) throws PersistenceServiceException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

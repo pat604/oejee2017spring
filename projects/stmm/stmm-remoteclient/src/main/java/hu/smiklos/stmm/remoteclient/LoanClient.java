@@ -1,17 +1,18 @@
 package hu.smiklos.stmm.remoteclient;
 
+import hu.smiklos.stmm.remotelibrary.LoanOffersRemoteBean;
+import hu.smiklos.stmm.remotelibrary.exception.ServiceException;
 import org.apache.log4j.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.util.Hashtable;
-import java.util.Properties;
 
 /**
  * Created by SebestyenMiklos on 2017. 05. 04..
  */
-public class TestClient {
+public class LoanClient {
 
     private static final String JBOSS_INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";
     private static final String JBOSS_PROVIDER_URL = "remote://localhost:4447";
@@ -20,15 +21,21 @@ public class TestClient {
     private static final String JBOSS_NAMING_CLIENT_EJB_CONTEXT_KEY = "jboss.naming.client.ejb.context";
     private static final String JBOSS_NAMING_CLIENT_EJB_CONTEXT_VALUE = "true";
 
-    private static final Logger LOGGER = Logger.getLogger(TestClient.class);
+    private static final Logger LOGGER = Logger.getLogger(LoanClient.class);
 
     public static void main(String[] args) throws NamingException {
-        new TestClient().run();
+        new LoanClient().run();
     }
 
     public void run() throws NamingException {
-        Object o = lookup();
-        LOGGER.info("Remote client OK");
+        try {
+            LoanOffersRemoteBean remoteBean = (LoanOffersRemoteBean)lookup();
+            LOGGER.info("Remote client OK: "+ remoteBean);
+            RemoteClientUI ui= new RemoteClientUI();
+            ui.init(remoteBean);
+        }catch (NamingException e) {
+            LOGGER.error("Naming exception: " + e.getExplanation());
+        }
     }
 
     /**

@@ -31,7 +31,6 @@ import com.kota.stratagem.persistence.service.ObjectiveService;
 import com.kota.stratagem.persistence.service.ProjectService;
 import com.kota.stratagem.persistence.service.TaskService;
 import com.kota.stratagem.persistence.service.TeamService;
-import com.kota.stratagem.persistence.util.AggregationSelector;
 
 @Stateless(mappedName = "ejb/taskProtocol")
 public class TaskProtocolImpl implements TaskProtocol {
@@ -115,10 +114,10 @@ public class TaskProtocolImpl implements TaskProtocol {
 					dependants.add(this.taskService.read(taskRepresentor.getId()));
 				}
 				task = this.taskService.update(id, name, description, completion, teams, users, taskImpediments, dependants, dependencies,
-						this.objectiveService.read(objective.getId()), this.projectSerivce.read(project.getId(), AggregationSelector.ELEMENTARY));
+						this.objectiveService.read(objective.getId()), this.projectSerivce.readElementary(project.getId()));
 			} else {
 				task = this.taskService.create(name, description, completion, null, null, null, null, null, this.objectiveService.read(objective.getId()),
-						this.projectSerivce.read(project.getId(), AggregationSelector.ELEMENTARY));
+						this.projectSerivce.readElementary(project.getId()));
 			}
 			return this.converter.to(task);
 		} catch (final PersistenceServiceException e) {

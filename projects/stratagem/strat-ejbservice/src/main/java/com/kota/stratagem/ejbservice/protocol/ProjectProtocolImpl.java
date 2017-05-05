@@ -36,7 +36,6 @@ import com.kota.stratagem.persistence.service.ObjectiveService;
 import com.kota.stratagem.persistence.service.ProjectService;
 import com.kota.stratagem.persistence.service.TaskService;
 import com.kota.stratagem.persistence.service.TeamService;
-import com.kota.stratagem.persistence.util.AggregationSelector;
 
 @Stateless(mappedName = "ejb/projectProtocol")
 public class ProjectProtocolImpl implements ProjectProtocol {
@@ -67,7 +66,7 @@ public class ProjectProtocolImpl implements ProjectProtocol {
 	@Override
 	public ProjectRepresentor getProject(Long id) throws AdaptorException {
 		try {
-			final ProjectRepresentor representor = this.converter.to(this.projectService.read(id, AggregationSelector.WITH_TASKS));
+			final ProjectRepresentor representor = this.converter.to(this.projectService.readWithTasks(id));
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Get Project (id: " + id + ") --> " + representor);
 			}
@@ -86,7 +85,7 @@ public class ProjectProtocolImpl implements ProjectProtocol {
 			if (criteria.getStatus() == null) {
 				projects = this.projectService.readAll();
 			} else {
-				projects = this.projectService.read(ProjectStatus.valueOf(criteria.getStatus().name()));
+				projects = this.projectService.readByStatus(ProjectStatus.valueOf(criteria.getStatus().name()));
 			}
 			representors = this.converter.to(projects);
 			if (LOGGER.isDebugEnabled()) {
@@ -107,6 +106,9 @@ public class ProjectProtocolImpl implements ProjectProtocol {
 			Project project = null;
 			final ProjectStatus projectStatus = ProjectStatus.valueOf(status.name());
 			if ((id != null) && this.projectService.exists(id)) {
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("Update Project (id: " + id + ")");
+				}
 				final Set<Task> projectTasks = new HashSet<Task>();
 				final Set<Team> teams = new HashSet<Team>();
 				final Set<AppUser> users = new HashSet<AppUser>();
@@ -126,8 +128,11 @@ public class ProjectProtocolImpl implements ProjectProtocol {
 				project = this.projectService.update(id, name, description, projectStatus, deadline, visible, projectTasks, teams, users, projectImpediments,
 						this.objectiveService.read(objective.getId()));
 			} else {
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("Create Project");
+				}
 				project = this.projectService.create(name, description, projectStatus, deadline, visible, null, null, null, null,
-						this.objectiveService.read(objective.getId()));
+						objective != null ? this.objectiveService.read(objective.getId()) : null);
 			}
 			return this.converter.to(project);
 		} catch (final PersistenceServiceException e) {
