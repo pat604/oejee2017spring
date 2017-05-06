@@ -1,6 +1,7 @@
 <%@ page import="com.kota.stratagem.weblayer.common.Page" %>
 
-<nav class="navbar navbar-transparent navbar-toggleable-md navbar-dark fixed-top scrolling-navbar">
+
+<nav class="navbar navbar-full navbar-toggleable-md navbar-dark fixed-top scrolling-navbar">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -43,7 +44,7 @@
             			<i class="fa fa-user-plus" aria-hidden="true"></i><span class="icon-companion"> Register</span>
            			</a>
             	</li>
-				<li class="nav-item">				
+				<li class="nav-item">
 					<a class="nav-link" data-toggle="modal" data-target="#modalLogin">
 						<i class="fa fa-sign-in" aria-hidden="true"></i><span class="icon-companion"> Log in</span>
 					</a>

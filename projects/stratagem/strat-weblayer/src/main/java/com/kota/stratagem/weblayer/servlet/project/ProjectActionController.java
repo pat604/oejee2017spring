@@ -53,11 +53,11 @@ public class ProjectActionController extends HttpServlet implements ProjectParam
 					LOGGER.error(e, e);
 				}
 			}
-			this.forward(request, response, editFlag, project, isNew, false);
+			this.forward(request, response, project, editFlag, isNew, false);
 		}
 	}
 
-	private void forward(final HttpServletRequest request, final HttpServletResponse response, final boolean editFlag, final ProjectRepresentor project,
+	private void forward(final HttpServletRequest request, final HttpServletResponse response, final ProjectRepresentor project, final boolean editFlag,
 			boolean isNew, boolean finishFlag) throws ServletException, IOException {
 		request.setAttribute(ATTR_PROJECT, project);
 		request.setAttribute(ATTR_ISNEW, isNew);
@@ -83,7 +83,7 @@ public class ProjectActionController extends HttpServlet implements ProjectParam
 			if ((name == null) || "".equals(name)) {
 				LOGGER.info("Failed attempt to modify project : (" + name + ")");
 				final ProjectRepresentor project = new ProjectRepresentor(id, name, description, status, null, visible, null);
-				this.forward(request, response, true, project, true, false);
+				this.forward(request, response, project, true, true, false);
 			} else {
 				ProjectRepresentor project = null;
 				try {
@@ -95,7 +95,7 @@ public class ProjectActionController extends HttpServlet implements ProjectParam
 				} catch (final AdaptorException e) {
 					LOGGER.error(e, e);
 				}
-				this.forward(request, response, false, project, false, true);
+				this.forward(request, response, project, false, false, true);
 			}
 		} catch (final Exception e) {
 			e.printStackTrace();

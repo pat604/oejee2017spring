@@ -32,7 +32,7 @@ public class ObjectiveListController extends HttpServlet implements ObjectiveLis
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LOGGER.info("Get All Projects");
+		LOGGER.info("Get All Objectives");
 		try {
 			final List<ObjectiveRepresentor> objectives = this.protocol.getAllObjectives();
 			request.setAttribute(ATTR_OBJECTIVES, objectives);

@@ -8,8 +8,12 @@ body,
     height: 50%;
 }
 
-.navbar {
+.navbar-transparent {
     background-color: transparent;
+}
+
+.navbar-full {
+	background-color: #293547
 }
 
 .scrolling-navbar {
@@ -36,6 +40,10 @@ footer.page-footer {
 
 .flex-center {
     color: #fff;
+}
+
+.space-bottom {
+	padding-bottom: 20px;
 }
 
 .view {
