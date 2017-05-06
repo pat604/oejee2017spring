@@ -2,11 +2,14 @@ package hu.mitro.webservice;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import hu.mitro.ejbservice.domain.GuitarInputStub;
 import hu.mitro.ejbservice.domain.GuitarStub;
 
 @Path("/guitar")
@@ -26,5 +29,11 @@ public interface GuitarRestService {
 	@Path("/list")
 	@Produces("application/json")
 	List<GuitarStub> getAllGuitars();
+
+	@PUT
+	@Path("/add")
+	@Consumes("application/json")
+	@Produces("application/json")
+	void addGuitarStub(GuitarInputStub guitar);
 
 }

@@ -10,6 +10,7 @@ import javax.persistence.PersistenceException;
 import org.apache.log4j.Logger;
 
 import hu.mitro.ejbservice.converter.GuitarConverter;
+import hu.mitro.ejbservice.domain.GuitarInputStub;
 import hu.mitro.ejbservice.domain.GuitarStub;
 import hu.mitro.ejbservice.exception.FacadeException;
 import hu.mitro.persistence.entity.Guitar;
@@ -42,6 +43,7 @@ public class GuitarFacadeImpl implements GuitarFacade {
 
 	@Override
 	public List<GuitarStub> getGuitars() throws FacadeException {
+		LOGGER.info("Get all of guitars (facade).");
 		List<GuitarStub> guitarStubs = new ArrayList<GuitarStub>();
 		try {
 			List<Guitar> guitars = this.guitarService.readAll();
@@ -57,6 +59,7 @@ public class GuitarFacadeImpl implements GuitarFacade {
 
 	@Override
 	public GuitarStub getGuitar(String serial) throws FacadeException {
+		LOGGER.info("Get a guitar by serial number (facade).");
 		GuitarStub guitar = null;
 		try {
 			guitar = this.guitarConverter.to(this.guitarService.readBySerialNumber(serial));
@@ -65,6 +68,18 @@ public class GuitarFacadeImpl implements GuitarFacade {
 			throw new FacadeException(e.getLocalizedMessage());
 		}
 		return guitar;
+	}
+
+	@Override
+	public void addGuitar(GuitarInputStub guitar) throws FacadeException {
+		LOGGER.info("Add a guitar to the application (facade).");
+		try {
+			this.guitarService.insertGuitar(guitar.getGuitarBrand(), guitar.getGuitarType(), guitar.getColor(),
+					guitar.getSerialNumber(), guitar.getVintage(), guitar.getPrice(), guitar.getOwner());
+		} catch (PersistenceException e) {
+			LOGGER.info("Unknown error caused at add process.");
+			throw new FacadeException("Unknown error caused at add process. " + e.getLocalizedMessage());
+		}
 	}
 
 }
