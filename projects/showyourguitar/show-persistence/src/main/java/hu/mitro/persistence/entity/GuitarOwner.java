@@ -8,11 +8,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import hu.mitro.persistence.parameter.OwnerParameter;
+import hu.mitro.persistence.query.OwnerQuery;
+
 @Entity
 @Table(name = "guitarowner")
+@NamedQueries(value = {
+		@NamedQuery(name = OwnerQuery.OWNER_BY_NAME, query = "SELECT o FROM GuitarOwner o WHERE o.ownerUsername=:"
+				+ OwnerParameter.OWNERNAME) })
 public class GuitarOwner implements Serializable {
 
 	private static final long serialVersionUID = 1L;

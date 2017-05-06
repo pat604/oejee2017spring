@@ -1,6 +1,6 @@
 apply plugin: 'war'
 
-war { archiveName 'show-web.war'}
+war { archiveName 'show-web.war' }
 
 dependencies {
 	providedCompile project(':show-ejb')

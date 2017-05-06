@@ -65,10 +65,10 @@ public class Guitar implements Serializable {
 		super();
 	}
 
-	public Guitar(Long id, GuitarBrand guitarbrand, String guitarSerialNumber, String guitartype, String guitarColor,
+	public Guitar(GuitarBrand guitarbrand, String guitarSerialNumber, String guitartype, String guitarColor,
 			int guitarVintage, double guitarPrice, GuitarOwner guitarOwner) {
 		super();
-		this.id = id;
+		// this.id = id;
 		this.guitarbrand = guitarbrand;
 		this.guitarSerialNumber = guitarSerialNumber;
 		this.guitartype = guitartype;
