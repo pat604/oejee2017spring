@@ -101,17 +101,25 @@ public class ObjectiveProtocolImpl implements ObjectiveProtocol, ObjectiveProtoc
 				final Set<Task> objectiveTasks = new HashSet<Task>();
 				final Set<Team> teams = new HashSet<Team>();
 				final Set<AppUser> users = new HashSet<AppUser>();
-				for (final ProjectRepresentor project : projects) {
-					objectiveProjects.add(this.projectService.readElementary(project.getId()));
+				if (projects != null) {
+					for (final ProjectRepresentor project : projects) {
+						objectiveProjects.add(this.projectService.readElementary(project.getId()));
+					}
 				}
-				for (final TaskRepresentor task : tasks) {
-					objectiveTasks.add(this.taskService.read(task.getId()));
+				if (tasks != null) {
+					for (final TaskRepresentor task : tasks) {
+						objectiveTasks.add(this.taskService.read(task.getId()));
+					}
 				}
-				for (final TeamRepresentor team : assignedTeams) {
-					teams.add(this.teamService.read(team.getId()));
+				if (assignedTeams != null) {
+					for (final TeamRepresentor team : assignedTeams) {
+						teams.add(this.teamService.read(team.getId()));
+					}
 				}
-				for (final AppUserRepresentor user : assignedUsers) {
-					users.add(this.appUserService.read(user.getId()));
+				if (assignedUsers != null) {
+					for (final AppUserRepresentor user : assignedUsers) {
+						users.add(this.appUserService.read(user.getId()));
+					}
 				}
 				objective = this.objectiveService.update(id, name, description, priority, objectiveStatus, objectiveProjects, objectiveTasks, teams, users);
 			} else {

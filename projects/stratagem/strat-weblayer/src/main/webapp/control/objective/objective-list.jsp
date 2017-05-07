@@ -18,11 +18,13 @@
 	
 	<div class="container">
 	
+       	<% if (request.isUserInRole("department_manager") || request.isUserInRole("central_manager")) { %>
 		<div class="space-bottom">
 		    <button type="button" class="btn mdb-color darken-1 btn-lg" data-toggle="modal" data-target="#addObjective">
 		    	<i class="fa fa-plus right"></i><span class="icon-companion"> Set new Objective</span>
 			</button>
 		</div>
+		<% } %>
 	
 		<table class="table table-hover">
 		    <thead>
@@ -49,8 +51,10 @@
                             <td><c:out value="${objective.tasks.size()}" /></td>
                             <td>
 	                            <a href="ObjectiveAction?id=<c:out value="${objective.id}" />"><i class="fa fa-wpforms" aria-hidden="true"></i></a>
-	                            <a href="ObjectiveAction?id=<c:out value="${objective.id}" />&edit=1"><i class="fa fa-edit"  aria-hidden="true"></i></a>
+                            	<% if (request.isUserInRole("department_manager") || request.isUserInRole("central_manager")) { %>
+								<a href="ObjectiveAction?id=<c:out value="${objective.id}" />&edit=1"><i class="fa fa-edit"  aria-hidden="true"></i></a>
 	                            <a href="ObjectiveDelete?id=<c:out value="${objective.id}" />"><i class="fa fa-trash"  aria-hidden="true"></i></a>
+                            	<% } %>
                             </td>
                         </tr>
 				</c:forEach>

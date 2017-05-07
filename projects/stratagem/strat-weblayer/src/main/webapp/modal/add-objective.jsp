@@ -29,8 +29,16 @@
                   	</div>
             	
                		<div class="md-form form-sm">
-	                    <input type="number" id="objform32" class="form-control" name="priority" 
-	                    min="0" max="100" value="${objective.priority}">
+               			<c:choose>
+	      			      	<c:when test = "${objective != null}">
+		         				<input type="number" id="objform32" class="form-control" name="priority" 
+			                    min="0" max="100" value="${objective.priority}">
+			                </c:when>
+			                <c:otherwise>
+			                	<input type="number" id="objform32" class="form-control" name="priority" 
+			                    min="0" max="100" value="10">
+			                </c:otherwise>
+		                </c:choose>
 	                </div>
 	                
 					<div class="md-form form-sm">

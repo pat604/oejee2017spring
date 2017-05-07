@@ -88,9 +88,6 @@ public class ProjectActionController extends HttpServlet implements ProjectParam
 				ProjectRepresentor project = null;
 				try {
 					LOGGER.info(id == null ? "Create project : (" + name + ")" : "Update project : (" + id + ")");
-
-					// Representor collection
-
 					project = this.protocol.saveProject(id, name, description, status, null, visible, null, null, null, null, null);
 				} catch (final AdaptorException e) {
 					LOGGER.error(e, e);

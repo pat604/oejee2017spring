@@ -14,11 +14,12 @@ import org.apache.log4j.Logger;
 import com.kota.stratagem.ejbservice.exception.AdaptorException;
 import com.kota.stratagem.ejbservice.protocol.ObjectiveProtocol;
 import com.kota.stratagem.weblayer.common.Page;
+import com.kota.stratagem.weblayer.common.objective.ObjectiveAttribute;
 import com.kota.stratagem.weblayer.common.objective.ObjectiveParameter;
 import com.kota.stratagem.weblayer.servlet.project.ProjectDeleteServlet;
 
 @WebServlet("/ObjectiveDelete")
-public class ObjectiveDeleteServlet extends HttpServlet implements ObjectiveParameter {
+public class ObjectiveDeleteServlet extends HttpServlet implements ObjectiveParameter, ObjectiveAttribute {
 
 	private static final long serialVersionUID = 1002816239391001731L;
 
@@ -33,6 +34,7 @@ public class ObjectiveDeleteServlet extends HttpServlet implements ObjectivePara
 		LOGGER.info("Delete Objective by id (" + id + ")");
 		try {
 			this.protocol.removeObjective(Long.parseLong(id));
+			request.getSession().setAttribute(ATTR_SUCCESS, "Objective deleted successfully!");
 		} catch (final AdaptorException e) {
 			LOGGER.error(e, e);
 		}
