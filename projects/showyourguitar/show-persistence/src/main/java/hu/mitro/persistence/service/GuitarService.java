@@ -15,4 +15,7 @@ public interface GuitarService {
 	Guitar readBySerialNumber(String serialNumber) throws PersistenceException;
 
 	List<Guitar> readAll() throws PersistenceException;
+
+	void insertGuitar(String guitarBrand, String guitarType, String color, String serialNumber, Integer vintage,
+			double price, String ownername) throws PersistenceException;
 }

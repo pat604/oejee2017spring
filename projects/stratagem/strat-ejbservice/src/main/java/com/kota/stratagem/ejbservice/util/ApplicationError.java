@@ -5,7 +5,7 @@ import com.kota.stratagem.ejbservice.domain.ErrorRepresentor;
 public enum ApplicationError {
 
 	UNEXPECTED(10, 500, "Unexpected error"), // Internal Server Error
-	NOT_EXISTS(40, 400, "Resource not found"), // Bad Request
+	NON_EXISTANT(40, 400, "Resource not found"), // Bad Request
 	HAS_DEPENDENCY(50, 412, "Has dependency"); // Precondition Failed
 
 	private final int code;

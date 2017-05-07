@@ -167,7 +167,7 @@ public class ProjectServiceImpl implements ProjectService {
 		try {
 			return this.entityManager.createNamedQuery(ProjectQuery.COUNT_BY_ID, Long.class).setParameter(ProjectParameter.ID, id).getSingleResult() == 1;
 		} catch (final Exception e) {
-			throw new PersistenceServiceException("Unknown error during counting Tasks by Project (" + id + ")! " + e.getLocalizedMessage(), e);
+			throw new PersistenceServiceException("Unknown error during Project serach (" + id + ")! " + e.getLocalizedMessage(), e);
 		}
 	}
 

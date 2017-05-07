@@ -44,8 +44,8 @@
             measures will ultimately determine the success of the company as a whole. 
             Managing these operations becomes all the more challanging with uncertain deadlines, loosley coupled productive engagements,
             and ever rising demands for absolute perfection. Without the correct tools to aid leaders in team-wise and strategic 
-            coordination, these goals would most certainly remain mere aspirations. By integrating Stratagem into companies are now
-            able to have a leading edge on reaching their designated objectives.
+            coordination, these goals would most certainly remain mere aspirations. By integrating Stratagem into key business processes
+            companies are now able to have a leading edge on reaching their designated objectives.
             </p>
             <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. 

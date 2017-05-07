@@ -84,6 +84,7 @@ INSERT INTO objectives (objective_id, objective_name, objective_description, obj
 (1, 'Increase influence in market', 'Completing projects for our esteemed contacts', 1, 1),
 (2, 'Test 1', 'test, id:2', 5, 0),
 (3, 'Test 2', 'test, id:3', 5, 0);
+SELECT SETVAL('objectives_objective_id_seq', COALESCE(MAX(objective_id), 0) ) FROM objectives;
 
 INSERT INTO objective_missions (mission_id, mission_name, mission_description, mission_objective, mission_stage_id) VALUES
 (0, 'Steps towards growing technologies', '', 0, 4);

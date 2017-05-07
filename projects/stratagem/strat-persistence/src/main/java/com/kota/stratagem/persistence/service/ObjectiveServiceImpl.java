@@ -23,9 +23,7 @@ import com.kota.stratagem.persistence.entity.trunk.ObjectiveStatus;
 import com.kota.stratagem.persistence.exception.CoherentPersistenceServiceException;
 import com.kota.stratagem.persistence.exception.PersistenceServiceException;
 import com.kota.stratagem.persistence.parameter.ObjectiveParameter;
-import com.kota.stratagem.persistence.parameter.ProjectParameter;
 import com.kota.stratagem.persistence.query.ObjectiveQuery;
-import com.kota.stratagem.persistence.query.ProjectQuery;
 import com.kota.stratagem.persistence.util.PersistenceApplicationError;
 
 @Stateless(mappedName = "ejb/objectiveService")
@@ -112,9 +110,9 @@ public class ObjectiveServiceImpl implements ObjectiveService {
 			LOGGER.debug("Remove Objective by id (" + id + ")");
 		}
 		if (this.exists(id)) {
-			if ((this.read(id).getTasks().size() == 0) && (this.read(id).getTasks().size() == 0)) {
+			if ((this.read(id).getTasks().size() == 0) && (this.read(id).getProjects().size() == 0)) {
 				try {
-					this.entityManager.createNamedQuery(ProjectQuery.REMOVE_BY_ID).setParameter(ProjectParameter.ID, id).executeUpdate();
+					this.entityManager.createNamedQuery(ObjectiveQuery.REMOVE_BY_ID).setParameter(ObjectiveParameter.ID, id).executeUpdate();
 				} catch (final Exception e) {
 					throw new PersistenceServiceException("Unknown error when removing Objective by id (" + id + ")! " + e.getLocalizedMessage(), e);
 				}
@@ -129,8 +127,14 @@ public class ObjectiveServiceImpl implements ObjectiveService {
 
 	@Override
 	public boolean exists(Long id) throws PersistenceServiceException {
-		// TODO Auto-generated method stub
-		return false;
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Check Objective by id (" + id + ")");
+		}
+		try {
+			return this.entityManager.createNamedQuery(ObjectiveQuery.COUNT_BY_ID, Long.class).setParameter(ObjectiveParameter.ID, id).getSingleResult() == 1;
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error during Objective search (" + id + ")! " + e.getLocalizedMessage(), e);
+		}
 	}
 
 }

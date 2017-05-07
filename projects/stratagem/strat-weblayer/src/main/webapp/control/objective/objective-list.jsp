@@ -8,24 +8,22 @@
 	<jsp:include page="../../header.jsp"></jsp:include>
 </head>
 <body>
-	<jsp:include page="../../partial/navbar.jsp"></jsp:include>
+	<jsp:include page="../../partial/navbar-fill.jsp"></jsp:include>
 	
-	<div class="control-view hm-black-strong">
-		<div class="flex-center">
-			<ul>
-	            <li>
-	 	        	<h1 class="brand-name-control font-bold wow fadeInDown" data-wow-delay="0.2s">Objectives</h1>
-				</li>
-				<li>
-				<hr class="hr-light"></li>
-	            <li>
-		            <p class="wow fadeInDown" data-wow-delay="0.22s">The goals that we work to achive</p>
-	            </li>
-	        </ul>
-        </div>
+	<br/><br/>
+	
+    <div class="divider-new">
+        <h2 class="h2-responsive wow fadeIn">List of Objectives</h2>
     </div>
 	
 	<div class="container">
+	
+		<div class="space-bottom">
+		    <button type="button" class="btn mdb-color darken-1 btn-lg" data-toggle="modal" data-target="#addObjective">
+		    	<i class="fa fa-plus right"></i><span class="icon-companion"> Set new Objective</span>
+			</button>
+		</div>
+	
 		<table class="table table-hover">
 		    <thead>
 		        <tr>
@@ -58,6 +56,12 @@
 				</c:forEach>
 		    </tbody>
 		</table>
+		
+		<!-- Modals -->
+		<jsp:include page="../../modal/add-objective.jsp"></jsp:include>
+		<jsp:include page="../../partial/alert.jsp"></jsp:include>
+		<!-- /Modals -->
+		
 	</div>
 	
 	<jsp:include page="../../partial/copyright.jsp"></jsp:include>

@@ -1,6 +1,6 @@
 <%@page import="com.kota.stratagem.ejbserviceclient.domain.ProjectStatusRepresentor"%>
 <%@page import="com.kota.stratagem.weblayer.common.FormValue"%>
-<%@page import="com.kota.stratagem.weblayer.common.project.ListAttribute"%>
+<%@page import="com.kota.stratagem.weblayer.common.project.ProjectListAttribute"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.Set" %>  
 <%@ page import="java.util.List" %>
@@ -23,7 +23,7 @@
 		<div>
 			<label for="status">Status: </label>
 			<select name="status" id="status">
-			    <% String statusName = (String) request.getAttribute(ListAttribute.ATTR_STATUS); %>
+			    <% String statusName = (String) request.getAttribute(ProjectListAttribute.ATTR_STATUS); %>
 				<option value="-1" <% out.print( FormValue.FILTER_ALL_CATEGORY.equals(statusName) ? "selected=\"selected\"" : "" ); %>>-</option>
 			    <c:set var="statusValues" value="<%= ProjectStatusRepresentor.values() %>"/>
 				<c:forEach items="${statusValues}" var="status">

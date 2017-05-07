@@ -24,7 +24,7 @@
 				<br/><br/>
 			</div>
 			<div>
-				<label for="status">Category: </label>
+				<label for="status">Status: </label>
 				<select name="status" id="status">
 					<% for ( ProjectStatusRepresentor status : ProjectStatusRepresentor.values()) { %>
 						<option value="<% out.print(status.name()); %>" <% out.print( status == project.getStatus() ? "selected=\"selected\"" : "" ); %> ><% out.print(status.getLabel()); %></option>
