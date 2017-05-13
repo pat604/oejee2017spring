@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import hu.mitro.ejbservice.domain.GuitarInputStub;
+import hu.mitro.ejbservice.domain.GuitarPriceUpdateStub;
 import hu.mitro.ejbservice.domain.GuitarStub;
 
 @Path("/guitar")
@@ -35,5 +36,11 @@ public interface GuitarRestService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	void addGuitarStub(GuitarInputStub guitar);
+
+	@PUT
+	@Path("/modprice")
+	@Consumes("application/json")
+	@Produces("application/json")
+	void modifyGuitarStub(GuitarPriceUpdateStub guitar);
 
 }

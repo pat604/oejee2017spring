@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import hu.mitro.ejbservice.converter.GuitarConverter;
 import hu.mitro.ejbservice.domain.GuitarInputStub;
+import hu.mitro.ejbservice.domain.GuitarPriceUpdateStub;
 import hu.mitro.ejbservice.domain.GuitarStub;
 import hu.mitro.ejbservice.exception.FacadeException;
 import hu.mitro.persistence.entity.Guitar;
@@ -77,8 +78,19 @@ public class GuitarFacadeImpl implements GuitarFacade {
 			this.guitarService.insertGuitar(guitar.getGuitarBrand(), guitar.getGuitarType(), guitar.getColor(),
 					guitar.getSerialNumber(), guitar.getVintage(), guitar.getPrice(), guitar.getOwner());
 		} catch (PersistenceException e) {
-			LOGGER.info("Unknown error caused at add process.");
+			LOGGER.info("Unknown error caused at insert process.");
 			throw new FacadeException("Unknown error caused at add process. " + e.getLocalizedMessage());
+		}
+	}
+
+	@Override
+	public void updateGuitarPrice(GuitarPriceUpdateStub guitar) throws FacadeException {
+		LOGGER.info("Change the price of a guitar (facade).");
+		try {
+			this.guitarService.updateGuitarPrice(guitar.getSerialNumber(), guitar.getNewPrice());
+		} catch (Exception e) {
+			LOGGER.info("Unknown error caused at update process.");
+			throw new FacadeException("Unknown error caused at update process. " + e.getLocalizedMessage());
 		}
 	}
 

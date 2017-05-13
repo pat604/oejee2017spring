@@ -18,4 +18,6 @@ public interface GuitarService {
 
 	void insertGuitar(String guitarBrand, String guitarType, String color, String serialNumber, Integer vintage,
 			double price, String ownername) throws PersistenceException;
+
+	void updateGuitarPrice(String serialNumber, double newPrice) throws PersistenceException;
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import hu.mitro.ejbservice.domain.GuitarInputStub;
+import hu.mitro.ejbservice.domain.GuitarPriceUpdateStub;
 import hu.mitro.ejbservice.domain.GuitarStub;
 import hu.mitro.ejbservice.exception.FacadeException;
 
@@ -19,4 +20,5 @@ public interface GuitarFacade {
 
 	void addGuitar(GuitarInputStub guitar) throws FacadeException;
 
+	void updateGuitarPrice(GuitarPriceUpdateStub guitar) throws FacadeException;
 }

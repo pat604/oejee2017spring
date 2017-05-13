@@ -88,4 +88,25 @@ public class GuitarServiceImp implements GuitarService {
 		// return guitar;
 	}
 
+	@Override
+	public void updateGuitarPrice(String serialNumber, double newPrice) throws PersistenceException {
+		LOGGER.info("Update the price of a guitar in the database.");
+		try {
+			Guitar guitar = this.entityManager.createNamedQuery(GuitarQuery.GET_BY_SERIALNUMBER, Guitar.class)
+					.setParameter(GuitarParameter.SERIALNUMBER, serialNumber).getSingleResult();
+			if (guitar == null) {
+				LOGGER.error("Error caused at update of guitar, the given serial number does not exist!");
+				throw new PersistenceException(
+						"Error caused at update of guitar, the given serial number does not exist!");
+			}
+			guitar.setGuitarPrice(newPrice);
+			this.entityManager.merge(guitar);
+			this.entityManager.flush();
+		} catch (Exception e) {
+			LOGGER.error("Unknown error caused at update of guitar!");
+			throw new PersistenceException("Unknown error caused at update of guitar. " + e.getLocalizedMessage());
+		}
+
+	}
+
 }

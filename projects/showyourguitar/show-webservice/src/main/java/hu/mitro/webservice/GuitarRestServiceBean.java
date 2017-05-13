@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import hu.mitro.ejbservice.domain.GuitarInputStub;
+import hu.mitro.ejbservice.domain.GuitarPriceUpdateStub;
 import hu.mitro.ejbservice.domain.GuitarStub;
 import hu.mitro.ejbservice.exception.FacadeException;
 import hu.mitro.ejbservice.facade.GuitarFacade;
@@ -27,7 +28,7 @@ public class GuitarRestServiceBean implements GuitarRestService {
 		try {
 			stub = this.facade.getGuitar(id);
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.getLocalizedMessage();
 		}
 		return stub;
 	}
@@ -39,7 +40,7 @@ public class GuitarRestServiceBean implements GuitarRestService {
 		try {
 			stub = this.facade.getGuitar(serialNumber);
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.getLocalizedMessage();
 		}
 		return stub;
 	}
@@ -51,7 +52,7 @@ public class GuitarRestServiceBean implements GuitarRestService {
 		try {
 			stubs = this.facade.getGuitars();
 		} catch (FacadeException e) {
-			e.printStackTrace();
+			e.getLocalizedMessage();
 		}
 		return stubs;
 	}
@@ -62,9 +63,19 @@ public class GuitarRestServiceBean implements GuitarRestService {
 		try {
 			this.facade.addGuitar(guitar);
 		} catch (FacadeException e) {
-			e.printStackTrace();
+			e.getLocalizedMessage();
 		}
 		// return stub;
+	}
+
+	@Override
+	public void modifyGuitarStub(GuitarPriceUpdateStub guitar) {
+		LOGGER.info("Modify the price of a guitar.");
+		try {
+			this.facade.updateGuitarPrice(guitar);
+		} catch (Exception e) {
+			e.getLocalizedMessage();
+		}
 	}
 
 }
