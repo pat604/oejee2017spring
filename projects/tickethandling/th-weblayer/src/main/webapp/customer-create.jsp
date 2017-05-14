@@ -48,7 +48,7 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="contact_email">Contact e-mail:</label>
 				<div class="col-sm-10">
-					<input class="form-control" name="contact_email" id="contact_email" value="" />				
+					<input type="email" class="form-control" name="contact_email" id="contact_email" value="" />				
 				</div>
 			</div>
 			

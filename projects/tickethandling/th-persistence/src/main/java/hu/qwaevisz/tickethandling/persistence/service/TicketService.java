@@ -16,6 +16,10 @@ public interface TicketService {
 
 	Ticket read(String id) throws PersistenceServiceException;
 
+	List<Ticket> readByProcessor(String processorId) throws PersistenceServiceException;
+
+	List<Ticket> readByProcessorAndLevel(String processorId, Integer level) throws PersistenceServiceException;
+
 	List<Ticket> readAll() throws PersistenceServiceException;
 
 	Ticket create(String system_id, String sender_name, Priority priority, String business_impact, String steps_to_rep, Integer level, String processor_id,

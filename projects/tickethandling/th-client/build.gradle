@@ -1,6 +1,6 @@
 jar { archiveName 'th-client.jar' }
 
-repositories { 
+repositories {
 	flatDir { dirs 'lib' }
 }
 

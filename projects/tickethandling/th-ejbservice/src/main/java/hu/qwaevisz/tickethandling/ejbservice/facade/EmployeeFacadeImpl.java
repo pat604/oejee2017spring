@@ -10,8 +10,8 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import hu.qwaevisz.tickethandling.ejbservice.converter.EmployeeConverter;
-import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.EmployeeStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.FacadeException;
 import hu.qwaevisz.tickethandling.persistence.exception.PersistenceServiceException;
 import hu.qwaevisz.tickethandling.persistence.service.EmployeeService;
 

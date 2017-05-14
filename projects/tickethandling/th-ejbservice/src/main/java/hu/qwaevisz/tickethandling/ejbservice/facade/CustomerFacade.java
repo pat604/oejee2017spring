@@ -5,7 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import hu.qwaevisz.tickethandling.ejbservice.domain.CustomerStub;
-import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.FacadeException;
 
 @Local
 public interface CustomerFacade {
@@ -16,4 +16,6 @@ public interface CustomerFacade {
 
 	CustomerStub createCustomer(String systemId, String name, String address, String contact_name, String contact_phone, String contact_mail)
 			throws FacadeException;
+
+	void remove(String systemId) throws FacadeException;
 }

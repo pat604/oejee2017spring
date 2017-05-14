@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.SystemStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.FacadeException;
 import hu.qwaevisz.tickethandling.persistence.entity.Customer;
 
 @Local

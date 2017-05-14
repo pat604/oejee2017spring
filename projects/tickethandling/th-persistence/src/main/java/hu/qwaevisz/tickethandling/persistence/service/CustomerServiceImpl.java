@@ -108,4 +108,17 @@ public class CustomerServiceImpl implements CustomerService {
 			throw new PersistenceServiceException("Unknown error during persisting new Customer!" + e.getLocalizedMessage(), e);
 		}
 	}
+
+	@Override
+	public void delete(String systemId) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Delete Customer");
+		}
+		try {
+			this.entityManager.createNamedQuery(CustomerQuery.REMOVE_BY_ID).setParameter(CustomerParameter.ID, systemId).executeUpdate();
+
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error during deleting Customer!" + e.getLocalizedMessage(), e);
+		}
+	}
 }

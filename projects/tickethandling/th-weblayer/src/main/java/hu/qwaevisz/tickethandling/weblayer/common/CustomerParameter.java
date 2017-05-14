@@ -1,6 +1,6 @@
 package hu.qwaevisz.tickethandling.weblayer.common;
 
-public interface CustomerCreateParameter {
+public interface CustomerParameter {
 
 	public static final String SYSTEMID = "systemId";
 	public static final String NAME = "name";

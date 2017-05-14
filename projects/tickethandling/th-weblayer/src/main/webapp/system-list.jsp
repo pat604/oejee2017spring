@@ -10,6 +10,7 @@
 <html>
 <head>
 	<jsp:include page="header.html"></jsp:include>
+	<% boolean isAdmin = request.isUserInRole("admin"); %>
 </head>
 <body>
 
@@ -19,7 +20,11 @@
 		<bt:header>List of Systems</bt:header>
 	</div>
 	<div class="container table-ticketing">
-		<h3>Systems<a href="CustomerCreate"><span class="glyphicon glyphicon-plus newmessage-button" style="float:right"></span></a></h3>
+		<h3>Systems
+		<% if (isAdmin) { %>
+			<a href="CustomerCreate"><span class="glyphicon glyphicon-plus newmessage-button" style="float:right"></span></a>
+		<% } %>
+		</h3>
 		<span class="line-ticketing"></span>
 		<c:choose>
 			<c:when test="${requestScope.systems.isEmpty()}">
@@ -40,6 +45,9 @@
 					<div class="row">
 						<div class="col-sm-2">
 							<strong><c:out value="${system.id}" /></strong>
+							<% if (isAdmin) { %>
+							<a href="CustomerDelete?systemId=<c:out value="${system.id}" />"><span class="glyphicon glyphicon-trash"></span></a>
+							<% } %>
 						</div>
 						<div class="col-sm-3">
 							<c:out value="${system.company_name}" />
@@ -48,7 +56,9 @@
 							<c:forEach items="${system.components}" var="comp">
 								<c:out value="${comp.label}" />,
 							</c:forEach>
-							<a href="ComponentAssign?systemId=<c:out value="${system.id}" />">Edit&nbsp;<span class="glyphicon glyphicon-edit"></span></a>
+							<% if (isAdmin) { %>
+								<a href="ComponentAssign?systemId=<c:out value="${system.id}" />">Edit&nbsp;<span class="glyphicon glyphicon-edit"></span></a>
+							<% } %>
 						</div>
 					</div>
 				</c:forEach>

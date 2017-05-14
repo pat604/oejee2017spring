@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.EmployeeStub;
@@ -12,6 +13,9 @@ import hu.qwaevisz.tickethandling.persistence.entity.Employee;
 @PermitAll
 @Stateless
 public class EmployeeConverterImpl implements EmployeeConverter {
+
+	@EJB
+	TicketConverter ticConv;
 
 	@Override
 	public EmployeeStub to(Employee emp) {

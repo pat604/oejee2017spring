@@ -49,10 +49,6 @@ public class Employee implements Serializable {
 	@Column(name = "emp_hiredate", nullable = false)
 	private Date hiredate;
 
-	public Employee() {
-		this("", "", "", "", 0, new Date());
-	}
-
 	public Employee(String id, String name, String phone, String email, Integer level, Date hiredate) {
 		super();
 		this.id = id;
@@ -109,6 +105,10 @@ public class Employee implements Serializable {
 
 	public void setLevel(Integer level) {
 		this.level = level;
+	}
+
+	public Employee() {
+		this("", "", "", "", 0, new Date());
 	}
 
 	@Override

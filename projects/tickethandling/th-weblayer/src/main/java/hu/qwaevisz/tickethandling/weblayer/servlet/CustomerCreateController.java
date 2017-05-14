@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbservice.facade.CustomerFacade;
-import hu.qwaevisz.tickethandling.weblayer.common.CustomerCreateParameter;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.FacadeException;
+import hu.qwaevisz.tickethandling.weblayer.common.CustomerParameter;
 import hu.qwaevisz.tickethandling.weblayer.common.Page;
 
 @WebServlet("/CustomerCreate")
-public class CustomerCreateController extends HttpServlet implements CustomerCreateParameter {
+public class CustomerCreateController extends HttpServlet implements CustomerParameter {
 
 	private static final long serialVersionUID = -4068275526750462197L;
 

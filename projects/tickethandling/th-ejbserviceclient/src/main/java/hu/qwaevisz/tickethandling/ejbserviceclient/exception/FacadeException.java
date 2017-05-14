@@ -1,4 +1,4 @@
-package hu.qwaevisz.tickethandling.ejbservice.exception;
+package hu.qwaevisz.tickethandling.ejbserviceclient.exception;
 
 public class FacadeException extends Exception {
 
