@@ -32,7 +32,7 @@
 	<form method="post" action="newTodo">
 		<div class="form-group">
 			<label>Name</label>
-	    	<input class="form-control" type="text" name="name" value="" />	
+	    	<input class="form-control" type="text" name="name" value="" required/>
 		</div>
 		
 		<div class="form-group">

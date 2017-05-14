@@ -60,10 +60,6 @@ public class NewTodoController extends HttpServlet implements TodoParameter{
 		final String[] selectedPriorities = request.getParameterValues("selPriorities");
 		final String[] selectedCategories = request.getParameterValues("selCategories");
 		final String[] selectedSubTodos = request.getParameterValues("selSubTodos");
-		LOGGER.info(name);
-		for (int i = 0; i < selectedSubTodos.length; i++) {
-			LOGGER.info(selectedSubTodos[i]);
-		}
 		
 		List<PriorityStub> priorities = new ArrayList<PriorityStub>();
 		List<CategoryStub> categories = new ArrayList<CategoryStub>();
@@ -73,7 +69,7 @@ public class NewTodoController extends HttpServlet implements TodoParameter{
 		} catch (final FacadeException e) {
 			LOGGER.error(e, e);
 		}
-		if (name == null || "".equals(name) || selectedPriorities == null || selectedCategories == null) {
+		if (name == null || "".equals(name)) {
 			final TodoStub todo = null;
 			this.forward(request, response, priorities, categories);
 		} else {

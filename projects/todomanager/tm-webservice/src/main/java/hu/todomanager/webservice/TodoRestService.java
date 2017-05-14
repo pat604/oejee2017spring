@@ -29,13 +29,4 @@ public interface TodoRestService {
 	@DELETE
 	@Path("/delete/{name}")
 	void deleteTodo(@PathParam("name") String name) throws FacadeException;
-/*
-	@DELETE
-	@Path("/advanced/{neptun}")
-	void removeStudentAdvanced(@PathParam("neptun") String neptun) throws AdaptorException;
-
-	@OPTIONS
-	@Path("{path:.*}")
-	Response optionsAll(@PathParam("path") String path);
-*/
 }

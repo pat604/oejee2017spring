@@ -1,0 +1,89 @@
+<?xml version="1.0" ?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.tm.hu/Todomanager" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="TodoService" targetNamespace="http://www.tm.hu/Todomanager">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tm.hu/Todomanager" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.tm.hu/Todomanager">
+  <xs:element name="ListAllTodos" type="tns:ListAllTodos"></xs:element>
+  <xs:element name="ListAllTodosResponse" type="tns:ListAllTodosResponse"></xs:element>
+  <xs:element name="Todo" type="tns:todoStub"></xs:element>
+  <xs:complexType name="ListAllTodos">
+    <xs:sequence></xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ListAllTodosResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Todos" type="tns:todoStub"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="todoStub">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="priority" type="tns:priorityStub"></xs:element>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="subTodos" nillable="true" type="tns:subTodoStub"></xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string"></xs:attribute>
+    <xs:attribute name="description" type="xs:string"></xs:attribute>
+    <xs:attribute name="state" type="xs:int" use="required"></xs:attribute>
+    <xs:attribute name="deadline" type="xs:dateTime"></xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="priorityStub">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="name" type="xs:string"></xs:element>
+      <xs:element name="priorityValue" type="xs:int"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="subTodoStub">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="deadline" type="xs:dateTime"></xs:element>
+      <xs:element minOccurs="0" name="description" type="xs:string"></xs:element>
+      <xs:element minOccurs="0" name="name" type="xs:string"></xs:element>
+      <xs:element name="state" type="xs:int"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FacadeException" type="tns:FacadeException"></xs:element>
+  <xs:complexType name="FacadeException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="ListAllTodosResponse">
+    <wsdl:part element="tns:ListAllTodosResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="FacadeException">
+    <wsdl:part element="tns:FacadeException" name="FacadeException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ListAllTodos">
+    <wsdl:part element="tns:ListAllTodos" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Todo">
+    <wsdl:operation name="ListAllTodos">
+      <wsdl:input message="tns:ListAllTodos" name="ListAllTodos">
+    </wsdl:input>
+      <wsdl:output message="tns:ListAllTodosResponse" name="ListAllTodosResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:FacadeException" name="FacadeException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TodoServiceSoapBinding" type="tns:Todo">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"></soap:binding>
+    <wsdl:operation name="ListAllTodos">
+      <soap:operation soapAction="http://www.tm.hu/Todomanager/listAllTodo" style="document"></soap:operation>
+      <wsdl:input name="ListAllTodos">
+        <soap:body use="literal"></soap:body>
+      </wsdl:input>
+      <wsdl:output name="ListAllTodosResponse">
+        <soap:body use="literal"></soap:body>
+      </wsdl:output>
+      <wsdl:fault name="FacadeException">
+        <soap:fault name="FacadeException" use="literal"></soap:fault>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TodoService">
+    <wsdl:port binding="tns:TodoServiceSoapBinding" name="TodoPort">
+      <soap:address location="http://localhost:8080/tm-webservicesoap/TodoService"></soap:address>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
