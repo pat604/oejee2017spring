@@ -1,6 +1,7 @@
 package hu.smiklos.stmm.remoteclient;
 
 import hu.smiklos.stmm.remotelibrary.LoanOffersRemoteBean;
+import hu.smiklos.stmm.remotelibrary.entity.LoanOfferRemote;
 import hu.smiklos.stmm.remotelibrary.exception.ServiceException;
 import org.apache.log4j.Logger;
 
@@ -8,6 +9,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.util.Hashtable;
+import java.util.Properties;
 
 /**
  * Created by SebestyenMiklos on 2017. 05. 04..
@@ -29,10 +31,12 @@ public class LoanClient {
 
     public void run() throws NamingException {
         try {
-            LoanOffersRemoteBean remoteBean = (LoanOffersRemoteBean)lookup();
+            LoanOffersRemoteBean remoteBean = lookup();
             LOGGER.info("Remote client OK: "+ remoteBean);
-            RemoteClientUI ui= new RemoteClientUI();
-            ui.init(remoteBean);
+            //LoanOfferRemote[] offers=remoteBean.getOffers("M","1","12");
+            //LOGGER.info(offers);
+            RemoteClientUI ui= new RemoteClientUI(remoteBean);
+            ui.init();
         }catch (NamingException e) {
             LOGGER.error("Naming exception: " + e.getExplanation());
         }
@@ -65,7 +69,7 @@ public class LoanClient {
      */
     String getJNDICoordinates(String appName, String moduleName,
                               String beanName, String interfaceName, boolean isStateful) {
-        String result = "ejb:" + appName + "/" + moduleName + "/" + beanName;
+        String result =  appName + "/" + moduleName +  "/" +beanName;
 
         if (interfaceName != null && !interfaceName.isEmpty()) {
             result += "!" + interfaceName;
@@ -88,14 +92,19 @@ public class LoanClient {
         return getJNDICoordinates(appName, moduleName, beanName, "", false);
     }
 
-    private Object lookup() throws NamingException {
+    private LoanOffersRemoteBean lookup() throws NamingException {
+
+
         final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
         jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, JBOSS_INITIAL_CONTEXT_FACTORY);
         jndiProperties.put(Context.PROVIDER_URL, JBOSS_PROVIDER_URL);
         jndiProperties.put(Context.URL_PKG_PREFIXES, JBOSS_URL_PKG_PREFIXES);
         jndiProperties.put(JBOSS_NAMING_CLIENT_EJB_CONTEXT_KEY, JBOSS_NAMING_CLIENT_EJB_CONTEXT_VALUE);
+        jndiProperties.put(Context.SECURITY_PRINCIPAL, "smiklos");
+        //To represent the user add the following to the server-identities definition <secret value="c21pa2xvczAwQA==" />
+        jndiProperties.put(Context.SECURITY_CREDENTIALS, "smiklos00@");
         final Context context = new InitialContext(jndiProperties);
-        return  context.lookup(getJNDICoordinates("Stmm", "stmm-ejb", "BorrowFacade",
+        return  (LoanOffersRemoteBean)context.lookup(getJNDICoordinates("stmm", "stmm-ejb", "BorrowFacade",
                 "hu.smiklos.stmm.remotelibrary.LoanOffersRemoteBean"));
     }
 }

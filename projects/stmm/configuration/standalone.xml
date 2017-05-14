@@ -150,7 +150,7 @@
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
                     </driver>
-                    <driver name="postgresql" module="com.postgreSQL.psql">
+                    <driver name="postgresql" module="org.postgresql">
                         <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
                     </driver>
                 </drivers>
@@ -373,7 +373,7 @@
 
     <deployments>
         <deployment name="stmm.ear" runtime-name="stmm.ear">
-            <fs-archive path="C:\JEE\oejee2017spring\projects\stmm\build\libs\stmm.ear"/>
+            <fs-archive path="C:\Users\i331205\Documents\NIK\JEE\oejee2017spring\projects\stmm\build\libs\stmm.ear"/>
         </deployment>
     </deployments>
 </server>

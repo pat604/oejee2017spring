@@ -733,14 +733,14 @@ ALTER TABLE ONLY userrole
 -- Name: appuser; Type: ACL; Schema: public; Owner: postgres
 --
 
-GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE appuser TO bookstore_role;
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE appuser TO stmm_user;
 
 
 --
 -- Name: usertype; Type: ACL; Schema: public; Owner: postgres
 --
 
-GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE usertype TO bookstore_role;
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE usertype TO stmm_user;
 
 
 --
