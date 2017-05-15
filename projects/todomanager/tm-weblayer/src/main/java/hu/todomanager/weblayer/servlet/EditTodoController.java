@@ -3,6 +3,8 @@ package hu.todomanager.weblayer.servlet;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -72,16 +74,28 @@ public class EditTodoController extends HttpServlet{
 		final String[] selectedPriorities = request.getParameterValues("selPriorities");
 		final String[] selectedCategories = request.getParameterValues("selCategories");
 		final String[] selectedSubTodos = request.getParameterValues("selSubTodos");
+		final String deadline = request.getParameter("deadline");
 		
 		List<PriorityStub> priorities = new ArrayList<PriorityStub>();
 		List<CategoryStub> categories = new ArrayList<CategoryStub>();
 		List<PriorityStub> todoPriorities = new ArrayList<PriorityStub>();
 		List<CategoryStub> todoCategories = new ArrayList<CategoryStub>();
 		TodoStub todo = null;
+		
+	    DateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 
+	    Date deadlineDate;
+	    try {
+	        deadlineDate = df.parse(deadline);
+	        String newDateString = df.format(deadlineDate);
+	    } catch (Exception e) {
+	    	deadlineDate = new Date();
+	        e.printStackTrace();
+	    }
 
 		try {
 			todo = this.todoFacade.getTodoByName(name);
 			todo.setDescription(description);
+			todo.setDeadline(deadlineDate);
 
 			this.todoFacade.updateTodo(todo, selectedPriorities, selectedCategories, selectedSubTodos);
 

@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="style/page.css" />
 <script src="script/jquery-3.2.1.min.js"></script>
 <script src="script/page.js"></script>
-<title>:: Todos ::</title>
+<title>Todos</title>
 </head>
 <header>
 	<nav class="navbar navbar-default">
