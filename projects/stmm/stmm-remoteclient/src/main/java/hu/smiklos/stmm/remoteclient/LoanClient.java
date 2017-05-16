@@ -69,7 +69,7 @@ public class LoanClient {
      */
     String getJNDICoordinates(String appName, String moduleName,
                               String beanName, String interfaceName, boolean isStateful) {
-        String result =  appName + "/" + moduleName +  "/" +beanName;
+        String result = "ejb:"+ appName + "/" + moduleName +  "/" +beanName;
 
         if (interfaceName != null && !interfaceName.isEmpty()) {
             result += "!" + interfaceName;
@@ -93,16 +93,14 @@ public class LoanClient {
     }
 
     private LoanOffersRemoteBean lookup() throws NamingException {
-
-
         final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
         jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, JBOSS_INITIAL_CONTEXT_FACTORY);
         jndiProperties.put(Context.PROVIDER_URL, JBOSS_PROVIDER_URL);
         jndiProperties.put(Context.URL_PKG_PREFIXES, JBOSS_URL_PKG_PREFIXES);
         jndiProperties.put(JBOSS_NAMING_CLIENT_EJB_CONTEXT_KEY, JBOSS_NAMING_CLIENT_EJB_CONTEXT_VALUE);
-        jndiProperties.put(Context.SECURITY_PRINCIPAL, "smiklos");
+        //jndiProperties.put(Context.SECURITY_PRINCIPAL, "smiklos");
         //To represent the user add the following to the server-identities definition <secret value="c21pa2xvczAwQA==" />
-        jndiProperties.put(Context.SECURITY_CREDENTIALS, "smiklos00@");
+        //jndiProperties.put(Context.SECURITY_CREDENTIALS, "smiklos00@");
         final Context context = new InitialContext(jndiProperties);
         return  (LoanOffersRemoteBean)context.lookup(getJNDICoordinates("stmm", "stmm-ejb", "BorrowFacade",
                 "hu.smiklos.stmm.remotelibrary.LoanOffersRemoteBean"));

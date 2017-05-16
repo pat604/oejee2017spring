@@ -106,7 +106,7 @@ public class RemoteClientUI implements Runnable, ActionListener {
 
 
     private void addListToFrame()  {
-        String[] data = {"egy", "kettő", "Három"};
+        String[] data = {};
          list = new JList(data);
         //list.setSize(new Dimension(500,500));
         centerPanel.add(list);
