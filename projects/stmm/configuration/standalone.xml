@@ -48,6 +48,11 @@
                     <properties path="application-roles.properties" relative-to="jboss.server.config.dir"/>
                 </authorization>
             </security-realm>
+            <security-realm name="StmmSecurityRealm">
+                <authentication>
+                    <jaas name="StmmSecurityDomain"/>
+                </authentication>
+            </security-realm>
         </security-realms>
         <audit-log>
             <formatters>
@@ -144,6 +149,7 @@
                     <driver>postgresql</driver>
                     <security>
                         <user-name>postgres</user-name>
+                        <password>postgres</password>
                     </security>
                 </datasource>
                 <drivers>
@@ -267,7 +273,7 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:pojo:1.0"/>
         <subsystem xmlns="urn:jboss:domain:remoting:1.2">
-            <connector name="remoting-connector" socket-binding="remoting" security-realm="ApplicationRealm"/>
+            <connector name="remoting-connector" socket-binding="remoting" security-realm="StmmSecurityRealm"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:resource-adapters:1.1"/>
         <subsystem xmlns="urn:jboss:domain:sar:1.0"/>
@@ -302,12 +308,13 @@
                         </login-module>
                     </authentication>
                 </security-domain>
-                <security-domain name="StmmSecurityDomain">
+                <security-domain name="StmmSecurityDomain" cache-type="default">
                     <authentication>
                         <login-module code="hu.smiklos.stmm.security.StmmLoginModule" flag="required">
                             <module-option name="dsJndiName" value="java:jboss/datasources/postgreSQL"/>
                             <module-option name="principalsQuery" value="SELECT password FROM appuser WHERE username = ?"/>
                             <module-option name="rolesQuery" value="SELECT usertype AS role_name, 'Roles' AS Roles FROM userrole INNER JOIN appuser ON (appuser_id = userrole_appuser_id) INNER JOIN usertype ON (usertype_id = userrole_usertype_id) WHERE username = ?"/>
+                            <module-option name="password-stacking" value="useFirstPass"/>
                         </login-module>
                     </authentication>
                 </security-domain>
@@ -373,7 +380,7 @@
 
     <deployments>
         <deployment name="stmm.ear" runtime-name="stmm.ear">
-            <fs-archive path="C:\Users\i331205\Documents\NIK\JEE\oejee2017spring\projects\stmm\build\libs\stmm.ear"/>
+            <fs-archive path="C:\GIT\oejee2017spring\projects\stmm\build\libs\stmm.ear"/>
         </deployment>
     </deployments>
 </server>
