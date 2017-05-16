@@ -6,6 +6,6 @@ jar {
 }
 
 dependencies {
-    compile project(':stmm-pers')
+    //compile project(':stmm-pers')
     compile project(':stmm-ejb')
 }

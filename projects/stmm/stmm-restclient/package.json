@@ -1,0 +1,17 @@
+{
+    "name": "hu.smiklos.stmm.restclient",
+    "version": "1.0.0",
+    "displayName": "stmm_restclient",
+    "cordova": {
+        "platforms": [
+            "browser"
+        ],
+        "plugins": {
+            "cordova-plugin-whitelist": {}
+        }
+    },
+    "dependencies": {
+        "cordova-browser": "latest",
+        "cordova-plugin-whitelist": "1"
+    }
+}

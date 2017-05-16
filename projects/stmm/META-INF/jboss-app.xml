@@ -1,0 +1,3 @@
+<jboss-app>
+    <security-domain>StmmSecurityDomain</security-domain>
+</jboss-app>
