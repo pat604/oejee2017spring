@@ -17,7 +17,7 @@ public class Filter {
 	
 	
 	public List<TodoStub> filterByCategory(List<TodoStub> todos, String category){
-		if(category.equals("")){
+		if(category.equals("") || category == null){
 			return todos;
 		}
 		List<TodoStub> categoryTodos = new ArrayList<TodoStub>();
