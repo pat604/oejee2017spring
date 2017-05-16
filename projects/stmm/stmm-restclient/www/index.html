@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Security-Policy" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" >
+        <title>moneybook</title>
+
+    </head>
+    <body>
+    <div class="container first_container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Borrow</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form action="" method="post" class="form-inline" role="form">
+                            <div class="form-group">
+                                <label class="control-label" for="BORROW_REPAYMENT_TYPE">Repayment type</label>
+                                <select class="form-control" id="BORROW_REPAYMENT_TYPE"
+                                        name="BORROW_REPAYMENT_TYPE">
+                                    <option value="M">Monthly</option>
+                                    <option value="W">Weekly</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="BORROW_REPAYMENT_PERIOD_MONTH_MIN">Repayment
+                                    duration</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">Duration</div>
+                                    <input type="number" class="form-control" name="BORROW_REPAYMENT_PERIOD_MONTH_MIN"
+                                           id="BORROW_REPAYMENT_PERIOD_MONTH_MIN" placeholder="from">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="BORROW_REPAYMENT_PERIOD_MONTH_MAX">TO</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control"
+                                           name="BORROW_REPAYMENT_PERIOD_MONTH_MAX"
+                                           id="BORROW_REPAYMENT_PERIOD_MONTH_MAX" placeholder="to">
+                                    <div class="input-group-addon">Months</div>
+                                </div>
+                            </div>
+
+                            <button type="button" onclick="requestLoanOffers()" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Loan Offers</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table id="offer_list_table" class="display">
+                            <thead>
+                            <tr>
+                                <th>Amount</th>
+                                <th>Cost</th>
+                                <th>Repayment</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>100</td>
+                                <td>110</td>
+                                <td>MONTHLY</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/getLoanOffers.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('#offer_list_table').DataTable();
+            });
+        </script>
+    </body>
+</html>

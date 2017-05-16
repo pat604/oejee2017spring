@@ -1,6 +1,6 @@
 apply plugin: 'war'
 
-war { archiveName webserviceArchiveName }
+war { archiveName webserviceArchiveName2 }
 
 dependencies {
 	providedCompile project(':tm-ejbservice')

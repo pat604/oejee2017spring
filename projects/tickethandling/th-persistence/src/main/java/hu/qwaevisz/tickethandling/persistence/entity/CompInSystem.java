@@ -41,7 +41,7 @@ public class CompInSystem implements Serializable {
 	private static final long serialVersionUID = 1525352421414297015L;
 
 	@Id
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
 	@JoinColumn(name = "cis_sys_id", referencedColumnName = "cust_sys_id", nullable = false)
 	private Customer system;
 

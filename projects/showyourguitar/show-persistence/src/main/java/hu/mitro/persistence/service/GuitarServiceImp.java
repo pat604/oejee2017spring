@@ -68,12 +68,12 @@ public class GuitarServiceImp implements GuitarService {
 
 	@Override
 	public void insertGuitar(String guitarBrand, String guitarType, String color, String serialNumber, Integer vintage,
-			double price, String ownername) throws PersistenceException {
+			double price, String ownerName) throws PersistenceException {
 		LOGGER.info("Add a guitar to the database.");
 		Guitar guitar = null;
 		try {
 			GuitarOwner owner = this.entityManager.createNamedQuery(OwnerQuery.OWNER_BY_NAME, GuitarOwner.class)
-					.setParameter(OwnerParameter.OWNERNAME, ownername).getSingleResult();
+					.setParameter(OwnerParameter.OWNERNAME, ownerName).getSingleResult();
 			if (owner == null) {
 				LOGGER.error("Error caused at insert of guitar, the given owner does not exist!");
 				throw new PersistenceException("Error caused at insert of guitar, the given owner does not exist!");

@@ -9,6 +9,7 @@ import javax.naming.NamingException;
 import org.apache.log4j.Logger;
 
 import hu.qwaevisz.tickethandling.ejbserviceclient.TicketFacadeRemote;
+import hu.qwaevisz.tickethandling.ejbserviceclient.domain.MessageStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.exception.ServiceException;
 
@@ -24,7 +25,11 @@ public class TicketClient {
 	private static final Logger LOGGER = Logger.getLogger(TicketClient.class);
 
 	public static void main(final String[] args) throws Exception {
-		System.out.println(new TicketClient().invoke("AES32420170316051534"));
+		TicketStub ticket = new TicketClient().invoke("RTS75820170318051534");
+
+		for (MessageStub msg : ticket.getConversation()) {
+			System.out.println(msg);
+		}
 	}
 
 	private TicketStub invoke(final String id) {
@@ -32,7 +37,9 @@ public class TicketClient {
 		try {
 			final TicketFacadeRemote facade = this.lookup();
 			ticket = facade.getTicket(id);
-			LOGGER.info(ticket);
+
+			System.out.println("GOT THE TICKET");
+
 		} catch (final ServiceException e) {
 			e.printStackTrace();
 		} catch (final NamingException e) {
@@ -51,5 +58,4 @@ public class TicketClient {
 		return (TicketFacadeRemote) context
 				.lookup("tickethandling/th-ejbservice/TicketFacadeImpl!hu.qwaevisz.tickethandling.ejbserviceclient.TicketFacadeRemote");
 	}
-
 }

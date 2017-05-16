@@ -21,7 +21,6 @@ import org.xml.sax.SAXException;
 import hu.qwaevisz.tickethandling.ejbservice.converter.MessageConverter;
 import hu.qwaevisz.tickethandling.ejbservice.converter.TicketConverter;
 import hu.qwaevisz.tickethandling.ejbservice.domain.TicketCriteria;
-import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbserviceclient.TicketFacadeRemote;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.EmployeeStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.MessageStub;
@@ -29,6 +28,7 @@ import hu.qwaevisz.tickethandling.ejbserviceclient.domain.PriorityStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.StatusStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.SystemStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbserviceclient.exception.ServiceException;
 import hu.qwaevisz.tickethandling.persistence.entity.Ticket;
 import hu.qwaevisz.tickethandling.persistence.entity.trunk.Priority;
@@ -61,6 +61,8 @@ public class TicketFacadeImpl implements TicketFacade, TicketFacadeRemote, Seria
 	public TicketStub getTicket(String id) throws ServiceException {
 		try {
 			final TicketStub stub = this.converter.to(this.service.read(id));
+			List<MessageStub> conversation = this.msgConverter.to(this.msgService.readConversation(stub.getId()));
+			stub.setConversation(conversation);
 
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Get Ticket by id (" + id + ") --> " + stub);
@@ -256,6 +258,74 @@ public class TicketFacadeImpl implements TicketFacade, TicketFacadeRemote, Seria
 		} catch (TransformerException e) {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());
+		}
+	}
+
+	@Override
+	public List<TicketStub> getTicketsByProcessor(String processorId) throws ServiceException {
+		try {
+			final List<TicketStub> stubs = this.converter.to(this.service.readByProcessor(processorId));
+
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Get Tickets by Processor ID (" + processorId + ")");
+			}
+
+			return stubs;
+		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new ServiceException(e.getLocalizedMessage());
+		} catch (DOMException e) {
+			LOGGER.error(e, e);
+			throw new ServiceException(e.getLocalizedMessage());
+		} catch (ParserConfigurationException e) {
+			LOGGER.error(e, e);
+			throw new ServiceException(e.getLocalizedMessage());
+		} catch (SAXException e) {
+			LOGGER.error(e, e);
+			throw new ServiceException(e.getLocalizedMessage());
+		} catch (IOException e) {
+			LOGGER.error(e, e);
+			throw new ServiceException(e.getLocalizedMessage());
+		} catch (ParseException e) {
+			LOGGER.error(e, e);
+			throw new ServiceException(e.getLocalizedMessage());
+		} catch (FacadeException e) {
+			LOGGER.error(e, e);
+			throw new ServiceException(e.getLocalizedMessage());
+		}
+	}
+
+	@Override
+	public List<TicketStub> getTicketsByProcessorAndLevel(String processorId, Integer level) throws ServiceException {
+		try {
+			final List<TicketStub> stubs = this.converter.to(this.service.readByProcessorAndLevel(processorId, level));
+
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Get Tickets by Processor ID (" + processorId + ") and Level (" + level + ")");
+			}
+
+			return stubs;
+		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new ServiceException(e.getLocalizedMessage());
+		} catch (DOMException e) {
+			LOGGER.error(e, e);
+			throw new ServiceException(e.getLocalizedMessage());
+		} catch (ParserConfigurationException e) {
+			LOGGER.error(e, e);
+			throw new ServiceException(e.getLocalizedMessage());
+		} catch (SAXException e) {
+			LOGGER.error(e, e);
+			throw new ServiceException(e.getLocalizedMessage());
+		} catch (IOException e) {
+			LOGGER.error(e, e);
+			throw new ServiceException(e.getLocalizedMessage());
+		} catch (ParseException e) {
+			LOGGER.error(e, e);
+			throw new ServiceException(e.getLocalizedMessage());
+		} catch (FacadeException e) {
+			LOGGER.error(e, e);
+			throw new ServiceException(e.getLocalizedMessage());
 		}
 	}
 }

@@ -95,7 +95,7 @@ public class TicketServiceImpl implements TicketService {
 			LOGGER.debug("Create new Ticket");
 		}
 		try {
-			final DateFormat format = new SimpleDateFormat("yyyymmddHHMMss");
+			final DateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
 			final Date currentDate = new Date();
 			final String id = (system_id + format.format(currentDate)).replace("-", "").replace(" ", "");
 
@@ -138,6 +138,37 @@ public class TicketServiceImpl implements TicketService {
 		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error when removing Ticket by id (" + id + ")! " + e.getLocalizedMessage(), e);
 		}
+	}
+
+	@Override
+	public List<Ticket> readByProcessor(String processorId) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Get Tickets by Processor (" + processorId + ")");
+		}
+		List<Ticket> result = null;
+		try {
+			result = this.entityManager.createNamedQuery(TicketQuery.GET_BY_PROCESSOR, Ticket.class).setParameter(TicketParameter.PROCESSOR, processorId)
+					.getResultList();
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when fetching Tickets by Processor (" + processorId + ")! " + e.getLocalizedMessage(), e);
+		}
+		return result;
+	}
+
+	@Override
+	public List<Ticket> readByProcessorAndLevel(String processorId, Integer level) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Get Tickets by Processor (" + processorId + ") and Level (" + level + ")");
+		}
+		List<Ticket> result = null;
+		try {
+			result = this.entityManager.createNamedQuery(TicketQuery.GET_BY_LEVEL_AND_PROCESSOR, Ticket.class)
+					.setParameter(TicketParameter.PROCESSOR, processorId).setParameter(TicketParameter.LEVEL, level).getResultList();
+		} catch (final Exception e) {
+			throw new PersistenceServiceException(
+					"Unknown error when fetching Tickets by Processor (" + processorId + ") and Level (" + level + ")! " + e.getLocalizedMessage(), e);
+		}
+		return result;
 	}
 
 }

@@ -2,13 +2,14 @@ package hu.todomanager.ejbservice.domain;
 
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import hu.todomanager.ejbservice.domain.*;
 import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "Todo")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TodoStub {
+public class TodoStub implements Comparable<TodoStub> {
 
 	@XmlAttribute(name = "name")
     private String name;
@@ -24,9 +25,11 @@ public class TodoStub {
 	
     private PriorityStub priority;
     private List<SubTodoStub> subTodos;
+    private List<CategoryStub> categories;
 
     public TodoStub() {
     	this.subTodos = new ArrayList<SubTodoStub>();
+    	this.categories = new ArrayList<CategoryStub>();
     }
     
     public TodoStub(String name, String description, int state, Date deadline) {
@@ -86,6 +89,14 @@ public class TodoStub {
     public void setSubTodos(List<SubTodoStub> subTodos){
         this.subTodos = subTodos;
     }
+    
+    public List<CategoryStub> getCategories(){
+        return this.categories;
+    }
+
+    public void setCategories(List<CategoryStub> categories){
+        this.categories = categories;
+    }
 
     public void addSubTodo(SubTodoStub subTodo){
         this.subTodos.add(subTodo);
@@ -96,5 +107,14 @@ public class TodoStub {
         return "TodoStub [name=" + this.name + ", description=" + this.description + 
         		", deadline=" + this.deadline.toString() + ", priority=" + this.priority.getPriorityValue() + "]";
     }
+
+	@Override
+	public int compareTo(TodoStub b) {
+		if(this.getPriority() == null || b.getPriority() == null) return 0;
+		
+		return this.priority.getPriorityValue() < b.priority.getPriorityValue() ? -1
+		         : this.priority.getPriorityValue() > b.priority.getPriorityValue() ? 1
+		         : 0;
+	}
 
 }

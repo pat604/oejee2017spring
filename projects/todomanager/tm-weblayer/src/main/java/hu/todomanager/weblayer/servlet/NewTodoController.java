@@ -3,6 +3,8 @@ package hu.todomanager.weblayer.servlet;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -60,10 +62,19 @@ public class NewTodoController extends HttpServlet implements TodoParameter{
 		final String[] selectedPriorities = request.getParameterValues("selPriorities");
 		final String[] selectedCategories = request.getParameterValues("selCategories");
 		final String[] selectedSubTodos = request.getParameterValues("selSubTodos");
-		LOGGER.info(name);
-		for (int i = 0; i < selectedSubTodos.length; i++) {
-			LOGGER.info(selectedSubTodos[i]);
-		}
+		final String deadline = request.getParameter("deadline");
+		
+	    DateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 
+	    Date deadlineDate;
+	    try {
+	        deadlineDate = df.parse(deadline);
+	        String newDateString = df.format(deadlineDate);
+	    } catch (Exception e) {
+	    	deadlineDate = new Date();
+	        e.printStackTrace();
+	    }
+		
+		LOGGER.info("deadline: " + deadline);
 		
 		List<PriorityStub> priorities = new ArrayList<PriorityStub>();
 		List<CategoryStub> categories = new ArrayList<CategoryStub>();
@@ -73,11 +84,11 @@ public class NewTodoController extends HttpServlet implements TodoParameter{
 		} catch (final FacadeException e) {
 			LOGGER.error(e, e);
 		}
-		if (name == null || "".equals(name) || selectedPriorities == null || selectedCategories == null) {
+		if (name == null || "".equals(name)) {
 			final TodoStub todo = null;
 			this.forward(request, response, priorities, categories);
 		} else {
-			TodoStub todo = new TodoStub(name, description, 0, new Date());
+			TodoStub todo = new TodoStub(name, description, 0, deadlineDate);
 			try {
 				this.todoFacade.addTodo(todo, selectedPriorities, selectedCategories, selectedSubTodos);
 			} catch (final FacadeException e) {

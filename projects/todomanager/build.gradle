@@ -13,7 +13,10 @@ ext {
 	resteasyVersion = '2.3.7.Final'
 	
 	webserviceArchiveName = 'tm-webservice.war'
+	webserviceArchiveName2 = 'tm-webservicesoap.war'
 	webserviceContextPath = 'todomanager'
+	
+	
 }
 
 allprojects {
@@ -45,7 +48,7 @@ dependencies {
 	deploy project('tm-persistence')
 	deploy project(path: 'tm-weblayer', configuration: 'archives')
 	deploy project(path: 'tm-webservice', configuration: 'archives')
-	//deploy project(path: 'tm-webservicesoap', configuration: 'archives')
+	deploy project(path: 'tm-webservicesoap', configuration: 'archives')
 	earlib ( project('tm-ejbserviceclient') ) {
 		transitive = false
 	}

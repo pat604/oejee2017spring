@@ -96,6 +96,7 @@ public class TodoFacadeImpl implements TodoFacade {
 			for (int i = 0; i < todos.size(); i++) {
 				mapper.setTodoStubPriority(todos.get(i).getId(), stubs.get(i), priorities, priorityToTodos);
 				mapper.setTodoStubSubTodos(todos.get(i).getId(), stubs.get(i), subTodos);
+				stubs.get(i).setCategories(mapper.getTodoCategories(todos.get(i).getId(), categories, categoryToTodos));
 			}
 			
 			return stubs;

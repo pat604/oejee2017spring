@@ -1,0 +1,11 @@
+*.class
+
+# IntelliJ IDEA
+.idea
+*.iml
+*.ipr
+*.iws
+
+**/platforms/*
+**/plugins/*
+**/node_modules/*

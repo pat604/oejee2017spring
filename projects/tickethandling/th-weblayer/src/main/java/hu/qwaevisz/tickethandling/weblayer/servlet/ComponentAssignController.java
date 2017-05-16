@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbservice.facade.SystemFacade;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.ComponentStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.SystemStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.FacadeException;
 import hu.qwaevisz.tickethandling.weblayer.common.ComponentAssignAttribute;
 import hu.qwaevisz.tickethandling.weblayer.common.ComponentAssignParameter;
 import hu.qwaevisz.tickethandling.weblayer.common.Page;
@@ -54,26 +54,28 @@ public class ComponentAssignController extends HttpServlet implements ComponentA
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		String[] values = request.getParameterValues(COMPONENTS);
 
-		if (values != null) {
-			final String id = request.getParameter(SYSTEMID);
-			SystemStub system = null;
+		if (values == null) {
+			values = new String[0];
+		}
 
-			try {
+		final String id = request.getParameter(SYSTEMID);
+		SystemStub system = null;
 
-				system = this.sysFacade.getSystem(id);
-				List<ComponentStub> comps = system.getComponents();
-				comps.clear();
+		try {
 
-				for (String val : values) {
-					ComponentStub comp = ComponentStub.valueOf(val);
-					comps.add(comp);
-				}
+			system = this.sysFacade.getSystem(id);
+			List<ComponentStub> comps = system.getComponents();
+			comps.clear();
 
-				this.sysFacade.SaveComponents(system);
-
-			} catch (FacadeException e) {
-				LOGGER.error(e, e);
+			for (String val : values) {
+				ComponentStub comp = ComponentStub.valueOf(val);
+				comps.add(comp);
 			}
+
+			this.sysFacade.SaveComponents(system);
+
+		} catch (FacadeException e) {
+			LOGGER.error(e, e);
 		}
 
 		response.sendRedirect(Page.SYSTEMLIST.getUrl());

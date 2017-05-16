@@ -7,9 +7,9 @@ import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.ComponentStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.SystemStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.FacadeException;
 import hu.qwaevisz.tickethandling.persistence.entity.CompInSystem;
 import hu.qwaevisz.tickethandling.persistence.entity.Customer;
 import hu.qwaevisz.tickethandling.persistence.exception.PersistenceServiceException;

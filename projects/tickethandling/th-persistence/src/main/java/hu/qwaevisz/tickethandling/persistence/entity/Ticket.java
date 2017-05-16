@@ -30,14 +30,12 @@ import hu.qwaevisz.tickethandling.persistence.query.TicketQuery;
 @Table(name = "ticket")
 @NamedQueries(value = { //
 		@NamedQuery(name = TicketQuery.COUNT_BY_ID, query = "SELECT COUNT(t) FROM Ticket t WHERE t.id=:" + TicketParameter.ID),
-		@NamedQuery(name = TicketQuery.GET_BY_ID, query = "SELECT t FROM Ticket t WHERE t.id=:" + TicketParameter.ID),
-		@NamedQuery(name = TicketQuery.GET_BY_SYSTEM, query = "SELECT t FROM Ticket t WHERE t.system=:" + TicketParameter.SYSTEM),
-		@NamedQuery(name = TicketQuery.GET_BY_PROCESSOR, query = "SELECT t FROM Ticket t WHERE t.processor=:" + TicketParameter.PROCESSOR),
-		@NamedQuery(name = TicketQuery.GET_BY_PRIORITY, query = "SELECT t FROM Ticket t WHERE t.priority=:" + TicketParameter.PRIORITY),
-		@NamedQuery(name = TicketQuery.GET_BY_STATUS, query = "SELECT t FROM Ticket t WHERE t.status=:" + TicketParameter.STATUS),
-		@NamedQuery(name = TicketQuery.GET_BY_PRIORITY_AND_STATUS, query = "SELECT t FROM Ticket t WHERE t.status=:" + TicketParameter.STATUS
-				+ " AND t.priority=:" + TicketParameter.PRIORITY),
-		@NamedQuery(name = TicketQuery.GET_ALL, query = "SELECT t FROM Ticket t ORDER BY t.id"),
+		@NamedQuery(name = TicketQuery.GET_BY_ID, query = "SELECT t FROM Ticket t LEFT JOIN FETCH t.processor WHERE t.id=:" + TicketParameter.ID),
+		@NamedQuery(name = TicketQuery.GET_BY_PROCESSOR, query = "SELECT t FROM Ticket t LEFT JOIN FETCH t.processor p WHERE p.id=:"
+				+ TicketParameter.PROCESSOR),
+		@NamedQuery(name = TicketQuery.GET_BY_LEVEL_AND_PROCESSOR, query = "SELECT t FROM Ticket t LEFT JOIN FETCH t.processor p WHERE p.id=:"
+				+ TicketParameter.PROCESSOR + " AND t.level=:" + TicketParameter.LEVEL),
+		@NamedQuery(name = TicketQuery.GET_ALL, query = "SELECT t FROM Ticket t LEFT JOIN FETCH t.processor p  ORDER BY t.id"),
 		@NamedQuery(name = TicketQuery.REMOVE_BY_ID, query = "DELETE FROM Ticket t WHERE t.id=:" + TicketParameter.ID)
 		//
 })
@@ -73,7 +71,7 @@ public class Ticket implements Serializable {
 	@Column(name = "tic_level", nullable = false)
 	private Integer level;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "tic_processor_id", referencedColumnName = "emp_id", nullable = false)
 	private Employee processor;
 

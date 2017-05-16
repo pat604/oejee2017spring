@@ -20,4 +20,6 @@ public interface CustomerService {
 
 	Customer create(String systemId, String name, String address, String contact_name, String contact_phone, String contact_mail)
 			throws PersistenceServiceException;
+
+	void delete(String systemId) throws PersistenceServiceException;
 }

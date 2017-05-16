@@ -5,19 +5,23 @@ import java.util.List;
 import javax.ejb.Local;
 
 import hu.qwaevisz.tickethandling.ejbservice.domain.TicketCriteria;
-import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.EmployeeStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.MessageStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.PriorityStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.StatusStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.SystemStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbserviceclient.exception.ServiceException;
 
 @Local
 public interface TicketFacade {
 
 	TicketStub getTicket(String id) throws ServiceException;
+
+	List<TicketStub> getTicketsByProcessorAndLevel(String processorId, Integer level) throws ServiceException;
+
+	List<TicketStub> getTicketsByProcessor(String processorId) throws ServiceException;
 
 	List<TicketStub> getTickets(TicketCriteria criteria) throws FacadeException;
 

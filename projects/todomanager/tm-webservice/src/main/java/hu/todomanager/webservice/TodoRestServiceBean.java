@@ -39,22 +39,4 @@ public class TodoRestServiceBean implements TodoRestService {
 		this.facade.deleteTodo(name);
 	}
 
-	/*
-	@Override
-	public void removeStudent(final String neptun) throws AdaptorException {
-		LOGGER.info("Remove Student (" + neptun + ")");
-		this.facade.removeStudent(neptun);
-	}
-
-	@Override
-	public void removeStudentAdvanced(final String neptun) throws AdaptorException {
-		LOGGER.info("Remove Student Advanced (" + neptun + ")");
-		this.facade.removeStudentAdvanced(neptun);
-	}
-
-	@Override
-	public Response optionsAll(final String path) {
-		return Response.status(Response.Status.NO_CONTENT).build();
-	}
-	*/
 }

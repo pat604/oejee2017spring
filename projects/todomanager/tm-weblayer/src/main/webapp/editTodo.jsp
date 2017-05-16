@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="style/page.css" />
 <script src="script/jquery-3.2.1.min.js"></script>
 <script src="script/page.js"></script>
-<title>:: Edit Todo ::</title>
+<title>Edit Todo</title>
 </head>
 <body>
 <header>
@@ -40,6 +40,15 @@
 		<div class="form-group">
 			<label>Description</label>
 	    	<input class="form-control" type="text" name="description" value="${requestScope.todo.description}" />	
+		</div>
+		
+		<div class="form-group">
+			<label>Deadline</label>
+	    	<input id="deadlineInput" class="form-control" type="date" name="deadline" value="" />
+	    	<script>
+	    	var dateValue = "${requestScope.todo.deadline}";
+	    	document.getElementById("deadlineInput").value = dateValue.split(" ")[0];
+	    	</script>
 		</div>
 		
 		<div class="form-group">
@@ -103,7 +112,7 @@
 		</div>
 	
 		<div class="form-group">
-			<input class="form-control" class="btn btn-success" type="submit" value="Save" />&nbsp;
+			<button class="btn btn-success">Save</button>
 		</div>
 	</form>
 	</div>

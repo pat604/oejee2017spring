@@ -13,6 +13,7 @@ ext {
     postgresqlVersion = '9.4+'
 	jbossjee6Version = '3.0.3.Final'  
 	commonsloggingVersion = '1.2'
+	jbossjmsclientVersion = '7.2.0.Final'
 }
 
 allprojects {
@@ -29,23 +30,12 @@ subprojects {
 
 	dependencies {
 		compile group: 'log4j', name: 'log4j', version: log4jVersion
-		testCompile group: 'org.testng', name: 'testng', version: testngVersion
-	}
-	
-	test {
-		useTestNG()
-	}
-}
-
-configure(subprojects.findAll {it.name != 'th-persistence'}) {
-	dependencies {	
-		compile group: 'javax', name: 'javaee-api', version: jeeVersion
 	}
 }
 
 dependencies {
-	deploy project('th-ejbservice')
 	deploy project('th-persistence')
+	deploy project('th-ejbservice')
 	deploy project(path: 'th-weblayer', configuration: 'archives')
 	deploy project(path: 'th-webservice', configuration: 'archives')
 	earlib ( project('th-ejbserviceclient') ) {

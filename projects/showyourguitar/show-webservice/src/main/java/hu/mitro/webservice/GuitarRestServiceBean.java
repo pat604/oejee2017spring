@@ -59,12 +59,6 @@ public class GuitarRestServiceBean implements GuitarRestService {
 	@Override
 	public void addGuitarStub(GuitarInputStub guitar) {
 		LOGGER.info("Add a new guitar.");
-		// GuitarBrandStub brandStub = GuitarBrandStub.valueOf(guitar.getGuitarBrand());
-		// GuitarOwnerStub ownerStub = new GuitarOwnerStub(guitar.getOwner(), null, null);
-		// GuitarStub stub = new GuitarStub(brandStub, guitar.getGuitarType(),
-		// guitar.getSerialNumber(), guitar.getColor(),
-		// guitar.getVintage(), guitar.getPrice(), ownerStub);
-		// stub.setOwner(ownerStub);
 		try {
 			this.facade.addGuitar(guitar);
 		} catch (FacadeException e) {

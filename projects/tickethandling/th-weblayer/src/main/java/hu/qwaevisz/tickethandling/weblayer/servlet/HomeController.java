@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import hu.qwaevisz.tickethandling.ejbservice.domain.TicketCriteria;
-import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbservice.facade.EmployeeFacade;
 import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.EmployeeStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.TicketStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.FacadeException;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.ServiceException;
 import hu.qwaevisz.tickethandling.weblayer.common.HomeAttribute;
 import hu.qwaevisz.tickethandling.weblayer.common.Page;
 
@@ -41,19 +41,15 @@ public class HomeController extends HttpServlet implements HomeAttribute {
 		try {
 			EmployeeStub user = this.empFacade.getEmployee(request.getUserPrincipal().getName());
 
-			TicketCriteria criteria = new TicketCriteria();
-			criteria.setProcessorId(user.getId());
-
-			final List<TicketStub> tickets = this.ticFacade.getTickets(criteria);
+			final List<TicketStub> tickets = this.ticFacade.getTicketsByProcessor(user.getId());
 			request.setAttribute(ATTR_TICKETS, tickets);
 
-			criteria.setProcessorId("UNASS");
-			criteria.setLevel(user.getLevel());
-
-			final List<TicketStub> unassigned = this.ticFacade.getTickets(criteria);
+			final List<TicketStub> unassigned = this.ticFacade.getTicketsByProcessorAndLevel("UNASS", user.getLevel());
 			request.setAttribute(ATTR_UNASSIGNED, unassigned);
 
 		} catch (final FacadeException e) {
+			LOGGER.error(e, e);
+		} catch (ServiceException e) {
 			LOGGER.error(e, e);
 		}
 

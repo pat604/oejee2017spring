@@ -16,7 +16,6 @@ public class EmployeeStub implements Serializable {
 	}
 
 	public EmployeeStub(String id, String name, String email, Integer level) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;

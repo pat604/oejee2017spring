@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="style/page.css" />
 <script src="script/jquery-3.2.1.min.js"></script>
 <script src="script/page.js"></script>
-<title>:: Todos ::</title>
+<title>Todos</title>
 </head>
 <header>
 	<nav class="navbar navbar-default">
@@ -28,12 +28,29 @@
 </header>
 <body>
 	<div class="container">
+		<div class="row">
+			<div class="col-xs-4">
+			<form method="post" action="todoList">
+				<label>Category</label>
+		    	<select id="categorySelector" class="form-control" name="categoryName">
+		    		<option value="">All</option>
+				  	<c:forEach items="${requestScope.categories}" var="category">
+		                <option value="${category.name}">
+		                    ${category.name}
+		                </option>
+		            </c:forEach>
+				</select>
+				<button class="btn btn-default" type="submit">Filter</button>
+			</form>
+			</div>
+		</div>
+		<hr>
 	    <table class="table">
 	        <thead>
 	            <tr>
 	                <th>Name</th>
 	                <th>Description</th>
-	                <th>State</th>
+	                <th>Category</th>
 	                <th>Deadline</th>
 	                <th>Priority</th>
 	                <th>SubTodos</th>
@@ -45,7 +62,13 @@
 	                <tr>
 	                    <td><c:out value="${todo.name}" /></td>
 	                    <td><c:out value="${todo.description}" /></td>
-	                    <td><c:out value="${todo.state}" /></td>
+	                    <td>
+							<c:forEach items="${todo.categories}" var="category">
+								<div>
+									<c:out value="${category.name}" />
+								</div>
+							</c:forEach>
+						</td>
 	                    <td><c:out value="${todo.deadline}" /></td>
 	                    <td><c:out value="${todo.priority.name}" /></td>
 						<td>							

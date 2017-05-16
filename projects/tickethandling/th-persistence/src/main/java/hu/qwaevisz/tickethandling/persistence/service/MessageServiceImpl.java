@@ -47,7 +47,7 @@ public class MessageServiceImpl implements MessageService {
 	private static final Logger LOGGER = Logger.getLogger(MessageServiceImpl.class);
 
 	private static final String XMLFILESPATH = "C:\\TicketingMessages";
-	private static final String MESSAGEDATEFORMAT = "yyyy-MM-dd HH:mm:ss";
+	private static final String MESSAGEDATEFORMAT = "yyyy-mm-dd HH:MM:ss";
 	private static final String INITIALMESSAGE = "<conversation id=\"%1s\"><message id=\"%2s-0001\"><from>System</from><to>Customer</to><date>%3s</date><text>%4s</text></message></conversation>";
 
 	@Override

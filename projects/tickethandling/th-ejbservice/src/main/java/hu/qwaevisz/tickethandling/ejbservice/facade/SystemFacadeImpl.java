@@ -4,15 +4,16 @@ package hu.qwaevisz.tickethandling.ejbservice.facade;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 
 import hu.qwaevisz.tickethandling.ejbservice.converter.SystemConverter;
-import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.ComponentStub;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.SystemStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.FacadeException;
 import hu.qwaevisz.tickethandling.persistence.entity.Customer;
 import hu.qwaevisz.tickethandling.persistence.entity.trunk.Component;
 import hu.qwaevisz.tickethandling.persistence.exception.PersistenceServiceException;
@@ -76,6 +77,7 @@ public class SystemFacadeImpl implements SystemFacade {
 		}
 	}
 
+	@RolesAllowed("admin")
 	@Override
 	public void SaveComponents(SystemStub system) throws FacadeException {
 		try {

@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.FacadeException;
 import hu.qwaevisz.tickethandling.ejbserviceclient.exception.ServiceException;
 import hu.qwaevisz.tickethandling.weblayer.common.Page;
 import hu.qwaevisz.tickethandling.weblayer.common.TicketParameter;

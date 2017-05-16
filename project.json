@@ -122,11 +122,15 @@
 			"interfaces": [
 				{
 					"tpye": "restful",
-					"goal": "handle crud operations"
+					"goal": "Handle crud operations"
 				},
 				{
 					"tpye": "web",
 					"goal": "Interface for all user based operations"
+				}
+				{
+					"tpye": "rmi",
+					"goal": "For monitoring high level company objectives"
 				}
 			]
 		},
@@ -254,12 +258,12 @@
 			],
 			"interfaces": [
 				{
-					"tpye": "restful",
-					"goal": "handle crud operations"
+					"tpye": "rest",
+					"goal": "handle operations"
 				},
 				{
-					"type": "jms",
-					"goal": "bulk upload data"
+					"type": "soap",
+					"goal": "get data"
 				},
 				{
 					"type": "web",

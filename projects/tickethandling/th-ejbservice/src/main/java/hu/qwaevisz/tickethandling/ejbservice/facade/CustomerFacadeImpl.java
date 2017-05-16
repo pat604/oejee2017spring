@@ -3,7 +3,7 @@ package hu.qwaevisz.tickethandling.ejbservice.facade;
 
 import java.util.List;
 
-import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -11,12 +11,12 @@ import org.apache.log4j.Logger;
 
 import hu.qwaevisz.tickethandling.ejbservice.converter.CustomerConverter;
 import hu.qwaevisz.tickethandling.ejbservice.domain.CustomerStub;
-import hu.qwaevisz.tickethandling.ejbservice.exception.FacadeException;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.FacadeException;
 import hu.qwaevisz.tickethandling.persistence.entity.Customer;
 import hu.qwaevisz.tickethandling.persistence.exception.PersistenceServiceException;
 import hu.qwaevisz.tickethandling.persistence.service.CustomerService;
 
-@PermitAll
+@RolesAllowed("admin")
 @Stateless(mappedName = "ejb/customerFacade")
 public class CustomerFacadeImpl implements CustomerFacade {
 
@@ -69,4 +69,15 @@ public class CustomerFacadeImpl implements CustomerFacade {
 		}
 
 	}
+
+	@Override
+	public void remove(String systemId) throws FacadeException {
+		try {
+			this.custService.delete(systemId);
+		} catch (final PersistenceServiceException e) {
+			LOGGER.error(e, e);
+			throw new FacadeException(e.getLocalizedMessage());
+		}
+	}
+
 }
