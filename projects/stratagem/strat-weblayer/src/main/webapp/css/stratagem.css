@@ -30,6 +30,16 @@ body,
 footer.page-footer {
     background-color: #293547;
     margin-top: 2rem;
+    height: 70px;
+}
+.wrapper {
+    min-height: 94%;
+    height: auto !important;
+    height: 100%;
+    margin: -40px auto -96px;
+}
+.footer, .push {
+    height: 150px;
 }
 
 @media only screen and (max-width: 768px) {
