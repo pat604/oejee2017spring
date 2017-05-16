@@ -5,10 +5,10 @@ public enum Page {
 	HOME("home.jsp", "Home"), //
 	ERROR("error.jsp", "Error"), //
 	OBJECTIVE_LIST("/control/objective/objective-list.jsp", "ObjectiveList"), //
-	OBJECTIVE_VIEW("/control/objective/objective-detail.jsp", "Objective"), //
+	OBJECTIVE_VIEW("/control/objective/objective-view.jsp", "Objective"), //
 	OBJECTIVE_EDIT("/control/objective/objective-edit.jsp", "Objective"), //
 	PROJECT_LIST("/control/project/project-list.jsp", "ProjectList"), //
-	PROJECT_VIEW("/control/project/project-detail.jsp", "Project"), //
+	PROJECT_VIEW("/control/project/project-view.jsp", "Project"), //
 	PROJECT_EDIT("/control/project/project-edit.jsp", "Project"); //
 
 	private final String jspName;
