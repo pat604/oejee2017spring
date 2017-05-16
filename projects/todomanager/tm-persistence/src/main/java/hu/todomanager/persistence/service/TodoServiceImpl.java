@@ -90,6 +90,7 @@ public class TodoServiceImpl implements TodoService {
 		try {
 			Todo updateTodo = readByName(todo.getName());
 			updateTodo.setDescription(todo.getDescription());
+			updateTodo.setDeadline(todo.getDeadline());
 			this.entityManager.merge(updateTodo);
 		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error when updating todo! " + e.getLocalizedMessage(), e);

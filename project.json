@@ -258,12 +258,12 @@
 			],
 			"interfaces": [
 				{
-					"tpye": "restful",
-					"goal": "handle crud operations"
+					"tpye": "rest",
+					"goal": "handle operations"
 				},
 				{
-					"type": "jms",
-					"goal": "bulk upload data"
+					"type": "soap",
+					"goal": "get data"
 				},
 				{
 					"type": "web",
