@@ -325,7 +325,7 @@
 			]
 		},
 		{
-			"name": "Skip the middle man",
+			"name": "Skip the middle man - moneybook",
 			"description": "Community money sharing",
 			"platform": "jboss",
 			"members": [
@@ -336,6 +336,22 @@
 				}
 			],
 			"interfaces": [
+				{
+					"type": "web user",
+					"goal": "web gui for the users"
+				},
+				{
+					"type": "remote EJB"
+					"goal": "Comissioners can query Loan offers"
+					
+				},{
+					"type": "JMX"
+					"goal": "Comission percentage can be received for resellers"
+				},
+				{
+					"type": "rest api",
+					"goal": "to access database"
+				}
 
 			]
 		}
