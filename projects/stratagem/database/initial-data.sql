@@ -82,9 +82,11 @@ INSERT INTO objective_statuses (status_id, status_name) VALUES
 INSERT INTO objectives (objective_id, objective_name, objective_description, objective_priority, objective_status_id) VALUES 
 (0, 'Integration with augmented reality', '', 2, 1),
 (1, 'Increase influence in market', 'Completing projects for our esteemed contacts', 1, 1),
-(2, 'Test 1', 'test, id:2', 5, 0),
-(3, 'Test 2', 'test, id:3', 5, 0),
-(4, 'Develop cross-platfrom worflow management system', 'Due to competitors lack in flexibility and structure handling the creation of revisioned management system could give us a leading edge on the market', 1, 1);
+(2, 'Processing of product incidents', 'The continuous fixing of occurring reported product problems', 3, 2),
+(3, 'Upskilling of new colleagues', 'The newcomers must be involved in project work as soon as possible, therfore trainings are absolutely neccesary', 5, 0),
+(4, 'Develop cross-platfrom worflow management system', 'Due to competitors lack in flexibility and structure handling the creation of revisioned management system could give us a leading edge on the market', 1, 1),
+(5, 'Clone specific customer architectures into a more flexible microservice-based solution', 'Efforts to follow new trends', 4, 3),
+(6, 'Recreating designated legacy control systems into the cloud', 'Software preconditions and multiple high end requests have led to the descision to move solutions to a cloud platfrom', 6, 0);
 SELECT SETVAL('objectives_objective_id_seq', COALESCE(MAX(objective_id), 0) ) FROM objectives;
 
 INSERT INTO objective_missions (mission_id, mission_name, mission_description, mission_objective, mission_stage_id) VALUES
@@ -125,9 +127,9 @@ INSERT INTO projects (project_id, project_name, project_description, project_sta
 (1, 'QuickExtract app', 'Develop mobile app for QuickExtract', 7, NULL, TRUE),
 (2, 'Grove BI outsourcing', '', 0, NULL, TRUE),
 (3, 'Codename -NOVA-', 'Augmented reality utility tool for enterprise management', 5, '2017/05/26 00:00:00', FALSE),
-(4, 'Test 1', 'Test 1 objective project', 0, NULL, TRUE),
-(5, 'Test 2', 'Test 1 objective project', 0, NULL, TRUE),
-(6, 'Test 3', 'Test 2 objective project', 0, NULL, TRUE),
+(4, 'Reopening not cinfirmed tickets', 'Revisioning questionable tickets', 0, NULL, TRUE),
+(5, 'Resolving of Very High level tickets due to schema migration', 'Our last service migration caused problems in push sub-module. The problem is more complex than just a quick refactor', 0, NULL, TRUE),
+(6, 'Back-end training orginization', 'Training for the future developers', 0, NULL, TRUE),
 (7, 'Codename -ISOCHRONE-', 'Recursive inlay of project system implementation', 5, NULL, FALSE);
 SELECT SETVAL('projects_project_id_seq', COALESCE(MAX(project_id), 0) ) FROM projects;
 
