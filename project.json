@@ -127,10 +127,14 @@
 				{
 					"tpye": "web",
 					"goal": "Interface for all user based operations"
-				}
+				},
 				{
 					"tpye": "rmi",
 					"goal": "For monitoring high level company objectives"
+				},
+				{
+					"tpye": "jmx",
+					"goal": "Due to the possibility of future connection with monitoring services, a simple structure check is implemented as a method to detect service activity failure"
 				}
 			]
 		},
