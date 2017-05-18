@@ -144,7 +144,7 @@ public class ProjectServiceImpl implements ProjectService {
 			LOGGER.debug("Remove Project by id (" + id + ")");
 		}
 		if (this.exists(id)) {
-			if (this.readElementary(id).getTasks().size() == 0) {
+			if (this.readWithTasks(id).getTasks().size() == 0) {
 				try {
 					this.entityManager.createNamedQuery(ProjectQuery.REMOVE_BY_ID).setParameter(ProjectParameter.ID, id).executeUpdate();
 				} catch (final Exception e) {

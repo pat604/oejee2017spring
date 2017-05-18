@@ -1,7 +1,7 @@
 package com.kota.stratagem.ejbservice.converter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -9,6 +9,8 @@ import javax.ejb.Stateless;
 import com.kota.stratagem.ejbserviceclient.domain.ObjectiveRepresentor;
 import com.kota.stratagem.ejbserviceclient.domain.ObjectiveStatusRepresentor;
 import com.kota.stratagem.persistence.entity.Objective;
+import com.kota.stratagem.persistence.entity.Project;
+import com.kota.stratagem.persistence.entity.Task;
 
 @Stateless
 public class ObjectiveConverterImpl implements ObjectiveConverter {
@@ -31,16 +33,16 @@ public class ObjectiveConverterImpl implements ObjectiveConverter {
 		final ObjectiveRepresentor representor = objective.getId() != null
 				? new ObjectiveRepresentor(objective.getId(), objective.getName(), objective.getDescription(), objective.getPriority(), status)
 				: new ObjectiveRepresentor(objective.getName(), objective.getDescription(), objective.getPriority(), status);
-		// if (objective.getProjects() != null) {
-		// for (final Project project : objective.getProjects()) {
-		// representor.addProject(this.projectConverter.to(project));
-		// }
-		// }
-		// if (objective.getTasks() != null) {
-		// for (final Task task : objective.getTasks()) {
-		// representor.addTask(this.taskConverter.to(task));
-		// }
-		// }
+		if (objective.getProjects() != null) {
+			for (final Project project : objective.getProjects()) {
+				representor.addProject(this.projectConverter.to(project));
+			}
+		}
+		if (objective.getTasks() != null) {
+			for (final Task task : objective.getTasks()) {
+				representor.addTask(this.taskConverter.to(task));
+			}
+		}
 		// if (objective.getAssignedTeams() != null) {
 		// for (final Team team : objective.getAssignedTeams()) {
 		// representor.addTeam(this.teamConverter.to(team));
@@ -55,8 +57,8 @@ public class ObjectiveConverterImpl implements ObjectiveConverter {
 	}
 
 	@Override
-	public List<ObjectiveRepresentor> to(List<Objective> objectives) {
-		final List<ObjectiveRepresentor> representors = new ArrayList<>();
+	public Set<ObjectiveRepresentor> to(Set<Objective> objectives) {
+		final Set<ObjectiveRepresentor> representors = new HashSet<ObjectiveRepresentor>();
 		for (final Objective objective : objectives) {
 			representors.add(this.to(objective));
 		}

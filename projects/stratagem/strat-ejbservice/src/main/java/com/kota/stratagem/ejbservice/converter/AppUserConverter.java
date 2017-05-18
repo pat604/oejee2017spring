@@ -1,6 +1,6 @@
 package com.kota.stratagem.ejbservice.converter;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Local;
 
@@ -12,6 +12,6 @@ public interface AppUserConverter {
 
 	AppUserRepresentor to(AppUser user);
 
-	List<AppUserRepresentor> to(List<AppUser> users);
+	Set<AppUserRepresentor> to(Set<AppUser> users);
 
 }

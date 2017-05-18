@@ -1,6 +1,5 @@
 package com.kota.stratagem.persistence.service;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Local;
@@ -19,9 +18,11 @@ public interface ObjectiveService {
 	Objective create(String name, String description, int priority, ObjectiveStatus status, Set<Project> projects, Set<Task> tasks, Set<Team> assignedTeams,
 			Set<AppUser> assignedUsers) throws PersistenceServiceException;
 
-	Objective read(Long id) throws PersistenceServiceException;
+	Objective readElementary(Long id) throws PersistenceServiceException;
 
-	List<Objective> readAll() throws PersistenceServiceException;
+	Objective readWithProjectsAndTasks(Long id) throws PersistenceServiceException;
+
+	Set<Objective> readAll() throws PersistenceServiceException;
 
 	Objective update(Long id, String name, String description, int priority, ObjectiveStatus status, Set<Project> projects, Set<Task> tasks,
 			Set<Team> assignedTeams, Set<AppUser> assignedUsers) throws PersistenceServiceException;

@@ -29,7 +29,7 @@
                                 <h5>${objective.name}</h5>
                                 <hr class="extra-margins">
                                 <div class="md-form">
-                                    <p><strong>Status:</strong> <span style="padding-left: 10px">${objective.status.label}</span></p>
+                                    <p><strong>Status:</strong> <span style="padding-left: 12px">${objective.status.label}</span></p>
                                 </div>
                                 <div class="md-form">
                                     <p><strong>Priority:</strong> <span style="padding-left: 6px">${objective.priority}</span></p>
@@ -41,13 +41,11 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <!--/.Sidebar-->
 
                 <!--Main column-->
                 <div class="col-lg-8">
-
                     <!--First row-->
                     <div class="row wow fadeIn" data-wow-delay="0.2s">
                         <div class="col-lg-12">
@@ -58,68 +56,25 @@
                     </div>
                     <!--/.First row-->
 
-                    <!--Second row-->
-                    <div class="row">
-                        <!--First columnn-->
-                        <div class="col-lg-4">
-                            <!--Card-->
-                            <div class="card  wow fadeIn" data-wow-delay="0.2s">
-                                <!--Card content-->
-                                <div class="card-block">
-                                    <!--Title-->
-                                    <h4 class="card-title">Product title</h4>
-                                    <!--Text-->
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p>
-                                    <a href="#" class="btn btn-default">Buy now for <strong>10$</strong></a>
-                                </div>
-                                <!--/.Card content-->
-
-                            </div>
-                            <!--/.Card-->
-                        </div>
-                        <!--First columnn-->
-
-                        <!--Second columnn-->
-                        <div class="col-lg-4">
-                            <!--Card-->
-                            <div class="card  wow fadeIn" data-wow-delay="0.4s">
-
-                                <!--Card content-->
-                                <div class="card-block">
-                                    <!--Title-->
-                                    <h4 class="card-title">Product title</h4>
-                                    <!--Text-->
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p>
-                                    <a href="#" class="btn btn-default">Buy now for <strong>30$</strong></a>
-                                </div>
-                                <!--/.Card content-->
-
-                            </div>
-                            <!--/.Card-->
-                        </div>
-                        <!--Second columnn-->
-
-                        <!--Third columnn-->
-                        <div class="col-lg-4">
-                            <!--Card-->
-                            <div class="card  wow fadeIn" data-wow-delay="0.6s">
-
-                                <!--Card content-->
-                                <div class="card-block">
-                                    <!--Title-->
-                                    <h4 class="card-title">Product title</h4>
-                                    <!--Text-->
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p>
-                                    <a href="#" class="btn btn-default">Buy now for <strong>20$</strong></a>
-                                </div>
-                                <!--/.Card content-->
-
-                            </div>
-                            <!--/.Card-->
-                        </div>
-                        <!--Third columnn-->
-                    </div>
-                    <!--/.Second row-->
+					<div class="row">
+						<c:forEach items="${requestScope.objective.projects}" var="project">
+							<div class="col-lg-4">
+	                            <!--Card-->
+	                            <div class="card  wow fadeIn" data-wow-delay="0.2s">
+	                                <!--Card content-->
+	                                <div class="card-block">
+	                                    <!--Title-->
+	                                    <h4 class="card-title"><c:out value="${project.name}" /></h4>
+	                                    <!--Text-->
+	                                    <p class="card-text"><c:out value="${project.status.label}" /></p>
+	                                    <a href="ProjectAction?id=<c:out value="${project.id}" />" class="btn btn-default">Inspect project</a>
+	                                </div>
+	                                <!--/.Card content-->
+	                            </div>
+	                            <!--/.Card-->
+	                        </div>
+						</c:forEach>
+					</div>
 
                     <div class="row wow fadeIn" data-wow-delay="0.2s">
                         <div class="col-lg-12">
@@ -129,6 +84,25 @@
                         </div>
                     </div>
 
+					<div class="row">
+						<c:forEach items="${requestScope.objective.tasks}" var="task">
+							<div class="col-lg-4">
+	                            <!--Card-->
+	                            <div class="card  wow fadeIn" data-wow-delay="0.2s">
+	                                <!--Card content-->
+	                                <div class="card-block">
+	                                    <!--Title-->
+	                                    <h4 class="card-title"><c:out value="${task.name}" /></h4>
+	                                    <!--Text-->
+	                                    <p class="card-text"><c:out value="${task.completion}" />%</p>
+	                                    <a href="#" class="btn btn-default">Inspect task</a>
+	                                </div>
+	                                <!--/.Card content-->
+	                            </div>
+	                            <!--/.Card-->
+	                        </div>
+						</c:forEach>
+					</div>
                 </div>
                 <!--/.Main column-->
 

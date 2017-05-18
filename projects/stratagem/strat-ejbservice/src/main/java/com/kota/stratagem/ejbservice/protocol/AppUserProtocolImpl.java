@@ -82,16 +82,16 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 
 	@Override
 	public List<AppUserRepresentor> getAllAppUsers() throws AdaptorException {
-		List<AppUserRepresentor> representors = new ArrayList<AppUserRepresentor>();
+		Set<AppUserRepresentor> representors = new HashSet<AppUserRepresentor>();
 		try {
 			representors = this.converter.to(this.appUserSerive.readAll());
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("Fetch all AppUsers : " + representors.size() + " projects(s)");
+				LOGGER.debug("Fetch all AppUsers : " + representors.size() + " users(s)");
 			}
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 		}
-		return representors;
+		return new ArrayList<AppUserRepresentor>(representors);
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class AppUserProtocolImpl implements AppUserProtocol {
 				final Set<Team> teamsSupervised = new HashSet<Team>();
 				final Set<Team> memberships = new HashSet<Team>();
 				for (final ObjectiveRepresentor objective : objectives) {
-					userObjectives.add(this.objectiveSerive.read(objective.getId()));
+					userObjectives.add(this.objectiveSerive.readElementary(objective.getId()));
 				}
 				for (final ProjectRepresentor project : projects) {
 					userProjects.add(this.projectSerive.readElementary(project.getId()));

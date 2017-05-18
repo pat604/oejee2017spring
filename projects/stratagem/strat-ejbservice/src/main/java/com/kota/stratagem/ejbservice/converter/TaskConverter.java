@@ -1,6 +1,6 @@
 package com.kota.stratagem.ejbservice.converter;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Local;
 
@@ -12,6 +12,6 @@ public interface TaskConverter {
 
 	TaskRepresentor to(Task task);
 
-	List<TaskRepresentor> to(List<Task> tasks);
+	Set<TaskRepresentor> to(Set<Task> tasks);
 
 }

@@ -74,7 +74,7 @@ public class TaskProtocolImpl implements TaskProtocol {
 
 	@Override
 	public List<TaskRepresentor> getAllTasks() {
-		List<TaskRepresentor> representors = new ArrayList<>();
+		Set<TaskRepresentor> representors = new HashSet<>();
 		try {
 			representors = this.converter.to(this.taskService.readAll());
 			if (LOGGER.isDebugEnabled()) {
@@ -83,7 +83,7 @@ public class TaskProtocolImpl implements TaskProtocol {
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 		}
-		return representors;
+		return new ArrayList<TaskRepresentor>(representors);
 	}
 
 	@Override
@@ -114,10 +114,10 @@ public class TaskProtocolImpl implements TaskProtocol {
 					dependants.add(this.taskService.read(taskRepresentor.getId()));
 				}
 				task = this.taskService.update(id, name, description, completion, teams, users, taskImpediments, dependants, dependencies,
-						this.objectiveService.read(objective.getId()), this.projectSerivce.readElementary(project.getId()));
+						this.objectiveService.readElementary(objective.getId()), this.projectSerivce.readElementary(project.getId()));
 			} else {
-				task = this.taskService.create(name, description, completion, null, null, null, null, null, this.objectiveService.read(objective.getId()),
-						this.projectSerivce.readElementary(project.getId()));
+				task = this.taskService.create(name, description, completion, null, null, null, null, null,
+						this.objectiveService.readElementary(objective.getId()), this.projectSerivce.readElementary(project.getId()));
 			}
 			return this.converter.to(task);
 		} catch (final PersistenceServiceException e) {

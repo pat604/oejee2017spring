@@ -1,7 +1,7 @@
 package com.kota.stratagem.ejbservice.converter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -57,9 +57,9 @@ public class TaskConverterImpl implements TaskConverter {
 		// representor.addTaskDependency(this.to(dependencies));
 		// }
 		// }
-		if (task.getObjective() != null) {
-			representor.setObjective(this.objectiveConverter.to(task.getObjective()));
-		}
+		// if (task.getObjective() != null) {
+		// representor.setObjective(this.objectiveConverter.to(task.getObjective()));
+		// }
 		// if(task.getProject() != null) {
 		// representor.setProject(this.projectConverter.to(task.getProject()));
 		// }
@@ -67,8 +67,8 @@ public class TaskConverterImpl implements TaskConverter {
 	}
 
 	@Override
-	public List<TaskRepresentor> to(List<Task> tasks) {
-		final List<TaskRepresentor> representors = new ArrayList<>();
+	public Set<TaskRepresentor> to(Set<Task> tasks) {
+		final Set<TaskRepresentor> representors = new HashSet<>();
 		for (final Task task : tasks) {
 			representors.add(this.to(task));
 		}

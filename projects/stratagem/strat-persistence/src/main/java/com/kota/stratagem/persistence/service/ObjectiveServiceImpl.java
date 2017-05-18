@@ -1,7 +1,6 @@
 package com.kota.stratagem.persistence.service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Stateless;
@@ -54,7 +53,7 @@ public class ObjectiveServiceImpl implements ObjectiveService {
 	}
 
 	@Override
-	public Objective read(Long id) throws PersistenceServiceException {
+	public Objective readElementary(Long id) throws PersistenceServiceException {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Get Objective by id (" + id + ")");
 		}
@@ -68,13 +67,28 @@ public class ObjectiveServiceImpl implements ObjectiveService {
 	}
 
 	@Override
-	public List<Objective> readAll() throws PersistenceServiceException {
+	public Objective readWithProjectsAndTasks(Long id) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Get Objective with projects and tasks by id (" + id + ")");
+		}
+		Objective result = null;
+		try {
+			result = this.entityManager.createNamedQuery(ObjectiveQuery.GET_BY_ID_WITH_PROJECTS_AND_TASKS, Objective.class)
+					.setParameter(ObjectiveParameter.ID, id).getSingleResult();
+		} catch (final Exception e) {
+			throw new PersistenceServiceException("Unknown error when fetching Objective by id (" + id + ")! " + e.getLocalizedMessage(), e);
+		}
+		return result;
+	}
+
+	@Override
+	public Set<Objective> readAll() throws PersistenceServiceException {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Fetching all Objectives");
 		}
-		List<Objective> result = null;
+		Set<Objective> result = null;
 		try {
-			result = this.entityManager.createNamedQuery(ObjectiveQuery.GET_ALL_OBJECTIVES, Objective.class).getResultList();
+			result = new HashSet<Objective>(this.entityManager.createNamedQuery(ObjectiveQuery.GET_ALL_OBJECTIVES, Objective.class).getResultList());
 		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error occured while fetching AppUsers" + e.getLocalizedMessage(), e);
 		}
@@ -89,7 +103,7 @@ public class ObjectiveServiceImpl implements ObjectiveService {
 					+ ", tasks: " + tasks + ")");
 		}
 		try {
-			final Objective objective = this.read(id);
+			final Objective objective = this.readElementary(id);
 			objective.setName(name);
 			objective.setDescription(description);
 			objective.setPriority(priority);
@@ -110,7 +124,8 @@ public class ObjectiveServiceImpl implements ObjectiveService {
 			LOGGER.debug("Remove Objective by id (" + id + ")");
 		}
 		if (this.exists(id)) {
-			if ((this.read(id).getTasks().size() == 0) && (this.read(id).getProjects().size() == 0)) {
+			final Objective objective = this.readWithProjectsAndTasks(id);
+			if ((objective.getTasks().size() == 0) && (objective.getProjects().size() == 0)) {
 				try {
 					this.entityManager.createNamedQuery(ObjectiveQuery.REMOVE_BY_ID).setParameter(ObjectiveParameter.ID, id).executeUpdate();
 				} catch (final Exception e) {

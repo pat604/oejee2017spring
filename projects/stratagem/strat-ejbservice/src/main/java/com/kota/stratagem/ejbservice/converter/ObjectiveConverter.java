@@ -1,6 +1,6 @@
 package com.kota.stratagem.ejbservice.converter;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Local;
 
@@ -12,6 +12,6 @@ public interface ObjectiveConverter {
 
 	ObjectiveRepresentor to(Objective objective);
 
-	List<ObjectiveRepresentor> to(List<Objective> objectives);
+	Set<ObjectiveRepresentor> to(Set<Objective> objectives);
 
 }

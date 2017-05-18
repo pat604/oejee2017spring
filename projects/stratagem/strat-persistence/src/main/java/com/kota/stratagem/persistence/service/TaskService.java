@@ -1,6 +1,5 @@
 package com.kota.stratagem.persistence.service;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Local;
@@ -16,15 +15,15 @@ import com.kota.stratagem.persistence.exception.PersistenceServiceException;
 @Local
 public interface TaskService {
 
-	Task create(String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Set<Task> dependantTasks,
-			Set<Task> taskDependencies, Objective objective, Project project) throws PersistenceServiceException;
+	Task create(String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments,
+			Set<Task> dependantTasks, Set<Task> taskDependencies, Objective objective, Project project) throws PersistenceServiceException;
 
 	Task read(Long id) throws PersistenceServiceException;
 
-	List<Task> readAll() throws PersistenceServiceException;
+	Set<Task> readAll() throws PersistenceServiceException;
 
-	Task update(Long id, String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Set<Task> dependantTasks,
-			Set<Task> taskDependencies, Objective objective, Project project) throws PersistenceServiceException;
+	Task update(Long id, String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments,
+			Set<Task> dependantTasks, Set<Task> taskDependencies, Objective objective, Project project) throws PersistenceServiceException;
 
 	void delete(Long id) throws PersistenceServiceException;
 

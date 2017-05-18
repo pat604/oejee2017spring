@@ -61,7 +61,7 @@ public class ObjectiveProtocolImpl implements ObjectiveProtocol, ObjectiveProtoc
 	@Override
 	public ObjectiveRepresentor getObjective(Long id) throws ServiceException {
 		try {
-			final ObjectiveRepresentor representor = this.converter.to(this.objectiveService.read(id));
+			final ObjectiveRepresentor representor = this.converter.to(this.objectiveService.readWithProjectsAndTasks(id));
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Get Objective (id: " + id + ") --> " + representor);
 			}
@@ -74,7 +74,7 @@ public class ObjectiveProtocolImpl implements ObjectiveProtocol, ObjectiveProtoc
 
 	@Override
 	public List<ObjectiveRepresentor> getAllObjectives() throws AdaptorException {
-		List<ObjectiveRepresentor> representors = new ArrayList<ObjectiveRepresentor>();
+		Set<ObjectiveRepresentor> representors = new HashSet<ObjectiveRepresentor>();
 		try {
 			representors = this.converter.to(this.objectiveService.readAll());
 			if (LOGGER.isDebugEnabled()) {
@@ -83,7 +83,7 @@ public class ObjectiveProtocolImpl implements ObjectiveProtocol, ObjectiveProtoc
 		} catch (final PersistenceServiceException e) {
 			LOGGER.error(e, e);
 		}
-		return representors;
+		return new ArrayList<ObjectiveRepresentor>(representors);
 	}
 
 	@Override

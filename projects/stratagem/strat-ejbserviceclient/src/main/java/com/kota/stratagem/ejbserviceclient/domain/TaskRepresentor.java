@@ -11,7 +11,7 @@ public class TaskRepresentor implements Serializable {
 	private Long id;
 	private final String name;
 	private final String description;
-	private final double comlpetion;
+	private final double completion;
 	private final List<TeamRepresentor> assignedTeams;
 	private final List<AppUserRepresentor> assignedUsers;
 	private final List<ImpedimentRepresentor> impediments;
@@ -24,11 +24,11 @@ public class TaskRepresentor implements Serializable {
 		this(null, "", "", 0);
 	}
 
-	public TaskRepresentor(Long id, String name, String description, double comlpetion) {
+	public TaskRepresentor(Long id, String name, String description, double completion) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.comlpetion = comlpetion;
+		this.completion = completion;
 		this.assignedTeams = new ArrayList<>();
 		this.assignedUsers = new ArrayList<>();
 		this.impediments = new ArrayList<>();
@@ -38,10 +38,10 @@ public class TaskRepresentor implements Serializable {
 		this.project = null;
 	}
 
-	public TaskRepresentor(String name, String description, double comlpetion) {
+	public TaskRepresentor(String name, String description, double completion) {
 		this.name = name;
 		this.description = description;
-		this.comlpetion = comlpetion;
+		this.completion = completion;
 		this.assignedTeams = new ArrayList<>();
 		this.assignedUsers = new ArrayList<>();
 		this.impediments = new ArrayList<>();
@@ -67,8 +67,8 @@ public class TaskRepresentor implements Serializable {
 		return this.description;
 	}
 
-	public double getComlpetion() {
-		return this.comlpetion;
+	public double getCompletion() {
+		return this.completion;
 	}
 
 	public List<TeamRepresentor> getAssignedTeams() {
@@ -129,7 +129,7 @@ public class TaskRepresentor implements Serializable {
 
 	@Override
 	public String toString() {
-		return "\n\tTaskRepresentor [id=" + this.id + ", name=" + this.name + ", description=" + this.description + ", comlpetion=" + this.comlpetion
+		return "\n\tTaskRepresentor [id=" + this.id + ", name=" + this.name + ", description=" + this.description + ", comlpetion=" + this.completion
 				+ ", assignedTeams=" + this.assignedTeams + ", assignedUsers=" + this.assignedUsers + ", impediments=" + this.impediments + ", dependantTasks="
 				+ this.dependantTasks + ", taskDependencies=" + this.taskDependencies
 				// + ", objective=" + this.objective + ", project=" + this.project

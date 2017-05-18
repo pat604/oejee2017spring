@@ -30,8 +30,10 @@ import com.kota.stratagem.persistence.query.ObjectiveQuery;
 @Table(name = "objectives")
 @NamedQueries(value = { //
 		@NamedQuery(name = ObjectiveQuery.COUNT_BY_ID, query = "SELECT COUNT(o) FROM Objective o WHERE o.id=:" + ObjectiveParameter.ID),
-		@NamedQuery(name = ObjectiveQuery.GET_ALL_OBJECTIVES, query = "SELECT o FROM Objective o ORDER BY o.name"),
+		@NamedQuery(name = ObjectiveQuery.GET_ALL_OBJECTIVES, query = "SELECT o FROM Objective o LEFT JOIN FETCH o.projects p LEFT JOIN FETCH o.tasks t ORDER BY o.name"),
 		@NamedQuery(name = ObjectiveQuery.GET_BY_ID, query = "SELECT o FROM Objective o WHERE o.id=:" + ObjectiveParameter.ID),
+		@NamedQuery(name = ObjectiveQuery.GET_BY_ID_WITH_PROJECTS_AND_TASKS, query = "SELECT o FROM Objective o LEFT JOIN FETCH o.projects p LEFT JOIN FETCH o.tasks t WHERE o.id=:"
+				+ ObjectiveParameter.ID),
 		@NamedQuery(name = ObjectiveQuery.REMOVE_BY_ID, query = "DELETE FROM Objective o WHERE o.id=:" + ObjectiveParameter.ID)
 		//
 })

@@ -1,7 +1,7 @@
 package com.kota.stratagem.ejbservice.converter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -73,8 +73,8 @@ public class AppUserConverterImpl implements AppUserConverter {
 	}
 
 	@Override
-	public List<AppUserRepresentor> to(List<AppUser> users) {
-		final List<AppUserRepresentor> representors = new ArrayList<>();
+	public Set<AppUserRepresentor> to(Set<AppUser> users) {
+		final Set<AppUserRepresentor> representors = new HashSet<>();
 		for (final AppUser user : users) {
 			representors.add(this.to(user));
 		}

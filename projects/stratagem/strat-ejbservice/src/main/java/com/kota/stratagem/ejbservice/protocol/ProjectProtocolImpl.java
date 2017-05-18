@@ -126,13 +126,13 @@ public class ProjectProtocolImpl implements ProjectProtocol {
 					projectImpediments.add(this.impedimentService.read(impediment.getId()));
 				}
 				project = this.projectService.update(id, name, description, projectStatus, deadline, visible, projectTasks, teams, users, projectImpediments,
-						this.objectiveService.read(objective.getId()));
+						this.objectiveService.readElementary(objective.getId()));
 			} else {
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug("Create Project");
 				}
 				project = this.projectService.create(name, description, projectStatus, deadline, visible, null, null, null, null,
-						objective != null ? this.objectiveService.read(objective.getId()) : null);
+						objective != null ? this.objectiveService.readElementary(objective.getId()) : null);
 			}
 			return this.converter.to(project);
 		} catch (final PersistenceServiceException e) {

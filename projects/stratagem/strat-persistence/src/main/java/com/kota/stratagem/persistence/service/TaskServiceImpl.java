@@ -1,7 +1,6 @@
 package com.kota.stratagem.persistence.service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Stateless;
@@ -35,53 +34,55 @@ public class TaskServiceImpl implements TaskService {
 	private EntityManager entityManager;
 
 	@Override
-	public Task create(String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Set<Task> dependantTasks,
-			Set<Task> taskDependencies, Objective objective, Project project) throws PersistenceServiceException {
-		if(LOGGER.isDebugEnabled()) {
+	public Task create(String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments,
+			Set<Task> dependantTasks, Set<Task> taskDependencies, Objective objective, Project project) throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Create Task (name: " + name + ", description: " + description + ", completion: " + completion + ")");
 		}
 		try {
-			final Task task = new Task(name, description, completion, assignedTeams, assignedUsers, impediments, dependantTasks, taskDependencies, objective, project);
+			final Task task = new Task(name, description, completion, assignedTeams, assignedUsers, impediments, dependantTasks, taskDependencies, objective,
+					project);
 			this.entityManager.persist(task);
 			this.entityManager.flush();
 			return task;
-		} catch(final Exception e) {
+		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error during persisting Task (" + name + ")! " + e.getLocalizedMessage(), e);
 		}
 	}
 
 	@Override
 	public Task read(Long id) throws PersistenceServiceException {
-		if(LOGGER.isDebugEnabled()) {
+		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Get Task by id (" + id + ")");
 		}
 		Task result = null;
 		try {
 			result = this.entityManager.createNamedQuery(TaskQuery.GET_BY_ID, Task.class).setParameter(TaskParameter.ID, id).getSingleResult();
-		} catch(final Exception e) {
+		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error when fetching Task by id (" + id + ")! " + e.getLocalizedMessage(), e);
 		}
 		return result;
 	}
 
 	@Override
-	public List<Task> readAll() throws PersistenceServiceException {
-		if(LOGGER.isDebugEnabled()) {
+	public Set<Task> readAll() throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Fetching all tasks");
 		}
-		List<Task> result = null;
+		Set<Task> result = null;
 		try {
-			result = this.entityManager.createNamedQuery(TaskQuery.GET_ALL_TASKS, Task.class).getResultList();
-		} catch(final Exception e) {
+			result = new HashSet<Task>(this.entityManager.createNamedQuery(TaskQuery.GET_ALL_TASKS, Task.class).getResultList());
+		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error occured while fetching tasks" + e.getLocalizedMessage(), e);
 		}
 		return result;
 	}
 
 	@Override
-	public Task update(Long id, String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers, Set<Impediment> impediments, Set<Task> dependantTasks,
-			Set<Task> taskDependencies, Objective objective, Project project) throws PersistenceServiceException {
-		if(LOGGER.isDebugEnabled()) {
+	public Task update(Long id, String name, String description, double completion, Set<Team> assignedTeams, Set<AppUser> assignedUsers,
+			Set<Impediment> impediments, Set<Task> dependantTasks, Set<Task> taskDependencies, Objective objective, Project project)
+			throws PersistenceServiceException {
+		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Update Task (id: " + id + ", name: " + name + ", description: " + description + ", completion: " + completion + ")");
 		}
 		try {
@@ -97,7 +98,7 @@ public class TaskServiceImpl implements TaskService {
 			task.setObjective(objective);
 			task.setProject(project);
 			return this.entityManager.merge(task);
-		} catch(final Exception e) {
+		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error when merging Task! " + e.getLocalizedMessage(), e);
 		}
 	}
@@ -105,12 +106,12 @@ public class TaskServiceImpl implements TaskService {
 	// To be expanded
 	@Override
 	public void delete(Long id) throws PersistenceServiceException {
-		if(LOGGER.isDebugEnabled()) {
+		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Remove Task by id (" + id + ")");
 		}
 		try {
 			this.entityManager.createNamedQuery(TaskQuery.REMOVE_BY_ID).setParameter(TaskParameter.ID, id).executeUpdate();
-		} catch(final Exception e) {
+		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error when removing Task by id (" + id + ")! " + e.getLocalizedMessage(), e);
 		}
 	}
@@ -118,12 +119,12 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean exists(Long id) throws PersistenceServiceException {
-		if(LOGGER.isDebugEnabled()) {
+		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Check Task by id (" + id + ")");
 		}
 		try {
 			return this.entityManager.createNamedQuery(TaskQuery.COUNT_BY_ID, Long.class).setParameter(TaskParameter.ID, id).getSingleResult() == 1;
-		} catch(final Exception e) {
+		} catch (final Exception e) {
 			throw new PersistenceServiceException("Unknown error during counting Tasks by id (" + id + ")! " + e.getLocalizedMessage(), e);
 		}
 	}

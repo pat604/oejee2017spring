@@ -1,7 +1,6 @@
 package com.kota.stratagem.persistence.service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Local;
@@ -18,15 +17,15 @@ import com.kota.stratagem.persistence.exception.PersistenceServiceException;
 @Local
 public interface ImpedimentService {
 
-	Impediment create(String name, String description, Priority priority, ImpedimentStatus status, Date reportDate, AppUser reporter, AppUser processor, Set<Remedy> remedies, Project project,
-			Task task) throws PersistenceServiceException;
+	Impediment create(String name, String description, Priority priority, ImpedimentStatus status, Date reportDate, AppUser reporter, AppUser processor,
+			Set<Remedy> remedies, Project project, Task task) throws PersistenceServiceException;
 
 	Impediment read(Long id) throws PersistenceServiceException;
 
-	List<Impediment> readAll() throws PersistenceServiceException;
+	Set<Impediment> readAll() throws PersistenceServiceException;
 
-	Impediment update(Long id, String name, String description, Priority priority, ImpedimentStatus status, Date reportDate, AppUser reporter, AppUser processor, Set<Remedy> remedies, Project project,
-			Task task) throws PersistenceServiceException;
+	Impediment update(Long id, String name, String description, Priority priority, ImpedimentStatus status, Date reportDate, AppUser reporter,
+			AppUser processor, Set<Remedy> remedies, Project project, Task task) throws PersistenceServiceException;
 
 	void delete(Long id) throws PersistenceServiceException;
 

@@ -9,7 +9,6 @@ import javax.ejb.Stateless;
 import com.kota.stratagem.ejbserviceclient.domain.ProjectRepresentor;
 import com.kota.stratagem.ejbserviceclient.domain.ProjectStatusRepresentor;
 import com.kota.stratagem.persistence.entity.Project;
-import com.kota.stratagem.persistence.entity.Task;
 
 @Stateless
 public class ProjectConverterImpl implements ProjectConverter {
@@ -32,16 +31,21 @@ public class ProjectConverterImpl implements ProjectConverter {
 	@Override
 	public ProjectRepresentor to(Project project) {
 		final ProjectStatusRepresentor status = ProjectStatusRepresentor.valueOf(project.getStatus().toString());
-		final ProjectRepresentor representor = project.getId() != null
-				? new ProjectRepresentor(project.getId(), project.getName(), project.getDescription(), status, project.getDeadline(), project.getVisible(),
-						project.getObjective() != null ? this.objectiveConverter.to(project.getObjective()) : null)
-				: new ProjectRepresentor(project.getName(), project.getDescription(), status, project.getDeadline(), project.getVisible(),
-						project.getObjective() != null ? this.objectiveConverter.to(project.getObjective()) : null);
-		if (project.getTasks() != null) {
-			for (final Task task : project.getTasks()) {
-				representor.addTask(this.taskConverter.to(task));
-			}
-		}
+		final ProjectRepresentor representor = project.getId() != null ? new ProjectRepresentor(project.getId(), project.getName(), project.getDescription(),
+				status, project.getDeadline(), project.getVisible(), null)
+				: new ProjectRepresentor(project.getName(), project.getDescription(), status, project.getDeadline(), project.getVisible(), null);
+		// ? new ProjectRepresentor(project.getId(), project.getName(), project.getDescription(), status,
+		// project.getDeadline(), project.getVisible(),
+		// project.getObjective() != null ? this.objectiveConverter.to(project.getObjective()) : null)
+		// : new ProjectRepresentor(project.getName(), project.getDescription(), status, project.getDeadline(),
+		// project.getVisible(),
+		// project.getObjective() != null ? this.objectiveConverter.to(project.getObjective()) : null);
+
+		// if (project.getTasks() != null) {
+		// for (final Task task : project.getTasks()) {
+		// representor.addTask(this.taskConverter.to(task));
+		// }
+		// }
 		// if (project.getAssignedTeams() != null) {
 		// for (final Team team : project.getAssignedTeams()) {
 		// representor.addTeam(this.teamConverter.to(team));
@@ -62,7 +66,7 @@ public class ProjectConverterImpl implements ProjectConverter {
 
 	@Override
 	public Set<ProjectRepresentor> to(final Set<Project> projects) {
-		final Set<ProjectRepresentor> representors = new HashSet();
+		final Set<ProjectRepresentor> representors = new HashSet<ProjectRepresentor>();
 		for (final Project project : projects) {
 			representors.add(this.to(project));
 		}
