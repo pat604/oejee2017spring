@@ -81,6 +81,7 @@ public class GuitarServiceImp implements GuitarService {
 			GuitarBrand brand = GuitarBrand.valueOf(guitarBrand);
 			guitar = new Guitar(brand, serialNumber, guitarType, color, vintage, price, owner);
 			this.entityManager.merge(guitar);
+			this.entityManager.flush();
 		} catch (Exception e) {
 			LOGGER.error("Unknown error caused at insert of guitar!");
 			throw new PersistenceException("Unknown error caused at insert of guitar. " + e.getLocalizedMessage());
@@ -107,6 +108,32 @@ public class GuitarServiceImp implements GuitarService {
 			throw new PersistenceException("Unknown error caused at update of guitar. " + e.getLocalizedMessage());
 		}
 
+	}
+
+	@Override
+	public void updateGuitarOwner(String serialNumber, String newOwnerName) throws PersistenceException {
+		LOGGER.info("Update the owner of a guitar in the database.");
+		try {
+			Guitar guitar = this.entityManager.createNamedQuery(GuitarQuery.GET_BY_SERIALNUMBER, Guitar.class)
+					.setParameter(GuitarParameter.SERIALNUMBER, serialNumber).getSingleResult();
+			GuitarOwner owner = this.entityManager.createNamedQuery(OwnerQuery.OWNER_BY_NAME, GuitarOwner.class)
+					.setParameter(OwnerParameter.OWNERNAME, newOwnerName).getSingleResult();
+			if (guitar == null) {
+				LOGGER.error("Error caused at update of guitar, the given serial number does not exist!");
+				throw new PersistenceException(
+						"Error caused at update of guitar, the given serial number does not exist!");
+			}
+			if (owner == null) {
+				LOGGER.error("Error caused at insert of guitar, the given owner does not exist!");
+				throw new PersistenceException("Error caused at insert of guitar, the given owner does not exist!");
+			}
+			guitar.setGuitarOwner(owner);
+			this.entityManager.merge(guitar);
+			this.entityManager.flush();
+		} catch (Exception e) {
+			LOGGER.error("Unknown error caused at update of guitar!");
+			throw new PersistenceException("Unknown error caused at update of guitar. " + e.getLocalizedMessage());
+		}
 	}
 
 }

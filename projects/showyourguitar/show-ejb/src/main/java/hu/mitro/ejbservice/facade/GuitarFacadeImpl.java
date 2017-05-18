@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import hu.mitro.ejbservice.converter.GuitarConverter;
 import hu.mitro.ejbservice.domain.GuitarInputStub;
+import hu.mitro.ejbservice.domain.GuitarOwnerUpdateStub;
 import hu.mitro.ejbservice.domain.GuitarPriceUpdateStub;
 import hu.mitro.ejbservice.domain.GuitarStub;
 import hu.mitro.ejbservice.exception.FacadeException;
@@ -88,6 +89,17 @@ public class GuitarFacadeImpl implements GuitarFacade {
 		LOGGER.info("Change the price of a guitar (facade).");
 		try {
 			this.guitarService.updateGuitarPrice(guitar.getSerialNumber(), guitar.getNewPrice());
+		} catch (Exception e) {
+			LOGGER.info("Unknown error caused at update process.");
+			throw new FacadeException("Unknown error caused at update process. " + e.getLocalizedMessage());
+		}
+	}
+
+	@Override
+	public void updateGuitarOwner(GuitarOwnerUpdateStub guitar) throws FacadeException {
+		LOGGER.info("Change the owner of a guitar (facade).");
+		try {
+			this.guitarService.updateGuitarOwner(guitar.getSerialNumber(), guitar.getNewOwnerName());
 		} catch (Exception e) {
 			LOGGER.info("Unknown error caused at update process.");
 			throw new FacadeException("Unknown error caused at update process. " + e.getLocalizedMessage());

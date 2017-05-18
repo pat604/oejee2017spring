@@ -98,7 +98,7 @@ public class GuitarOwner implements Serializable {
 	@Override
 	public String toString() {
 		return "GuitarOwner [ownerId=" + this.ownerId + ", ownerUsername=" + this.ownerUsername + ", ownerEmail="
-				+ this.ownerEmail + ", ownerPassword=" + this.ownerPassword + ", guitars=" + this.guitars + "]";
+				+ this.ownerEmail + ", guitars=" + this.guitars + "]";
 	}
 
 }

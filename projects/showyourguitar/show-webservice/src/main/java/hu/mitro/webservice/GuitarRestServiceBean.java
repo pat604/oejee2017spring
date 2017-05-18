@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import hu.mitro.ejbservice.domain.GuitarInputStub;
+import hu.mitro.ejbservice.domain.GuitarOwnerUpdateStub;
 import hu.mitro.ejbservice.domain.GuitarPriceUpdateStub;
 import hu.mitro.ejbservice.domain.GuitarStub;
 import hu.mitro.ejbservice.exception.FacadeException;
@@ -65,14 +66,23 @@ public class GuitarRestServiceBean implements GuitarRestService {
 		} catch (FacadeException e) {
 			e.getLocalizedMessage();
 		}
-		// return stub;
 	}
 
 	@Override
-	public void modifyGuitarStub(GuitarPriceUpdateStub guitar) {
-		LOGGER.info("Modify the price of a guitar.");
+	public void modifyGuitarStubPrice(GuitarPriceUpdateStub guitar) {
+		LOGGER.info("Modify the price of the guitar.");
 		try {
 			this.facade.updateGuitarPrice(guitar);
+		} catch (Exception e) {
+			e.getLocalizedMessage();
+		}
+	}
+
+	@Override
+	public void modifyGuitarStubOwner(GuitarOwnerUpdateStub guitar) {
+		LOGGER.info("Change the owner of the guitar.");
+		try {
+			this.facade.updateGuitarOwner(guitar);
 		} catch (Exception e) {
 			e.getLocalizedMessage();
 		}

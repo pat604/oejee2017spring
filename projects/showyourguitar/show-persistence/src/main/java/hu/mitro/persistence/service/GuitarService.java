@@ -20,4 +20,6 @@ public interface GuitarService {
 			double price, String ownername) throws PersistenceException;
 
 	void updateGuitarPrice(String serialNumber, double newPrice) throws PersistenceException;
+
+	void updateGuitarOwner(String serialNumber, String newOwnerName) throws PersistenceException;
 }
