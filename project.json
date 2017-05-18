@@ -195,16 +195,24 @@
 			],
 			"interfaces": [
 				{
-					"type": "restful",
-					"goal": "handle crud operations"
+					"type": "REST",
+					"goal": "REST based customer webapplication"
 				},
 				{
-					"type": "jms",
-					"goal": "bulk upload data"
+					"type": "JSP webpages",
+					"goal": "Main interface of the tickethandling system"
 				},
 				{
-					"type": "web",
-					"goal": "Web interface for users"
+					"type": "RMI",
+					"goal": "Get ticket details by ID"
+				},
+				{
+					"type": "JMS",
+					"goal": "Create new ticket"
+				},
+				{
+					"type": "JMX",
+					"goal": "Create new ticket, get number of tickets of a given processor and get number of immediate tickets"
 				}
 			]
 		},
