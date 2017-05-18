@@ -1,4 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
+
+<management>
+        <security-realms>
+            ...
+            <security-realm name="th-realm">
+                <authentication>
+                    <jaas name="th-security-db-domain"/>
+                </authentication>
+            </security-realm>
+			...
+        </security-realms>
+		...
+</management>
+
 <server xmlns="urn:jboss:domain:1.7">
     <profile>
 		...
@@ -48,8 +62,38 @@
             </global-modules>
             ...
         </subsystem>
+		
 		...
     </profile>
+	<subsystem xmlns="urn:jboss:domain:messaging:1.4">
+		<hornetq-server>
+		...
+			<jms-destinations>
+			...
+				<jms-queue name="ticketingqueue">
+					<entry name="jms/queue/ticketingqueue"/>
+					<entry name="java:jboss/exported/jms/queue/ticketingqueue"/>
+				</jms-queue>
+			...
+			</jms-destinations>
+		...
+		</hornetq-server>
+	</subsystem>
+	<subsystem xmlns="urn:jboss:domain:security:1.2">
+            <security-domains>
+                ...
+                <security-domain name="th-security-db-domain">
+                    <authentication>
+                        <login-module code="Database" flag="required">
+                            <module-option name="dsJndiName" value="java:jboss/datasources/tickethandlingds"/>
+                            <module-option name="principalsQuery" value="SELECT emp_password FROM employee WHERE emp_id = ?"/>
+                            <module-option name="rolesQuery" value="SELECT role_name, 'Roles' FROM employee INNER JOIN  emprole ON (emp_id = emprole_emp_id) INNER JOIN role ON (emprole_role_id = role_id) WHERE emp_id = ?"/>
+                        </login-module>
+                    </authentication>
+                </security-domain>
+				...
+            </security-domains>
+        </subsystem>
 	...
     <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
         ...

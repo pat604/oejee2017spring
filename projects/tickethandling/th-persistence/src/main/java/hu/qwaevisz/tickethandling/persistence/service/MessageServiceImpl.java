@@ -93,15 +93,17 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public void createConversation(String ticketId) throws FileNotFoundException, IOException {
-		this.createConversation(ticketId, "Initial message");
+	public List<Message> createConversation(String ticketId) throws FileNotFoundException, IOException {
+		return this.createConversation(ticketId, "Initial message");
 
 	}
 
 	@Override
-	public void createConversation(String ticketId, String initialMessage) throws FileNotFoundException, IOException {
+	public List<Message> createConversation(String ticketId, String initialMessage) throws FileNotFoundException, IOException {
 
 		LOGGER.info("Creating conversation XML for Ticket(" + ticketId + ") ...");
+
+		List<Message> conversation = new ArrayList<Message>();
 
 		String filepath = XMLFILESPATH + "\\" + ticketId + ".xml";
 
@@ -112,13 +114,17 @@ public class MessageServiceImpl implements MessageService {
 			LOGGER.info("Conversation XML for Ticket(" + ticketId + ") created!");
 
 			DateFormat format = new SimpleDateFormat(MESSAGEDATEFORMAT);
+			Date now = new Date();
 			PrintWriter out = new PrintWriter(filepath);
-			out.write(String.format(INITIALMESSAGE, ticketId, ticketId, format.format(new Date()), initialMessage));
+			out.write(String.format(INITIALMESSAGE, ticketId, ticketId, format.format(now), initialMessage));
 			out.close();
+
+			conversation.add(new Message(ticketId + "0001", "System", "Customer", now, initialMessage));
 
 		} else {
 			throw new PersistenceException("File already Exists!");
 		}
+		return conversation;
 	}
 
 	@Override

@@ -19,9 +19,9 @@ public interface MessageService {
 
 	List<Message> readConversation(String ticketId) throws ParserConfigurationException, SAXException, IOException, DOMException, ParseException;
 
-	void createConversation(String ticketId) throws FileNotFoundException, IOException;
+	List<Message> createConversation(String ticketId) throws FileNotFoundException, IOException;
 
-	void createConversation(String ticketId, String initialMessage) throws FileNotFoundException, IOException;
+	List<Message> createConversation(String ticketId, String initialMessage) throws FileNotFoundException, IOException;
 
 	void saveConversation(List<Message> conversation, String ticketId)
 			throws FileNotFoundException, IOException, ParserConfigurationException, SAXException, TransformerException;

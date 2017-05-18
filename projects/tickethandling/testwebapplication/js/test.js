@@ -1,6 +1,5 @@
-		var SYSTEMID = 'AES-324';
+		var SYSTEMID = 'RTS-758';
 		var SYSTEMS = [];
-		var DELPRESS;
 		
 		function getMyTickets() {
 			$.ajax({
@@ -33,7 +32,7 @@
 					
 					$.ajax({
 						url: 'http://localhost:8080/th-webservice/api/ticket/send',
-						type: 'POST', 
+						type: 'PUT', 
 					    dataType: 'json', 
 					    data: JSON.stringify(data), 
 					    contentType: 'application/json',
@@ -142,9 +141,10 @@
 						url: 'http://localhost:8080/th-webservice/api/ticket/' + ticketId,
 						success: function(result){
 							
-							$('#status').html("The ticket was successfully deleted!");	
-							getMyTickets();
-												
+							$('#status').html("The ticket was successfully deleted! The page will reload in 3 seconds...");
+							
+							setTimeout(function() {location.href = "index.html"}, 3000);
+																			
 						},
 						error: function(result) {
 							$('#status').html("Sorry, we can't delete your ticket right now :(");

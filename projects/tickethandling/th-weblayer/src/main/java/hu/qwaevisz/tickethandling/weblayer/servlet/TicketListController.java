@@ -86,8 +86,6 @@ public class TicketListController extends HttpServlet implements ListAttribute, 
 
 			List<TicketStub> tickets = this.ticFacade.getTickets(criteria);
 
-			LOGGER.info(tickets);
-
 			request.setAttribute(ATTR_TICKETS, tickets);
 
 		} catch (FacadeException e) {

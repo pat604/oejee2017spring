@@ -1,6 +1,7 @@
 package hu.qwaevisz.tickethandling.client;
 
 import java.util.Hashtable;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -25,10 +26,31 @@ public class TicketClient {
 	private static final Logger LOGGER = Logger.getLogger(TicketClient.class);
 
 	public static void main(final String[] args) throws Exception {
-		TicketStub ticket = new TicketClient().invoke("RTS75820170318051534");
+		System.out.println("REMOTE EJB CLIENT");
+		System.out.println();
+		TicketStub ticket = new TicketClient().invoke("RTS75820170416051534");
 
-		for (MessageStub msg : ticket.getConversation()) {
-			System.out.println(msg);
+		if (ticket != null) {
+			System.out.println("TICKET " + ticket.getId());
+			System.out.println("+ Priority:\t\t" + ticket.getPriority().getLabel());
+			System.out.println("+ Status:\t\t" + ticket.getStatus().getLabel());
+			System.out.println("+ System:\t\t" + ticket.getSystem().getId() + "/" + ticket.getSystem().getCompany_name());
+			System.out.println("+ Level:\t\t" + ticket.getLevel());
+			System.out.println("+ Processor:\t\t" + ticket.getProcessor().getId() + "/" + ticket.getProcessor().getName());
+			System.out.println("+ Business impact:\t" + ticket.getBusiness_impact());
+			System.out.println("+ Steps to reproduce:\t" + ticket.getSteps_to_rep());
+			System.out.println("+ Sender:\t\t" + ticket.getSender_name());
+			System.out.println("+ Creation date:\t" + ticket.getCreationdate());
+			System.out.println("+ Last changed:\t\t" + ticket.getLastchanged());
+			System.out.println("+ Messages:");
+			List<MessageStub> conv = ticket.getConversation();
+			for (int i = 0; i < conv.size(); i++) {
+				System.out.println((i + 1) + ".) =============");
+				System.out.println("from: " + conv.get(i).getFrom());
+				System.out.println("to: " + conv.get(i).getTo());
+				System.out.println("date: " + conv.get(i).getDate());
+				System.out.println("text: " + conv.get(i).getText());
+			}
 		}
 	}
 

@@ -1,7 +1,5 @@
 package hu.qwaevisz.tickethandling.ejbservice.listener;
 
-import java.util.Arrays;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
 import javax.ejb.ActivationConfigProperty;
@@ -17,6 +15,7 @@ import org.apache.log4j.Logger;
 
 import hu.qwaevisz.tickethandling.ejbservice.facade.TicketFacade;
 import hu.qwaevisz.tickethandling.ejbserviceclient.domain.PriorityStub;
+import hu.qwaevisz.tickethandling.ejbserviceclient.exception.FacadeException;
 
 @PermitAll
 @MessageDriven(name = "TicketingListener", activationConfig = { //
@@ -45,8 +44,10 @@ public class TicketingListener implements MessageListener {
 			}
 
 			if (message instanceof TextMessage) {
-				final TextMessage textMessage = (TextMessage) message;
-				String content = textMessage.getText();
+				// final TextMessage textMessage = (TextMessage) message;
+
+				String content = "AES-324,Mr Message Bean,MEDIUM,Very big,Nope,Please take care of this";
+				;// textMessage.getText();
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug("Received message: " + content);
 				}
@@ -54,17 +55,18 @@ public class TicketingListener implements MessageListener {
 				content = content.replace("]", "");
 				final String[] msgData = content.split(",");
 
-				LOGGER.info("Parsed content: " + Arrays.toString(msgData));
-
 				LOGGER.info(msgData[0] + msgData[1] + PriorityStub.valueOf(msgData[2]) + msgData[3] + msgData[4] + msgData[5]);
 
-				// this.ticFac.createTicket(msgData[0], msgData[1], PriorityStub.valueOf(msgData[2]), msgData[3],
-				// msgData[4], msgData[5]);
+				PriorityStub prio = PriorityStub.valueOf(msgData[2]);
+
+				LOGGER.info(prio);
+
+				this.ticFac.createTicket(msgData[0], msgData[1], prio, msgData[3], msgData[4], msgData[5]);
 
 			} else {
 				LOGGER.error("Received message is not a TextMessage (" + message + ")");
 			}
-		} catch (final JMSException | NumberFormatException e) {
+		} catch (final JMSException | FacadeException | NumberFormatException e) {
 			LOGGER.error(e, e);
 		}
 	}

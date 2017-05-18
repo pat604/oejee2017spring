@@ -233,7 +233,6 @@ public class TicketFacadeImpl implements TicketFacade, TicketFacadeRemote, Seria
 			this.msgService.createConversation(ticket.getId(), initialMessage);
 
 			TicketStub stub = this.converter.to(ticket);
-			this.msgService.saveConversation(this.msgConverter.from(stub.getConversation(), stub.getId()), stub.getId());
 
 			return stub;
 
@@ -253,9 +252,6 @@ public class TicketFacadeImpl implements TicketFacade, TicketFacadeRemote, Seria
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());
 		} catch (ParseException e) {
-			LOGGER.error(e, e);
-			throw new FacadeException(e.getLocalizedMessage());
-		} catch (TransformerException e) {
 			LOGGER.error(e, e);
 			throw new FacadeException(e.getLocalizedMessage());
 		}
